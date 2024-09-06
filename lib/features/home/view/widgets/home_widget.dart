@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+//import 'package:ulearning_app/common/routes/app_routes_names.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
+//import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/common/widgets/app_shadow.dart';
+//import 'package:ulearning_app/common/widgets/app_shadow.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
 import 'package:ulearning_app/common/widgets/text_widgets.dart';
 import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
+import 'package:ulearning_app/features/post/domain/post_filter.dart';
 import 'package:ulearning_app/global.dart';
+import 'package:ulearning_app/features/post/view/widgets/filter_botton.dart';
+import 'package:ulearning_app/features/post/view/widgets/post_filter_bottom_sheet.dart';
 
 class HomeBanner extends StatelessWidget {
   final PageController controller;
@@ -99,9 +102,62 @@ class UserName extends StatelessWidget {
   }
 }
 
-SliverAppBar homeAppBar(WidgetRef ref) {
-  var profileState = ref.watch(homeUserProfileProvider);
+class HomeAppBar extends ConsumerWidget {
 
+  final AlwaysAliveProviderBase<PostFilter> filterProvider;
+  final Function(PostFilter) onFilterChanged;
+
+  const HomeAppBar({
+    super.key,
+    required this.filterProvider,
+    required this.onFilterChanged,
+  });
+  
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SliverAppBar(
+    floating: true,
+    pinned: true,
+    backgroundColor: Colors.white,
+    leading:   FilterButton(
+    onTap: () {
+      showModalBottomSheet(
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (BuildContext context) {
+          return PostFilterBottomSheet(
+            filterProvider: filterProvider,
+            onFilterChanged: onFilterChanged,
+          );
+        },
+      );
+    },
+  ),
+    title: AppImage(
+      width: 200.w,
+      height: 150.h,
+      imagePath: ImageRes.logo,
+    ),
+    actions: [
+      GestureDetector(
+        onTap: () {},
+        child: const Icon(
+          Icons.notifications_none_sharp,
+          color: AppColors.primaryElement,
+          size: 30,
+        ),
+      ),
+      SizedBox(
+        width: 10.w,
+      ),
+    ],
+  );
+  }
+}
+
+SliverAppBar homeAppBar(WidgetRef ref) {
+ // var profileState = ref.watch(homeUserProfileProvider);
+ 
   return SliverAppBar(
     floating: true,
     pinned: true,
@@ -128,25 +184,25 @@ SliverAppBar homeAppBar(WidgetRef ref) {
       SizedBox(
         width: 10.w,
       ),
-      profileState.when(
-        data: (data) => GestureDetector(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(ref.context).pushNamed(AppRoutesNames.Profile);
-            },
-            child: AppBoxDecorationImage(
-              imagePath: "${AppConstants.SERVER_API_URL}${data.avatar}",
-            ),
-          ),
-        ),
-        loading: () =>
-            AppImage(width: 18.w, height: 12.h, imagePath: ImageRes.profile),
-        error: (error, stackTrace) =>
-            AppImage(width: 18.w, height: 12.h, imagePath: ImageRes.profile),
-      ),
-      SizedBox(
-        width: 10.w,
-      )
+      // profileState.when(
+      //   data: (data) => GestureDetector(
+      //     child: GestureDetector(
+      //       onTap: () {
+      //         Navigator.of(ref.context).pushNamed(AppRoutesNames.Profile);
+      //       },
+      //       child: AppBoxDecorationImage(
+      //         imagePath: "${AppConstants.SERVER_API_URL}${data.avatar}",
+      //       ),
+      //     ),
+      //   ),
+      //   loading: () =>
+      //       AppImage(width: 18.w, height: 12.h, imagePath: ImageRes.profile),
+      //   error: (error, stackTrace) =>
+      //       AppImage(width: 18.w, height: 12.h, imagePath: ImageRes.profile),
+      // ),
+      // SizedBox(
+      //   width: 10.w,
+      // )
     ],
   );
 }

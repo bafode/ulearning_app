@@ -57,7 +57,7 @@ class PostFilterBottomSheet extends ConsumerWidget {
                     label: Text(
                       sortOption.label,
                       style: const TextStyle(
-                        color: AppColors.primaryText,
+                        color: AppColors.primaryElement,
                       ),
                     ),
                     selected: filter.sort?.value == sortOption.value,
@@ -87,7 +87,7 @@ class PostFilterBottomSheet extends ConsumerWidget {
                     label: Text(
                       orderOption.label,
                       style: const TextStyle(
-                        color: AppColors.primaryText,
+                        color: AppColors.primaryElement,
                       ),
                     ),
                     selectedColor: AppColors.primaryElementStatus,
@@ -120,7 +120,7 @@ class PostFilterBottomSheet extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Checkbox(
-                        side: const BorderSide(color: Colors.white),
+                        side: const BorderSide(color: AppColors.primaryElement),
                         activeColor: AppColors.primaryElementStatus,
                         value: filter.fieldsOfStudy.contains(fieldOfStudy),
                         onChanged: (selected) {
@@ -137,7 +137,7 @@ class PostFilterBottomSheet extends ConsumerWidget {
                       ),
                       Text(
                         fieldOfStudy.label,
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: AppColors.primaryElement),
                       ),
                     ],
                   ),

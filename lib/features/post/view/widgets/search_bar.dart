@@ -11,7 +11,7 @@ class StyledSearchBar extends StatelessWidget {
   StyledSearchBar({
     super.key,
     this.debounceDuration,
-    this.hint = "Search",
+    this.hint = "Rechercher...",
     required this.onSearch,
   }) {
     if (debounceDuration != null) {
