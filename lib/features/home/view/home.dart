@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+//import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
 import 'package:ulearning_app/features/home/view/widgets/home_widget.dart';
@@ -64,13 +64,19 @@ class _HomeState extends ConsumerState<Home> {
           },
           child: CustomScrollView(
             slivers: [
-              homeAppBar(ref),
-              SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                sliver: SliverToBoxAdapter(
-                  child: HomeBanner(ref: ref, controller: controller),
-                ),
+              HomeAppBar(
+                filterProvider: postFilterNotifierProvider,
+                onFilterChanged: (newFilter) {
+                  filterController.update(newFilter);
+                  applyFilter();
+                },
               ),
+              // SliverPadding(
+              //   padding: EdgeInsets.symmetric(horizontal: 5.w),
+              //   sliver: SliverToBoxAdapter(
+              //     child: HomeBanner(ref: ref, controller: controller),
+              //   ),
+              // ),
               // SliverList(
               //     delegate: SliverChildListDelegate([
               //   Column(
@@ -89,11 +95,6 @@ class _HomeState extends ConsumerState<Home> {
                 padding: const EdgeInsets.only(bottom: 16),
                 sliver: SearchFilterRow(
                   onSearch: onSearch,
-                  filterProvider: postFilterNotifierProvider,
-                  onFilterChanged: (newFilter) {
-                    filterController.update(newFilter);
-                    applyFilter();
-                  },
                 ),
               ),
               ...posts(context, postsState),

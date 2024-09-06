@@ -20,7 +20,7 @@ class FilterButton extends StatelessWidget {
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
-              side: const BorderSide(color: AppColors.primaryElement, width: 1),
+              side: const BorderSide(color: Colors.white, width: 1),
             ),
           ),
           child: const Icon(
