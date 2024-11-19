@@ -5,25 +5,15 @@ class SignUpNotifier extends StateNotifier<RegistrationRequest> {
   SignUpNotifier() : super(RegistrationRequest());
 
   void onfirstNameChange(String firstname) {
-    state = state.copyWith(firstname: firstname);
-    print(state.firstname);
-    print(state.lastname);
-    print(state.email);
-    print(state.password);
-    print(state.rePassword);
+    state = state.copyWith(firstName: firstname);
   }
 
   void onlastNameChange(String lastname) {
-    state = state.copyWith(lastname: lastname);
-    print(state.firstname);
-    print(state.lastname);
-    print(state.email);
-    print(state.password);
-    print(state.rePassword);
+    state = state.copyWith(lastName: lastname);
   }
 
   void onUserEmailChange(String email) {
-    state = state.copyWith(email: email);
+    state = state.copyWith(email: email.trim());
   }
 
   void onUserPasswordChange(String password) {
@@ -32,6 +22,18 @@ class SignUpNotifier extends StateNotifier<RegistrationRequest> {
 
   void onUserRePasswordChange(String rePassword) {
     state = state.copyWith(rePassword: rePassword);
+  }
+
+  void onUserAvatarChange(String avatar) {
+    state = state.copyWith(avatar: avatar);
+  }
+
+  void onUserOpenIdChange(String openId) {
+    state = state.copyWith(open_id: openId);
+  }
+
+  void onUserTypeChange(int type) {
+    state = state.copyWith(type: type);
   }
 }
 

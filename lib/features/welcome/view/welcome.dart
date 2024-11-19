@@ -14,6 +14,7 @@ class Welcome extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final PageController controller = PageController();
     final index = ref.watch(indexDotProvider);
+
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -22,7 +23,7 @@ class Welcome extends ConsumerWidget {
           body: Container(
             margin: EdgeInsets.only(top: 20.h),
             child: Stack(
-              alignment: Alignment.topCenter,
+              alignment: Alignment.center,
               children: [
                 PageView(
                   onPageChanged: (value) {
@@ -31,49 +32,56 @@ class Welcome extends ConsumerWidget {
                   controller: controller,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    //first page
                     AppOnboardingPage(
-                        controller: controller,
-                        imagePath: ImageRes.onboarding1,
-                        title: "Beehave",
-                        subTitle:
-                            "“Créativité, collaboration, connaissance : BeeHive, votre communauté étudiante.”",
-                        index: 1,
-                        context: context),
-                    //second page
+                      controller: controller,
+                      imagePath: ImageRes.onboarding1,
+                      title: "Bienvenue dans BeeHive !",
+                      subTitle:
+                          "Ici, tu pourras poser tes questions et débloquer tes projets grâce à l’aide d’autres étudiants en design.",
+                      index: 1,
+                    ),
                     AppOnboardingPage(
-                        controller: controller,
-                        imagePath: ImageRes.onboarding2,
-                        title: "Restez connecté",
-                        subTitle:
-                            "Beehive : Échangez, Collaborez, Créez ensemble.",
-                        index: 2,
-                        context: context),
+                      controller: controller,
+                      imagePath: ImageRes.onboarding2,
+                      title: "Partage tes travaux !",
+                      subTitle:
+                          "Montre ton travail ! Publie tes projets et reçois des retours constructifs de la part de la communauté BeeHive.",
+                      index: 2,
+                    ),
                     AppOnboardingPage(
-                        controller: controller,
-                        imagePath: ImageRes.onboarding3,
-                        title: "Rejoignez votre communauté",
-                        subTitle:
-                            "N'importe où, n'importe quand. L'heure est à votre discrétion. Alors étudie partout où tu peux",
-                        index: 3,
-                        context: context)
+                      controller: controller,
+                      imagePath: ImageRes.onboarding3,
+                      title: "Rejoins la ruche !",
+                      subTitle:
+                          "Fais partie de notre ruche ! Connecte-toi avec des étudiants passionnés et développe tes compétences avec eux.",
+                      index: 3,
+                    ),
                   ],
                 ),
                 Positioned(
-                    bottom: 50,
+                  bottom: index == 3
+                      ? 100.h
+                      : 50.h, // Ajuste la position de l’indicateur pour le dernier écran
+                  child: AnimatedOpacity(
+                    opacity: 1.0,
+                    duration: const Duration(milliseconds: 500),
                     child: DotsIndicator(
                       dotsCount: 3,
                       mainAxisAlignment: MainAxisAlignment.center,
                       position: index,
                       decorator: DotsDecorator(
-                        size: const Size.square(10.0),
-                        activeSize: const Size(24.0, 8.0),
+                        size: Size(10.w, 10.w),
+                        activeSize: Size(24.w, 8.h),
                         color: Colors.white,
                         activeColor: AppColors.primaryText,
                         activeShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.w)),
+                          borderRadius: BorderRadius.circular(50.w),
+                        ),
+                        spacing: EdgeInsets.symmetric(horizontal: 4.w),
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

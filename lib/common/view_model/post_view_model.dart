@@ -45,4 +45,12 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
     currentPage = initialPage;
     applyFilter(currentFilter);
   }
+
+  
+  FutureOr<Post?> toggleLikePost(String postId) async {
+    final post = await repository.toggleLikePost(
+      postId,
+    );
+    return post;
+  }
 }

@@ -16,7 +16,7 @@ class DrawerWidget extends ConsumerWidget {
     final appZoomController = ref.watch(appZoomControllerProvider);
     return ZoomDrawer(
       controller: appZoomController,
-      menuBackgroundColor: const Color.fromRGBO(61, 61, 216, 1),
+      menuBackgroundColor: const Color.fromARGB(255, 86, 86, 138),
       menuScreenOverlayColor: AppColors.primaryElement,
       shadowLayer1Color: AppColors.primaryText,
       shadowLayer2Color: AppColors.primaryElement,
@@ -56,7 +56,7 @@ class DrawerWidget extends ConsumerWidget {
                 leading: _getIconForIndex(0),
                 title: const Text(
                   'Accueil',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryElement),
                 ),
                 onTap: () {
                   _navigateToPage(0, ref);
@@ -69,7 +69,7 @@ class DrawerWidget extends ConsumerWidget {
                 leading: _getIconForIndex(1),
                 title: const Text(
                   'Favoris',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryElement),
                 ),
                 onTap: () {
                   _navigateToPage(1, ref);
@@ -82,7 +82,7 @@ class DrawerWidget extends ConsumerWidget {
                 leading: _getIconForIndex(2),
                 title: const Text(
                   'Nos Mentors',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryElement),
                 ),
                 onTap: () {
                   _navigateToPage(2, ref);
@@ -95,7 +95,7 @@ class DrawerWidget extends ConsumerWidget {
                 leading: _getIconForIndex(3),
                 title: const Text(
                   'Communauté',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryElement),
                 ),
                 onTap: () {
                   _navigateToPage(3, ref);
@@ -108,7 +108,7 @@ class DrawerWidget extends ConsumerWidget {
                 leading: _getIconForIndex(4),
                 title: const Text(
                   'Nous Contacter',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryElement),
                 ),
                 onTap: () {
                   _navigateToPage(4, ref);
@@ -121,7 +121,7 @@ class DrawerWidget extends ConsumerWidget {
                 leading: _getIconForIndex(5),
                 title: const Text(
                   'Déconnexion',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryElement),
                 ),
                 onTap: () {
                   _navigateToPage(5, ref);

@@ -19,4 +19,5 @@ class AppRoutesNames {
   static const String Photoview = '/photoview';
   static const String Add = '/add';
   static const String Otp = '/otp';
+  static const String AUTH = '/auth';
 }

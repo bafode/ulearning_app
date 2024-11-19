@@ -20,15 +20,25 @@ RegistrationRequest _$RegistrationRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RegistrationRequest {
-  String? get firstname => throw _privateConstructorUsedError;
-  String? get lastname => throw _privateConstructorUsedError;
+  String? get firstName => throw _privateConstructorUsedError;
+  String? get lastName => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
+  int? get type => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
+  String? get open_id => throw _privateConstructorUsedError;
+  int? get online => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword => throw _privateConstructorUsedError;
 
+  /// Serializes this RegistrationRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RegistrationRequestCopyWith<RegistrationRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40,10 +50,16 @@ abstract class $RegistrationRequestCopyWith<$Res> {
       _$RegistrationRequestCopyWithImpl<$Res, RegistrationRequest>;
   @useResult
   $Res call(
-      {String? firstname,
-      String? lastname,
+      {String? firstName,
+      String? lastName,
       String? email,
       String? password,
+      int? type,
+      String? description,
+      String? phone,
+      String? avatar,
+      String? open_id,
+      int? online,
       @JsonKey(includeFromJson: false, includeToJson: false)
       String? rePassword});
 }
@@ -58,23 +74,31 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstname = freezed,
-    Object? lastname = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
     Object? email = freezed,
     Object? password = freezed,
+    Object? type = freezed,
+    Object? description = freezed,
+    Object? phone = freezed,
+    Object? avatar = freezed,
+    Object? open_id = freezed,
+    Object? online = freezed,
     Object? rePassword = freezed,
   }) {
     return _then(_value.copyWith(
-      firstname: freezed == firstname
-          ? _value.firstname
-          : firstname // ignore: cast_nullable_to_non_nullable
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastname: freezed == lastname
-          ? _value.lastname
-          : lastname // ignore: cast_nullable_to_non_nullable
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
@@ -84,6 +108,30 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      open_id: freezed == open_id
+          ? _value.open_id
+          : open_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      online: freezed == online
+          ? _value.online
+          : online // ignore: cast_nullable_to_non_nullable
+              as int?,
       rePassword: freezed == rePassword
           ? _value.rePassword
           : rePassword // ignore: cast_nullable_to_non_nullable
@@ -101,10 +149,16 @@ abstract class _$$RegistrationRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? firstname,
-      String? lastname,
+      {String? firstName,
+      String? lastName,
       String? email,
       String? password,
+      int? type,
+      String? description,
+      String? phone,
+      String? avatar,
+      String? open_id,
+      int? online,
       @JsonKey(includeFromJson: false, includeToJson: false)
       String? rePassword});
 }
@@ -117,23 +171,31 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
       $Res Function(_$RegistrationRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstname = freezed,
-    Object? lastname = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
     Object? email = freezed,
     Object? password = freezed,
+    Object? type = freezed,
+    Object? description = freezed,
+    Object? phone = freezed,
+    Object? avatar = freezed,
+    Object? open_id = freezed,
+    Object? online = freezed,
     Object? rePassword = freezed,
   }) {
     return _then(_$RegistrationRequestImpl(
-      firstname: freezed == firstname
-          ? _value.firstname
-          : firstname // ignore: cast_nullable_to_non_nullable
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastname: freezed == lastname
-          ? _value.lastname
-          : lastname // ignore: cast_nullable_to_non_nullable
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
@@ -143,6 +205,30 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      open_id: freezed == open_id
+          ? _value.open_id
+          : open_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      online: freezed == online
+          ? _value.online
+          : online // ignore: cast_nullable_to_non_nullable
+              as int?,
       rePassword: freezed == rePassword
           ? _value.rePassword
           : rePassword // ignore: cast_nullable_to_non_nullable
@@ -155,30 +241,48 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RegistrationRequestImpl implements _RegistrationRequest {
   _$RegistrationRequestImpl(
-      {this.firstname,
-      this.lastname,
+      {this.firstName,
+      this.lastName,
       this.email,
       this.password,
+      this.type,
+      this.description,
+      this.phone,
+      this.avatar,
+      this.open_id,
+      this.online,
       @JsonKey(includeFromJson: false, includeToJson: false) this.rePassword});
 
   factory _$RegistrationRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegistrationRequestImplFromJson(json);
 
   @override
-  final String? firstname;
+  final String? firstName;
   @override
-  final String? lastname;
+  final String? lastName;
   @override
   final String? email;
   @override
   final String? password;
+  @override
+  final int? type;
+  @override
+  final String? description;
+  @override
+  final String? phone;
+  @override
+  final String? avatar;
+  @override
+  final String? open_id;
+  @override
+  final int? online;
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String? rePassword;
 
   @override
   String toString() {
-    return 'RegistrationRequest(firstname: $firstname, lastname: $lastname, email: $email, password: $password, rePassword: $rePassword)';
+    return 'RegistrationRequest(firstName: $firstName, lastName: $lastName, email: $email, password: $password, type: $type, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online, rePassword: $rePassword)';
   }
 
   @override
@@ -186,23 +290,32 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegistrationRequestImpl &&
-            (identical(other.firstname, firstname) ||
-                other.firstname == firstname) &&
-            (identical(other.lastname, lastname) ||
-                other.lastname == lastname) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.open_id, open_id) || other.open_id == open_id) &&
+            (identical(other.online, online) || other.online == online) &&
             (identical(other.rePassword, rePassword) ||
                 other.rePassword == rePassword));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, firstname, lastname, email, password, rePassword);
+  int get hashCode => Object.hash(runtimeType, firstName, lastName, email,
+      password, type, description, phone, avatar, open_id, online, rePassword);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RegistrationRequestImplCopyWith<_$RegistrationRequestImpl> get copyWith =>
@@ -219,10 +332,16 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
 
 abstract class _RegistrationRequest implements RegistrationRequest {
   factory _RegistrationRequest(
-      {final String? firstname,
-      final String? lastname,
+      {final String? firstName,
+      final String? lastName,
       final String? email,
       final String? password,
+      final int? type,
+      final String? description,
+      final String? phone,
+      final String? avatar,
+      final String? open_id,
+      final int? online,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final String? rePassword}) = _$RegistrationRequestImpl;
 
@@ -230,18 +349,33 @@ abstract class _RegistrationRequest implements RegistrationRequest {
       _$RegistrationRequestImpl.fromJson;
 
   @override
-  String? get firstname;
+  String? get firstName;
   @override
-  String? get lastname;
+  String? get lastName;
   @override
   String? get email;
   @override
   String? get password;
   @override
+  int? get type;
+  @override
+  String? get description;
+  @override
+  String? get phone;
+  @override
+  String? get avatar;
+  @override
+  String? get open_id;
+  @override
+  int? get online;
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword;
+
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegistrationRequestImplCopyWith<_$RegistrationRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-//import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
 import 'package:ulearning_app/features/home/view/widgets/home_widget.dart';

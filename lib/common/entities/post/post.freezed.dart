@@ -26,9 +26,14 @@ mixin _$Post {
   String? get content => throw _privateConstructorUsedError;
   String? get category => throw _privateConstructorUsedError;
   List<String>? get media => throw _privateConstructorUsedError;
+  List<String>? get likes => throw _privateConstructorUsedError;
 
+  /// Serializes this Post to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostCopyWith<Post> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -43,7 +48,8 @@ abstract class $PostCopyWith<$Res> {
       String? title,
       String? content,
       String? category,
-      List<String>? media});
+      List<String>? media,
+      List<String>? likes});
 }
 
 /// @nodoc
@@ -56,6 +62,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -65,6 +73,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? content = freezed,
     Object? category = freezed,
     Object? media = freezed,
+    Object? likes = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -91,6 +100,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      likes: freezed == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -108,7 +121,8 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       String? title,
       String? content,
       String? category,
-      List<String>? media});
+      List<String>? media,
+      List<String>? likes});
 }
 
 /// @nodoc
@@ -118,6 +132,8 @@ class __$$PostImplCopyWithImpl<$Res>
   __$$PostImplCopyWithImpl(_$PostImpl _value, $Res Function(_$PostImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,6 +143,7 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? content = freezed,
     Object? category = freezed,
     Object? media = freezed,
+    Object? likes = freezed,
   }) {
     return _then(_$PostImpl(
       id: freezed == id
@@ -153,6 +170,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value._media
           : media // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      likes: freezed == likes
+          ? _value._likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -166,8 +187,10 @@ class _$PostImpl implements _Post {
       this.title,
       this.content,
       this.category,
-      final List<String>? media})
-      : _media = media;
+      final List<String>? media,
+      final List<String>? likes})
+      : _media = media,
+        _likes = likes;
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostImplFromJson(json);
@@ -192,9 +215,19 @@ class _$PostImpl implements _Post {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _likes;
+  @override
+  List<String>? get likes {
+    final value = _likes;
+    if (value == null) return null;
+    if (_likes is EqualUnmodifiableListView) return _likes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'Post(id: $id, author: $author, title: $title, content: $content, category: $category, media: $media)';
+    return 'Post(id: $id, author: $author, title: $title, content: $content, category: $category, media: $media, likes: $likes)';
   }
 
   @override
@@ -208,15 +241,25 @@ class _$PostImpl implements _Post {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other._media, _media));
+            const DeepCollectionEquality().equals(other._media, _media) &&
+            const DeepCollectionEquality().equals(other._likes, _likes));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, author, title, content,
-      category, const DeepCollectionEquality().hash(_media));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      author,
+      title,
+      content,
+      category,
+      const DeepCollectionEquality().hash(_media),
+      const DeepCollectionEquality().hash(_likes));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
@@ -237,7 +280,8 @@ abstract class _Post implements Post {
       final String? title,
       final String? content,
       final String? category,
-      final List<String>? media}) = _$PostImpl;
+      final List<String>? media,
+      final List<String>? likes}) = _$PostImpl;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
@@ -254,7 +298,12 @@ abstract class _Post implements Post {
   @override
   List<String>? get media;
   @override
-  @JsonKey(ignore: true)
+  List<String>? get likes;
+
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

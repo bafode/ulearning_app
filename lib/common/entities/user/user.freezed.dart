@@ -31,9 +31,18 @@ mixin _$User {
   String? get role => throw _privateConstructorUsedError;
   bool? get isEmailVerified => throw _privateConstructorUsedError;
   bool? get accountClosed => throw _privateConstructorUsedError;
+  String? get city => throw _privateConstructorUsedError;
+  String? get school => throw _privateConstructorUsedError;
+  String? get fieldOfStudy => throw _privateConstructorUsedError;
+  String? get levelOfStudy => throw _privateConstructorUsedError;
+  List<String>? get categories => throw _privateConstructorUsedError;
 
+  /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -53,7 +62,12 @@ abstract class $UserCopyWith<$Res> {
       String? description,
       String? role,
       bool? isEmailVerified,
-      bool? accountClosed});
+      bool? accountClosed,
+      String? city,
+      String? school,
+      String? fieldOfStudy,
+      String? levelOfStudy,
+      List<String>? categories});
 }
 
 /// @nodoc
@@ -66,6 +80,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +96,11 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? role = freezed,
     Object? isEmailVerified = freezed,
     Object? accountClosed = freezed,
+    Object? city = freezed,
+    Object? school = freezed,
+    Object? fieldOfStudy = freezed,
+    Object? levelOfStudy = freezed,
+    Object? categories = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -126,6 +147,26 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.accountClosed
           : accountClosed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      school: freezed == school
+          ? _value.school
+          : school // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fieldOfStudy: freezed == fieldOfStudy
+          ? _value.fieldOfStudy
+          : fieldOfStudy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      levelOfStudy: freezed == levelOfStudy
+          ? _value.levelOfStudy
+          : levelOfStudy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      categories: freezed == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -148,7 +189,12 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? description,
       String? role,
       bool? isEmailVerified,
-      bool? accountClosed});
+      bool? accountClosed,
+      String? city,
+      String? school,
+      String? fieldOfStudy,
+      String? levelOfStudy,
+      List<String>? categories});
 }
 
 /// @nodoc
@@ -158,6 +204,8 @@ class __$$UserImplCopyWithImpl<$Res>
   __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -172,6 +220,11 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? role = freezed,
     Object? isEmailVerified = freezed,
     Object? accountClosed = freezed,
+    Object? city = freezed,
+    Object? school = freezed,
+    Object? fieldOfStudy = freezed,
+    Object? levelOfStudy = freezed,
+    Object? categories = freezed,
   }) {
     return _then(_$UserImpl(
       id: freezed == id
@@ -218,6 +271,26 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.accountClosed
           : accountClosed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      school: freezed == school
+          ? _value.school
+          : school // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fieldOfStudy: freezed == fieldOfStudy
+          ? _value.fieldOfStudy
+          : fieldOfStudy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      levelOfStudy: freezed == levelOfStudy
+          ? _value.levelOfStudy
+          : levelOfStudy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      categories: freezed == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -236,7 +309,13 @@ class _$UserImpl implements _User {
       this.description,
       this.role,
       this.isEmailVerified,
-      this.accountClosed});
+      this.accountClosed,
+      this.city,
+      this.school,
+      this.fieldOfStudy,
+      this.levelOfStudy,
+      final List<String>? categories})
+      : _categories = categories;
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -263,10 +342,27 @@ class _$UserImpl implements _User {
   final bool? isEmailVerified;
   @override
   final bool? accountClosed;
+  @override
+  final String? city;
+  @override
+  final String? school;
+  @override
+  final String? fieldOfStudy;
+  @override
+  final String? levelOfStudy;
+  final List<String>? _categories;
+  @override
+  List<String>? get categories {
+    final value = _categories;
+    if (value == null) return null;
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'User(id: $id, firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, gender: $gender, status: $status, description: $description, role: $role, isEmailVerified: $isEmailVerified, accountClosed: $accountClosed)';
+    return 'User(id: $id, firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, gender: $gender, status: $status, description: $description, role: $role, isEmailVerified: $isEmailVerified, accountClosed: $accountClosed, city: $city, school: $school, fieldOfStudy: $fieldOfStudy, levelOfStudy: $levelOfStudy, categories: $categories)';
   }
 
   @override
@@ -289,10 +385,18 @@ class _$UserImpl implements _User {
             (identical(other.isEmailVerified, isEmailVerified) ||
                 other.isEmailVerified == isEmailVerified) &&
             (identical(other.accountClosed, accountClosed) ||
-                other.accountClosed == accountClosed));
+                other.accountClosed == accountClosed) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.school, school) || other.school == school) &&
+            (identical(other.fieldOfStudy, fieldOfStudy) ||
+                other.fieldOfStudy == fieldOfStudy) &&
+            (identical(other.levelOfStudy, levelOfStudy) ||
+                other.levelOfStudy == levelOfStudy) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -306,9 +410,16 @@ class _$UserImpl implements _User {
       description,
       role,
       isEmailVerified,
-      accountClosed);
+      accountClosed,
+      city,
+      school,
+      fieldOfStudy,
+      levelOfStudy,
+      const DeepCollectionEquality().hash(_categories));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
@@ -334,7 +445,12 @@ abstract class _User implements User {
       final String? description,
       final String? role,
       final bool? isEmailVerified,
-      final bool? accountClosed}) = _$UserImpl;
+      final bool? accountClosed,
+      final String? city,
+      final String? school,
+      final String? fieldOfStudy,
+      final String? levelOfStudy,
+      final List<String>? categories}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -361,7 +477,20 @@ abstract class _User implements User {
   @override
   bool? get accountClosed;
   @override
-  @JsonKey(ignore: true)
+  String? get city;
+  @override
+  String? get school;
+  @override
+  String? get fieldOfStudy;
+  @override
+  String? get levelOfStudy;
+  @override
+  List<String>? get categories;
+
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

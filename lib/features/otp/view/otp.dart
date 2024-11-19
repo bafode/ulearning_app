@@ -60,7 +60,7 @@ class _OtpState extends ConsumerState<Otp> {
     final emailVerificationResponseState =
         ref.watch(emailVerificationResponseProvier);
     return Scaffold(
-      backgroundColor: AppColors.primaryElement,
+      backgroundColor: Colors.white,
       body: ListView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         children: <Widget>[

@@ -18,6 +18,13 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       role: json['role'] as String?,
       isEmailVerified: json['isEmailVerified'] as bool?,
       accountClosed: json['accountClosed'] as bool?,
+      city: json['city'] as String?,
+      school: json['school'] as String?,
+      fieldOfStudy: json['fieldOfStudy'] as String?,
+      levelOfStudy: json['levelOfStudy'] as String?,
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -33,4 +40,9 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'role': instance.role,
       'isEmailVerified': instance.isEmailVerified,
       'accountClosed': instance.accountClosed,
+      'city': instance.city,
+      'school': instance.school,
+      'fieldOfStudy': instance.fieldOfStudy,
+      'levelOfStudy': instance.levelOfStudy,
+      'categories': instance.categories,
     };

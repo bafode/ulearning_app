@@ -23,8 +23,12 @@ mixin _$RegistrationResponse {
   int get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
 
+  /// Serializes this RegistrationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RegistrationResponseCopyWith<RegistrationResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$RegistrationResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RegistrationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +93,8 @@ class __$$RegistratiResponseImplCopyWithImpl<$Res>
       $Res Function(_$RegistratiResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,11 +141,13 @@ class _$RegistratiResponseImpl implements _RegistratiResponse {
             (identical(other.message, message) || other.message == message));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, code, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RegistratiResponseImplCopyWith<_$RegistratiResponseImpl> get copyWith =>
@@ -164,8 +174,11 @@ abstract class _RegistratiResponse implements RegistrationResponse {
   int get code;
   @override
   String get message;
+
+  /// Create a copy of RegistrationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegistratiResponseImplCopyWith<_$RegistratiResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

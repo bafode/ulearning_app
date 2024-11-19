@@ -10,6 +10,8 @@ class Post with _$Post {
     required Author author,
     required String category,
     required List<String> media,
+    required List<Author> likes,
+    required List<Comment> comments,
     required String id,
   }) = _Post;
 }
@@ -23,4 +25,15 @@ class Author with _$Author {
     required String avatar,
     required String id,
   }) = _Author;
+}
+
+@freezed
+class Comment with _$Comment {
+  const factory Comment({
+    required String content,
+    required String userFirstName,
+    required String userLastName,
+    required String userAvatar,
+    required String id,
+  }) = _Comment;
 }

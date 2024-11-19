@@ -22,9 +22,21 @@ LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) {
 mixin _$LoginRequest {
   String? get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
+  int? get type => throw _privateConstructorUsedError;
+  String? get firstName => throw _privateConstructorUsedError;
+  String? get lastName => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
+  String? get open_id => throw _privateConstructorUsedError;
+  int? get online => throw _privateConstructorUsedError;
 
+  /// Serializes this LoginRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LoginRequestCopyWith<LoginRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35,7 +47,17 @@ abstract class $LoginRequestCopyWith<$Res> {
           LoginRequest value, $Res Function(LoginRequest) then) =
       _$LoginRequestCopyWithImpl<$Res, LoginRequest>;
   @useResult
-  $Res call({String? email, String? password});
+  $Res call(
+      {String? email,
+      String? password,
+      int? type,
+      String? firstName,
+      String? lastName,
+      String? description,
+      String? phone,
+      String? avatar,
+      String? open_id,
+      int? online});
 }
 
 /// @nodoc
@@ -48,11 +70,21 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LoginRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? email = freezed,
     Object? password = freezed,
+    Object? type = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
+    Object? description = freezed,
+    Object? phone = freezed,
+    Object? avatar = freezed,
+    Object? open_id = freezed,
+    Object? online = freezed,
   }) {
     return _then(_value.copyWith(
       email: freezed == email
@@ -63,6 +95,38 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      open_id: freezed == open_id
+          ? _value.open_id
+          : open_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      online: freezed == online
+          ? _value.online
+          : online // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -75,7 +139,17 @@ abstract class _$$LoginRequestImplCopyWith<$Res>
       __$$LoginRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? email, String? password});
+  $Res call(
+      {String? email,
+      String? password,
+      int? type,
+      String? firstName,
+      String? lastName,
+      String? description,
+      String? phone,
+      String? avatar,
+      String? open_id,
+      int? online});
 }
 
 /// @nodoc
@@ -86,11 +160,21 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
       _$LoginRequestImpl _value, $Res Function(_$LoginRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? email = freezed,
     Object? password = freezed,
+    Object? type = freezed,
+    Object? firstName = freezed,
+    Object? lastName = freezed,
+    Object? description = freezed,
+    Object? phone = freezed,
+    Object? avatar = freezed,
+    Object? open_id = freezed,
+    Object? online = freezed,
   }) {
     return _then(_$LoginRequestImpl(
       email: freezed == email
@@ -101,6 +185,38 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as int?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      open_id: freezed == open_id
+          ? _value.open_id
+          : open_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      online: freezed == online
+          ? _value.online
+          : online // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -108,7 +224,17 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LoginRequestImpl implements _LoginRequest {
-  const _$LoginRequestImpl({this.email, this.password});
+  const _$LoginRequestImpl(
+      {this.email,
+      this.password,
+      this.type,
+      this.firstName,
+      this.lastName,
+      this.description,
+      this.phone,
+      this.avatar,
+      this.open_id,
+      this.online});
 
   factory _$LoginRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginRequestImplFromJson(json);
@@ -117,10 +243,26 @@ class _$LoginRequestImpl implements _LoginRequest {
   final String? email;
   @override
   final String? password;
+  @override
+  final int? type;
+  @override
+  final String? firstName;
+  @override
+  final String? lastName;
+  @override
+  final String? description;
+  @override
+  final String? phone;
+  @override
+  final String? avatar;
+  @override
+  final String? open_id;
+  @override
+  final int? online;
 
   @override
   String toString() {
-    return 'LoginRequest(email: $email, password: $password)';
+    return 'LoginRequest(email: $email, password: $password, type: $type, firstName: $firstName, lastName: $lastName, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online)';
   }
 
   @override
@@ -130,14 +272,28 @@ class _$LoginRequestImpl implements _LoginRequest {
             other is _$LoginRequestImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
-                other.password == password));
+                other.password == password) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.open_id, open_id) || other.open_id == open_id) &&
+            (identical(other.online, online) || other.online == online));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, email, password);
+  int get hashCode => Object.hash(runtimeType, email, password, type, firstName,
+      lastName, description, phone, avatar, open_id, online);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LoginRequestImplCopyWith<_$LoginRequestImpl> get copyWith =>
@@ -152,8 +308,17 @@ class _$LoginRequestImpl implements _LoginRequest {
 }
 
 abstract class _LoginRequest implements LoginRequest {
-  const factory _LoginRequest({final String? email, final String? password}) =
-      _$LoginRequestImpl;
+  const factory _LoginRequest(
+      {final String? email,
+      final String? password,
+      final int? type,
+      final String? firstName,
+      final String? lastName,
+      final String? description,
+      final String? phone,
+      final String? avatar,
+      final String? open_id,
+      final int? online}) = _$LoginRequestImpl;
 
   factory _LoginRequest.fromJson(Map<String, dynamic> json) =
       _$LoginRequestImpl.fromJson;
@@ -163,7 +328,26 @@ abstract class _LoginRequest implements LoginRequest {
   @override
   String? get password;
   @override
-  @JsonKey(ignore: true)
+  int? get type;
+  @override
+  String? get firstName;
+  @override
+  String? get lastName;
+  @override
+  String? get description;
+  @override
+  String? get phone;
+  @override
+  String? get avatar;
+  @override
+  String? get open_id;
+  @override
+  int? get online;
+
+  /// Create a copy of LoginRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoginRequestImplCopyWith<_$LoginRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
