@@ -21,7 +21,9 @@ mixin _$PostFilter {
   SortOption? get sort => throw _privateConstructorUsedError;
   OrderOption? get order => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PostFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostFilterCopyWith<PostFilter> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +51,8 @@ class _$PostFilterCopyWithImpl<$Res, $Val extends PostFilter>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PostFilter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +105,8 @@ class __$$PostFilterImplCopyWithImpl<$Res>
       _$PostFilterImpl _value, $Res Function(_$PostFilterImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PostFilter
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,7 +183,9 @@ class _$PostFilterImpl implements _PostFilter {
   int get hashCode => Object.hash(runtimeType, query,
       const DeepCollectionEquality().hash(_fieldsOfStudy), sort, order);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PostFilter
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostFilterImplCopyWith<_$PostFilterImpl> get copyWith =>
@@ -199,8 +207,11 @@ abstract class _PostFilter implements PostFilter {
   SortOption? get sort;
   @override
   OrderOption? get order;
+
+  /// Create a copy of PostFilter
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostFilterImplCopyWith<_$PostFilterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

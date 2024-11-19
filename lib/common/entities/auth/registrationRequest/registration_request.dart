@@ -6,10 +6,16 @@ part 'registration_request.freezed.dart';
 @freezed
 class RegistrationRequest with _$RegistrationRequest {
   factory RegistrationRequest({
-    String? firstname,
-    String? lastname,
+    String? firstName,
+    String? lastName,
     String? email,
     String? password,
+     int? type,
+    String? description,
+    String? phone,
+    String? avatar,
+    String? open_id,
+    int? online,
     @JsonKey(includeFromJson: false, includeToJson: false) String? rePassword,
   }) = _RegistrationRequest;
 

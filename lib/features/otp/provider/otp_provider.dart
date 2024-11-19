@@ -19,7 +19,7 @@ class OtpResponseNotifier extends StateNotifier<bool> {
 
   void setResponseCode(bool response) {
     state = response;
-    print(state);
+    print("Response code: $state");
   }
 }
 

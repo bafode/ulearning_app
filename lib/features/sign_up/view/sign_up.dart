@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/global_loader/global_loader.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/widgets/app_bar.dart';
 import 'package:ulearning_app/common/widgets/app_textfields.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
 import 'package:ulearning_app/common/widgets/text_widgets.dart';
@@ -33,19 +32,12 @@ class _SignUpState extends ConsumerState<SignUp> {
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
-            appBar: buildAppbar(title: "Sign Up"),
             backgroundColor: Colors.white,
             body: loader == false
                 ? SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 30.h),
-                        const Center(
-                          child: Text14Normal(
-                            text: "Inscription Gratuite",
-                          ),
-                        ),
                         SizedBox(height: 30.h),
                         appTextField(
                           text: "Prenom",
@@ -106,7 +98,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                             buttonName: "Register",
                             isLogin: true,
                             context: context,
-                            func: () => _controller.handleSignUp(),
+                            func: () => _controller.handleSignUp("email"),
                           ),
                         ),
                         SizedBox(height: 10.h),

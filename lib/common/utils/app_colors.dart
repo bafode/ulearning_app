@@ -11,7 +11,7 @@ class AppColors {
       Color.fromARGB(255, 247, 247, 249);
 
   /// main widget color blue
-  static const Color primaryElement = Color.fromARGB(255, 94, 23, 235);
+  static const Color primaryElement = Color.fromARGB(255, 107, 40, 255);
 
   /// main text color black
   static const Color primaryText = Color.fromARGB(255, 248, 172, 17);

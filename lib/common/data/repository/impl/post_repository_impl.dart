@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
 import 'package:ulearning_app/common/data/mappers/post_mapper.dart';
 import 'package:ulearning_app/common/data/remote/rest_client_api.dart';
 import 'package:ulearning_app/common/data/repository/post_repository.dart';
-import 'package:ulearning_app/common/entities/post/createPostRequest/post_create_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 
@@ -16,14 +13,14 @@ class PostRepositoryImpl extends PostRepository {
 
   @override
   Future<(int totalResults, List<Post> posts)> getPosts({
-    String query = "",
+    String? query,
     SortOption? sort,
     OrderOption? order,
     int? page,
     int? limit,
   }) async {
     final response = await api.getPosts(
-      //query: query,
+      query: query,
       sort: sort?.value,
       order: order?.value,
       page: page,
@@ -40,5 +37,11 @@ class PostRepositoryImpl extends PostRepository {
       String category, List<MultipartFile> media) async {
     final response = await api.createPost(title, content, category, media);
     return response;
+  }
+  
+  @override
+  Future<Post?> toggleLikePost(String postId) async {
+    final response= await api.toagleLikePost(postId);
+    return response.toDomain();
   }
 }

@@ -9,7 +9,7 @@ class Setting extends ConsumerStatefulWidget {
   const Setting({super.key});
 
   static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => Setting());
+    return MaterialPageRoute<void>(builder: (_) => const Setting());
   }
 
   @override
@@ -41,7 +41,7 @@ class _SettingPage extends ConsumerState<Setting> {
                         Container(
                           alignment: Alignment.center,
                           child: Image(
-                            image: AssetImage("assets/icons/person(1).png"),
+                            image: const AssetImage("assets/icons/person(1).png"),
                             width: 20.w,
                             height: 20.h,
                           ),
@@ -80,7 +80,7 @@ class _SettingPage extends ConsumerState<Setting> {
                         Container(
                           alignment: Alignment.center,
                           child: Image(
-                            image: AssetImage("assets/icons/bell.png"),
+                            image: const AssetImage("assets/icons/bell.png"),
                             width: 20.w,
                             height: 20.h,
                           ),
@@ -118,7 +118,7 @@ class _SettingPage extends ConsumerState<Setting> {
                         Container(
                           alignment: Alignment.center,
                           child: Image(
-                            image: AssetImage("assets/icons/list.png"),
+                            image: const AssetImage("assets/icons/list.png"),
                             width: 20.w,
                             height: 20.h,
                           ),
@@ -152,7 +152,7 @@ class _SettingPage extends ConsumerState<Setting> {
                     height: 100.w,
                     padding: EdgeInsets.all(0.w),
                     decoration: BoxDecoration(
-                      image: DecorationImage(
+                      image: const DecorationImage(
                           image: AssetImage("assets/icons/Logout.png"),
                           fit: BoxFit.fitHeight),
                       borderRadius: BorderRadius.all(Radius.circular(0.h)),
@@ -164,17 +164,17 @@ class _SettingPage extends ConsumerState<Setting> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text("Confirm logout"),
-                            content: Text("Confirm logout."),
+                            title: const Text("Confirm logout"),
+                            content: const Text("Confirm logout."),
                             actions: [
                               TextButton(
-                                child: Text("Cancel"),
+                                child: const Text("Cancel"),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                               TextButton(
-                                child: Text("Confirm"),
+                                child: const Text("Confirm"),
                                 onPressed: () {
                                   // Global.storageService
                                   //     .remove(STORAGE_USER_PROFILE_KEY);
@@ -223,14 +223,14 @@ class _SettingPage extends ConsumerState<Setting> {
       ),
       padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 14.w),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(255, 255, 255, 1),
+        color: const Color.fromRGBO(255, 255, 255, 1),
         borderRadius: BorderRadius.all(Radius.circular(15.w)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
             spreadRadius: 2,
             blurRadius: 3,
-            offset: Offset(0, 1), // changes position of shadow
+            offset: const Offset(0, 1), // changes position of shadow
           ),
         ],
       ),
@@ -243,7 +243,7 @@ class _SettingPage extends ConsumerState<Setting> {
               Container(
                 margin: EdgeInsets.only(left: 0.w),
                 child: Text(
-                  "${title}",
+                  title,
                   style: TextStyle(
                     color: AppColors.primaryBg,
                     fontSize: 13.sp,
@@ -255,7 +255,7 @@ class _SettingPage extends ConsumerState<Setting> {
               Container(
                 alignment: Alignment.centerRight,
                 child: Image(
-                  image: AssetImage("assets/icons/arrow_right.png"),
+                  image: const AssetImage("assets/icons/arrow_right.png"),
                   width: 16.w,
                   height: 16.h,
                 ),

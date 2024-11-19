@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_id">573546523781033</string>
+    <string name="facebook_client_token">9b33ab9d6e9ed35f1af12ae56bf2f1ca</string>
+    <string name="fb_login_protocol_scheme">fb512968817476413</string>
+    <string name="default_notification_channel_id">com.dbestech.chatty.message</string>
+</resources>

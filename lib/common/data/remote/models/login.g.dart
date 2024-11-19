@@ -19,7 +19,7 @@ Map<String, dynamic> _$LoginRequestToJson(LoginRequest instance) =>
 
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
     LoginResponse(
-      code: json['code'] as int,
+      code: (json['code'] as num).toInt(),
       message: json['message'] as String,
       user: UserG.fromJson(json['user'] as Map<String, dynamic>),
       tokens: TokensG.fromJson(json['tokens'] as Map<String, dynamic>),

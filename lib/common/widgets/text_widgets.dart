@@ -20,12 +20,11 @@ class Text13Normal extends StatelessWidget {
   final TextAlign? textAlign;
 
   const Text13Normal(
-      {Key? key,
+      {super.key,
       this.text = "",
       this.color = AppColors.primaryText,
       this.fontWeight = FontWeight.bold,
-      this.textAlign = TextAlign.start})
-      : super(key: key);
+      this.textAlign = TextAlign.start});
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +43,11 @@ class Text16Normal extends StatelessWidget {
   final TextAlign? textAlign;
 
   const Text16Normal(
-      {Key? key,
+      {super.key,
       this.text = "",
       this.color = AppColors.primarySecondaryElementText,
       this.fontWeight = FontWeight.normal,
-      this.textAlign = TextAlign.center})
-      : super(key: key);
+      this.textAlign = TextAlign.center});
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +65,10 @@ class Text14Normal extends StatelessWidget {
   final FontWeight? fontWeight;
 
   const Text14Normal(
-      {Key? key,
+      {super.key,
       this.text = "",
       this.color = AppColors.primaryThirdElementText,
-      this.fontWeight = FontWeight.normal})
-      : super(key: key);
+      this.fontWeight = FontWeight.normal});
 
   @override
   Widget build(BuildContext context) {
@@ -88,8 +85,7 @@ class Text11Normal extends StatelessWidget {
   final Color color;
 
   const Text11Normal(
-      {Key? key, this.text = "", this.color = AppColors.primaryElementText})
-      : super(key: key);
+      {super.key, this.text = "", this.color = AppColors.primaryElementText});
 
   @override
   Widget build(BuildContext context) {
@@ -107,10 +103,9 @@ class Text10Normal extends StatelessWidget {
   final Color color;
 
   const Text10Normal(
-      {Key? key,
+      {super.key,
       this.text = "",
-      this.color = AppColors.primaryThirdElementText})
-      : super(key: key);
+      this.color = AppColors.primaryThirdElementText});
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +193,8 @@ class _PostTextState extends State<PostText> {
       child: Text(
         widget.text!,
         textAlign: TextAlign.justify,
-        maxLines: isExpanded ? 100 : 2, // Show only 2 lines initially
+        maxLines: isExpanded ? 100 : 2, 
+        overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
         style: TextStyle(
           color: widget.color,
           fontSize: 14,

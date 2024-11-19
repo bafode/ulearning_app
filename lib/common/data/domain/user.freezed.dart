@@ -26,7 +26,9 @@ mixin _$User {
   bool get accountClosed => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -57,6 +59,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,6 +141,8 @@ class __$$UserImplCopyWithImpl<$Res>
   __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -254,7 +260,9 @@ class _$UserImpl implements _User {
   int get hashCode => Object.hash(runtimeType, firstname, lastname, email,
       avatar, description, role, isEmailVerified, accountClosed, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
@@ -291,8 +299,11 @@ abstract class _User implements User {
   bool get accountClosed;
   @override
   String get id;
+
+  /// Create a copy of User
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -302,7 +313,9 @@ mixin _$Tokens {
   AccessToken get access => throw _privateConstructorUsedError;
   RefreshToken get refresh => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokensCopyWith<Tokens> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -327,6 +340,8 @@ class _$TokensCopyWithImpl<$Res, $Val extends Tokens>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -345,6 +360,8 @@ class _$TokensCopyWithImpl<$Res, $Val extends Tokens>
     ) as $Val);
   }
 
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AccessTokenCopyWith<$Res> get access {
@@ -353,6 +370,8 @@ class _$TokensCopyWithImpl<$Res, $Val extends Tokens>
     });
   }
 
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RefreshTokenCopyWith<$Res> get refresh {
@@ -385,6 +404,8 @@ class __$$TokensImplCopyWithImpl<$Res>
       _$TokensImpl _value, $Res Function(_$TokensImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -431,7 +452,9 @@ class _$TokensImpl implements _Tokens {
   @override
   int get hashCode => Object.hash(runtimeType, access, refresh);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokensImplCopyWith<_$TokensImpl> get copyWith =>
@@ -447,8 +470,11 @@ abstract class _Tokens implements Tokens {
   AccessToken get access;
   @override
   RefreshToken get refresh;
+
+  /// Create a copy of Tokens
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokensImplCopyWith<_$TokensImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -458,7 +484,9 @@ mixin _$AccessToken {
   String get token => throw _privateConstructorUsedError;
   String get expires => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AccessToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AccessTokenCopyWith<AccessToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -482,6 +510,8 @@ class _$AccessTokenCopyWithImpl<$Res, $Val extends AccessToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AccessToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -520,6 +550,8 @@ class __$$AccessTokenImplCopyWithImpl<$Res>
       _$AccessTokenImpl _value, $Res Function(_$AccessTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AccessToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -566,7 +598,9 @@ class _$AccessTokenImpl implements _AccessToken {
   @override
   int get hashCode => Object.hash(runtimeType, token, expires);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AccessToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AccessTokenImplCopyWith<_$AccessTokenImpl> get copyWith =>
@@ -582,8 +616,11 @@ abstract class _AccessToken implements AccessToken {
   String get token;
   @override
   String get expires;
+
+  /// Create a copy of AccessToken
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AccessTokenImplCopyWith<_$AccessTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -593,7 +630,9 @@ mixin _$RefreshToken {
   String get token => throw _privateConstructorUsedError;
   String get expires => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefreshToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RefreshTokenCopyWith<RefreshToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -617,6 +656,8 @@ class _$RefreshTokenCopyWithImpl<$Res, $Val extends RefreshToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RefreshToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -655,6 +696,8 @@ class __$$RefreshTokenImplCopyWithImpl<$Res>
       _$RefreshTokenImpl _value, $Res Function(_$RefreshTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RefreshToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -701,7 +744,9 @@ class _$RefreshTokenImpl implements _RefreshToken {
   @override
   int get hashCode => Object.hash(runtimeType, token, expires);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefreshToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RefreshTokenImplCopyWith<_$RefreshTokenImpl> get copyWith =>
@@ -717,8 +762,11 @@ abstract class _RefreshToken implements RefreshToken {
   String get token;
   @override
   String get expires;
+
+  /// Create a copy of RefreshToken
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RefreshTokenImplCopyWith<_$RefreshTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

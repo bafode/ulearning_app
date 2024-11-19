@@ -33,7 +33,7 @@ class ImageRes {
   static const String boy = 'assets/images/boy.png';
   static const String reel = 'assets/images/reels.png';
   static const String message = 'assets/images/message.png';
-  static const String onboarding1 = 'assets/images/onboarding1.jpg';
-  static const String onboarding2 = 'assets/images/onboarding2.jpg';
-  static const String onboarding3 = 'assets/images/onboarding3.jpg';
+  static const String onboarding1 = 'assets/images/onboarding1.png';
+  static const String onboarding2 = 'assets/images/onboarding2.png';
+  static const String onboarding3 = 'assets/images/onboarding3.png';
 }

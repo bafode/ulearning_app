@@ -8,6 +8,8 @@ extension PostMapper on PostGet {
         author: author.toDomain(),
         category: category,
         media: media,
+        likes: likes.map((e) => e.toDomain()).toList(),
+        comments: comments.map((e) => e.toDomain()).toList(),
         id: id,
       );
 }
@@ -18,6 +20,16 @@ extension AuthorMapper on AuthorGet {
         lastname: lastname,
         email: email,
         avatar: avatar,
+        id: id,
+      );
+}
+
+extension CommentMapper on CommentGet {
+  Comment toDomain() => Comment(
+        content: content,
+        userFirstName: userFirstName,
+        userLastName: userLastName,
+        userAvatar: userAvatar,
         id: id,
       );
 }

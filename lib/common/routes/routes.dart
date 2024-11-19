@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:ulearning_app/features/addPost/view/add.dart';
 import 'package:ulearning_app/features/application/view/application.dart';
 import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/features/auth/view/auth.dart';
 import 'package:ulearning_app/features/buy_course/view/buy_course.dart';
 import 'package:ulearning_app/features/editProfile/view/edit_profile.dart';
 import 'package:ulearning_app/features/home/view/home.dart';
 import 'package:ulearning_app/features/otp/view/otp.dart';
 import 'package:ulearning_app/features/profile/view/profile.dart';
 import 'package:ulearning_app/features/profile/view/setting/setting.dart';
+import 'package:ulearning_app/features/res/view/registration.dart';
 import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
-import 'package:ulearning_app/features/sign_up/view/sign_up.dart';
 import 'package:ulearning_app/features/splash/splash.dart';
 import 'package:ulearning_app/features/welcome/view/welcome.dart';
 
@@ -22,7 +23,8 @@ class AppPages {
       RouteEntity(path: AppRoutesNames.SPLASH, page: const Splash()),
       RouteEntity(path: AppRoutesNames.WELCOME, page: const Welcome()),
       RouteEntity(path: AppRoutesNames.SIGN_IN, page: const SignIn()),
-      RouteEntity(path: AppRoutesNames.REGISTER, page: const SignUp()),
+      RouteEntity(path: AppRoutesNames.AUTH, page: const Auth()),
+      RouteEntity(path: AppRoutesNames.REGISTER, page: const Registration()),
       RouteEntity(path: AppRoutesNames.Otp, page: const Otp()),
       RouteEntity(path: AppRoutesNames.APPLICATION, page: const Application()),
       RouteEntity(path: AppRoutesNames.HOME, page: const Home()),
@@ -52,7 +54,7 @@ class AppPages {
                 builder: (_) => const Application(), settings: settings);
           } else {
             return MaterialPageRoute(
-                builder: (_) => const SignIn(), settings: settings);
+                builder: (_) => const Auth(), settings: settings);
           }
         } else {
           if (kDebugMode) {

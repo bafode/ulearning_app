@@ -14,6 +14,8 @@ _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       category: json['category'] as String?,
       media:
           (json['media'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      likes:
+          (json['likes'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
@@ -24,4 +26,5 @@ Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
       'content': instance.content,
       'category': instance.category,
       'media': instance.media,
+      'likes': instance.likes,
     };

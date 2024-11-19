@@ -4,11 +4,15 @@ import 'package:ulearning_app/common/entities/auth/logoutRequest/logout_request.
 import 'package:ulearning_app/common/entities/auth/logoutResponse/logout_response.dart';
 import 'package:ulearning_app/common/entities/auth/registrationRequest/registration_request.dart';
 import 'package:ulearning_app/common/entities/auth/registrationResponse/registration_response.dart';
+import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
+import 'package:ulearning_app/common/models/entities.dart';
 
 abstract class AuthRepository {
   Future<LoginResponse?> login(LoginRequest params);
-  Future<RegistrationResponse> register(RegistrationRequest params);
+  Future<LoginResponse> register(RegistrationRequest params);
+  Future<void> sendEmailVerificationToken();
   Future<RegistrationResponse> verifyEmail(VerifyEmailRequest token);
   Future<LogoutResponse> logout(LogoutRequest refreshToken);
+  Future<User> updateUserInfo(String userId,UpdateUserInfoRequest userInfo);
 }

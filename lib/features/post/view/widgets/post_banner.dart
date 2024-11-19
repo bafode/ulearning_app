@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
+import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -29,7 +29,7 @@ class PostBanner extends StatelessWidget {
             children: [
               for (var i = 0; i < postItem.media.length; i++)
                 MediaWidget(
-                  url: "${AppConstants.SERVER_API_URL}${postItem.media[i]}",
+                  url: postItem.media[i],
                 )
             ],
           ),
@@ -64,7 +64,6 @@ class _MediaWidgetState extends State<MediaWidget> {
   void initState() {
     super.initState();
 
-    // Determine if the URL is a video based on its extension
     _isVideo = widget.url.endsWith('.mp4') ||
         widget.url.endsWith('.mov') ||
         widget.url.endsWith('.avi') ||
@@ -139,14 +138,26 @@ class _MediaWidgetState extends State<MediaWidget> {
           ? Stack(
               alignment: Alignment.center,
               children: [
-                AspectRatio(
-                  aspectRatio: _videoController!.value.aspectRatio,
-                  child: VideoPlayer(_videoController!),
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(8.0), 
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: AppColors.primaryElement, width: 2.0), 
+                      borderRadius: BorderRadius.circular(
+                          8.0), 
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: _videoController!.value.aspectRatio,
+                      child: VideoPlayer(_videoController!),
+                    ),
+                  ),
                 ),
-                // Add control buttons (play/pause and mute/unmute)
+                // Boutons de contrôle
                 Positioned(
                   bottom: 10,
-                  left: 10,
+                  right: 10,
                   child: Row(
                     children: [
                       IconButton(
@@ -154,16 +165,16 @@ class _MediaWidgetState extends State<MediaWidget> {
                           _videoController!.value.isPlaying
                               ? Icons.pause
                               : Icons.play_arrow,
-                          size: 30.0,
-                          color: Colors.white,
+                          size: 20.0,
+                          color: AppColors.primaryElement,
                         ),
                         onPressed: _togglePlayPause,
                       ),
                       IconButton(
                         icon: Icon(
                           _isMuted ? Icons.volume_off : Icons.volume_up,
-                          size: 30.0,
-                          color: Colors.white,
+                          size: 20.0,
+                          color: AppColors.primaryElement,
                         ),
                         onPressed: _toggleMute,
                       ),
@@ -174,11 +185,16 @@ class _MediaWidgetState extends State<MediaWidget> {
             )
           : const Center(child: CircularProgressIndicator());
     } else {
-      return CachedNetworkImage(
-        imageUrl: widget.url,
-        placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.0), 
+        child: CachedNetworkImage(
+          imageUrl: widget.url,
+          placeholder: (context, url) =>
+              const Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+          fit:
+              BoxFit.cover, 
+        ),
       );
     }
   }

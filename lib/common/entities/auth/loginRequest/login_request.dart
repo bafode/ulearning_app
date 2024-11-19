@@ -7,6 +7,14 @@ class LoginRequest with _$LoginRequest {
   const factory LoginRequest({
     String? email,
     String? password,
+    int? type,
+    String? firstName,
+    String? lastName,
+    String? description,
+    String? phone,
+    String? avatar,
+    String? open_id,
+    int? online,
   }) = _LoginRequest;
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>

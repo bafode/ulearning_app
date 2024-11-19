@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -11,8 +9,10 @@ import 'package:ulearning_app/common/entities/auth/logoutRequest/logout_request.
 import 'package:ulearning_app/common/entities/auth/logoutResponse/logout_response.dart';
 import 'package:ulearning_app/common/entities/auth/registrationRequest/registration_request.dart';
 import 'package:ulearning_app/common/entities/auth/registrationResponse/registration_response.dart';
+import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
+import 'package:ulearning_app/common/models/entities.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 
 part 'rest_client_api.g.dart';
@@ -26,7 +26,7 @@ abstract class RestClientApi {
 
   @GET(AppConstants.postEndPointUrl)
   Future<PostResponse> getPosts({
-    // @Query("q") required String query,
+    @Query("q") String? query,
     @Query("sort") String? sort,
     @Query("order") String? order,
     @Query("page") int? page,
@@ -39,9 +39,18 @@ abstract class RestClientApi {
   });
 
   @POST(AppConstants.registrationEndPointUrl)
-  Future<RegistrationResponse> register({
+  Future<LoginResponse> register({
     @Body() required RegistrationRequest registrationRequest,
   });
+
+  @PATCH("${AppConstants.userEndpoint}/{userId}")
+    Future<User> updateUser({
+      @Path("userId") required String userId,
+      @Body() required UpdateUserInfoRequest updateUserInfoRequest,
+    });
+
+  @POST(AppConstants.sendEmailVerificationTokenUrl)
+  Future<void> sendEmailVerificationToken();
 
   @POST(AppConstants.emailVerificationUrl)
   Future<RegistrationResponse> verifyEmail({
@@ -61,4 +70,10 @@ abstract class RestClientApi {
       @Part(name: 'category') String category,
       @Part() List<MultipartFile>? media,
       {@SendProgress() ProgressCallback? onSendProgress});
+
+  
+  @PATCH("${AppConstants.postEndPointUrl}/{postId}/likes")
+  Future<PostGet> toagleLikePost(
+    @Path("postId") String postId,
+  );
 }

@@ -9,7 +9,7 @@ part of 'post_create_response.dart';
 _$PostCreateResponseImpl _$$PostCreateResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PostCreateResponseImpl(
-      code: json['code'] as int?,
+      code: (json['code'] as num?)?.toInt(),
       message: json['message'] as String?,
       post: json['post'] == null
           ? null

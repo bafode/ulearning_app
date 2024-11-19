@@ -39,6 +39,10 @@ class PostGet {
   final String category;
   @JsonKey(name: 'media')
   final List<String> media;
+  @JsonKey(name: 'likes')
+  final List<AuthorGet> likes;
+  @JsonKey(name: 'comments')
+  final List<CommentGet> comments;
   @JsonKey(name: 'id')
   final String id;
 
@@ -48,6 +52,8 @@ class PostGet {
     required this.author,
     required this.category,
     required this.media,
+    required this.likes,
+    required this.comments,
     required this.id,
   });
 
@@ -78,6 +84,32 @@ class AuthorGet {
 
   factory AuthorGet.fromJson(Map<String, dynamic> json) =>
       _$AuthorGetFromJson(json);
+}
+
+
+@JsonSerializable()
+class CommentGet {
+  @JsonKey(name: 'content')
+  final String content;
+  @JsonKey(name: 'userFirstName')
+  final String userFirstName;
+  @JsonKey(name: 'userLastName')
+  final String userLastName;
+  @JsonKey(name: 'userAvatar')
+  final String userAvatar;
+  @JsonKey(name: 'id')
+  final String id;
+
+  CommentGet({
+    required this.content,
+    required this.userFirstName,
+    required this.userLastName,
+    required this.userAvatar,
+    required this.id,
+  });
+
+  factory CommentGet.fromJson(Map<String, dynamic> json) =>
+      _$CommentGetFromJson(json);
 }
 
 @JsonSerializable(genericArgumentFactories: true)

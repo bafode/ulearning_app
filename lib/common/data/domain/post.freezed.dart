@@ -21,9 +21,13 @@ mixin _$Post {
   Author get author => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   List<String> get media => throw _privateConstructorUsedError;
+  List<Author> get likes => throw _privateConstructorUsedError;
+  List<Comment> get comments => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostCopyWith<Post> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -38,6 +42,8 @@ abstract class $PostCopyWith<$Res> {
       Author author,
       String category,
       List<String> media,
+      List<Author> likes,
+      List<Comment> comments,
       String id});
 
   $AuthorCopyWith<$Res> get author;
@@ -53,6 +59,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -61,6 +69,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? author = null,
     Object? category = null,
     Object? media = null,
+    Object? likes = null,
+    Object? comments = null,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -84,6 +94,14 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      likes: null == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<Author>,
+      comments: null == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<Comment>,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -91,6 +109,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     ) as $Val);
   }
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AuthorCopyWith<$Res> get author {
@@ -113,6 +133,8 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       Author author,
       String category,
       List<String> media,
+      List<Author> likes,
+      List<Comment> comments,
       String id});
 
   @override
@@ -126,6 +148,8 @@ class __$$PostImplCopyWithImpl<$Res>
   __$$PostImplCopyWithImpl(_$PostImpl _value, $Res Function(_$PostImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,6 +158,8 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? author = null,
     Object? category = null,
     Object? media = null,
+    Object? likes = null,
+    Object? comments = null,
     Object? id = null,
   }) {
     return _then(_$PostImpl(
@@ -157,6 +183,14 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value._media
           : media // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      likes: null == likes
+          ? _value._likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as List<Author>,
+      comments: null == comments
+          ? _value._comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<Comment>,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -174,8 +208,12 @@ class _$PostImpl implements _Post {
       required this.author,
       required this.category,
       required final List<String> media,
+      required final List<Author> likes,
+      required final List<Comment> comments,
       required this.id})
-      : _media = media;
+      : _media = media,
+        _likes = likes,
+        _comments = comments;
 
   @override
   final String title;
@@ -193,12 +231,28 @@ class _$PostImpl implements _Post {
     return EqualUnmodifiableListView(_media);
   }
 
+  final List<Author> _likes;
+  @override
+  List<Author> get likes {
+    if (_likes is EqualUnmodifiableListView) return _likes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_likes);
+  }
+
+  final List<Comment> _comments;
+  @override
+  List<Comment> get comments {
+    if (_comments is EqualUnmodifiableListView) return _comments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comments);
+  }
+
   @override
   final String id;
 
   @override
   String toString() {
-    return 'Post(title: $title, content: $content, author: $author, category: $category, media: $media, id: $id)';
+    return 'Post(title: $title, content: $content, author: $author, category: $category, media: $media, likes: $likes, comments: $comments, id: $id)';
   }
 
   @override
@@ -212,14 +266,26 @@ class _$PostImpl implements _Post {
             (identical(other.category, category) ||
                 other.category == category) &&
             const DeepCollectionEquality().equals(other._media, _media) &&
+            const DeepCollectionEquality().equals(other._likes, _likes) &&
+            const DeepCollectionEquality().equals(other._comments, _comments) &&
             (identical(other.id, id) || other.id == id));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, content, author, category,
-      const DeepCollectionEquality().hash(_media), id);
+  int get hashCode => Object.hash(
+      runtimeType,
+      title,
+      content,
+      author,
+      category,
+      const DeepCollectionEquality().hash(_media),
+      const DeepCollectionEquality().hash(_likes),
+      const DeepCollectionEquality().hash(_comments),
+      id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
@@ -233,6 +299,8 @@ abstract class _Post implements Post {
       required final Author author,
       required final String category,
       required final List<String> media,
+      required final List<Author> likes,
+      required final List<Comment> comments,
       required final String id}) = _$PostImpl;
 
   @override
@@ -246,9 +314,16 @@ abstract class _Post implements Post {
   @override
   List<String> get media;
   @override
-  String get id;
+  List<Author> get likes;
   @override
-  @JsonKey(ignore: true)
+  List<Comment> get comments;
+  @override
+  String get id;
+
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -261,7 +336,9 @@ mixin _$Author {
   String get avatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AuthorCopyWith<Author> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -288,6 +365,8 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -345,6 +424,8 @@ class __$$AuthorImplCopyWithImpl<$Res>
       _$AuthorImpl _value, $Res Function(_$AuthorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -423,7 +504,9 @@ class _$AuthorImpl implements _Author {
   int get hashCode =>
       Object.hash(runtimeType, firstname, lastname, email, avatar, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
@@ -448,8 +531,224 @@ abstract class _Author implements Author {
   String get avatar;
   @override
   String get id;
+
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$Comment {
+  String get content => throw _privateConstructorUsedError;
+  String get userFirstName => throw _privateConstructorUsedError;
+  String get userLastName => throw _privateConstructorUsedError;
+  String get userAvatar => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommentCopyWith<Comment> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommentCopyWith<$Res> {
+  factory $CommentCopyWith(Comment value, $Res Function(Comment) then) =
+      _$CommentCopyWithImpl<$Res, Comment>;
+  @useResult
+  $Res call(
+      {String content,
+      String userFirstName,
+      String userLastName,
+      String userAvatar,
+      String id});
+}
+
+/// @nodoc
+class _$CommentCopyWithImpl<$Res, $Val extends Comment>
+    implements $CommentCopyWith<$Res> {
+  _$CommentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? content = null,
+    Object? userFirstName = null,
+    Object? userLastName = null,
+    Object? userAvatar = null,
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      userFirstName: null == userFirstName
+          ? _value.userFirstName
+          : userFirstName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userLastName: null == userLastName
+          ? _value.userLastName
+          : userLastName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userAvatar: null == userAvatar
+          ? _value.userAvatar
+          : userAvatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommentImplCopyWith<$Res> implements $CommentCopyWith<$Res> {
+  factory _$$CommentImplCopyWith(
+          _$CommentImpl value, $Res Function(_$CommentImpl) then) =
+      __$$CommentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String content,
+      String userFirstName,
+      String userLastName,
+      String userAvatar,
+      String id});
+}
+
+/// @nodoc
+class __$$CommentImplCopyWithImpl<$Res>
+    extends _$CommentCopyWithImpl<$Res, _$CommentImpl>
+    implements _$$CommentImplCopyWith<$Res> {
+  __$$CommentImplCopyWithImpl(
+      _$CommentImpl _value, $Res Function(_$CommentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? content = null,
+    Object? userFirstName = null,
+    Object? userLastName = null,
+    Object? userAvatar = null,
+    Object? id = null,
+  }) {
+    return _then(_$CommentImpl(
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String,
+      userFirstName: null == userFirstName
+          ? _value.userFirstName
+          : userFirstName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userLastName: null == userLastName
+          ? _value.userLastName
+          : userLastName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userAvatar: null == userAvatar
+          ? _value.userAvatar
+          : userAvatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CommentImpl implements _Comment {
+  const _$CommentImpl(
+      {required this.content,
+      required this.userFirstName,
+      required this.userLastName,
+      required this.userAvatar,
+      required this.id});
+
+  @override
+  final String content;
+  @override
+  final String userFirstName;
+  @override
+  final String userLastName;
+  @override
+  final String userAvatar;
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'Comment(content: $content, userFirstName: $userFirstName, userLastName: $userLastName, userAvatar: $userAvatar, id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommentImpl &&
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.userFirstName, userFirstName) ||
+                other.userFirstName == userFirstName) &&
+            (identical(other.userLastName, userLastName) ||
+                other.userLastName == userLastName) &&
+            (identical(other.userAvatar, userAvatar) ||
+                other.userAvatar == userAvatar) &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, content, userFirstName, userLastName, userAvatar, id);
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommentImplCopyWith<_$CommentImpl> get copyWith =>
+      __$$CommentImplCopyWithImpl<_$CommentImpl>(this, _$identity);
+}
+
+abstract class _Comment implements Comment {
+  const factory _Comment(
+      {required final String content,
+      required final String userFirstName,
+      required final String userLastName,
+      required final String userAvatar,
+      required final String id}) = _$CommentImpl;
+
+  @override
+  String get content;
+  @override
+  String get userFirstName;
+  @override
+  String get userLastName;
+  @override
+  String get userAvatar;
+  @override
+  String get id;
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommentImplCopyWith<_$CommentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

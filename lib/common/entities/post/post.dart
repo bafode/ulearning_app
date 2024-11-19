@@ -10,7 +10,8 @@ class Post with _$Post {
       String? title,
       String? content,
       String? category,
-      List<String>? media}) = _Post;
+      List<String>? media,
+      List<String>? likes}) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 }
