@@ -20,4 +20,6 @@ class AppRoutesNames {
   static const String Add = '/add';
   static const String Otp = '/otp';
   static const String AUTH = '/auth';
+  static const String FORGOT_PASSWORD = '/forgot_password';
+  static const String RESET_PASSWORD = '/reset_password';
 }

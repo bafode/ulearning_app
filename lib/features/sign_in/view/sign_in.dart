@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -104,7 +106,8 @@ class _SignInState extends ConsumerState<SignIn> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            // Action pour récupérer le mot de passe
+                            Navigator.of(context)
+                                .pushNamed(AppRoutesNames.FORGOT_PASSWORD);
                           },
                           child: const Text(
                             "Mot de passe oublié ?",
@@ -143,7 +146,7 @@ class _SignInState extends ConsumerState<SignIn> {
                       ),
                       _buildThirdPartyGoogleLogin(),
                       _buildThirdPartyFacebookLogin(),
-                      _buildThirdPartyAppleLogin(),
+                      Platform.isIOS ? _buildThirdPartyAppleLogin() : Container(),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

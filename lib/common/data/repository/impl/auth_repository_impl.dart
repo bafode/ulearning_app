@@ -1,11 +1,13 @@
 import 'package:ulearning_app/common/data/remote/rest_client_api.dart';
 import 'package:ulearning_app/common/data/repository/auth_repository.dart';
+import 'package:ulearning_app/common/entities/auth/forgotPasswordRequest/forgot_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/loginRequest/login_request.dart';
 import 'package:ulearning_app/common/entities/auth/loginResponse/login_response.dart';
 import 'package:ulearning_app/common/entities/auth/logoutRequest/logout_request.dart';
 import 'package:ulearning_app/common/entities/auth/logoutResponse/logout_response.dart';
 import 'package:ulearning_app/common/entities/auth/registrationRequest/registration_request.dart';
 import 'package:ulearning_app/common/entities/auth/registrationResponse/registration_response.dart';
+import 'package:ulearning_app/common/entities/auth/resetPasswordRequest/reset_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:ulearning_app/common/models/entities.dart';
@@ -36,6 +38,20 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<RegistrationResponse> verifyEmail(VerifyEmailRequest token) async {
     final response = await api.verifyEmail(verifyEmailRequest: token);
+    return response;
+  }
+
+  @override
+  Future<RegistrationResponse> forgotPassword(ForgotPasswordRequest forgotPasswordRequest) async {
+    final response = await api.forgotPassword(forgotPasswordRequest: forgotPasswordRequest);
+    return response;
+  }
+
+  @override
+  Future<RegistrationResponse> resetPassword(
+      ResetPasswordRequest resetPasswordRequest) async {
+    final response =
+        await api.resetPassword(resetPasswordRequest: resetPasswordRequest);
     return response;
   }
 
