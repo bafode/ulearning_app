@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +21,10 @@ class ThirdPartyLogin extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _loginButton("assets/icons/google.png",()=> controller.handleSignUp("google")),
-          _loginButton("assets/icons/apple.png",
-              () => controller.handleSignUp("apple")),
+          Platform.isIOS
+              ? _loginButton("assets/icons/apple.png",
+                  () => controller.handleSignUp("apple"))
+              : Container(),
           _loginButton("assets/icons/facebook.png",
               () => controller.handleSignUp("facebook")),
         ],

@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ulearning_app/common/data/di/network_module.dart';
 import 'package:ulearning_app/common/data/remote/models/paginated_post_response.dart';
+import 'package:ulearning_app/common/entities/auth/forgotPasswordRequest/forgot_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/loginRequest/login_request.dart';
 import 'package:ulearning_app/common/entities/auth/loginResponse/login_response.dart';
 import 'package:ulearning_app/common/entities/auth/logoutRequest/logout_request.dart';
 import 'package:ulearning_app/common/entities/auth/logoutResponse/logout_response.dart';
 import 'package:ulearning_app/common/entities/auth/registrationRequest/registration_request.dart';
 import 'package:ulearning_app/common/entities/auth/registrationResponse/registration_response.dart';
+import 'package:ulearning_app/common/entities/auth/resetPasswordRequest/reset_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
@@ -55,6 +57,16 @@ abstract class RestClientApi {
   @POST(AppConstants.emailVerificationUrl)
   Future<RegistrationResponse> verifyEmail({
     @Body() required VerifyEmailRequest verifyEmailRequest,
+  });
+  
+  @POST(AppConstants.forgotPasswordUrl)
+  Future<RegistrationResponse> forgotPassword({
+    @Body() required ForgotPasswordRequest forgotPasswordRequest,
+  });
+
+  @POST(AppConstants.resetPasswordUrl)
+  Future<RegistrationResponse> resetPassword({
+    @Body() required ResetPasswordRequest resetPasswordRequest,
   });
 
   @POST(AppConstants.logoutEndPointUrl)

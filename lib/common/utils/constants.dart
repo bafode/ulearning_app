@@ -1,6 +1,6 @@
 class AppConstants {
  // static const String SERVER_API_URL ="https://leanstartupbackend-production-5b58.up.railway.app/";
-  static const String SERVER_API_URL ="https://aac9-178-16-161-81.ngrok-free.app/";
+  static const String SERVER_API_URL ="https://9e31-178-16-161-81.ngrok-free.app/";
   static String IMAGE_UPLOADS_PATH = "${SERVER_API_URL}uploads/";
   static const String STORAGE_USER_PROFILE_KEY = "user_profile";
   static const String STORAGE_USER_TOKEN_KEY = "user_token";
@@ -11,6 +11,8 @@ class AppConstants {
   static const String userEndpoint = "v1/users";
   static const String sendEmailVerificationTokenUrl = "v1/auth/send-verification-email";
   static const String emailVerificationUrl = "v1/auth/verify-email";
+  static const String forgotPasswordUrl = "v1/auth/forgot-password";
+   static const String resetPasswordUrl = "v1/auth/reset-password";
   static const String logoutEndPointUrl = "v1/auth/logout";
   static const String postEndPointUrl = "v1/posts";
 }

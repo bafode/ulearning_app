@@ -22,12 +22,8 @@ VerifyEmailRequest _$VerifyEmailRequestFromJson(Map<String, dynamic> json) {
 mixin _$VerifyEmailRequest {
   String? get token => throw _privateConstructorUsedError;
 
-  /// Serializes this VerifyEmailRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of VerifyEmailRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $VerifyEmailRequestCopyWith<VerifyEmailRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,8 +47,6 @@ class _$VerifyEmailRequestCopyWithImpl<$Res, $Val extends VerifyEmailRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of VerifyEmailRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,8 +80,6 @@ class __$$VerifyEmailRequestImplCopyWithImpl<$Res>
       $Res Function(_$VerifyEmailRequestImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of VerifyEmailRequest
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,13 +118,11 @@ class _$VerifyEmailRequestImpl implements _VerifyEmailRequest {
             (identical(other.token, token) || other.token == token));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, token);
 
-  /// Create a copy of VerifyEmailRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$VerifyEmailRequestImplCopyWith<_$VerifyEmailRequestImpl> get copyWith =>
@@ -156,11 +146,8 @@ abstract class _VerifyEmailRequest implements VerifyEmailRequest {
 
   @override
   String? get token;
-
-  /// Create a copy of VerifyEmailRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$VerifyEmailRequestImplCopyWith<_$VerifyEmailRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

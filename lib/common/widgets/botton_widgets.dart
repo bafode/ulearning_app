@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   final double height;
   final String buttonName;
   final bool isLogin;
+  final bool isEnabled;
   final BuildContext? context;
   final void Function()? func;
   const AppButton({
@@ -17,6 +18,7 @@ class AppButton extends StatelessWidget {
     this.height = 50,
     this.buttonName = "",
     this.isLogin = true,
+    this.isEnabled=true,
     this.context,
     this.func,
   });
@@ -24,20 +26,22 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: func,
+      onTap: isEnabled ? func : null, 
       child: Container(
         width: width.w,
         height: height.h,
         //isLogin true then send primary color else send white color
         decoration: appBoxShadow(
-            color: isLogin ? AppColors.primaryElement : Colors.white,
+            color:  isEnabled
+                ? (isLogin ? AppColors.primaryElement : Colors.white)
+                : Colors.grey,
             boxBorder: Border.all(color: AppColors.primaryFourthElementText)),
         child: Center(
             child: Text16Normal(
                 text: buttonName,
-                color: isLogin
+                color:isEnabled? (isLogin
                     ? AppColors.primaryBackground
-                    : AppColors.primaryText)),
+                    : AppColors.primaryText): AppColors.primaryBackground)),
       ),
     );
   }
