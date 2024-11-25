@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share/share.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
+import 'package:ulearning_app/common/routes/app_routes_names.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/view_model/post_view_model.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
@@ -43,7 +45,14 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          AppRoutesNames.POST_DETAIL,
+          arguments: {"id": widget.post.id},
+        );
+      },
+      child: Container(
       margin: EdgeInsets.symmetric(vertical: 8.h),
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
@@ -71,8 +80,8 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           //  _buildFooter(),
         ],
       ),
-    );
-  }
+    ),);
+    }
 
   Widget _buildHeader(BuildContext context) {
     return ListTile(
@@ -302,7 +311,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       children: [
         GestureDetector(
           onTap: () {
-            // Action pour partager
+            Share.share("https://beehive-landing-page.vercel.app/");
           },
           child: const Icon(
             Icons.send_outlined,
@@ -329,43 +338,6 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       child: const Icon(
         Icons.bookmark_border_outlined,
         color: AppColors.primaryElement,
-      ),
-    );
-  }
-
-  Widget _buildFooter() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "${widget.post.likes.length} Likes",
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Row(
-            children: [
-              Icon(
-                Icons.calendar_today,
-                size: 12.sp,
-                color: Colors.grey,
-              ),
-              SizedBox(width: 4.w),
-              Text(
-                "sam 02 Avril 2021 12:00",
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Colors.grey[600],
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

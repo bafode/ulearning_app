@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/models/user.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
-import 'package:ulearning_app/features/home/controller/home_controller.dart';
 import 'package:ulearning_app/features/profile/controller/profile_controller.dart';
 import 'package:ulearning_app/features/profile/view/profil_list_view.dart';
 
@@ -31,8 +30,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(profileControllerProvider);
-    final postState = ref.watch(homePostListProvider);
-    print(postState.value);
+    print(userProfile);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -155,10 +153,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
                 child: ClipOval(
                   child: SizedBox(
-                    width: 80.w,
-                    height: 80.h,
+                    width: 80,
+                    height: 80,
                     child: CachedImage(
-                        "${AppConstants.SERVER_API_URL}${user.avatar}"),
+                      user.avatar == "default.jpg"
+                          ? "${AppConstants.SERVER_API_URL}${user.avatar}"
+                          :
+                        "${user.avatar}"),
                   ),
                 ),
               ),
@@ -228,7 +229,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${user.firstname} ${user.lastname}",
+                  "${user.firstname} ${user.lastname??''}",
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
@@ -236,7 +237,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 ),
                 SizedBox(height: 5.h),
                 Text(
-                  user.description,
+                  user.description??'',
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w300,

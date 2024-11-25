@@ -53,4 +53,11 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
     );
     return post;
   }
+
+  FutureOr<Post?> getPost(String postId) async {
+    final post = await repository.getPost(
+      postId,
+    );
+    return post;
+  }
 }
