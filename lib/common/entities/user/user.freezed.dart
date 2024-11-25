@@ -31,6 +31,10 @@ mixin _$User {
   String? get role => throw _privateConstructorUsedError;
   bool? get isEmailVerified => throw _privateConstructorUsedError;
   bool? get accountClosed => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  bool? get online => throw _privateConstructorUsedError;
+  String? get open_id => throw _privateConstructorUsedError;
+  String? get authType => throw _privateConstructorUsedError;
   String? get city => throw _privateConstructorUsedError;
   String? get school => throw _privateConstructorUsedError;
   String? get fieldOfStudy => throw _privateConstructorUsedError;
@@ -59,6 +63,10 @@ abstract class $UserCopyWith<$Res> {
       String? role,
       bool? isEmailVerified,
       bool? accountClosed,
+      String? phone,
+      bool? online,
+      String? open_id,
+      String? authType,
       String? city,
       String? school,
       String? fieldOfStudy,
@@ -90,6 +98,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? role = freezed,
     Object? isEmailVerified = freezed,
     Object? accountClosed = freezed,
+    Object? phone = freezed,
+    Object? online = freezed,
+    Object? open_id = freezed,
+    Object? authType = freezed,
     Object? city = freezed,
     Object? school = freezed,
     Object? fieldOfStudy = freezed,
@@ -141,6 +153,22 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.accountClosed
           : accountClosed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      online: freezed == online
+          ? _value.online
+          : online // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      open_id: freezed == open_id
+          ? _value.open_id
+          : open_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authType: freezed == authType
+          ? _value.authType
+          : authType // ignore: cast_nullable_to_non_nullable
+              as String?,
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
@@ -184,6 +212,10 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? role,
       bool? isEmailVerified,
       bool? accountClosed,
+      String? phone,
+      bool? online,
+      String? open_id,
+      String? authType,
       String? city,
       String? school,
       String? fieldOfStudy,
@@ -212,6 +244,10 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? role = freezed,
     Object? isEmailVerified = freezed,
     Object? accountClosed = freezed,
+    Object? phone = freezed,
+    Object? online = freezed,
+    Object? open_id = freezed,
+    Object? authType = freezed,
     Object? city = freezed,
     Object? school = freezed,
     Object? fieldOfStudy = freezed,
@@ -263,6 +299,22 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.accountClosed
           : accountClosed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      online: freezed == online
+          ? _value.online
+          : online // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      open_id: freezed == open_id
+          ? _value.open_id
+          : open_id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      authType: freezed == authType
+          ? _value.authType
+          : authType // ignore: cast_nullable_to_non_nullable
+              as String?,
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
@@ -302,6 +354,10 @@ class _$UserImpl implements _User {
       this.role,
       this.isEmailVerified,
       this.accountClosed,
+      this.phone,
+      this.online,
+      this.open_id,
+      this.authType,
       this.city,
       this.school,
       this.fieldOfStudy,
@@ -335,6 +391,14 @@ class _$UserImpl implements _User {
   @override
   final bool? accountClosed;
   @override
+  final String? phone;
+  @override
+  final bool? online;
+  @override
+  final String? open_id;
+  @override
+  final String? authType;
+  @override
   final String? city;
   @override
   final String? school;
@@ -354,7 +418,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, gender: $gender, status: $status, description: $description, role: $role, isEmailVerified: $isEmailVerified, accountClosed: $accountClosed, city: $city, school: $school, fieldOfStudy: $fieldOfStudy, levelOfStudy: $levelOfStudy, categories: $categories)';
+    return 'User(id: $id, firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, gender: $gender, status: $status, description: $description, role: $role, isEmailVerified: $isEmailVerified, accountClosed: $accountClosed, phone: $phone, online: $online, open_id: $open_id, authType: $authType, city: $city, school: $school, fieldOfStudy: $fieldOfStudy, levelOfStudy: $levelOfStudy, categories: $categories)';
   }
 
   @override
@@ -378,6 +442,11 @@ class _$UserImpl implements _User {
                 other.isEmailVerified == isEmailVerified) &&
             (identical(other.accountClosed, accountClosed) ||
                 other.accountClosed == accountClosed) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.online, online) || other.online == online) &&
+            (identical(other.open_id, open_id) || other.open_id == open_id) &&
+            (identical(other.authType, authType) ||
+                other.authType == authType) &&
             (identical(other.city, city) || other.city == city) &&
             (identical(other.school, school) || other.school == school) &&
             (identical(other.fieldOfStudy, fieldOfStudy) ||
@@ -390,24 +459,29 @@ class _$UserImpl implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      firstname,
-      lastname,
-      email,
-      avatar,
-      gender,
-      status,
-      description,
-      role,
-      isEmailVerified,
-      accountClosed,
-      city,
-      school,
-      fieldOfStudy,
-      levelOfStudy,
-      const DeepCollectionEquality().hash(_categories));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        firstname,
+        lastname,
+        email,
+        avatar,
+        gender,
+        status,
+        description,
+        role,
+        isEmailVerified,
+        accountClosed,
+        phone,
+        online,
+        open_id,
+        authType,
+        city,
+        school,
+        fieldOfStudy,
+        levelOfStudy,
+        const DeepCollectionEquality().hash(_categories)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -436,6 +510,10 @@ abstract class _User implements User {
       final String? role,
       final bool? isEmailVerified,
       final bool? accountClosed,
+      final String? phone,
+      final bool? online,
+      final String? open_id,
+      final String? authType,
       final String? city,
       final String? school,
       final String? fieldOfStudy,
@@ -466,6 +544,14 @@ abstract class _User implements User {
   bool? get isEmailVerified;
   @override
   bool? get accountClosed;
+  @override
+  String? get phone;
+  @override
+  bool? get online;
+  @override
+  String? get open_id;
+  @override
+  String? get authType;
   @override
   String? get city;
   @override

@@ -10,7 +10,7 @@ import 'package:ulearning_app/common/entities/auth/registrationResponse/registra
 import 'package:ulearning_app/common/entities/auth/resetPasswordRequest/reset_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
-import 'package:ulearning_app/common/models/entities.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final RestClientApi api;

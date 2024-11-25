@@ -14,7 +14,7 @@ import 'package:ulearning_app/common/entities/auth/resetPasswordRequest/reset_pa
 import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
-import 'package:ulearning_app/common/models/entities.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 
 part 'rest_client_api.g.dart';
@@ -86,6 +86,11 @@ abstract class RestClientApi {
   
   @PATCH("${AppConstants.postEndPointUrl}/{postId}/likes")
   Future<PostGet> toagleLikePost(
+    @Path("postId") String postId,
+  );
+
+  @GET("${AppConstants.postEndPointUrl}/{postId}")
+  Future<PostGet> getPost(
     @Path("postId") String postId,
   );
 }

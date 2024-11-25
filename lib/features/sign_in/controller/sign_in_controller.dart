@@ -88,7 +88,7 @@ class SignInController {
 
   void _handleEmailSignIn() {
     final notifier = ref.read(signInNotifierProvier.notifier);
-    notifier.onUserTypeChange(1);
+    notifier.onUserAuthTypeChange("email");
     var state = ref.watch(signInNotifierProvier);
     try {
       asyncPostAllData(state);
@@ -109,7 +109,7 @@ class SignInController {
           email: user.email,
           id: user.id,
           photoUrl: user.photoUrl,
-          userType: 2,
+          authType: "google",
         );
         asyncPostAllData(ref.watch(signInNotifierProvier));
       } else {
@@ -134,7 +134,7 @@ class SignInController {
           email: user.user?.email ?? '',
           id: user.user?.uid ?? '',
           photoUrl: user.user?.photoURL,
-          userType: 3, // Code utilisateur pour Facebook
+          authType: "facebook",
         );
         asyncPostAllData(ref.watch(signInNotifierProvier));
       } else {
@@ -162,7 +162,7 @@ class SignInController {
               'apple@email.com', // Par défaut ou de sauvegarde
           id: user.user?.uid ?? '',
           photoUrl: user.user?.photoURL,
-          userType: 4, // Code utilisateur pour Apple
+          authType: "apple",
         );
         asyncPostAllData(ref.watch(signInNotifierProvier));
       } else {
@@ -181,7 +181,7 @@ class SignInController {
     required String email,
     required String id,
     String? photoUrl,
-    required int userType,
+    required String authType,
   }) {
     final List<String> nameParts = displayName.split(' ');
     final String firstName = nameParts.isNotEmpty ? nameParts.first : '';
@@ -193,9 +193,9 @@ class SignInController {
     notifier.onUserFirstNameChange(firstName);
     notifier.onUserLastNameChange(lastName);
     notifier.onUserAvatarChange(photoUrl ??
-        "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg");
+        "default.png");
     notifier.onUserOpenIdChange(id);
-    notifier.onUserTypeChange(userType);
+    notifier.onUserAuthTypeChange(authType);
   }
 
 

@@ -1,6 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:ulearning_app/common/routes/app_routes_names.dart';
@@ -95,7 +94,7 @@ class UserName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: text24Normal(
-        text: Global.storageService.getUserProfile().firstname,
+        text: Global.storageService.getUserProfile().firstname??"",
         fontWeight: FontWeight.bold,
       ),
     );

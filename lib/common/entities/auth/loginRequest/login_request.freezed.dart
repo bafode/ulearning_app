@@ -22,9 +22,9 @@ LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) {
 mixin _$LoginRequest {
   String? get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
-  int? get type => throw _privateConstructorUsedError;
-  String? get firstName => throw _privateConstructorUsedError;
-  String? get lastName => throw _privateConstructorUsedError;
+  String? get authType => throw _privateConstructorUsedError;
+  String? get firstname => throw _privateConstructorUsedError;
+  String? get lastname => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
@@ -46,9 +46,9 @@ abstract class $LoginRequestCopyWith<$Res> {
   $Res call(
       {String? email,
       String? password,
-      int? type,
-      String? firstName,
-      String? lastName,
+      String? authType,
+      String? firstname,
+      String? lastname,
       String? description,
       String? phone,
       String? avatar,
@@ -71,9 +71,9 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
   $Res call({
     Object? email = freezed,
     Object? password = freezed,
-    Object? type = freezed,
-    Object? firstName = freezed,
-    Object? lastName = freezed,
+    Object? authType = freezed,
+    Object? firstname = freezed,
+    Object? lastname = freezed,
     Object? description = freezed,
     Object? phone = freezed,
     Object? avatar = freezed,
@@ -89,17 +89,17 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as int?,
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      authType: freezed == authType
+          ? _value.authType
+          : authType // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      firstname: freezed == firstname
+          ? _value.firstname
+          : firstname // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastname: freezed == lastname
+          ? _value.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
           ? _value.description
@@ -136,9 +136,9 @@ abstract class _$$LoginRequestImplCopyWith<$Res>
   $Res call(
       {String? email,
       String? password,
-      int? type,
-      String? firstName,
-      String? lastName,
+      String? authType,
+      String? firstname,
+      String? lastname,
       String? description,
       String? phone,
       String? avatar,
@@ -159,9 +159,9 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
   $Res call({
     Object? email = freezed,
     Object? password = freezed,
-    Object? type = freezed,
-    Object? firstName = freezed,
-    Object? lastName = freezed,
+    Object? authType = freezed,
+    Object? firstname = freezed,
+    Object? lastname = freezed,
     Object? description = freezed,
     Object? phone = freezed,
     Object? avatar = freezed,
@@ -177,17 +177,17 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as int?,
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      authType: freezed == authType
+          ? _value.authType
+          : authType // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      firstname: freezed == firstname
+          ? _value.firstname
+          : firstname // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastname: freezed == lastname
+          ? _value.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
           ? _value.description
@@ -219,9 +219,9 @@ class _$LoginRequestImpl implements _LoginRequest {
   const _$LoginRequestImpl(
       {this.email,
       this.password,
-      this.type,
-      this.firstName,
-      this.lastName,
+      this.authType,
+      this.firstname,
+      this.lastname,
       this.description,
       this.phone,
       this.avatar,
@@ -236,11 +236,11 @@ class _$LoginRequestImpl implements _LoginRequest {
   @override
   final String? password;
   @override
-  final int? type;
+  final String? authType;
   @override
-  final String? firstName;
+  final String? firstname;
   @override
-  final String? lastName;
+  final String? lastname;
   @override
   final String? description;
   @override
@@ -254,7 +254,7 @@ class _$LoginRequestImpl implements _LoginRequest {
 
   @override
   String toString() {
-    return 'LoginRequest(email: $email, password: $password, type: $type, firstName: $firstName, lastName: $lastName, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online)';
+    return 'LoginRequest(email: $email, password: $password, authType: $authType, firstname: $firstname, lastname: $lastname, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online)';
   }
 
   @override
@@ -265,11 +265,12 @@ class _$LoginRequestImpl implements _LoginRequest {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
+            (identical(other.authType, authType) ||
+                other.authType == authType) &&
+            (identical(other.firstname, firstname) ||
+                other.firstname == firstname) &&
+            (identical(other.lastname, lastname) ||
+                other.lastname == lastname) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.phone, phone) || other.phone == phone) &&
@@ -280,8 +281,8 @@ class _$LoginRequestImpl implements _LoginRequest {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, password, type, firstName,
-      lastName, description, phone, avatar, open_id, online);
+  int get hashCode => Object.hash(runtimeType, email, password, authType,
+      firstname, lastname, description, phone, avatar, open_id, online);
 
   @JsonKey(ignore: true)
   @override
@@ -301,9 +302,9 @@ abstract class _LoginRequest implements LoginRequest {
   const factory _LoginRequest(
       {final String? email,
       final String? password,
-      final int? type,
-      final String? firstName,
-      final String? lastName,
+      final String? authType,
+      final String? firstname,
+      final String? lastname,
       final String? description,
       final String? phone,
       final String? avatar,
@@ -318,11 +319,11 @@ abstract class _LoginRequest implements LoginRequest {
   @override
   String? get password;
   @override
-  int? get type;
+  String? get authType;
   @override
-  String? get firstName;
+  String? get firstname;
   @override
-  String? get lastName;
+  String? get lastname;
   @override
   String? get description;
   @override

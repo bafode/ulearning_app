@@ -17,4 +17,6 @@ abstract class PostRepository {
       String title, String content, String category, List<MultipartFile> media);
 
   Future<Post?> toggleLikePost(String postId);
+
+  Future<Post?> getPost(String postId);
 }

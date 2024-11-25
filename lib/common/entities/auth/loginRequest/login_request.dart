@@ -7,9 +7,9 @@ class LoginRequest with _$LoginRequest {
   const factory LoginRequest({
     String? email,
     String? password,
-    int? type,
-    String? firstName,
-    String? lastName,
+    String? authType,
+    String? firstname,
+    String? lastname,
     String? description,
     String? phone,
     String? avatar,

@@ -45,7 +45,7 @@ class SignUpController {
 
   Future<void> _handleEmailSignUp() async {
     final notifier = ref.read(signUpNotifierProvier.notifier);
-    notifier.onUserTypeChange(1);
+    notifier.onUserAuthTypeChange("email");
     var state = ref.watch(signUpNotifierProvier);
     try {
       asyncPostAllData(state);
@@ -68,7 +68,7 @@ class SignUpController {
           email: user.email,
           id: user.id,
           photoUrl: user.photoUrl,
-          userType: 2,
+          authType: "google",
         );
         asyncPostAllData(ref.watch(signUpNotifierProvier));
       } else {
@@ -95,7 +95,7 @@ class SignUpController {
           email: user.user?.email ?? '',
           id: user.user?.uid ?? '',
           photoUrl: user.user?.photoURL,
-          userType: 3,
+          authType: "facebook",
         );
         asyncPostAllData(ref.watch(signUpNotifierProvier));
       } else {
@@ -120,7 +120,7 @@ class SignUpController {
           email: user.user?.email ?? 'apple@email.com',
           id: user.user?.uid ?? '',
           photoUrl: user.user?.photoURL,
-          userType: 4,
+          authType: "apple",
         );
         asyncPostAllData(ref.watch(signUpNotifierProvier));
       } else {
@@ -139,21 +139,21 @@ class SignUpController {
     required String email,
     required String id,
     String? photoUrl,
-    required int userType,
+    required String authType,
   }) {
     final List<String> nameParts = displayName.split(' ');
-    final String firstName = nameParts.isNotEmpty ? nameParts.first : '';
-    final String lastName =
+    final String firstname = nameParts.isNotEmpty ? nameParts.first : '';
+    final String lastname =
         nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
 
     final notifier = ref.read(signUpNotifierProvier.notifier);
     notifier.onUserEmailChange(email);
-    notifier.onfirstNameChange(firstName);
-    notifier.onlastNameChange(lastName);
+    notifier.onfirstNameChange(firstname);
+    notifier.onlastNameChange(lastname);
     notifier.onUserAvatarChange(photoUrl ??
-        "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg");
+        "default.png");
     notifier.onUserOpenIdChange(id);
-    notifier.onUserTypeChange(userType);
+    notifier.onUserAuthTypeChange(authType);
   }
 
   Future<void> asyncPostAllData(RegistrationRequest registerRequest) async {
@@ -167,7 +167,7 @@ class SignUpController {
       Global.storageService.setString(
           AppConstants.STORAGE_USER_TOKEN_KEY, jsonEncode(result.tokens));
       ref.read(isLoggedInProvider.notifier).setValue(true);
-      if (registerRequest.type == 1) {
+      if (registerRequest.authType == "email") {
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(1);
       } else {
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(2);

@@ -6,11 +6,11 @@ part 'registration_request.freezed.dart';
 @freezed
 class RegistrationRequest with _$RegistrationRequest {
   factory RegistrationRequest({
-    String? firstName,
-    String? lastName,
+    String? firstname,
+    String? lastname,
     String? email,
     String? password,
-     int? type,
+    String? authType,
     String? description,
     String? phone,
     String? avatar,

@@ -9,11 +9,11 @@ part of 'registration_request.dart';
 _$RegistrationRequestImpl _$$RegistrationRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$RegistrationRequestImpl(
-      firstName: json['firstName'] as String?,
-      lastName: json['lastName'] as String?,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
       email: json['email'] as String?,
       password: json['password'] as String?,
-      type: (json['type'] as num?)?.toInt(),
+      authType: json['authType'] as String?,
       description: json['description'] as String?,
       phone: json['phone'] as String?,
       avatar: json['avatar'] as String?,
@@ -24,11 +24,11 @@ _$RegistrationRequestImpl _$$RegistrationRequestImplFromJson(
 Map<String, dynamic> _$$RegistrationRequestImplToJson(
         _$RegistrationRequestImpl instance) =>
     <String, dynamic>{
-      'firstName': instance.firstName,
-      'lastName': instance.lastName,
+      'firstname': instance.firstname,
+      'lastname': instance.lastname,
       'email': instance.email,
       'password': instance.password,
-      'type': instance.type,
+      'authType': instance.authType,
       'description': instance.description,
       'phone': instance.phone,
       'avatar': instance.avatar,

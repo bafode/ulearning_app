@@ -44,4 +44,10 @@ class PostRepositoryImpl extends PostRepository {
     final response= await api.toagleLikePost(postId);
     return response.toDomain();
   }
+
+  @override
+  Future<Post?> getPost(String postId) async {
+    final response = await api.getPost(postId);
+    return response.toDomain();
+  }
 }

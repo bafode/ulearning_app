@@ -20,11 +20,11 @@ RegistrationRequest _$RegistrationRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RegistrationRequest {
-  String? get firstName => throw _privateConstructorUsedError;
-  String? get lastName => throw _privateConstructorUsedError;
+  String? get firstname => throw _privateConstructorUsedError;
+  String? get lastname => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
-  int? get type => throw _privateConstructorUsedError;
+  String? get authType => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
@@ -46,11 +46,11 @@ abstract class $RegistrationRequestCopyWith<$Res> {
       _$RegistrationRequestCopyWithImpl<$Res, RegistrationRequest>;
   @useResult
   $Res call(
-      {String? firstName,
-      String? lastName,
+      {String? firstname,
+      String? lastname,
       String? email,
       String? password,
-      int? type,
+      String? authType,
       String? description,
       String? phone,
       String? avatar,
@@ -73,11 +73,11 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstName = freezed,
-    Object? lastName = freezed,
+    Object? firstname = freezed,
+    Object? lastname = freezed,
     Object? email = freezed,
     Object? password = freezed,
-    Object? type = freezed,
+    Object? authType = freezed,
     Object? description = freezed,
     Object? phone = freezed,
     Object? avatar = freezed,
@@ -86,13 +86,13 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
     Object? rePassword = freezed,
   }) {
     return _then(_value.copyWith(
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      firstname: freezed == firstname
+          ? _value.firstname
+          : firstname // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      lastname: freezed == lastname
+          ? _value.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
@@ -102,10 +102,10 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as int?,
+      authType: freezed == authType
+          ? _value.authType
+          : authType // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -143,11 +143,11 @@ abstract class _$$RegistrationRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? firstName,
-      String? lastName,
+      {String? firstname,
+      String? lastname,
       String? email,
       String? password,
-      int? type,
+      String? authType,
       String? description,
       String? phone,
       String? avatar,
@@ -168,11 +168,11 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstName = freezed,
-    Object? lastName = freezed,
+    Object? firstname = freezed,
+    Object? lastname = freezed,
     Object? email = freezed,
     Object? password = freezed,
-    Object? type = freezed,
+    Object? authType = freezed,
     Object? description = freezed,
     Object? phone = freezed,
     Object? avatar = freezed,
@@ -181,13 +181,13 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
     Object? rePassword = freezed,
   }) {
     return _then(_$RegistrationRequestImpl(
-      firstName: freezed == firstName
-          ? _value.firstName
-          : firstName // ignore: cast_nullable_to_non_nullable
+      firstname: freezed == firstname
+          ? _value.firstname
+          : firstname // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastName: freezed == lastName
-          ? _value.lastName
-          : lastName // ignore: cast_nullable_to_non_nullable
+      lastname: freezed == lastname
+          ? _value.lastname
+          : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
       email: freezed == email
           ? _value.email
@@ -197,10 +197,10 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as int?,
+      authType: freezed == authType
+          ? _value.authType
+          : authType // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -233,11 +233,11 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RegistrationRequestImpl implements _RegistrationRequest {
   _$RegistrationRequestImpl(
-      {this.firstName,
-      this.lastName,
+      {this.firstname,
+      this.lastname,
       this.email,
       this.password,
-      this.type,
+      this.authType,
       this.description,
       this.phone,
       this.avatar,
@@ -249,15 +249,15 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
       _$$RegistrationRequestImplFromJson(json);
 
   @override
-  final String? firstName;
+  final String? firstname;
   @override
-  final String? lastName;
+  final String? lastname;
   @override
   final String? email;
   @override
   final String? password;
   @override
-  final int? type;
+  final String? authType;
   @override
   final String? description;
   @override
@@ -274,7 +274,7 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
 
   @override
   String toString() {
-    return 'RegistrationRequest(firstName: $firstName, lastName: $lastName, email: $email, password: $password, type: $type, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online, rePassword: $rePassword)';
+    return 'RegistrationRequest(firstname: $firstname, lastname: $lastname, email: $email, password: $password, authType: $authType, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online, rePassword: $rePassword)';
   }
 
   @override
@@ -282,14 +282,15 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegistrationRequestImpl &&
-            (identical(other.firstName, firstName) ||
-                other.firstName == firstName) &&
-            (identical(other.lastName, lastName) ||
-                other.lastName == lastName) &&
+            (identical(other.firstname, firstname) ||
+                other.firstname == firstname) &&
+            (identical(other.lastname, lastname) ||
+                other.lastname == lastname) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.authType, authType) ||
+                other.authType == authType) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.phone, phone) || other.phone == phone) &&
@@ -302,8 +303,19 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, firstName, lastName, email,
-      password, type, description, phone, avatar, open_id, online, rePassword);
+  int get hashCode => Object.hash(
+      runtimeType,
+      firstname,
+      lastname,
+      email,
+      password,
+      authType,
+      description,
+      phone,
+      avatar,
+      open_id,
+      online,
+      rePassword);
 
   @JsonKey(ignore: true)
   @override
@@ -322,11 +334,11 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
 
 abstract class _RegistrationRequest implements RegistrationRequest {
   factory _RegistrationRequest(
-      {final String? firstName,
-      final String? lastName,
+      {final String? firstname,
+      final String? lastname,
       final String? email,
       final String? password,
-      final int? type,
+      final String? authType,
       final String? description,
       final String? phone,
       final String? avatar,
@@ -339,15 +351,15 @@ abstract class _RegistrationRequest implements RegistrationRequest {
       _$RegistrationRequestImpl.fromJson;
 
   @override
-  String? get firstName;
+  String? get firstname;
   @override
-  String? get lastName;
+  String? get lastname;
   @override
   String? get email;
   @override
   String? get password;
   @override
-  int? get type;
+  String? get authType;
   @override
   String? get description;
   @override

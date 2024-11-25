@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/models/entities.dart';
+import 'package:ulearning_app/common/entities/auth/token/tokens.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/global.dart';
 

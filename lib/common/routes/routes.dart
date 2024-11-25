@@ -4,11 +4,11 @@ import 'package:ulearning_app/features/addPost/view/add.dart';
 import 'package:ulearning_app/features/application/view/application.dart';
 import 'package:ulearning_app/common/routes/app_routes_names.dart';
 import 'package:ulearning_app/features/auth/view/auth.dart';
-import 'package:ulearning_app/features/buy_course/view/buy_course.dart';
 import 'package:ulearning_app/features/editProfile/view/edit_profile.dart';
 import 'package:ulearning_app/features/forgot_password/view/forgot_password.dart';
 import 'package:ulearning_app/features/home/view/home.dart';
 import 'package:ulearning_app/features/otp/view/otp.dart';
+import 'package:ulearning_app/features/post_detail/view/post_detail.dart';
 import 'package:ulearning_app/features/profile/view/profile.dart';
 import 'package:ulearning_app/features/profile/view/setting/setting.dart';
 import 'package:ulearning_app/features/res/view/registration.dart';
@@ -30,14 +30,15 @@ class AppPages {
       RouteEntity(path: AppRoutesNames.Otp, page: const Otp()),
       RouteEntity(path: AppRoutesNames.APPLICATION, page: const Application()),
       RouteEntity(path: AppRoutesNames.HOME, page: const Home()),
-      RouteEntity(path: AppRoutesNames.BUY_COURSE, page: const BuyCourse()),
       RouteEntity(path: AppRoutesNames.Profile, page: const Profile()),
       RouteEntity(path: AppRoutesNames.Setting, page: const Setting()),
       RouteEntity(path: AppRoutesNames.EditProfile, page: const EditProfile()),
       RouteEntity(path: AppRoutesNames.Add, page: const Add()),
-       RouteEntity(path: AppRoutesNames.FORGOT_PASSWORD, page: const ForgotPassword()),
-       RouteEntity(
+      RouteEntity(
+          path: AppRoutesNames.FORGOT_PASSWORD, page: const ForgotPassword()),
+      RouteEntity(
           path: AppRoutesNames.RESET_PASSWORD, page: const ResetPassword()),
+      RouteEntity(path: AppRoutesNames.POST_DETAIL, page: const PostDetail()),
     ];
   }
 

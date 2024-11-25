@@ -1,9 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:ulearning_app/common/api/course_api.dart';
 import 'package:ulearning_app/common/api/post_api.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
-import 'package:ulearning_app/common/models/entities.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/global.dart';
 part 'home_controller.g.dart';
 
@@ -43,21 +41,6 @@ class HomeUserProfile extends _$HomeUserProfile {
   }
 }
 
-@Riverpod(keepAlive: true)
-class HomeCourseList extends _$HomeCourseList {
-  Future<List<CourseItem>?> fetchCourseList() async {
-    var result = await CourseAPI.courseList();
-    if (result.code == 200) {
-      return result.data;
-    }
-    return null;
-  }
-
-  @override
-  FutureOr<List<CourseItem>?> build() async {
-    return fetchCourseList();
-  }
-}
 
 @Riverpod(keepAlive: true)
 class HomePostList extends _$HomePostList {

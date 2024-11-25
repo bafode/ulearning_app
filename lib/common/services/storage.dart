@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ulearning_app/common/models/entities.dart';
+import 'package:ulearning_app/common/entities/auth/token/tokens.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 
 class StorageService {

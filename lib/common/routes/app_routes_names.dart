@@ -22,4 +22,5 @@ class AppRoutesNames {
   static const String AUTH = '/auth';
   static const String FORGOT_PASSWORD = '/forgot_password';
   static const String RESET_PASSWORD = '/reset_password';
+  static const String POST_DETAIL = '/post_detail';
 }
