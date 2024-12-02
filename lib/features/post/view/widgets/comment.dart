@@ -7,7 +7,7 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 
 class CommentWidget extends ConsumerStatefulWidget {
   final ScrollController scrollController;
-  final List<Comment> comments;
+  final List<Comment>? comments;
   final Function(String) addComment;
 
   const CommentWidget({required this.scrollController,required this.comments,required this.addComment, super.key});
@@ -41,7 +41,7 @@ class _CommentState extends ConsumerState<CommentWidget> {
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.h, bottom: 70.h),
-              child: widget.comments.isEmpty
+              child: widget.comments==null || widget.comments!.isEmpty
                   ? Center(
                       child: Text(
                         "Aucun commentaire disponible.",
@@ -53,12 +53,12 @@ class _CommentState extends ConsumerState<CommentWidget> {
                     )
                   : ListView.builder(
                       controller: widget.scrollController,
-                      itemCount: widget.comments.length,
+                      itemCount: widget.comments?.length,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            commentItem(widget.comments[index]),
-                            if (index < widget.comments.length - 1)
+                            commentItem(widget.comments![index]),
+                            if (index < widget.comments!.length - 1)
                               Divider(color: Colors.grey.shade300, height: 1.h),
                           ],
                         );

@@ -5,13 +5,13 @@ part 'post.freezed.dart';
 @freezed
 class Post with _$Post {
   const factory Post({
-    required String title,
-    required String content,
+    required String? title,
+    required String? content,
     required Author author,
-    required String category,
-    required List<String> media,
+    required String? category,
+    required List<String>? media,
     required List<Author> likes,
-    required List<Comment> comments,
+    required List<Comment>? comments,
     required String id,
   }) = _Post;
 }

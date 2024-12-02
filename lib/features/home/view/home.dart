@@ -39,7 +39,13 @@ class _HomeState extends ConsumerState<Home> {
   Widget build(BuildContext context) {
     ref.listen(postsViewModelProvider, (_, state) {
       if (!state.isLoading && state.hasError) {
-        context.showErrorSnackBar(state.dioException.errorMessage);
+        debugPrint("Erreur capturée : ${state.error}");
+        final dioError = state.dioException;
+        if (dioError != null) {
+          context.showErrorSnackBar(dioError.errorMessage);
+        } else {
+          context.showErrorSnackBar("Erreur inattendue : ${state.error}");
+        }
       }
     });
     final postsState = ref.watch(postsViewModelProvider);
@@ -112,7 +118,7 @@ class _HomeState extends ConsumerState<Home> {
     return initialLoading
         ? shimmerLoading()
         : repositories.isEmpty
-            ? [const SliverEmptySearch(text: "No repositories found")]
+            ? [const SliverEmptySearch(text: "No Posts found")]
             : [
                 SliverList(
                   delegate: SliverChildBuilderDelegate(

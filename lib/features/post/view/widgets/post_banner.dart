@@ -27,9 +27,9 @@ class PostBanner extends StatelessWidget {
             controller: controller,
             onPageChanged: (index) {},
             children: [
-              for (var i = 0; i < postItem.media.length; i++)
+              for (var i = 0; i < postItem.media!.length; i++)
                 MediaWidget(
-                  url: postItem.media[i],
+                  url: postItem.media![i],
                 )
             ],
           ),
@@ -39,7 +39,7 @@ class PostBanner extends StatelessWidget {
         ),
         DotsIndicatorWidget(
           controller: controller,
-          itemCount: postItem.media.length,
+          itemCount: postItem.media?.length??0,
         ),
       ],
     );

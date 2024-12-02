@@ -3,6 +3,7 @@ import 'package:ulearning_app/common/data/domain/post.dart';
 import 'package:ulearning_app/common/data/mappers/post_mapper.dart';
 import 'package:ulearning_app/common/data/remote/rest_client_api.dart';
 import 'package:ulearning_app/common/data/repository/post_repository.dart';
+import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 
@@ -48,6 +49,12 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future<Post?> getPost(String postId) async {
     final response = await api.getPost(postId);
+    return response.toDomain();
+  }
+
+  @override
+  Future<Post?> createComment(String postId, CreateCommentRequest content) async {
+    final response = await api.addComment(postId, content);
     return response.toDomain();
   }
 }

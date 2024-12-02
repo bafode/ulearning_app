@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
+import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 
@@ -19,4 +20,6 @@ abstract class PostRepository {
   Future<Post?> toggleLikePost(String postId);
 
   Future<Post?> getPost(String postId);
+
+  Future<Post?> createComment(String postId, CreateCommentRequest content);
 }

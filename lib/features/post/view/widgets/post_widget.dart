@@ -29,7 +29,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   bool isLiked = false;
   int postlength = 0;
   int commentLength = 0;
-  List<Comment> comments = [];
+  List<Comment>? comments = [];
 
   @override
   void didChangeDependencies() {
@@ -40,7 +40,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     isLiked = widget.post.likes.any((like) => like.id == userId);
     postlength = widget.post.likes.length;
     comments = widget.post.comments;
-    commentLength = widget.post.comments.length;
+    commentLength = widget.post.comments?.length??0;
   }
 
   @override
@@ -71,9 +71,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         children: [
           _buildHeader(context),
           SizedBox(height: 8.h),
-          PostContent(content: widget.post.content),
+          PostContent(content: widget.post.content??''),
           SizedBox(height: 8.h),
-          if (widget.post.media.isNotEmpty) _buildMedia(context),
+          if (widget.post.media!=null) _buildMedia(context),
           SizedBox(height: 8.h),
           _buildActions(context),
           SizedBox(height: 8.h),
@@ -265,10 +265,16 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                         comments: comments,
                         addComment: (content) {
                           print(content);
+                          ref
+                              .read(postsViewModelProvider.notifier)
+                              .createComment(
+                                widget.post.id,
+                                content,
+                              );
                           setState(() {
                             commentLength++;
-                             comments = List.from(comments);
-                            comments.add(
+                             comments = List.from(comments??[]);
+                            comments?.add(
                               Comment(
                                 content: content,
                                 userFirstName:

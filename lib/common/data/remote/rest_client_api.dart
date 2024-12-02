@@ -13,6 +13,7 @@ import 'package:ulearning_app/common/entities/auth/registrationResponse/registra
 import 'package:ulearning_app/common/entities/auth/resetPasswordRequest/reset_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
+import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
 import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
@@ -92,5 +93,11 @@ abstract class RestClientApi {
   @GET("${AppConstants.postEndPointUrl}/{postId}")
   Future<PostGet> getPost(
     @Path("postId") String postId,
+  );
+
+  @POST("${AppConstants.postEndPointUrl}/{postId}/comment")
+  Future<PostGet> addComment(
+    @Path("postId") String postId,
+    @Body() CreateCommentRequest content,
   );
 }
