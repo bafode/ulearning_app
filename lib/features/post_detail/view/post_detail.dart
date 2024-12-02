@@ -86,7 +86,7 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
 
                       // Titre du post
                       Text(
-                        value.title,
+                        value.title??'',
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
@@ -104,13 +104,13 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                             letterSpacing: 0.5,
                             wordSpacing: 1,
                           ),
-                          children: _buildTextSpans(value.content),
+                          children: _buildTextSpans(value.content??''),
                         ),
                       ),
                       SizedBox(height: 16.h),
 
                       // Media: Image ou Vidéo
-                      if (value.media.isNotEmpty)
+                      if (value.media?.isNotEmpty??false)
                         PostBanner(controller: controller, postItem: value),
 
                       SizedBox(height: 16.h),
@@ -128,7 +128,7 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                           ),
                           ActionButton(
                             icon: Icons.comment,
-                            label: "${value.comments.length}",
+                            label: "${value.comments?.length??0}",
                             onPressed: () {
                               // Afficher la liste des commentaires
                             },
@@ -146,7 +146,7 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
 
                       // Liste des commentaires
                       Text(
-                        "Commentaires (${value.comments.length})",
+                        "Commentaires (${value.comments?.length})",
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -155,21 +155,21 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: value.comments.length,
+                        itemCount: value.comments?.length??0,
                         itemBuilder: (context, index) {
-                          final comment = value.comments[index];
+                          final comment = value.comments?[index];
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: CircleAvatar(
                               radius: 20.r,
-                              backgroundImage: NetworkImage(comment.userAvatar),
+                              backgroundImage: NetworkImage(comment?.userAvatar??''),
                             ),
                             title: Text(
-                              "${comment.userFirstName} ${comment.userLastName}",
+                              "${comment?.userFirstName} ${comment?.userLastName}",
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            subtitle: Text(comment.content),
+                            subtitle: Text(comment?.content??''),
                           );
                         },
                       ),

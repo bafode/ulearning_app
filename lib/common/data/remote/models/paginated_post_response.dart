@@ -30,19 +30,19 @@ class PostResponse {
 @JsonSerializable()
 class PostGet {
   @JsonKey(name: 'title')
-  final String title;
+  final String? title;
   @JsonKey(name: 'content')
-  final String content;
+  final String? content;
   @JsonKey(name: 'author')
   final AuthorGet author;
   @JsonKey(name: 'category')
-  final String category;
+  final String? category;
   @JsonKey(name: 'media')
-  final List<String> media;
+  final List<String>? media;
   @JsonKey(name: 'likes')
   final List<AuthorGet> likes;
   @JsonKey(name: 'comments')
-  final List<CommentGet> comments;
+  final List<CommentGet>? comments;
   @JsonKey(name: 'id')
   final String id;
 
@@ -64,9 +64,9 @@ class PostGet {
 @JsonSerializable()
 class AuthorGet {
   @JsonKey(name: 'firstname')
-  final String firstname;
+  final String? firstname;
   @JsonKey(name: 'lastname')
-  final String lastname;
+  final String? lastname;
   @JsonKey(name: 'email')
   final String email;
   @JsonKey(name: 'avatar')
@@ -92,9 +92,9 @@ class CommentGet {
   @JsonKey(name: 'content')
   final String content;
   @JsonKey(name: 'userFirstName')
-  final String userFirstName;
+  final String? userFirstName;
   @JsonKey(name: 'userLastName')
-  final String userLastName;
+  final String? userLastName;
   @JsonKey(name: 'userAvatar')
   final String userAvatar;
   @JsonKey(name: 'id')

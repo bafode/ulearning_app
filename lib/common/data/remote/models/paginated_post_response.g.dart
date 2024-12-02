@@ -17,16 +17,17 @@ PostResponse _$PostResponseFromJson(Map<String, dynamic> json) => PostResponse(
     );
 
 PostGet _$PostGetFromJson(Map<String, dynamic> json) => PostGet(
-      title: json['title'] as String,
-      content: json['content'] as String,
+      title: json['title'] as String?,
+      content: json['content'] as String?,
       author: AuthorGet.fromJson(json['author'] as Map<String, dynamic>),
-      category: json['category'] as String,
-      media: (json['media'] as List<dynamic>).map((e) => e as String).toList(),
+      category: json['category'] as String?,
+      media:
+          (json['media'] as List<dynamic>?)?.map((e) => e as String).toList(),
       likes: (json['likes'] as List<dynamic>)
           .map((e) => AuthorGet.fromJson(e as Map<String, dynamic>))
           .toList(),
-      comments: (json['comments'] as List<dynamic>)
-          .map((e) => CommentGet.fromJson(e as Map<String, dynamic>))
+      comments: (json['comments'] as List<dynamic>?)
+          ?.map((e) => CommentGet.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
     );
@@ -43,8 +44,8 @@ Map<String, dynamic> _$PostGetToJson(PostGet instance) => <String, dynamic>{
     };
 
 AuthorGet _$AuthorGetFromJson(Map<String, dynamic> json) => AuthorGet(
-      firstname: json['firstname'] as String,
-      lastname: json['lastname'] as String,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
       email: json['email'] as String,
       avatar: json['avatar'] as String,
       id: json['id'] as String,
@@ -60,8 +61,8 @@ Map<String, dynamic> _$AuthorGetToJson(AuthorGet instance) => <String, dynamic>{
 
 CommentGet _$CommentGetFromJson(Map<String, dynamic> json) => CommentGet(
       content: json['content'] as String,
-      userFirstName: json['userFirstName'] as String,
-      userLastName: json['userLastName'] as String,
+      userFirstName: json['userFirstName'] as String?,
+      userLastName: json['userLastName'] as String?,
       userAvatar: json['userAvatar'] as String,
       id: json['id'] as String,
     );

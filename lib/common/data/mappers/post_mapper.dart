@@ -9,15 +9,15 @@ extension PostMapper on PostGet {
         category: category,
         media: media,
         likes: likes.map((e) => e.toDomain()).toList(),
-        comments: comments.map((e) => e.toDomain()).toList(),
+        comments: comments?.map((e) => e.toDomain()).toList(),
         id: id,
       );
 }
 
 extension AuthorMapper on AuthorGet {
   Author toDomain() => Author(
-        firstname: firstname,
-        lastname: lastname,
+        firstname: firstname??'',
+        lastname: lastname??'',
         email: email,
         avatar: avatar,
         id: id,
@@ -27,8 +27,8 @@ extension AuthorMapper on AuthorGet {
 extension CommentMapper on CommentGet {
   Comment toDomain() => Comment(
         content: content,
-        userFirstName: userFirstName,
-        userLastName: userLastName,
+        userFirstName: userFirstName??'',
+        userLastName: userLastName??'',
         userAvatar: userAvatar,
         id: id,
       );

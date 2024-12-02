@@ -16,13 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Post {
-  String get title => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get content => throw _privateConstructorUsedError;
   Author get author => throw _privateConstructorUsedError;
-  String get category => throw _privateConstructorUsedError;
-  List<String> get media => throw _privateConstructorUsedError;
+  String? get category => throw _privateConstructorUsedError;
+  List<String>? get media => throw _privateConstructorUsedError;
   List<Author> get likes => throw _privateConstructorUsedError;
-  List<Comment> get comments => throw _privateConstructorUsedError;
+  List<Comment>? get comments => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,13 +35,13 @@ abstract class $PostCopyWith<$Res> {
       _$PostCopyWithImpl<$Res, Post>;
   @useResult
   $Res call(
-      {String title,
-      String content,
+      {String? title,
+      String? content,
       Author author,
-      String category,
-      List<String> media,
+      String? category,
+      List<String>? media,
       List<Author> likes,
-      List<Comment> comments,
+      List<Comment>? comments,
       String id});
 
   $AuthorCopyWith<$Res> get author;
@@ -60,44 +60,44 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
-    Object? content = null,
+    Object? title = freezed,
+    Object? content = freezed,
     Object? author = null,
-    Object? category = null,
-    Object? media = null,
+    Object? category = freezed,
+    Object? media = freezed,
     Object? likes = null,
-    Object? comments = null,
+    Object? comments = freezed,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
+              as String?,
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
               as Author,
-      category: null == category
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as String,
-      media: null == media
+              as String?,
+      media: freezed == media
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       likes: null == likes
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<Author>,
-      comments: null == comments
+      comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<Comment>,
+              as List<Comment>?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -122,13 +122,13 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String title,
-      String content,
+      {String? title,
+      String? content,
       Author author,
-      String category,
-      List<String> media,
+      String? category,
+      List<String>? media,
       List<Author> likes,
-      List<Comment> comments,
+      List<Comment>? comments,
       String id});
 
   @override
@@ -145,44 +145,44 @@ class __$$PostImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? title = null,
-    Object? content = null,
+    Object? title = freezed,
+    Object? content = freezed,
     Object? author = null,
-    Object? category = null,
-    Object? media = null,
+    Object? category = freezed,
+    Object? media = freezed,
     Object? likes = null,
-    Object? comments = null,
+    Object? comments = freezed,
     Object? id = null,
   }) {
     return _then(_$PostImpl(
-      title: null == title
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
+              as String?,
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
               as Author,
-      category: null == category
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as String,
-      media: null == media
+              as String?,
+      media: freezed == media
           ? _value._media
           : media // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       likes: null == likes
           ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<Author>,
-      comments: null == comments
+      comments: freezed == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<Comment>,
+              as List<Comment>?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -199,28 +199,30 @@ class _$PostImpl implements _Post {
       required this.content,
       required this.author,
       required this.category,
-      required final List<String> media,
+      required final List<String>? media,
       required final List<Author> likes,
-      required final List<Comment> comments,
+      required final List<Comment>? comments,
       required this.id})
       : _media = media,
         _likes = likes,
         _comments = comments;
 
   @override
-  final String title;
+  final String? title;
   @override
-  final String content;
+  final String? content;
   @override
   final Author author;
   @override
-  final String category;
-  final List<String> _media;
+  final String? category;
+  final List<String>? _media;
   @override
-  List<String> get media {
+  List<String>? get media {
+    final value = _media;
+    if (value == null) return null;
     if (_media is EqualUnmodifiableListView) return _media;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_media);
+    return EqualUnmodifiableListView(value);
   }
 
   final List<Author> _likes;
@@ -231,12 +233,14 @@ class _$PostImpl implements _Post {
     return EqualUnmodifiableListView(_likes);
   }
 
-  final List<Comment> _comments;
+  final List<Comment>? _comments;
   @override
-  List<Comment> get comments {
+  List<Comment>? get comments {
+    final value = _comments;
+    if (value == null) return null;
     if (_comments is EqualUnmodifiableListView) return _comments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_comments);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -284,29 +288,29 @@ class _$PostImpl implements _Post {
 
 abstract class _Post implements Post {
   const factory _Post(
-      {required final String title,
-      required final String content,
+      {required final String? title,
+      required final String? content,
       required final Author author,
-      required final String category,
-      required final List<String> media,
+      required final String? category,
+      required final List<String>? media,
       required final List<Author> likes,
-      required final List<Comment> comments,
+      required final List<Comment>? comments,
       required final String id}) = _$PostImpl;
 
   @override
-  String get title;
+  String? get title;
   @override
-  String get content;
+  String? get content;
   @override
   Author get author;
   @override
-  String get category;
+  String? get category;
   @override
-  List<String> get media;
+  List<String>? get media;
   @override
   List<Author> get likes;
   @override
-  List<Comment> get comments;
+  List<Comment>? get comments;
   @override
   String get id;
   @override

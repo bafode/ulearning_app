@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ulearning_app/common/data/di/repository_module.dart';
 import 'package:ulearning_app/common/data/domain/post.dart';
 import 'package:ulearning_app/common/data/repository/impl/post_repository_impl.dart';
+import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/utils/filter.dart';
 import 'package:ulearning_app/common/utils/pagination_controller.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
@@ -57,6 +58,17 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   FutureOr<Post?> getPost(String postId) async {
     final post = await repository.getPost(
       postId,
+    );
+    return post;
+  }
+
+  FutureOr<Post?> createComment(String postId, String comment) async {
+    CreateCommentRequest content = CreateCommentRequest(
+      content: comment,
+    );
+    final post = await repository.createComment(
+      postId,
+      content,
     );
     return post;
   }
