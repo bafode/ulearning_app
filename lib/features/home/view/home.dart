@@ -1,6 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/data/domain/post.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
 import 'package:ulearning_app/features/home/view/widgets/home_widget.dart';
 import 'package:ulearning_app/features/post/controller/post_filter_notifier.dart';
@@ -32,6 +33,7 @@ class _HomeState extends ConsumerState<Home> {
   void didChangeDependencies() {
     controller =
         PageController(initialPage: ref.watch(homeScreenBannerDotsProvider));
+      viewModel.build();
     super.didChangeDependencies();
   }
 
@@ -58,14 +60,14 @@ class _HomeState extends ConsumerState<Home> {
               scrollInfo.metrics.axisDirection == AxisDirection.down &&
               scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent) {
             if (viewModel.canLoadMore) {
-              viewModel.loadNextPage();
+              viewModel.loadNextPage(); // Charge la prochaine page si possible
             }
           }
           return true;
         },
         child: RefreshIndicator(
           onRefresh: () async {
-            viewModel.refresh();
+            viewModel.refresh(); // Rafraîchit la liste des posts
           },
           child: CustomScrollView(
             slivers: [
@@ -76,30 +78,10 @@ class _HomeState extends ConsumerState<Home> {
                   applyFilter();
                 },
               ),
-              // SliverPadding(
-              //   padding: EdgeInsets.symmetric(horizontal: 5.w),
-              //   sliver: SliverToBoxAdapter(
-              //     child: HomeBanner(ref: ref, controller: controller),
-              //   ),
-              // ),
-              // SliverList(
-              //     delegate: SliverChildListDelegate([
-              //   Column(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       const HelloText(),
-              //       const UserName(),
-              //       Center(
-              //         child: HomeBanner(ref: ref, controller: controller),
-              //       ),
-              //     ],
-              //   )
-              // ])),
               SliverPadding(
                 padding: const EdgeInsets.only(bottom: 16),
                 sliver: SearchFilterRow(
-                  onSearch: onSearch,
+                  onSearch: onSearch, // Applique le filtre de recherche
                 ),
               ),
               ...posts(context, postsState),
@@ -110,37 +92,45 @@ class _HomeState extends ConsumerState<Home> {
     );
   }
 
+  // Méthode pour afficher les posts, y compris la gestion de la pagination et du cache
   List<Widget> posts(BuildContext context, AsyncValue<List<Post>> postState) {
     final repositories = postState.valueOrNull ?? [];
     final initialLoading = postState.isLoading && repositories.isEmpty;
     final loadingMore = postState.isLoading && repositories.isNotEmpty;
 
     return initialLoading
-        ? shimmerLoading()
+        ? shimmerLoading() // Affiche une animation de chargement si les posts sont encore en cours de récupération
         : repositories.isEmpty
-            ? [const SliverEmptySearch(text: "No Posts found")]
+            ? [
+                const SliverEmptySearch(text: "No Posts found")
+              ] // Si aucune donnée n'est trouvée
             : [
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                        BeehavePostWidget(post: repositories[index]),
+                    (context, index) => BeehavePostWidget(
+                        post: repositories[index]), // Affiche chaque post
                     childCount: repositories.length,
                   ),
                 ),
-                if (loadingMore) const SliverLoadingSpinner(),
+                if (loadingMore)
+                  const SliverLoadingSpinner(), // Affiche un spinner lors du chargement supplémentaire
               ];
   }
 
+  // Méthode pour afficher l'animation de chargement
   List<Widget> shimmerLoading() {
-    return List.generate(10, (index) => const SliverListTileShimmer());
+    return List.generate(10,
+        (index) => const SliverListTileShimmer()); // Animation de chargement
   }
 
+  // Applique le filtre pour charger les posts
   void applyFilter() {
     viewModel.applyFilter(ref.read(postFilterNotifierProvider));
   }
 
+  // Applique le filtre de recherche
   void onSearch(String query) {
-    filterController.updateQuery(query);
+    filterController.updateQuery(query); // Met à jour la requête de recherche
     applyFilter();
   }
 }

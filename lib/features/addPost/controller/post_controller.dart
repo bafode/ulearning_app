@@ -63,6 +63,10 @@ class CreatePostController {
         await Future.wait(media),
       );
 
+      if(kDebugMode){
+        print(response?.code);
+      }
+
       if (response!.code == 201) {
         toastInfo("post create succeffuly");
         ref.read(applicationNavNotifierProvider.notifier).changeIndex(0);

@@ -7,6 +7,11 @@ import 'package:ulearning_app/features/auth/view/auth.dart';
 import 'package:ulearning_app/features/editProfile/view/edit_profile.dart';
 import 'package:ulearning_app/features/forgot_password/view/forgot_password.dart';
 import 'package:ulearning_app/features/home/view/home.dart';
+import 'package:ulearning_app/features/message/chat/chat.dart';
+import 'package:ulearning_app/features/message/message.dart';
+import 'package:ulearning_app/features/message/photoview/photoview.dart';
+import 'package:ulearning_app/features/message/videocall/videocall.dart';
+import 'package:ulearning_app/features/message/voicecall/voicecall.dart';
 import 'package:ulearning_app/features/otp/view/otp.dart';
 import 'package:ulearning_app/features/post_detail/view/post_detail.dart';
 import 'package:ulearning_app/features/profile/view/profile.dart';
@@ -15,6 +20,7 @@ import 'package:ulearning_app/features/res/view/registration.dart';
 import 'package:ulearning_app/features/reset_password/view/reset_password.dart';
 import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
 import 'package:ulearning_app/features/splash/splash.dart';
+import 'package:ulearning_app/features/unotification/unotification.dart';
 import 'package:ulearning_app/features/welcome/view/welcome.dart';
 
 import '../../global.dart';
@@ -39,6 +45,31 @@ class AppPages {
       RouteEntity(
           path: AppRoutesNames.RESET_PASSWORD, page: const ResetPassword()),
       RouteEntity(path: AppRoutesNames.POST_DETAIL, page: const PostDetail()),
+      RouteEntity(
+        path: AppRoutesNames.Message,
+        page: const Message(),
+      ),
+      RouteEntity(
+        path: AppRoutesNames.Chat,
+        page: const Chat(),
+      ),
+      RouteEntity(
+        path: AppRoutesNames.Photoview,
+        page: const PhotoView(),
+      ),
+      RouteEntity(
+        path: AppRoutesNames.VideoCall,
+        page: const VideoCall(),
+      ),
+      RouteEntity(
+        path: AppRoutesNames.VoiceCall,
+        page: const VoiceCall(),
+      ),
+      RouteEntity(
+        path: AppRoutesNames.Unotification,
+        page: const Unotification(),
+      ),
+
     ];
   }
 
