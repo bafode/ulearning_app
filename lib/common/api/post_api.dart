@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/data/domain/post.dart';
-import 'package:ulearning_app/common/data/mappers/post_mapper.dart';
 import 'package:ulearning_app/common/data/remote/models/paginated_post_response.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
 import 'package:ulearning_app/common/services/http_util.dart';
 
 final dio = Dio();
@@ -22,7 +21,7 @@ class PostAPI {
     print("response: $response");
     return (
       response.totalResults,
-      response.results.map((e) => e.toDomain()).toList()
+      response.results
     );
   }
 }

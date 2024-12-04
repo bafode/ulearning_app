@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ulearning_app/common/services/storage.dart';
 import 'package:ulearning_app/common/utils/loading.dart';
+import 'package:ulearning_app/features/addPost/service/grant_permissions.dart';
 import 'firebase_options.dart';
 
 class Global {
@@ -18,6 +19,7 @@ class Global {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     storageService = await StorageService().init();
+    await grantPermissions();
   }
 
    static void setSystemUi() {

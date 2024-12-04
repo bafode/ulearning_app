@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ulearning_app/common/entities/post/post.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
 
 part 'post_create_response.freezed.dart';
 part 'post_create_response.g.dart';

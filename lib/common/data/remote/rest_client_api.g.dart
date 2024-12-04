@@ -388,12 +388,12 @@ class _RestClientApi implements RestClientApi {
   }
 
   @override
-  Future<PostGet> toagleLikePost(String postId) async {
+  Future<Post> toagleLikePost(String postId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PostGet>(Options(
+    final _options = _setStreamType<Post>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -410,9 +410,9 @@ class _RestClientApi implements RestClientApi {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PostGet _value;
+    late Post _value;
     try {
-      _value = PostGet.fromJson(_result.data!);
+      _value = Post.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -421,12 +421,12 @@ class _RestClientApi implements RestClientApi {
   }
 
   @override
-  Future<PostGet> getPost(String postId) async {
+  Future<Post> getPost(String postId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PostGet>(Options(
+    final _options = _setStreamType<Post>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -443,9 +443,9 @@ class _RestClientApi implements RestClientApi {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PostGet _value;
+    late Post _value;
     try {
-      _value = PostGet.fromJson(_result.data!);
+      _value = Post.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -454,7 +454,7 @@ class _RestClientApi implements RestClientApi {
   }
 
   @override
-  Future<PostGet> addComment(
+  Future<Post> addComment(
     String postId,
     CreateCommentRequest content,
   ) async {
@@ -462,7 +462,7 @@ class _RestClientApi implements RestClientApi {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = content;
-    final _options = _setStreamType<PostGet>(Options(
+    final _options = _setStreamType<Post>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -479,9 +479,9 @@ class _RestClientApi implements RestClientApi {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PostGet _value;
+    late Post _value;
     try {
-      _value = PostGet.fromJson(_result.data!);
+      _value = Post.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

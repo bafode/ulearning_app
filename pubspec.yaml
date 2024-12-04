@@ -59,12 +59,11 @@ dependencies:
   crypto: ^3.0.3
   just_audio: ^0.9.36
   firebase_storage: ^12.2.0
-  webview_flutter: ^4.7.0
   flutter_zoom_drawer: ^3.2.0
   flutter_svg: ^2.0.10+1
   flutter_vector_icons: ^2.0.0
   date_format: ^2.0.7
-  photo_manager: ^3.0.0
+  photo_manager: ^3.6.3
   curved_labeled_navigation_bar: ^2.0.2
   freezed_annotation: ^2.4.1
   freezed: ^2.5.2
@@ -86,6 +85,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   share: ^2.0.4
   firebase_dynamic_links: ^6.0.10
+  collection: ^1.18.0
 
 flutter_launcher_icons:
   android: true

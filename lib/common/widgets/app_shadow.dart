@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/data/domain/post.dart';
-//import 'package:ulearning_app/common/data/remote/models/paginated_post_response.dart';
-//import 'package:ulearning_app/common/models/post.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
 import 'package:ulearning_app/common/widgets/text_widgets.dart';

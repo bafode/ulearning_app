@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'post.dart';
+part of 'post_response.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,6 +13,245 @@ T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+PostResponse _$PostResponseFromJson(Map<String, dynamic> json) {
+  return _PostResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PostResponse {
+  List<Post> get results => throw _privateConstructorUsedError;
+  int get page => throw _privateConstructorUsedError;
+  int get limit => throw _privateConstructorUsedError;
+  int get totalPages => throw _privateConstructorUsedError;
+  int get totalResults => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PostResponseCopyWith<PostResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PostResponseCopyWith<$Res> {
+  factory $PostResponseCopyWith(
+          PostResponse value, $Res Function(PostResponse) then) =
+      _$PostResponseCopyWithImpl<$Res, PostResponse>;
+  @useResult
+  $Res call(
+      {List<Post> results,
+      int page,
+      int limit,
+      int totalPages,
+      int totalResults});
+}
+
+/// @nodoc
+class _$PostResponseCopyWithImpl<$Res, $Val extends PostResponse>
+    implements $PostResponseCopyWith<$Res> {
+  _$PostResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? results = null,
+    Object? page = null,
+    Object? limit = null,
+    Object? totalPages = null,
+    Object? totalResults = null,
+  }) {
+    return _then(_value.copyWith(
+      results: null == results
+          ? _value.results
+          : results // ignore: cast_nullable_to_non_nullable
+              as List<Post>,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalResults: null == totalResults
+          ? _value.totalResults
+          : totalResults // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PostResponseImplCopyWith<$Res>
+    implements $PostResponseCopyWith<$Res> {
+  factory _$$PostResponseImplCopyWith(
+          _$PostResponseImpl value, $Res Function(_$PostResponseImpl) then) =
+      __$$PostResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<Post> results,
+      int page,
+      int limit,
+      int totalPages,
+      int totalResults});
+}
+
+/// @nodoc
+class __$$PostResponseImplCopyWithImpl<$Res>
+    extends _$PostResponseCopyWithImpl<$Res, _$PostResponseImpl>
+    implements _$$PostResponseImplCopyWith<$Res> {
+  __$$PostResponseImplCopyWithImpl(
+      _$PostResponseImpl _value, $Res Function(_$PostResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? results = null,
+    Object? page = null,
+    Object? limit = null,
+    Object? totalPages = null,
+    Object? totalResults = null,
+  }) {
+    return _then(_$PostResponseImpl(
+      results: null == results
+          ? _value._results
+          : results // ignore: cast_nullable_to_non_nullable
+              as List<Post>,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _value.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalResults: null == totalResults
+          ? _value.totalResults
+          : totalResults // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PostResponseImpl implements _PostResponse {
+  const _$PostResponseImpl(
+      {required final List<Post> results,
+      required this.page,
+      required this.limit,
+      required this.totalPages,
+      required this.totalResults})
+      : _results = results;
+
+  factory _$PostResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PostResponseImplFromJson(json);
+
+  final List<Post> _results;
+  @override
+  List<Post> get results {
+    if (_results is EqualUnmodifiableListView) return _results;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_results);
+  }
+
+  @override
+  final int page;
+  @override
+  final int limit;
+  @override
+  final int totalPages;
+  @override
+  final int totalResults;
+
+  @override
+  String toString() {
+    return 'PostResponse(results: $results, page: $page, limit: $limit, totalPages: $totalPages, totalResults: $totalResults)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PostResponseImpl &&
+            const DeepCollectionEquality().equals(other._results, _results) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.limit, limit) || other.limit == limit) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            (identical(other.totalResults, totalResults) ||
+                other.totalResults == totalResults));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_results),
+      page,
+      limit,
+      totalPages,
+      totalResults);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PostResponseImplCopyWith<_$PostResponseImpl> get copyWith =>
+      __$$PostResponseImplCopyWithImpl<_$PostResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PostResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PostResponse implements PostResponse {
+  const factory _PostResponse(
+      {required final List<Post> results,
+      required final int page,
+      required final int limit,
+      required final int totalPages,
+      required final int totalResults}) = _$PostResponseImpl;
+
+  factory _PostResponse.fromJson(Map<String, dynamic> json) =
+      _$PostResponseImpl.fromJson;
+
+  @override
+  List<Post> get results;
+  @override
+  int get page;
+  @override
+  int get limit;
+  @override
+  int get totalPages;
+  @override
+  int get totalResults;
+  @override
+  @JsonKey(ignore: true)
+  _$$PostResponseImplCopyWith<_$PostResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Post _$PostFromJson(Map<String, dynamic> json) {
+  return _Post.fromJson(json);
+}
 
 /// @nodoc
 mixin _$Post {
@@ -25,6 +264,7 @@ mixin _$Post {
   List<Comment>? get comments => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PostCopyWith<Post> get copyWith => throw _privateConstructorUsedError;
 }
@@ -192,7 +432,7 @@ class __$$PostImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PostImpl implements _Post {
   const _$PostImpl(
       {required this.title,
@@ -206,6 +446,9 @@ class _$PostImpl implements _Post {
       : _media = media,
         _likes = likes,
         _comments = comments;
+
+  factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PostImplFromJson(json);
 
   @override
   final String? title;
@@ -267,6 +510,7 @@ class _$PostImpl implements _Post {
             (identical(other.id, id) || other.id == id));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -284,6 +528,13 @@ class _$PostImpl implements _Post {
   @pragma('vm:prefer-inline')
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
       __$$PostImplCopyWithImpl<_$PostImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PostImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Post implements Post {
@@ -296,6 +547,8 @@ abstract class _Post implements Post {
       required final List<Author> likes,
       required final List<Comment>? comments,
       required final String id}) = _$PostImpl;
+
+  factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
   @override
   String? get title;
@@ -319,14 +572,19 @@ abstract class _Post implements Post {
       throw _privateConstructorUsedError;
 }
 
+Author _$AuthorFromJson(Map<String, dynamic> json) {
+  return _Author.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Author {
-  String get firstname => throw _privateConstructorUsedError;
-  String get lastname => throw _privateConstructorUsedError;
+  String? get firstname => throw _privateConstructorUsedError;
+  String? get lastname => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AuthorCopyWith<Author> get copyWith => throw _privateConstructorUsedError;
 }
@@ -337,8 +595,8 @@ abstract class $AuthorCopyWith<$Res> {
       _$AuthorCopyWithImpl<$Res, Author>;
   @useResult
   $Res call(
-      {String firstname,
-      String lastname,
+      {String? firstname,
+      String? lastname,
       String email,
       String avatar,
       String id});
@@ -357,21 +615,21 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstname = null,
-    Object? lastname = null,
+    Object? firstname = freezed,
+    Object? lastname = freezed,
     Object? email = null,
     Object? avatar = null,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
-      firstname: null == firstname
+      firstname: freezed == firstname
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastname: null == lastname
+              as String?,
+      lastname: freezed == lastname
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -396,8 +654,8 @@ abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String firstname,
-      String lastname,
+      {String? firstname,
+      String? lastname,
       String email,
       String avatar,
       String id});
@@ -414,21 +672,21 @@ class __$$AuthorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? firstname = null,
-    Object? lastname = null,
+    Object? firstname = freezed,
+    Object? lastname = freezed,
     Object? email = null,
     Object? avatar = null,
     Object? id = null,
   }) {
     return _then(_$AuthorImpl(
-      firstname: null == firstname
+      firstname: freezed == firstname
           ? _value.firstname
           : firstname // ignore: cast_nullable_to_non_nullable
-              as String,
-      lastname: null == lastname
+              as String?,
+      lastname: freezed == lastname
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -446,7 +704,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$AuthorImpl implements _Author {
   const _$AuthorImpl(
       {required this.firstname,
@@ -455,10 +713,13 @@ class _$AuthorImpl implements _Author {
       required this.avatar,
       required this.id});
 
+  factory _$AuthorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AuthorImplFromJson(json);
+
   @override
-  final String firstname;
+  final String? firstname;
   @override
-  final String lastname;
+  final String? lastname;
   @override
   final String email;
   @override
@@ -485,6 +746,7 @@ class _$AuthorImpl implements _Author {
             (identical(other.id, id) || other.id == id));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, firstname, lastname, email, avatar, id);
@@ -494,20 +756,29 @@ class _$AuthorImpl implements _Author {
   @pragma('vm:prefer-inline')
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
       __$$AuthorImplCopyWithImpl<_$AuthorImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AuthorImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Author implements Author {
   const factory _Author(
-      {required final String firstname,
-      required final String lastname,
+      {required final String? firstname,
+      required final String? lastname,
       required final String email,
       required final String avatar,
       required final String id}) = _$AuthorImpl;
 
+  factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
+
   @override
-  String get firstname;
+  String? get firstname;
   @override
-  String get lastname;
+  String? get lastname;
   @override
   String get email;
   @override
@@ -520,14 +791,19 @@ abstract class _Author implements Author {
       throw _privateConstructorUsedError;
 }
 
+Comment _$CommentFromJson(Map<String, dynamic> json) {
+  return _Comment.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Comment {
   String get content => throw _privateConstructorUsedError;
-  String get userFirstName => throw _privateConstructorUsedError;
-  String get userLastName => throw _privateConstructorUsedError;
+  String? get userFirstName => throw _privateConstructorUsedError;
+  String? get userLastName => throw _privateConstructorUsedError;
   String get userAvatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $CommentCopyWith<Comment> get copyWith => throw _privateConstructorUsedError;
 }
@@ -539,8 +815,8 @@ abstract class $CommentCopyWith<$Res> {
   @useResult
   $Res call(
       {String content,
-      String userFirstName,
-      String userLastName,
+      String? userFirstName,
+      String? userLastName,
       String userAvatar,
       String id});
 }
@@ -559,8 +835,8 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
   @override
   $Res call({
     Object? content = null,
-    Object? userFirstName = null,
-    Object? userLastName = null,
+    Object? userFirstName = freezed,
+    Object? userLastName = freezed,
     Object? userAvatar = null,
     Object? id = null,
   }) {
@@ -569,14 +845,14 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      userFirstName: null == userFirstName
+      userFirstName: freezed == userFirstName
           ? _value.userFirstName
           : userFirstName // ignore: cast_nullable_to_non_nullable
-              as String,
-      userLastName: null == userLastName
+              as String?,
+      userLastName: freezed == userLastName
           ? _value.userLastName
           : userLastName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       userAvatar: null == userAvatar
           ? _value.userAvatar
           : userAvatar // ignore: cast_nullable_to_non_nullable
@@ -598,8 +874,8 @@ abstract class _$$CommentImplCopyWith<$Res> implements $CommentCopyWith<$Res> {
   @useResult
   $Res call(
       {String content,
-      String userFirstName,
-      String userLastName,
+      String? userFirstName,
+      String? userLastName,
       String userAvatar,
       String id});
 }
@@ -616,8 +892,8 @@ class __$$CommentImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? content = null,
-    Object? userFirstName = null,
-    Object? userLastName = null,
+    Object? userFirstName = freezed,
+    Object? userLastName = freezed,
     Object? userAvatar = null,
     Object? id = null,
   }) {
@@ -626,14 +902,14 @@ class __$$CommentImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
-      userFirstName: null == userFirstName
+      userFirstName: freezed == userFirstName
           ? _value.userFirstName
           : userFirstName // ignore: cast_nullable_to_non_nullable
-              as String,
-      userLastName: null == userLastName
+              as String?,
+      userLastName: freezed == userLastName
           ? _value.userLastName
           : userLastName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       userAvatar: null == userAvatar
           ? _value.userAvatar
           : userAvatar // ignore: cast_nullable_to_non_nullable
@@ -647,7 +923,7 @@ class __$$CommentImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$CommentImpl implements _Comment {
   const _$CommentImpl(
       {required this.content,
@@ -656,12 +932,15 @@ class _$CommentImpl implements _Comment {
       required this.userAvatar,
       required this.id});
 
+  factory _$CommentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommentImplFromJson(json);
+
   @override
   final String content;
   @override
-  final String userFirstName;
+  final String? userFirstName;
   @override
-  final String userLastName;
+  final String? userLastName;
   @override
   final String userAvatar;
   @override
@@ -687,6 +966,7 @@ class _$CommentImpl implements _Comment {
             (identical(other.id, id) || other.id == id));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, content, userFirstName, userLastName, userAvatar, id);
@@ -696,22 +976,31 @@ class _$CommentImpl implements _Comment {
   @pragma('vm:prefer-inline')
   _$$CommentImplCopyWith<_$CommentImpl> get copyWith =>
       __$$CommentImplCopyWithImpl<_$CommentImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommentImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Comment implements Comment {
   const factory _Comment(
       {required final String content,
-      required final String userFirstName,
-      required final String userLastName,
+      required final String? userFirstName,
+      required final String? userLastName,
       required final String userAvatar,
       required final String id}) = _$CommentImpl;
+
+  factory _Comment.fromJson(Map<String, dynamic> json) = _$CommentImpl.fromJson;
 
   @override
   String get content;
   @override
-  String get userFirstName;
+  String? get userFirstName;
   @override
-  String get userLastName;
+  String? get userLastName;
   @override
   String get userAvatar;
   @override
