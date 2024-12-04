@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ulearning_app/common/data/di/network_module.dart';
-import 'package:ulearning_app/common/data/remote/models/paginated_post_response.dart';
 import 'package:ulearning_app/common/entities/auth/forgotPasswordRequest/forgot_password_request.dart';
 import 'package:ulearning_app/common/entities/auth/loginRequest/login_request.dart';
 import 'package:ulearning_app/common/entities/auth/loginResponse/login_response.dart';
@@ -15,6 +14,7 @@ import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_
 import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
 import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 
@@ -86,17 +86,17 @@ abstract class RestClientApi {
 
   
   @PATCH("${AppConstants.postEndPointUrl}/{postId}/likes")
-  Future<PostGet> toagleLikePost(
+  Future<Post> toagleLikePost(
     @Path("postId") String postId,
   );
 
   @GET("${AppConstants.postEndPointUrl}/{postId}")
-  Future<PostGet> getPost(
+  Future<Post> getPost(
     @Path("postId") String postId,
   );
 
   @POST("${AppConstants.postEndPointUrl}/{postId}/comment")
-  Future<PostGet> addComment(
+  Future<Post> addComment(
     @Path("postId") String postId,
     @Body() CreateCommentRequest content,
   );

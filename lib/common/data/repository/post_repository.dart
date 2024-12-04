@@ -1,12 +1,12 @@
 
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/data/domain/post.dart';
 import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 
 abstract class PostRepository {
-  Future<(int totalResults, List<Post> posts)> getPosts({
+  Future<PostResponse> getPosts({
     String query = "",
     SortOption? sort,
     OrderOption? order,

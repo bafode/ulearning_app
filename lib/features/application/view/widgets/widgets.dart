@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
 import 'package:ulearning_app/features/addPost/view/add.dart';
-import 'package:ulearning_app/features/coming/coming_soon.dart';
 import 'package:ulearning_app/features/home/view/home.dart';
+import 'package:ulearning_app/features/message/message.dart';
 import 'package:ulearning_app/features/profile/view/profile.dart';
 
 var bottomTabs = <CurvedNavigationBarItem>[
@@ -65,13 +65,12 @@ Widget _bottomContainer({
 }
 
 Widget appScreen({int index = 0}) {
-  List<Widget> _screens = <Widget>[
+  List<Widget> screens = <Widget>[
     const Home(),
-    //const ComingSoon(),
     const Add(),
-    const ComingSoon(),
+    const Message(),
     const Profile(),
   ];
 
-  return _screens[index];
+  return screens[index];
 }

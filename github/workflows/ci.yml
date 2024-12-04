@@ -1,0 +1,57 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - main  # Ou la branche que tu souhaites surveiller
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout du code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Installer Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      # 3. Installer les dépendances
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4. Construire l'AppBundle pour Android
+      - name: Build Android AppBundle
+        run: flutter build appbundle --release
+
+      # 5. Décrypter le keystore
+      - name: Decrypt keystore
+        run: echo ${{ secrets.KEYSTORE }} | base64 --decode > android/app/keystore.jks
+
+      # 6. Signer l'AppBundle
+      - name: Sign AppBundle
+        run: |
+          cd android
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=app/keystore.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
+
+      # 7. Télécharger l'outil "Google Play Publisher"
+      - name: Download Google Play Publisher
+        run: npm install -g fastlane
+
+      # 8. Déployer sur Google Play
+      - name: Deploy to Google Play
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
+          --track production \
+          --json_key_data "$SERVICE_ACCOUNT_JSON" \
+          --package_name com.tonnomdepackage.nomapp
