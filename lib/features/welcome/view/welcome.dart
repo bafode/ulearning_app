@@ -15,9 +15,7 @@ class Welcome extends ConsumerWidget {
     final PageController controller = PageController();
     final index = ref.watch(indexDotProvider);
 
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
+    return SafeArea(
         child: Scaffold(
           backgroundColor: AppColors.primaryElement,
           body: Container(
@@ -86,7 +84,6 @@ class Welcome extends ConsumerWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }
