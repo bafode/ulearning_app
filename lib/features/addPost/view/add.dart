@@ -143,7 +143,7 @@ class _AddState extends ConsumerState<Add> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("${data.firstname} ${data.lastname}",
+                              Text("${data.firstname??""} ${data.lastname??""}",
                                   style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.bold)),

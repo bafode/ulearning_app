@@ -103,7 +103,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         ),
       ),
       title: Text(
-        "${widget.post.author.firstname} ${widget.post.author.lastname}",
+        "${widget.post.author.firstname??""} ${widget.post.author.lastname??""}",
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14.sp,
