@@ -7,7 +7,9 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 import 'package:ulearning_app/features/application/view/widgets/widgets.dart';
 import 'package:ulearning_app/features/coming/coming_soon.dart';
+import 'package:ulearning_app/features/favorites/views/favorites.dart';
 import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
+import 'package:ulearning_app/main.dart';
 
 class DrawerWidget extends ConsumerWidget {
   const DrawerWidget({super.key});
@@ -32,7 +34,6 @@ class DrawerWidget extends ConsumerWidget {
     );
   }
 
-  // Container for the menu screen
   Container _menuScreen(BuildContext context, WidgetRef ref) {
     return Container(
       color: Colors.white,
@@ -50,86 +51,84 @@ class DrawerWidget extends ConsumerWidget {
                 color: Colors.black,
               ),
             ),
-            Material(
-              color: Colors.transparent,
-              child: ListTile(
-                leading: _getIconForIndex(0),
-                title: const Text(
-                  'Accueil',
-                  style: TextStyle(color: AppColors.primaryElement),
-                ),
-                onTap: () {
-                  _navigateToPage(0, ref);
-                },
-              ),
+            // Liste des options de menu
+            _buildMenuItem(
+              context: context,
+              ref: ref,
+              index: 0,
+              icon: Icons.home,
+              label: 'Accueil',
             ),
-            Material(
-              color: Colors.transparent,
-              child: ListTile(
-                leading: _getIconForIndex(1),
-                title: const Text(
-                  'Favoris',
-                  style: TextStyle(color: AppColors.primaryElement),
-                ),
-                onTap: () {
-                  _navigateToPage(1, ref);
-                },
-              ),
+            _buildMenuItem(
+              context: context,
+              ref: ref,
+              index: 1,
+              icon: Icons.bookmark,
+              label: 'Favoris',
             ),
-            Material(
-              color: Colors.transparent,
-              child: ListTile(
-                leading: _getIconForIndex(2),
-                title: const Text(
-                  'Nos Mentors',
-                  style: TextStyle(color: AppColors.primaryElement),
-                ),
-                onTap: () {
-                  _navigateToPage(2, ref);
-                },
-              ),
+            _buildMenuItem(
+              context: context,
+              ref: ref,
+              index: 4,
+              icon: Icons.contact_support_outlined,
+              label: 'Nous Contacter',
             ),
-            Material(
-              color: Colors.transparent,
-              child: ListTile(
-                leading: _getIconForIndex(3),
-                title: const Text(
-                  'Communauté',
-                  style: TextStyle(color: AppColors.primaryElement),
-                ),
-                onTap: () {
-                  _navigateToPage(3, ref);
-                },
-              ),
+            _buildMenuItem(
+              context: context,
+              ref: ref,
+              index: 5,
+              icon: Icons.logout,
+              label: 'Déconnexion',
             ),
-            Material(
-              color: Colors.transparent,
-              child: ListTile(
-                leading: _getIconForIndex(4),
-                title: const Text(
-                  'Nous Contacter',
-                  style: TextStyle(color: AppColors.primaryElement),
-                ),
-                onTap: () {
-                  _navigateToPage(4, ref);
-                },
-              ),
-            ),
-            Material(
-              color: Colors.transparent,
-              child: ListTile(
-                leading: _getIconForIndex(5),
-                title: const Text(
-                  'Déconnexion',
-                  style: TextStyle(color: AppColors.primaryElement),
-                ),
-                onTap: () {
-                  _navigateToPage(5, ref);
-                },
-              ),
-            ),
-            // Add your other drawer items here
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({
+    required BuildContext context,
+    required WidgetRef ref,
+    required int index,
+    required IconData icon,
+    required String label,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          _navigateToPage(index, ref);
+        },
+        borderRadius: BorderRadius.circular(16),
+        splashColor: AppColors.primaryElement.withOpacity(0.5),
+        child: ListTile(
+          leading: Container(
+            decoration: BoxDecoration(
+              color: AppColors.primaryElement.withOpacity(0.3),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryText.withOpacity(0.2),
+                  blurRadius: 8,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(8),
+            child: Icon(
+              icon,
+              color: AppColors.primaryElement,
+              size: MediaQuery.of(context).size.width * 0.06,
+            ),
+          ),
+          title: Text(
+            label,
+            style: TextStyle(
+              color: AppColors.primaryElement,
+              fontSize: MediaQuery.of(context).size.width * 0.045,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
@@ -137,6 +136,9 @@ class DrawerWidget extends ConsumerWidget {
 
   // Navigate to a specific page
   void _navigateToPage(int index, WidgetRef ref) {
+    if(index == 1){
+     navKey.currentState!.pushNamed('/favorites');
+    }
     ref.read(zoomIndexProvider.notifier).setIndex(index);
     ref.read(appZoomControllerProvider).toggle?.call();
   }
@@ -195,7 +197,7 @@ class CurrentScreen extends ConsumerWidget {
       case 0:
         return isLoggedIn ? const BuildCurrent() : const SignIn();
       case 1:
-        return isLoggedIn ? const ComingSoon() : const SignIn();
+        return isLoggedIn ? const Favorites() : const SignIn();
       case 2:
         return isLoggedIn ? const ComingSoon() : const SignIn();
       case 3:

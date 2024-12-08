@@ -17,14 +17,6 @@ var bottomTabs = <CurvedNavigationBarItem>[
       fontSize: 12.sp,
     ),
   ),
-  // CurvedNavigationBarItem(
-  //   child: _bottomContainer(imagePath: ImageRes.search),
-  //   label: "Search",
-  //   labelStyle: TextStyle(
-  //     color: Colors.white,
-  //     fontSize: 12.sp,
-  //   ),
-  // ),
   CurvedNavigationBarItem(
     child: _bottomContainer(imagePath: ImageRes.add),
     label: "Post",

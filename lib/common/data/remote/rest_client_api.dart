@@ -36,6 +36,13 @@ abstract class RestClientApi {
     @Query("limit") int? limit,
   });
 
+  @GET("${AppConstants.userEndpoint}/favorites")
+  Future<PostResponse> getFavorites({
+    @Query("q") String? query,
+    @Query("page") int? page,
+    @Query("limit") int? limit,
+  });
+
   @POST(AppConstants.loginEndPointUrl)
   Future<LoginResponse> login({
     @Body() required LoginRequest loginRequest,
@@ -99,5 +106,10 @@ abstract class RestClientApi {
   Future<Post> addComment(
     @Path("postId") String postId,
     @Body() CreateCommentRequest content,
+  );
+
+   @PATCH("${AppConstants.userEndpoint}/{postId}/favorites")
+  Future<User> toagleUserFavorites(
+    @Path("postId") String postId,
   );
 }

@@ -8,7 +8,7 @@ class ComingSoon extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CommingSoonAppBar(ref),
+      appBar: commingSoonAppBar(ref),
       body: const Center(
         child: Text("Coming Soon"),
       ),

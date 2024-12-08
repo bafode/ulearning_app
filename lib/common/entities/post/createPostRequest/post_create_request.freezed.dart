@@ -26,8 +26,12 @@ mixin _$PostCreateRequest {
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<File>? get media => throw _privateConstructorUsedError;
 
+  /// Serializes this PostCreateRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PostCreateRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostCreateRequestCopyWith<PostCreateRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$PostCreateRequestCopyWithImpl<$Res, $Val extends PostCreateRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PostCreateRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +115,8 @@ class __$$PostCreateRequestImplCopyWithImpl<$Res>
       $Res Function(_$PostCreateRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PostCreateRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -186,12 +194,14 @@ class _$PostCreateRequestImpl implements _PostCreateRequest {
             const DeepCollectionEquality().equals(other._media, _media));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, title, content, category,
       const DeepCollectionEquality().hash(_media));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PostCreateRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostCreateRequestImplCopyWith<_$PostCreateRequestImpl> get copyWith =>
@@ -226,8 +236,11 @@ abstract class _PostCreateRequest implements PostCreateRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<File>? get media;
+
+  /// Create a copy of PostCreateRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostCreateRequestImplCopyWith<_$PostCreateRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

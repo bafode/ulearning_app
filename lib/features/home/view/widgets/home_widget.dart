@@ -183,25 +183,6 @@ SliverAppBar homeAppBar(WidgetRef ref) {
       SizedBox(
         width: 10.w,
       ),
-      // profileState.when(
-      //   data: (data) => GestureDetector(
-      //     child: GestureDetector(
-      //       onTap: () {
-      //         Navigator.of(ref.context).pushNamed(AppRoutesNames.Profile);
-      //       },
-      //       child: AppBoxDecorationImage(
-      //         imagePath: "${AppConstants.SERVER_API_URL}${data.avatar}",
-      //       ),
-      //     ),
-      //   ),
-      //   loading: () =>
-      //       AppImage(width: 18.w, height: 12.h, imagePath: ImageRes.profile),
-      //   error: (error, stackTrace) =>
-      //       AppImage(width: 18.w, height: 12.h, imagePath: ImageRes.profile),
-      // ),
-      // SizedBox(
-      //   width: 10.w,
-      // )
     ],
   );
 }

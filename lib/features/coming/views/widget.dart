@@ -5,7 +5,7 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
 import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 
-AppBar CommingSoonAppBar(WidgetRef ref) {
+AppBar commingSoonAppBar(WidgetRef ref) {
   return AppBar(
       title: Container(
     margin: EdgeInsets.only(left: 7.w, right: 7.w),

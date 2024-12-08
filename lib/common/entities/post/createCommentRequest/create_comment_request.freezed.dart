@@ -22,8 +22,12 @@ CreateCommentRequest _$CreateCommentRequestFromJson(Map<String, dynamic> json) {
 mixin _$CreateCommentRequest {
   String? get content => throw _privateConstructorUsedError;
 
+  /// Serializes this CreateCommentRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateCommentRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CreateCommentRequestCopyWith<CreateCommentRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$CreateCommentRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CreateCommentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +87,8 @@ class __$$CreateCommentRequestImplCopyWithImpl<$Res>
       $Res Function(_$CreateCommentRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateCommentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,11 +127,13 @@ class _$CreateCommentRequestImpl implements _CreateCommentRequest {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, content);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateCommentRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateCommentRequestImplCopyWith<_$CreateCommentRequestImpl>
@@ -148,8 +158,11 @@ abstract class _CreateCommentRequest implements CreateCommentRequest {
 
   @override
   String? get content;
+
+  /// Create a copy of CreateCommentRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateCommentRequestImplCopyWith<_$CreateCommentRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

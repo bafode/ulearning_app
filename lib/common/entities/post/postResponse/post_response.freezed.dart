@@ -26,8 +26,12 @@ mixin _$PostResponse {
   int get totalPages => throw _privateConstructorUsedError;
   int get totalResults => throw _privateConstructorUsedError;
 
+  /// Serializes this PostResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostResponseCopyWith<PostResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,6 +60,8 @@ class _$PostResponseCopyWithImpl<$Res, $Val extends PostResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PostResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +120,8 @@ class __$$PostResponseImplCopyWithImpl<$Res>
       _$PostResponseImpl _value, $Res Function(_$PostResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PostResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -198,7 +206,7 @@ class _$PostResponseImpl implements _PostResponse {
                 other.totalResults == totalResults));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -208,7 +216,9 @@ class _$PostResponseImpl implements _PostResponse {
       totalPages,
       totalResults);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PostResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostResponseImplCopyWith<_$PostResponseImpl> get copyWith =>
@@ -243,8 +253,11 @@ abstract class _PostResponse implements PostResponse {
   int get totalPages;
   @override
   int get totalResults;
+
+  /// Create a copy of PostResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostResponseImplCopyWith<_$PostResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -264,8 +277,12 @@ mixin _$Post {
   List<Comment>? get comments => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
+  /// Serializes this Post to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostCopyWith<Post> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -297,6 +314,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -345,6 +364,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     ) as $Val);
   }
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AuthorCopyWith<$Res> get author {
@@ -382,6 +403,8 @@ class __$$PostImplCopyWithImpl<$Res>
   __$$PostImplCopyWithImpl(_$PostImpl _value, $Res Function(_$PostImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -510,7 +533,7 @@ class _$PostImpl implements _Post {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -523,7 +546,9 @@ class _$PostImpl implements _Post {
       const DeepCollectionEquality().hash(_comments),
       id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
@@ -566,8 +591,11 @@ abstract class _Post implements Post {
   List<Comment>? get comments;
   @override
   String get id;
+
+  /// Create a copy of Post
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -584,8 +612,12 @@ mixin _$Author {
   String get avatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
+  /// Serializes this Author to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AuthorCopyWith<Author> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -612,6 +644,8 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -669,6 +703,8 @@ class __$$AuthorImplCopyWithImpl<$Res>
       _$AuthorImpl _value, $Res Function(_$AuthorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -746,12 +782,14 @@ class _$AuthorImpl implements _Author {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, firstname, lastname, email, avatar, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
@@ -785,8 +823,11 @@ abstract class _Author implements Author {
   String get avatar;
   @override
   String get id;
+
+  /// Create a copy of Author
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -803,8 +844,12 @@ mixin _$Comment {
   String get userAvatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
+  /// Serializes this Comment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommentCopyWith<Comment> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -831,6 +876,8 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -888,6 +935,8 @@ class __$$CommentImplCopyWithImpl<$Res>
       _$CommentImpl _value, $Res Function(_$CommentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -966,12 +1015,14 @@ class _$CommentImpl implements _Comment {
             (identical(other.id, id) || other.id == id));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, content, userFirstName, userLastName, userAvatar, id);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CommentImplCopyWith<_$CommentImpl> get copyWith =>
@@ -1005,8 +1056,11 @@ abstract class _Comment implements Comment {
   String get userAvatar;
   @override
   String get id;
+
+  /// Create a copy of Comment
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CommentImplCopyWith<_$CommentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

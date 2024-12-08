@@ -8,6 +8,7 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/view_model/post_view_model.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
+import 'package:ulearning_app/features/favorites/controller/controller.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
 import 'package:ulearning_app/features/post/view/widgets/comment.dart';
 import 'package:ulearning_app/features/post/view/widgets/like_animation.dart';
@@ -27,9 +28,11 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   bool isExpanded = false;
   late PageController controller;
   bool isLiked = false;
+  bool isFavorite = false;
   int postlength = 0;
   int commentLength = 0;
   List<Comment>? comments = [];
+  List<String> favorites = [];
 
   @override
   void didChangeDependencies() {
@@ -37,6 +40,8 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     super.didChangeDependencies();
     var profileState = ref.watch(homeUserProfileProvider);
     final userId = profileState.asData?.value.id;
+    favorites = profileState.asData?.value.favorites ?? [];
+    isFavorite = favorites.contains(widget.post.id);
     isLiked = widget.post.likes.any((like) => like.id == userId);
     postlength = widget.post.likes.length;
     comments = widget.post.comments;
@@ -339,11 +344,23 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   Widget buildFavoriteButton() {
     return GestureDetector(
       onTap: () {
-        // Action pour ajouter aux favoris
+        ref
+            .read(favoriteControllerProvider.notifier)
+            .toggleUserFavorites(widget.post.id);
+        setState(() {
+          isFavorite = !isFavorite;
+           favorites = List.from(favorites);
+          if (isFavorite) {
+            favorites.add(widget.post.id);
+          } else {
+            favorites.remove(widget.post.id);
+          }
+        });
       },
-      child: const Icon(
-        Icons.bookmark_border_outlined,
-        color: AppColors.primaryElement,
+      child: Icon(
+        isFavorite ? Icons.bookmark : Icons.bookmark_border,
+        color:  AppColors.primaryElement,
+       // color: isFavorite ? Colors.red : AppColors.primaryElement,
       ),
     );
   }

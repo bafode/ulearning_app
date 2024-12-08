@@ -4,6 +4,7 @@ import 'package:ulearning_app/common/data/repository/post_repository.dart';
 import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
 import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 
 class PostRepositoryImpl extends PostRepository {
@@ -30,6 +31,22 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
+  Future<PostResponse> getFavorites({
+    String? query,
+    SortOption? sort,
+    OrderOption? order,
+    int? page,
+    int? limit,
+  }) async {
+    final response = await api.getFavorites(
+      query: query,
+      page: page,
+      limit: limit ?? 10,
+    );
+    return response;
+  }
+
+  @override
   Future<PostCreateResponse?> createPost(String title, String content,
       String category, List<MultipartFile> media) async {
     final response = await api.createPost(title, content, category, media);
@@ -39,6 +56,12 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future<Post?> toggleLikePost(String postId) async {
     final response= await api.toagleLikePost(postId);
+    return response;
+  }
+
+  @override
+  Future<User?> toggleUserFavorites(String postId) async {
+    final response = await api.toagleUserFavorites(postId);
     return response;
   }
 

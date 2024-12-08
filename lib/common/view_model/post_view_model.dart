@@ -6,10 +6,13 @@ import 'package:ulearning_app/common/data/di/repository_module.dart';
 import 'package:ulearning_app/common/data/repository/impl/post_repository_impl.dart';
 import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
+import 'package:ulearning_app/common/entities/user/user.dart';
+import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/common/utils/filter.dart';
 import 'package:ulearning_app/common/utils/pagination_controller.dart';
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 import 'package:collection/collection.dart';
+import 'package:ulearning_app/global.dart';
 
 final postsViewModelProvider =
     AsyncNotifierProvider<PostsViewModel, List<Post>>(() => PostsViewModel());
@@ -30,14 +33,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   @override
   FutureOr<List<Post>> loadPage(int page) async {
     try {
-      if (page == initialPage) {
-        final cachedPosts = await getPostsFromLocalStorage();
-        if (cachedPosts.isNotEmpty) {
-          emitIfChanged(cachedPosts);
-          return cachedPosts;
-        }
-      }
-
+     
       final postResponse = await repository.getPosts(
         sort: currentFilter.sort,
         order: currentFilter.order,
@@ -54,7 +50,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       return postResponse.results;
     } catch (e) {
       handleError(e);
-      return [];
+      return getPostsFromLocalStorage();
     }
   }
 
@@ -76,6 +72,20 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
         await saveSinglePostToLocalStorage(post);
       }
       return post;
+    } catch (e) {
+      handleError(e);
+      return null;
+    }
+  }
+
+  FutureOr<User?> toggleUserFavorites(String postId) async {
+    try {
+      final user = await repository.toggleUserFavorites(postId);
+      if (user != null) {
+         Global.storageService.setString(
+            AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(user));
+      }
+      return user;
     } catch (e) {
       handleError(e);
       return null;
@@ -137,6 +147,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       final prefs = await SharedPreferences.getInstance();
       final postsJson = prefs.getString('posts') ?? '[]';
       final List<dynamic> postsList = jsonDecode(postsJson);
+      state = AsyncData(postsList.map((e) => Post.fromJson(e)).toList());
       return postsList.map((e) => Post.fromJson(e)).toList();
     } catch (e) {
       handleError(e);
@@ -162,18 +173,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   @override
   Future<List<Post>> build() async {
     try {
-       final postResponse = await repository.getPosts(
-        sort: currentFilter.sort,
-        order: currentFilter.order,
-        page: initialPage,
-      );
-      if(postResponse.results.isEmpty){
-        return await getPostsFromLocalStorage();
-      }else{
-        state = AsyncData(postResponse.results);
-        await savePostsToLocalStorage(postResponse.results);
-        return postResponse.results;
-      }    
+       return await loadPage(currentPage); 
     } catch (e) {
       handleError(e);
       return [];
