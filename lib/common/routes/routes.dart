@@ -4,6 +4,7 @@ import 'package:ulearning_app/features/addPost/view/add.dart';
 import 'package:ulearning_app/features/application/view/application.dart';
 import 'package:ulearning_app/common/routes/app_routes_names.dart';
 import 'package:ulearning_app/features/auth/view/auth.dart';
+import 'package:ulearning_app/features/contact/view/contact.dart';
 import 'package:ulearning_app/features/editProfile/view/edit_profile.dart';
 import 'package:ulearning_app/features/favorites/views/favorites.dart';
 import 'package:ulearning_app/features/forgot_password/view/forgot_password.dart';
@@ -73,6 +74,10 @@ class AppPages {
       RouteEntity(
         path: AppRoutesNames.FAVORITES,
         page: const Favorites(),
+      ),
+      RouteEntity(
+        path: AppRoutesNames.CONTACT,
+        page: Contact(),
       ),
 
     ];

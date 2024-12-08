@@ -7,6 +7,7 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 import 'package:ulearning_app/features/application/view/widgets/widgets.dart';
 import 'package:ulearning_app/features/coming/coming_soon.dart';
+import 'package:ulearning_app/features/contact/view/contact.dart';
 import 'package:ulearning_app/features/favorites/views/favorites.dart';
 import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
 import 'package:ulearning_app/main.dart';
@@ -69,14 +70,14 @@ class DrawerWidget extends ConsumerWidget {
             _buildMenuItem(
               context: context,
               ref: ref,
-              index: 4,
+              index: 2,
               icon: Icons.contact_support_outlined,
-              label: 'Nous Contacter',
+              label: 'Contact',
             ),
             _buildMenuItem(
               context: context,
               ref: ref,
-              index: 5,
+              index: 3,
               icon: Icons.logout,
               label: 'Déconnexion',
             ),
@@ -163,16 +164,6 @@ class DrawerWidget extends ConsumerWidget {
         );
       case 3:
         return const Icon(
-          Icons.group_add_rounded,
-          color: AppColors.primaryElement,
-        );
-      case 4:
-        return const Icon(
-          Icons.contact_support_outlined,
-          color: AppColors.primaryElement,
-        );
-      case 5:
-        return const Icon(
           Icons.logout,
           color: AppColors.primaryElement,
         );
@@ -199,12 +190,8 @@ class CurrentScreen extends ConsumerWidget {
       case 1:
         return isLoggedIn ? const Favorites() : const SignIn();
       case 2:
-        return isLoggedIn ? const ComingSoon() : const SignIn();
+        return isLoggedIn ? Contact() : const SignIn();
       case 3:
-        return isLoggedIn ? const ComingSoon() : const SignIn();
-      case 4:
-        return isLoggedIn ? const ComingSoon() : const SignIn();
-      case 5:
         ref.read(isLoggedInProvider.notifier).logout();
         return isLoggedIn ? const BuildCurrent() : const SignIn();
 

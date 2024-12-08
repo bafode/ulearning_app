@@ -29,6 +29,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   late PageController controller;
   bool isLiked = false;
   bool isFavorite = false;
+  bool isFollowing = false;
   int postlength = 0;
   int commentLength = 0;
   List<Comment>? comments = [];
@@ -46,6 +47,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     postlength = widget.post.likes.length;
     comments = widget.post.comments;
     commentLength = widget.post.comments?.length??0;
+    isFollowing = profileState.asData?.value.following?.contains(widget.post.author.id)??false;
   }
 
   @override
@@ -125,7 +127,18 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const FollowButton(buttonName: "Follow"),
+          FollowButton(
+            buttonName: "s'abonner",
+            isFollowing: isFollowing,
+            onTap: () => {
+              ref
+                  .read(postsViewModelProvider.notifier)
+                  .toggleUserFollow(widget.post.author.id),
+              setState(() {
+                isFollowing = !isFollowing;
+              }),
+            },
+            ),
           SizedBox(width: 8.w),
           GestureDetector(
             onTap: () {

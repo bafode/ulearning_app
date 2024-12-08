@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
+import 'package:ulearning_app/common/utils/app_colors.dart';
+import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 import 'package:ulearning_app/features/favorites/controller/controller.dart';
-import 'package:ulearning_app/features/favorites/views/widgets/widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/utils/network_error.dart';
 import 'package:ulearning_app/common/utils/snackbar.dart';
 import 'package:ulearning_app/features/post/view/widgets/post_widget.dart';
@@ -18,10 +20,8 @@ class Favorites extends ConsumerStatefulWidget {
 }
 
 class _FavoritesState extends ConsumerState<Favorites> {
-
-  FavoriteController get controller => ref.read(favoriteControllerProvider.notifier);
-
-  
+  FavoriteController get controller =>
+      ref.read(favoriteControllerProvider.notifier);
 
   @override
   void didChangeDependencies() {
@@ -52,7 +52,7 @@ class _FavoritesState extends ConsumerState<Favorites> {
               scrollInfo.metrics.axisDirection == AxisDirection.down &&
               scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent) {
             if (controller.canLoadMore) {
-              controller.loadNextPage(); 
+              controller.loadNextPage();
             }
           }
           return true;
@@ -63,8 +63,25 @@ class _FavoritesState extends ConsumerState<Favorites> {
           },
           child: CustomScrollView(
             slivers: [
-              const FavoritesAppBar(),
-              
+              SliverAppBar(
+                floating: true,
+                pinned: true,
+                backgroundColor: AppColors.primaryElement,
+                 leading: GestureDetector(
+                  onTap: () =>
+                      ref.read(appZoomControllerProvider).toggle?.call(),
+                  child: const Icon(Icons.menu,
+                      size: 30),
+                ),
+                title: Text(
+                  "Favoris",
+                  style: TextStyle(
+                    color: AppColors.primaryText,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               ...posts(context, postsState),
             ],
           ),
@@ -103,6 +120,4 @@ class _FavoritesState extends ConsumerState<Favorites> {
     return List.generate(10,
         (index) => const SliverListTileShimmer()); // Animation de chargement
   }
-
-
 }

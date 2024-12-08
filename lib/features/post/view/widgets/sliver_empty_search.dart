@@ -12,7 +12,7 @@ class SliverEmptySearch extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.search_off, size: 100),
+            const Icon(Icons.search_off, size: 100, color: Colors.grey),
             const SizedBox(height: 16),
             Text(text, style: Theme.of(context).textTheme.titleLarge),
           ],

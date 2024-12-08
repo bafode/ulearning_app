@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/entities/user/user.dart';
@@ -20,7 +18,6 @@ class _ProfileScreenState extends ConsumerState<Profile>
     with SingleTickerProviderStateMixin {
   int post_lenght = 8;
   bool yourse = true;
-  List following = [];
   bool follow = false;
   late TabController _tabController;
   @override
@@ -53,7 +50,7 @@ class _ProfileScreenState extends ConsumerState<Profile>
                         icon: Icon(Icons.slow_motion_video),
                       ),
                       Tab(
-                        icon: Icon(Icons.person_pin_outlined),
+                        icon: Icon(Icons.bookmark_border_outlined),
                       )
                     ],
                     controller: _tabController,
@@ -178,7 +175,7 @@ class _ProfileScreenState extends ConsumerState<Profile>
                       ),
                       SizedBox(width: 53.w),
                       Text(
-                        "200",
+                        "${user.followers?.length??"0"}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.sp,
@@ -186,7 +183,7 @@ class _ProfileScreenState extends ConsumerState<Profile>
                       ),
                       SizedBox(width: 70.w),
                       Text(
-                        "200",
+                        "${user.following?.length??"0"}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.sp,

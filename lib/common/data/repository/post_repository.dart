@@ -28,6 +28,8 @@ abstract class PostRepository {
 
   Future<User?> toggleUserFavorites(String postId);
 
+  Future<User?> toggleUserFollow(String followId);
+
   Future<Post?> getPost(String postId);
 
   Future<Post?> createComment(String postId, CreateCommentRequest content);

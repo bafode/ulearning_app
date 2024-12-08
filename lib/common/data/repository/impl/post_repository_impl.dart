@@ -61,7 +61,13 @@ class PostRepositoryImpl extends PostRepository {
 
   @override
   Future<User?> toggleUserFavorites(String postId) async {
-    final response = await api.toagleUserFavorites(postId);
+    final response = await api.toggleUserFavorites(postId);
+    return response;
+  }
+
+   @override
+  Future<User?> toggleUserFollow(String followId) async {
+    final response = await api.toggleUserFollow(followId);
     return response;
   }
 

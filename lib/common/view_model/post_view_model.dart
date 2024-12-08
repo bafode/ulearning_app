@@ -78,20 +78,6 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
     }
   }
 
-  FutureOr<User?> toggleUserFavorites(String postId) async {
-    try {
-      final user = await repository.toggleUserFavorites(postId);
-      if (user != null) {
-         Global.storageService.setString(
-            AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(user));
-      }
-      return user;
-    } catch (e) {
-      handleError(e);
-      return null;
-    }
-  }
-
   FutureOr<Post?> getPost(String postId) async {
     try {
       return await repository.getPost(postId);
@@ -167,6 +153,21 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   void emitIfChanged(List<Post> newPosts) {
     if (!const DeepCollectionEquality().equals(state.valueOrNull, newPosts)) {
       state = AsyncData(newPosts);
+    }
+  }
+
+  FutureOr<User?> toggleUserFollow(String followId) async {
+    try {
+      final user = await repository.toggleUserFollow(followId);
+      if (user != null) {
+        Global.storageService
+            .setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(user));
+      }
+      await loadPage(currentPage);
+      return user;
+    } catch (e) {
+      handleError(e);
+      return null;
     }
   }
 
