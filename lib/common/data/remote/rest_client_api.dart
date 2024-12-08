@@ -108,8 +108,13 @@ abstract class RestClientApi {
     @Body() CreateCommentRequest content,
   );
 
-   @PATCH("${AppConstants.userEndpoint}/{postId}/favorites")
-  Future<User> toagleUserFavorites(
+  @PATCH("${AppConstants.userEndpoint}/{postId}/favorites")
+  Future<User> toggleUserFavorites(
     @Path("postId") String postId,
+  );
+
+  @PATCH("${AppConstants.userEndpoint}/{followId}/follow")
+  Future<User> toggleUserFollow(
+    @Path("followId") String followId,
   );
 }

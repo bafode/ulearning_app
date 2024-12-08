@@ -103,37 +103,48 @@ class FollowButton extends StatelessWidget {
   final double height;
   final String buttonName;
   final bool isFollowing;
-  final BuildContext? context;
-  final void Function()? func;
+  final void Function()? onTap;
+
   const FollowButton({
     super.key,
-    this.width = 90,
-    this.height = 27,
+    this.width = 80,
+    this.height = 30,
     this.buttonName = "",
     this.isFollowing = true,
-    this.context,
-    this.func,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: func,
-      child: Container(
-        width: width.w,
-        height: height.h,
-        //isLogin true then send primary color else send white color
-        decoration: appBoxShadow(
-            color: isFollowing ? AppColors.primaryElement : Colors.white,
-            boxBorder: Border.all(color: AppColors.primaryFourthElementText)),
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: isFollowing ? Colors.grey[200] : AppColors.primaryElement,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isFollowing ? Colors.grey[400]! : AppColors.primaryElement,
+          ),
+          boxShadow: [
+            if (!isFollowing)
+              BoxShadow(
+                color: AppColors.primaryElement.withOpacity(0.3),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+          ],
+        ),
         child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text16Normal(
-                  text: buttonName, color: AppColors.primaryBackground),
-              Icon(Icons.add, color: AppColors.primaryBackground, size: 15.w)
-            ],
+          child: Text(
+            isFollowing? "abonné" : buttonName,
+            style: TextStyle(
+              color: isFollowing ? AppColors.primaryElement : Colors.white,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

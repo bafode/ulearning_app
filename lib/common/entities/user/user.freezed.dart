@@ -41,6 +41,8 @@ mixin _$User {
   String? get levelOfStudy => throw _privateConstructorUsedError;
   List<String>? get categories => throw _privateConstructorUsedError;
   List<String>? get favorites => throw _privateConstructorUsedError;
+  List<String>? get followers => throw _privateConstructorUsedError;
+  List<String>? get following => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -77,7 +79,9 @@ abstract class $UserCopyWith<$Res> {
       String? fieldOfStudy,
       String? levelOfStudy,
       List<String>? categories,
-      List<String>? favorites});
+      List<String>? favorites,
+      List<String>? followers,
+      List<String>? following});
 }
 
 /// @nodoc
@@ -116,6 +120,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? levelOfStudy = freezed,
     Object? categories = freezed,
     Object? favorites = freezed,
+    Object? followers = freezed,
+    Object? following = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -202,6 +208,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      followers: freezed == followers
+          ? _value.followers
+          : followers // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      following: freezed == following
+          ? _value.following
+          : following // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -234,7 +248,9 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? fieldOfStudy,
       String? levelOfStudy,
       List<String>? categories,
-      List<String>? favorites});
+      List<String>? favorites,
+      List<String>? followers,
+      List<String>? following});
 }
 
 /// @nodoc
@@ -270,6 +286,8 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? levelOfStudy = freezed,
     Object? categories = freezed,
     Object? favorites = freezed,
+    Object? followers = freezed,
+    Object? following = freezed,
   }) {
     return _then(_$UserImpl(
       id: freezed == id
@@ -356,6 +374,14 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value._favorites
           : favorites // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      followers: freezed == followers
+          ? _value._followers
+          : followers // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      following: freezed == following
+          ? _value._following
+          : following // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -384,9 +410,13 @@ class _$UserImpl implements _User {
       this.fieldOfStudy,
       this.levelOfStudy,
       final List<String>? categories,
-      final List<String>? favorites})
+      final List<String>? favorites,
+      final List<String>? followers,
+      final List<String>? following})
       : _categories = categories,
-        _favorites = favorites;
+        _favorites = favorites,
+        _followers = followers,
+        _following = following;
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -449,9 +479,29 @@ class _$UserImpl implements _User {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _followers;
+  @override
+  List<String>? get followers {
+    final value = _followers;
+    if (value == null) return null;
+    if (_followers is EqualUnmodifiableListView) return _followers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _following;
+  @override
+  List<String>? get following {
+    final value = _following;
+    if (value == null) return null;
+    if (_following is EqualUnmodifiableListView) return _following;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'User(id: $id, firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, gender: $gender, status: $status, description: $description, role: $role, isEmailVerified: $isEmailVerified, accountClosed: $accountClosed, phone: $phone, online: $online, open_id: $open_id, authType: $authType, city: $city, school: $school, fieldOfStudy: $fieldOfStudy, levelOfStudy: $levelOfStudy, categories: $categories, favorites: $favorites)';
+    return 'User(id: $id, firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, gender: $gender, status: $status, description: $description, role: $role, isEmailVerified: $isEmailVerified, accountClosed: $accountClosed, phone: $phone, online: $online, open_id: $open_id, authType: $authType, city: $city, school: $school, fieldOfStudy: $fieldOfStudy, levelOfStudy: $levelOfStudy, categories: $categories, favorites: $favorites, followers: $followers, following: $following)';
   }
 
   @override
@@ -489,7 +539,11 @@ class _$UserImpl implements _User {
             const DeepCollectionEquality()
                 .equals(other._categories, _categories) &&
             const DeepCollectionEquality()
-                .equals(other._favorites, _favorites));
+                .equals(other._favorites, _favorites) &&
+            const DeepCollectionEquality()
+                .equals(other._followers, _followers) &&
+            const DeepCollectionEquality()
+                .equals(other._following, _following));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -516,7 +570,9 @@ class _$UserImpl implements _User {
         fieldOfStudy,
         levelOfStudy,
         const DeepCollectionEquality().hash(_categories),
-        const DeepCollectionEquality().hash(_favorites)
+        const DeepCollectionEquality().hash(_favorites),
+        const DeepCollectionEquality().hash(_followers),
+        const DeepCollectionEquality().hash(_following)
       ]);
 
   /// Create a copy of User
@@ -557,7 +613,9 @@ abstract class _User implements User {
       final String? fieldOfStudy,
       final String? levelOfStudy,
       final List<String>? categories,
-      final List<String>? favorites}) = _$UserImpl;
+      final List<String>? favorites,
+      final List<String>? followers,
+      final List<String>? following}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -603,6 +661,10 @@ abstract class _User implements User {
   List<String>? get categories;
   @override
   List<String>? get favorites;
+  @override
+  List<String>? get followers;
+  @override
+  List<String>? get following;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
