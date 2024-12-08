@@ -33,8 +33,12 @@ mixin _$RegistrationRequest {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword => throw _privateConstructorUsedError;
 
+  /// Serializes this RegistrationRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RegistrationRequestCopyWith<RegistrationRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,6 +74,8 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -165,6 +171,8 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
       $Res Function(_$RegistrationRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -301,7 +309,7 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
                 other.rePassword == rePassword));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -317,7 +325,9 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
       online,
       rePassword);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RegistrationRequestImplCopyWith<_$RegistrationRequestImpl> get copyWith =>
@@ -373,8 +383,11 @@ abstract class _RegistrationRequest implements RegistrationRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword;
+
+  /// Create a copy of RegistrationRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegistrationRequestImplCopyWith<_$RegistrationRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

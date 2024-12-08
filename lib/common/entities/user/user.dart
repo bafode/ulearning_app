@@ -26,6 +26,7 @@ class User with _$User {
     String? fieldOfStudy,
     String? levelOfStudy,
     List<String>? categories,
+    List<String>? favorites,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

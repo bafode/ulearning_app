@@ -29,8 +29,12 @@ mixin _$UpdateUserInfoRequest {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword => throw _privateConstructorUsedError;
 
+  /// Serializes this UpdateUserInfoRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UpdateUserInfoRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UpdateUserInfoRequestCopyWith<UpdateUserInfoRequest> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$UpdateUserInfoRequestCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UpdateUserInfoRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -129,6 +135,8 @@ class __$$UpdateUserInfoRequestImplCopyWithImpl<$Res>
       $Res Function(_$UpdateUserInfoRequestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UpdateUserInfoRequest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -227,7 +235,7 @@ class _$UpdateUserInfoRequestImpl implements _UpdateUserInfoRequest {
                 other.rePassword == rePassword));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -238,7 +246,9 @@ class _$UpdateUserInfoRequestImpl implements _UpdateUserInfoRequest {
       const DeepCollectionEquality().hash(_categories),
       rePassword);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UpdateUserInfoRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateUserInfoRequestImplCopyWith<_$UpdateUserInfoRequestImpl>
@@ -279,8 +289,11 @@ abstract class _UpdateUserInfoRequest implements UpdateUserInfoRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword;
+
+  /// Create a copy of UpdateUserInfoRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateUserInfoRequestImplCopyWith<_$UpdateUserInfoRequestImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
