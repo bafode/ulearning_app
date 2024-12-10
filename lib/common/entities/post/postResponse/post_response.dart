@@ -38,8 +38,8 @@ class Author with _$Author {
   const factory Author({
     required String? firstname,
     required String? lastname,
-    required String email,
-    required String avatar,
+    required String? email,
+    required String? avatar,
     required String id,
   }) = _Author;
 
@@ -52,7 +52,7 @@ class Comment with _$Comment {
     required String content,
     required String? userFirstName,
     required String? userLastName,
-    required String userAvatar,
+    required String? userAvatar,
     required String id,
   }) = _Comment;
 

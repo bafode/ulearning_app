@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -201,16 +199,15 @@ class _SettingPage extends ConsumerState<Setting> {
         backgroundColor: AppColors.primaryElement,
         title: Container(
           margin: EdgeInsets.only(left: 7.w, right: 7.w),
-          child: Container(
-            child: Text(
-              "Settings",
+          child:  Text(
+              "Reglages",
               style: TextStyle(
                 color: AppColors.primaryText,
                 fontWeight: FontWeight.bold,
                 fontSize: 16.sp,
               ),
             ),
-          ),
+          
         ));
   }
 

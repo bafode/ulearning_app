@@ -77,7 +77,7 @@ class AppPages {
       ),
       RouteEntity(
         path: AppRoutesNames.CONTACT,
-        page: Contact(),
+        page: const Contact(),
       ),
 
     ];
@@ -113,7 +113,7 @@ class AppPages {
       }
     }
     return MaterialPageRoute(
-        builder: (_) => const Welcome(), settings: settings);
+        builder: (_) => const Auth(), settings: settings);
   }
 }
 

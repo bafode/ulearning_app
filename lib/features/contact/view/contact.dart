@@ -7,10 +7,10 @@ class Contact extends ConsumerStatefulWidget {
   const Contact({super.key});
 
   @override
-  _ContactState createState() => _ContactState();
+  ContactState createState() => ContactState();
 }
 
-class _ContactState extends ConsumerState<Contact> {
+class ContactState extends ConsumerState<Contact> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
@@ -30,12 +30,20 @@ class _ContactState extends ConsumerState<Contact> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.menu),
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.white,
+            ),
           onPressed: () => {
             ref.read(appZoomControllerProvider).toggle?.call(),
           },
         ),
-        title: const Text("Contact",style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.primaryText),),
+        title: const Text(
+          "Contact",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            ),),
         backgroundColor: AppColors.primaryElement,
         centerTitle: true,
       ),

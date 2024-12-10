@@ -29,10 +29,10 @@ class ProfileListView extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 15.w),
                   child: Text(
-                    "Settings",
+                    "Reglages du compte",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      color: AppColors.primaryText,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 13.sp,
                     ),
@@ -64,10 +64,10 @@ class ProfileListView extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(left: 15.w),
                   child: Text(
-                    "Payment Details",
+                    "Payement",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      color: AppColors.primaryText,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 13.sp,
                     ),
@@ -101,7 +101,7 @@ class ProfileListView extends StatelessWidget {
                   "Achievement",
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    color: AppColors.primaryText,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 13.sp,
                   ),
@@ -128,10 +128,10 @@ class ProfileListView extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 15.w),
                 child: Text(
-                  "Love",
+                  "Favoris",
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    color: AppColors.primaryText,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 13.sp,
                   ),
@@ -161,7 +161,7 @@ class ProfileListView extends StatelessWidget {
                   "Learning Reminders",
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    color: AppColors.primaryText,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 13.sp,
                   ),

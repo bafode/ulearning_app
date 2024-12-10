@@ -147,7 +147,7 @@ class _CommentState extends ConsumerState<CommentWidget> {
               height: 50,
               width: 50,
               child: Image.network(
-                comment.userAvatar,
+                comment.userAvatar??'',
                 fit: BoxFit.cover,
               ),
             ),

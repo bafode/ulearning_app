@@ -70,7 +70,7 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                         contentPadding: EdgeInsets.zero,
                         leading: CircleAvatar(
                           radius: 30.r,
-                          backgroundImage: NetworkImage(value.author.avatar),
+                          backgroundImage: NetworkImage(value.author.avatar??''),
                         ),
                         title: Text(
                           "${value.author.firstname} ${value.author.lastname}",

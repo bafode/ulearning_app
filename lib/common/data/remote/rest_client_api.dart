@@ -43,6 +43,13 @@ abstract class RestClientApi {
     @Query("limit") int? limit,
   });
 
+  @GET("${AppConstants.userEndpoint}/me/posts")
+  Future<PostResponse> getLoggedUserPost({
+    @Query("q") String? query,
+    @Query("page") int? page,
+    @Query("limit") int? limit,
+  });
+
   @POST(AppConstants.loginEndPointUrl)
   Future<LoginResponse> login({
     @Body() required LoginRequest loginRequest,

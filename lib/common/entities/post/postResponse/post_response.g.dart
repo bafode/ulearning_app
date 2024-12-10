@@ -57,8 +57,8 @@ Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
 _$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       firstname: json['firstname'] as String?,
       lastname: json['lastname'] as String?,
-      email: json['email'] as String,
-      avatar: json['avatar'] as String,
+      email: json['email'] as String?,
+      avatar: json['avatar'] as String?,
       id: json['id'] as String,
     );
 
@@ -76,7 +76,7 @@ _$CommentImpl _$$CommentImplFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String,
       userFirstName: json['userFirstName'] as String?,
       userLastName: json['userLastName'] as String?,
-      userAvatar: json['userAvatar'] as String,
+      userAvatar: json['userAvatar'] as String?,
       id: json['id'] as String,
     );
 

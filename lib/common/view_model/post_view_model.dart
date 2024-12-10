@@ -174,7 +174,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   @override
   Future<List<Post>> build() async {
     try {
-       return await loadPage(currentPage); 
+       return await loadPage(initialPage); 
     } catch (e) {
       handleError(e);
       return [];

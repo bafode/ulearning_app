@@ -65,7 +65,6 @@ class _RegistrationState extends ConsumerState<Registration> {
         isActive: currentStep >= 0,
         state: currentStep > 0 ? StepState.complete : StepState.indexed,
         content: const RegistrationForm(),
-        stepStyle: StepStyle(border: Border.all(color: Colors.black,width: 2))
       ),
       Step(
         title: Center(
@@ -84,8 +83,6 @@ class _RegistrationState extends ConsumerState<Registration> {
         isActive: currentStep >= 1,
         state: currentStep > 1 ? StepState.complete : StepState.indexed,
         content: const EmailVerificationStep(),
-         stepStyle:
-              StepStyle(border: Border.all(color: Colors.black, width: 2))
       ),
       Step(
         title: Center(
@@ -103,8 +100,6 @@ class _RegistrationState extends ConsumerState<Registration> {
         ),
         isActive: currentStep >= 2,
         content: const UpdateUserInfoForm(),
-         stepStyle:
-              StepStyle(border: Border.all(color: Colors.black, width: 2))
       ),
     ];
   }

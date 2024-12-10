@@ -146,7 +146,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             },
             child: const Icon(
               Icons.more_vert,
-              color: AppColors.primaryElement,
+              color: Colors.black,
             ),
           ),
         ],
@@ -235,7 +235,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             curve: Curves.easeInOut,
             child: Icon(
               isLiked ? Icons.favorite : Icons.favorite_border,
-              color: isLiked ? Colors.red : AppColors.primaryElement,
+              color: isLiked ? Colors.red : Colors.black,
             ),
           ),
         ),
@@ -315,7 +315,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           },
           child: const Icon(
             Icons.comment_bank_outlined,
-            color: AppColors.primaryElement,
+            color: Colors.black,
           ),
         ),
         SizedBox(width: 4.w),
@@ -339,7 +339,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           },
           child: const Icon(
             Icons.send_outlined,
-            color: AppColors.primaryElement,
+            color: Colors.black,
           ),
         ),
         SizedBox(width: 4.w),
@@ -372,7 +372,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       },
       child: Icon(
         isFavorite ? Icons.bookmark : Icons.bookmark_border,
-        color:  AppColors.primaryElement,
+        color:  Colors.black,
        // color: isFavorite ? Colors.red : AppColors.primaryElement,
       ),
     );

@@ -15,7 +15,13 @@ abstract class PostRepository {
     int? limit,
   });
 
-    Future<PostResponse> getFavorites({
+  Future<PostResponse> getFavorites({
+    String query = "",
+    int? page,
+    int? limit,
+  });
+
+  Future<PostResponse> getLoggedUserPost({
     String query = "",
     int? page,
     int? limit,
