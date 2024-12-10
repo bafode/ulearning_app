@@ -47,6 +47,22 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
+  Future<PostResponse> getLoggedUserPost({
+    String? query,
+    SortOption? sort,
+    OrderOption? order,
+    int? page,
+    int? limit,
+  }) async {
+    final response = await api.getLoggedUserPost(
+      query: query,
+      page: page,
+      limit: limit ?? 10,
+    );
+    return response;
+  }
+
+  @override
   Future<PostCreateResponse?> createPost(String title, String content,
       String category, List<MultipartFile> media) async {
     final response = await api.createPost(title, content, category, media);

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/entities/user/user.dart';
+import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
+import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/common/widgets/image_widgets.dart';
+import 'package:ulearning_app/common/utils/network_error.dart';
+import 'package:ulearning_app/common/utils/snackbar.dart';
+import 'package:ulearning_app/features/favorites/controller/controller.dart';
+import 'package:ulearning_app/features/post/view/widgets/sliver_empty_search.dart';
+import 'package:ulearning_app/features/post/view/widgets/sliver_list_tile_shimmer.dart';
+import 'package:ulearning_app/features/post/view/widgets/sliver_loading_spinner.dart';
 import 'package:ulearning_app/features/profile/controller/profile_controller.dart';
+import 'package:ulearning_app/features/profile/controller/profile_post_controller.dart';
 import 'package:ulearning_app/features/profile/view/profil_list_view.dart';
 
 class Profile extends ConsumerStatefulWidget {
@@ -16,351 +24,308 @@ class Profile extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<Profile>
     with SingleTickerProviderStateMixin {
-  int post_lenght = 8;
   bool yourse = true;
   bool follow = false;
   late TabController _tabController;
+
+  LoggedUserPostController get loggedUserPostController =>
+      ref.read(loggedUserPostControllerProvider.notifier);
+
+  FavoriteController get favoriteController =>
+      ref.read(favoriteControllerProvider.notifier);
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    favoriteController.build();
+    loggedUserPostController.build();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(profileControllerProvider);
-    print(userProfile);
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: ProfileHeader(userProfile)),
-              SliverToBoxAdapter(
-                child: DefaultTabController(
-                  length: 3,
-                  child: TabBar(
-                    tabs: const [
-                      Tab(
-                        icon: Icon(Icons.grid_on),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.slow_motion_video),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.bookmark_border_outlined),
-                      )
-                    ],
-                    controller: _tabController,
-                    unselectedLabelColor: Colors.grey.shade600,
-                    labelColor: Colors.black,
-                    indicatorColor: Colors.black,
-                  ),
-                ),
+    ref.listen(favoriteControllerProvider, (_, state) {
+      if (!state.isLoading && state.hasError) {
+        debugPrint("Erreur capturée : ${state.error}");
+        final dioError = state.dioException;
+        if (dioError != null) {
+          context.showErrorSnackBar(dioError.errorMessage);
+        } else {
+          context.showErrorSnackBar("Erreur inattendue : ${state.error}");
+        }
+      }
+    });
+    ref.listen(loggedUserPostControllerProvider, (_, state) {
+      if (!state.isLoading && state.hasError) {
+        debugPrint("Erreur capturée : ${state.error}");
+        final dioError = state.dioException;
+        if (dioError != null) {
+          context.showErrorSnackBar(dioError.errorMessage);
+        } else {
+          context.showErrorSnackBar("Erreur inattendue : ${state.error}");
+        }
+      }
+    });
+    final favoritesState = ref.watch(favoriteControllerProvider);
+    final loggedUserPostState = ref.watch(loggedUserPostControllerProvider);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(
+                vertical: 30.h,
+                horizontal: 25.w,
               ),
-              SliverFillRemaining(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                    // postState.when(
-                    //   data: (data) {
-                    //     return GridView.builder(
-                    //       gridDelegate:
-                    //           const SliverGridDelegateWithFixedCrossAxisCount(
-                    //               crossAxisCount: 3),
-                    //       itemBuilder: (context, index) {
-                    //         return GestureDetector(
-                    //           onTap: () {
-                    //             // Navigator.of(context).push(MaterialPageRoute(
-                    //             //     builder: (context) => PostScreen(snap.data(),),),);
-                    //           },
-                    //           child: CachedImage(
-                    //             "${AppConstants.SERVER_API_URL}${data[index].media![0]}",
-                    //           ),
-                    //         );
-                    //       },
-                    //       itemCount: data!.length,
-                    //     );
-                    //   },
-                    //   error: (error, stackTrace) {
-                    //     return const SliverFillRemaining(
-                    //         child: Center(child: Text("Error loading data")));
-                    //   },
-                    //   loading: () => const SliverFillRemaining(
-                    //     child: Center(
-                    //       child: CircularProgressIndicator(),
-                    //     ),
-                    //   ),
-                    // ),
-                    GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.all(1.5),
-                          height: 500,
-                          width: 500,
-                          color: Colors.grey.shade200,
-                        );
-                      },
-                      itemCount: 8,
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    Container(
+                      width: 80.w,
+                      height: 80.h,
+                      decoration: userProfile.avatar == null
+                          ? BoxDecoration(
+                              image: const DecorationImage(
+                                  image:
+                                      AssetImage('assets/icons/headpic.png')),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.w)),
+                            )
+                          : BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(userProfile.avatar ==
+                                          "default.jpg"
+                                      ? "${AppConstants.SERVER_API_URL}${userProfile.avatar}"
+                                      : "${userProfile.avatar}")),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.w)),
+                            ),
+                      child: Container(
+                        alignment: Alignment.bottomRight,
+                        padding: EdgeInsets.only(right: 6.w),
+                        child: Image(
+                          image: const AssetImage("assets/icons/edit_3.png"),
+                          width: 25.w,
+                          height: 25.h,
+                        ),
+                      ),
                     ),
+                    Container(
+                      margin: EdgeInsets.only(top: 12.w),
+                      child: Text(
+                        "${userProfile.firstname ?? ""} ${userProfile.lastname ?? ''}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    userProfile.description == null
+                        ? Container()
+                        : Container(
+                            padding: EdgeInsets.only(left: 50.w, right: 50.w),
+                            margin: EdgeInsets.only(bottom: 10.h, top: 5.h),
+                            child: Text(
+                              "${userProfile.description}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: AppColors.primarySecondaryElementText,
+                                fontSize: 9.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
 
-                    //reals
-                    const Icon(
-                      Icons.slow_motion_video,
-                      size: 50,
-                    ),
-                    //tag
-                    GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.all(1.5),
-                          height: 500,
-                          width: 500,
-                          color: Colors.grey.shade200,
-                        );
-                      },
-                      itemCount: 8,
+                          Padding(
+                      padding: EdgeInsets.only(top: 10.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildClickableStatColumn(
+                              "${userProfile.followers?.length ?? "0"}",
+                              "Followers",
+                              () {}),
+                          _buildClickableStatColumn(
+                              "${userProfile.following?.length ?? "0"}",
+                              "Following",
+                              () {}),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            SliverToBoxAdapter(child: ProfileLinks()),
+            SliverToBoxAdapter(
+              child: DefaultTabController(
+                length: 2,
+                child: TabBar(
+                  tabs: const [
+                    Tab(
+                      icon: Icon(Icons.grid_on),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.bookmark),
+                    )
+                  ],
+                  controller: _tabController,
+                  unselectedLabelColor: Colors.grey.shade600,
+                  labelColor: Colors.black,
+                  indicatorColor: Colors.black,
+                ),
+              ),
+            ),
+            SliverFillRemaining(
+              child: TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  NotificationListener(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo is ScrollEndNotification &&
+                          scrollInfo.metrics.axisDirection ==
+                              AxisDirection.down &&
+                          scrollInfo.metrics.pixels >=
+                              scrollInfo.metrics.maxScrollExtent) {
+                        if (loggedUserPostController.canLoadMore) {
+                          loggedUserPostController.loadNextPage();
+                        }
+                      }
+                      return true;
+                    },
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        loggedUserPostController
+                            .refresh(); // Rafraîchit la liste des posts
+                      },
+                      child: CustomScrollView(
+                        slivers: [...gridPosts(context, loggedUserPostState)],
+                      ),
+                    ),
+                  ),
+                  NotificationListener(
+                    onNotification: (ScrollNotification scrollInfo) {
+                      if (scrollInfo is ScrollEndNotification &&
+                          scrollInfo.metrics.axisDirection ==
+                              AxisDirection.down &&
+                          scrollInfo.metrics.pixels >=
+                              scrollInfo.metrics.maxScrollExtent) {
+                        if (favoriteController.canLoadMore) {
+                          favoriteController.loadNextPage();
+                        }
+                      }
+                      return true;
+                    },
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        favoriteController
+                            .refresh(); // Rafraîchit la liste des posts
+                      },
+                      child: CustomScrollView(
+                        slivers: [...gridPosts(context, favoritesState)],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   // ignore: non_constant_identifier_names
-  Widget ProfileHeader(User user) {
+  Widget ProfileLinks() {
     return Container(
       color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 10.h),
-                child: ClipOval(
-                  child: SizedBox(
-                    width: 80,
-                    height: 80,
-                    child: CachedImage(user.avatar == "default.jpg"
-                        ? "${AppConstants.SERVER_API_URL}${user.avatar}"
-                        : "${user.avatar}"),
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(width: 35.w),
-                      Text(
-                        post_lenght.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                      SizedBox(width: 53.w),
-                      Text(
-                        "${user.followers?.length??"0"}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                      SizedBox(width: 70.w),
-                      Text(
-                        "${user.following?.length??"0"}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(width: 30.w),
-                      Text(
-                        'Posts',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      SizedBox(width: 25.w),
-                      Text(
-                        'Followers',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      SizedBox(width: 19.w),
-                      Text(
-                        'Following',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${user.firstname} ${user.lastname ?? ''}",
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 5.h),
-                Text(
-                  user.description ?? '',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
+      child: 
+         Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
             child: const ProfileListView(),
           ),
-          SizedBox(height: 10.h),
-          Visibility(
-            visible: !follow && !yourse,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 13.w),
-              child: GestureDetector(
-                onTap: () {
-                  // if (yourse == false) {
-                  //   Firebase_Firestor().flollow(uid: widget.Uid);
-                  //   setState(() {
-                  //     follow = true;
-                  //   });
-                  // }
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 30.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: yourse ? Colors.white : Colors.blue,
-                    borderRadius: BorderRadius.circular(5.r),
-                    border: Border.all(
-                        color: yourse ? Colors.grey.shade400 : Colors.blue),
+        
+      
+    );
+  }
+
+  List<Widget> gridPosts(
+      BuildContext context, AsyncValue<List<Post>> postState) {
+    final repositories = postState.valueOrNull ?? [];
+    final initialLoading = postState.isLoading && repositories.isEmpty;
+    final loadingMore = postState.isLoading && repositories.isNotEmpty;
+
+    return initialLoading
+        ? shimmerLoading()
+        : repositories.isEmpty
+            ? [
+                const SliverEmptySearch(text: "No Posts Found"),
+              ]
+            : [
+                SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, // Nombre de colonnes dans la grille
+                    crossAxisSpacing: 4.0,
+                    mainAxisSpacing: 4.0,
+                    childAspectRatio: 1, // Carrés parfaits
                   ),
-                  child: yourse
-                      ? const Text('Edit Your Profile')
-                      : const Text(
-                          'Follow',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                ),
-              ),
-            ),
-          ),
-          Visibility(
-            visible: follow,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 13.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => InkWell(
                       onTap: () {
-                        // Firebase_Firestor().flollow(uid: widget.Uid);
-                        // setState(() {
-                        //   follow = false;
-                        // });
+                        Navigator.of(context).pushNamed(
+                          AppRoutesNames.POST_DETAIL,
+                          arguments: {"id": repositories[index].id},
+                        );
                       },
                       child: Container(
-                        alignment: Alignment.center,
-                        height: 30.h,
-                        width: 100.w,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(5.r),
-                          border: Border.all(color: Colors.grey.shade200),
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                            image:
+                                NetworkImage(repositories[index].media?.first ??
+                                    ""
+                                        ""),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        child: const Text('Unfollow'),
                       ),
                     ),
+                    childCount: repositories.length,
                   ),
-                  // SizedBox(width: 8.w),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 30.h,
-                      width: 100.w,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(5.r),
-                        border: Border.all(color: Colors.grey.shade200),
-                      ),
-                      child: const Text(
-                        'Message',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                if (loadingMore)
+                  const SliverLoadingSpinner(), // Spinner pour chargement supplémentaire
+              ];
+  }
+
+  // Méthode pour afficher l'animation de chargement
+  List<Widget> shimmerLoading() {
+    return List.generate(10,
+        (index) => const SliverListTileShimmer()); // Animation de chargement
+  }
+
+  Widget _buildClickableStatColumn(
+      String count, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Text(
+            count,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
             ),
           ),
           SizedBox(height: 5.h),
-          SizedBox(
-            height: 78,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 5),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              width: 1,
-                              style: BorderStyle.solid,
-                              color: Colors.grey)),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.black.withOpacity(0.2),
-                        radius: 25,
-                        child: const Icon(
-                          Icons.add,
-                          size: 17,
-                        ),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        child: const Text('highlights'))
-                  ],
-                );
-              },
-              itemCount: 1,
-              scrollDirection: Axis.horizontal,
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: AppColors.primaryElement, // Mettre en évidence qu'il est cliquable
             ),
           ),
         ],

@@ -147,22 +147,22 @@ class _SignInState extends ConsumerState<SignIn> {
                       _buildThirdPartyGoogleLogin(),
                       _buildThirdPartyFacebookLogin(),
                       Platform.isIOS ? _buildThirdPartyAppleLogin() : Container(),
-                      Column(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                              "Pas de compte?",
+                              "Tu n'as pas encore de compte?",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: AppColors.primaryText,
+                                color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 12.sp,
                               ),
                           ),
-                          const SizedBox(height: 15,),
+                          const SizedBox(width: 15,),
                           GestureDetector(
                                 child: Text(
-                                  "S'inscrire ici",
+                                  "s'inscrire",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: AppColors.primaryElement,

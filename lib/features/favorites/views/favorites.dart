@@ -70,13 +70,16 @@ class _FavoritesState extends ConsumerState<Favorites> {
                  leading: GestureDetector(
                   onTap: () =>
                       ref.read(appZoomControllerProvider).toggle?.call(),
-                  child: const Icon(Icons.menu,
-                      size: 30),
+                  child: const Icon(
+                    Icons.menu,
+                      size: 30,
+                      color: Colors.white,
+                      ),
                 ),
                 title: Text(
                   "Favoris",
                   style: TextStyle(
-                    color: AppColors.primaryText,
+                    color: Colors.white,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),

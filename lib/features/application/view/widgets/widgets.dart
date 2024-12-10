@@ -11,7 +11,7 @@ import 'package:ulearning_app/features/profile/view/profile.dart';
 var bottomTabs = <CurvedNavigationBarItem>[
   CurvedNavigationBarItem(
     child: _bottomContainer(imagePath: ImageRes.home),
-    label: "Home",
+    label: "Accueil",
     labelStyle: TextStyle(
       color: Colors.white,
       fontSize: 12.sp,
@@ -19,7 +19,7 @@ var bottomTabs = <CurvedNavigationBarItem>[
   ),
   CurvedNavigationBarItem(
     child: _bottomContainer(imagePath: ImageRes.add),
-    label: "Post",
+    label: "Publication",
     labelStyle: TextStyle(
       color: Colors.white,
       fontSize: 12.sp,
@@ -35,7 +35,7 @@ var bottomTabs = <CurvedNavigationBarItem>[
   ),
   CurvedNavigationBarItem(
     child: _bottomContainer(imagePath: ImageRes.profile),
-    label: "Profile",
+    label: "Profil",
     labelStyle: TextStyle(
       color: Colors.white,
       fontSize: 12.sp,
@@ -44,8 +44,8 @@ var bottomTabs = <CurvedNavigationBarItem>[
 ];
 
 Widget _bottomContainer({
-  double width = 15,
-  double height = 15,
+  double width = 20,
+  double height = 20,
   String imagePath = ImageRes.home,
   Color color = Colors.white,
 }) {

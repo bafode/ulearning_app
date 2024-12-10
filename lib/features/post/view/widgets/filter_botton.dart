@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-
 class FilterButton extends StatelessWidget {
   final Function onTap;
 
@@ -25,7 +23,7 @@ class FilterButton extends StatelessWidget {
           ),
           child: const Icon(
             Icons.tune_outlined,
-            color: AppColors.primaryElement,
+            color: Colors.black,
             size: 24,
           ),
         ));

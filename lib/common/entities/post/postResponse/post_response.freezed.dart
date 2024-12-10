@@ -608,8 +608,8 @@ Author _$AuthorFromJson(Map<String, dynamic> json) {
 mixin _$Author {
   String? get firstname => throw _privateConstructorUsedError;
   String? get lastname => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get avatar => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
   /// Serializes this Author to a JSON map.
@@ -629,8 +629,8 @@ abstract class $AuthorCopyWith<$Res> {
   $Res call(
       {String? firstname,
       String? lastname,
-      String email,
-      String avatar,
+      String? email,
+      String? avatar,
       String id});
 }
 
@@ -651,8 +651,8 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
   $Res call({
     Object? firstname = freezed,
     Object? lastname = freezed,
-    Object? email = null,
-    Object? avatar = null,
+    Object? email = freezed,
+    Object? avatar = freezed,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -664,14 +664,14 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      avatar: null == avatar
+              as String?,
+      avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -690,8 +690,8 @@ abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
   $Res call(
       {String? firstname,
       String? lastname,
-      String email,
-      String avatar,
+      String? email,
+      String? avatar,
       String id});
 }
 
@@ -710,8 +710,8 @@ class __$$AuthorImplCopyWithImpl<$Res>
   $Res call({
     Object? firstname = freezed,
     Object? lastname = freezed,
-    Object? email = null,
-    Object? avatar = null,
+    Object? email = freezed,
+    Object? avatar = freezed,
     Object? id = null,
   }) {
     return _then(_$AuthorImpl(
@@ -723,14 +723,14 @@ class __$$AuthorImplCopyWithImpl<$Res>
           ? _value.lastname
           : lastname // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      avatar: null == avatar
+              as String?,
+      avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -757,9 +757,9 @@ class _$AuthorImpl implements _Author {
   @override
   final String? lastname;
   @override
-  final String email;
+  final String? email;
   @override
-  final String avatar;
+  final String? avatar;
   @override
   final String id;
 
@@ -807,8 +807,8 @@ abstract class _Author implements Author {
   const factory _Author(
       {required final String? firstname,
       required final String? lastname,
-      required final String email,
-      required final String avatar,
+      required final String? email,
+      required final String? avatar,
       required final String id}) = _$AuthorImpl;
 
   factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
@@ -818,9 +818,9 @@ abstract class _Author implements Author {
   @override
   String? get lastname;
   @override
-  String get email;
+  String? get email;
   @override
-  String get avatar;
+  String? get avatar;
   @override
   String get id;
 
@@ -841,7 +841,7 @@ mixin _$Comment {
   String get content => throw _privateConstructorUsedError;
   String? get userFirstName => throw _privateConstructorUsedError;
   String? get userLastName => throw _privateConstructorUsedError;
-  String get userAvatar => throw _privateConstructorUsedError;
+  String? get userAvatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
   /// Serializes this Comment to a JSON map.
@@ -862,7 +862,7 @@ abstract class $CommentCopyWith<$Res> {
       {String content,
       String? userFirstName,
       String? userLastName,
-      String userAvatar,
+      String? userAvatar,
       String id});
 }
 
@@ -884,7 +884,7 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? content = null,
     Object? userFirstName = freezed,
     Object? userLastName = freezed,
-    Object? userAvatar = null,
+    Object? userAvatar = freezed,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -900,10 +900,10 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.userLastName
           : userLastName // ignore: cast_nullable_to_non_nullable
               as String?,
-      userAvatar: null == userAvatar
+      userAvatar: freezed == userAvatar
           ? _value.userAvatar
           : userAvatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -923,7 +923,7 @@ abstract class _$$CommentImplCopyWith<$Res> implements $CommentCopyWith<$Res> {
       {String content,
       String? userFirstName,
       String? userLastName,
-      String userAvatar,
+      String? userAvatar,
       String id});
 }
 
@@ -943,7 +943,7 @@ class __$$CommentImplCopyWithImpl<$Res>
     Object? content = null,
     Object? userFirstName = freezed,
     Object? userLastName = freezed,
-    Object? userAvatar = null,
+    Object? userAvatar = freezed,
     Object? id = null,
   }) {
     return _then(_$CommentImpl(
@@ -959,10 +959,10 @@ class __$$CommentImplCopyWithImpl<$Res>
           ? _value.userLastName
           : userLastName // ignore: cast_nullable_to_non_nullable
               as String?,
-      userAvatar: null == userAvatar
+      userAvatar: freezed == userAvatar
           ? _value.userAvatar
           : userAvatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -991,7 +991,7 @@ class _$CommentImpl implements _Comment {
   @override
   final String? userLastName;
   @override
-  final String userAvatar;
+  final String? userAvatar;
   @override
   final String id;
 
@@ -1041,7 +1041,7 @@ abstract class _Comment implements Comment {
       {required final String content,
       required final String? userFirstName,
       required final String? userLastName,
-      required final String userAvatar,
+      required final String? userAvatar,
       required final String id}) = _$CommentImpl;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$CommentImpl.fromJson;
@@ -1053,7 +1053,7 @@ abstract class _Comment implements Comment {
   @override
   String? get userLastName;
   @override
-  String get userAvatar;
+  String? get userAvatar;
   @override
   String get id;
 

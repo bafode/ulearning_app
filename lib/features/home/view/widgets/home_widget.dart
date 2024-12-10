@@ -118,6 +118,7 @@ class HomeAppBar extends ConsumerWidget {
     floating: true,
     pinned: true,
     backgroundColor: Colors.white,
+    surfaceTintColor: Colors.transparent,
     leading:   FilterButton(
     onTap: () {
       showModalBottomSheet(
@@ -142,7 +143,7 @@ class HomeAppBar extends ConsumerWidget {
         onTap: () {},
         child: const Icon(
           Icons.notifications_none_sharp,
-          color: AppColors.primaryElement,
+          color: Colors.black,
           size: 30,
         ),
       ),

@@ -115,26 +115,26 @@ ondispose() {
           children: [
             const SizedBox(height: 10),
             AppTextField(
-              controller: firstName,
-              text: "Prénom",
-              iconName: Icons.person,
-              hintText: "Entrez votre prénom",
-              validator: validateFirstName,
-              onChanged: (value) => ref
-                        .read(signUpNotifierProvier.notifier)
-                        .onfirstNameChange(value),
-            ),
-            const SizedBox(height: 12),
-            AppTextField(
-              controller: lastName,
-              text: "Nom",
-              hintText: "Entrez votre nom",
-              iconName: Icons.person,
-              validator: validateLastName,
-              onChanged: (value) => ref
+                    controller: lastName,
+                    text: "Nom",
+                    hintText: "Entrez votre nom",
+                    iconName: Icons.person,
+                    validator: validateLastName,
+                    onChanged: (value) => ref
                         .read(signUpNotifierProvier.notifier)
                         .onlastNameChange(value),
-            ),
+                  ),
+            const SizedBox(height: 12),
+            AppTextField(
+                    controller: firstName,
+                    text: "Prénom",
+                    iconName: Icons.person,
+                    hintText: "Entrez votre prénom",
+                    validator: validateFirstName,
+                    onChanged: (value) => ref
+                        .read(signUpNotifierProvier.notifier)
+                        .onfirstNameChange(value),
+                  ),
             const SizedBox(height: 12),
             AppTextField(
               controller: email,
@@ -206,7 +206,7 @@ ondispose() {
               ),
             ),
             Container(
-                    margin: EdgeInsets.only(top: 20.h, bottom: 15.h),
+                    margin: EdgeInsets.symmetric(vertical: 12.h),
                     child: Row(children: <Widget>[
                       Expanded(
                           child: Divider(
@@ -214,7 +214,7 @@ ondispose() {
                         indent: 50,
                         color: AppColors.primarySecondaryElementText,
                       )),
-                      const Text("  or  "),
+                      const Text("  ou  "),
                       Expanded(
                           child: Divider(
                         height: 2.h,
@@ -225,8 +225,8 @@ ondispose() {
                   ),
 
                   ThirdPartyLogin(controller: _controller,),
-                  const SizedBox(height: 20),
-                   Column(
+                  const SizedBox(height: 10),
+                   Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                            Text(
@@ -238,7 +238,7 @@ ondispose() {
                                 fontSize: 12.sp,
                               ),
                             ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(width: 10,),
                            GestureDetector(
                                 child: Text(
                                   "se connecter",
