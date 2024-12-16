@@ -1,28 +1,61 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ulearning_app/common/services/storage.dart';
 import 'package:ulearning_app/common/utils/loading.dart';
-import 'package:ulearning_app/features/addPost/service/grant_permissions.dart';
+import 'package:ulearning_app/common/utils/topSnackbar.dart';
 import 'firebase_options.dart';
 
 class Global {
   static late StorageService storageService;
-  static Future<void> init() async {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+  static GlobalKey<TopSnackbarState> TopSnakbarKey =
+      GlobalKey<TopSnackbarState>();
+
+  static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
-      await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-       setSystemUi();
-       Loading();
-       await Firebase.initializeApp(
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    setSystemUi();
+    Loading();
+    await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
     storageService = await StorageService().init();
-    await grantPermissions();
   }
 
-   static void setSystemUi() {
+  static TransitionBuilder MaterialAppBuilder({
+    TransitionBuilder? builder,
+  }) {
+    return (BuildContext context, Widget? child) {
+      if (builder != null) {
+        return builder(
+            context,
+            Overlay(initialEntries: [
+              OverlayEntry(builder: (BuildContext context) {
+                return FlutterEasyLoading(key: GlobalKey(), child: child);
+              }),
+              OverlayEntry(builder: (BuildContext context) {
+                return TopSnackbar(key: GlobalKey());
+              })
+            ]));
+      } else {
+        return Overlay(initialEntries: [
+          OverlayEntry(builder: (BuildContext context) {
+            return FlutterEasyLoading(key: GlobalKey(), child: child);
+          }),
+          OverlayEntry(builder: (BuildContext context) {
+            return TopSnackbar(key: TopSnakbarKey);
+          })
+        ]);
+      }
+    };
+  }
+
+  static void setSystemUi() {
     if (Platform.isAndroid) {
       SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,

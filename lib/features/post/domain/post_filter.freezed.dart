@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PostFilter {
   String? get query => throw _privateConstructorUsedError;
   List<FieldOfStudy> get fieldsOfStudy => throw _privateConstructorUsedError;
-  SortOption? get sort => throw _privateConstructorUsedError;
+  SortOption? get category => throw _privateConstructorUsedError;
   OrderOption? get order => throw _privateConstructorUsedError;
 
   /// Create a copy of PostFilter
@@ -37,7 +37,7 @@ abstract class $PostFilterCopyWith<$Res> {
   $Res call(
       {String? query,
       List<FieldOfStudy> fieldsOfStudy,
-      SortOption? sort,
+      SortOption? category,
       OrderOption? order});
 }
 
@@ -58,7 +58,7 @@ class _$PostFilterCopyWithImpl<$Res, $Val extends PostFilter>
   $Res call({
     Object? query = freezed,
     Object? fieldsOfStudy = null,
-    Object? sort = freezed,
+    Object? category = freezed,
     Object? order = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,9 +70,9 @@ class _$PostFilterCopyWithImpl<$Res, $Val extends PostFilter>
           ? _value.fieldsOfStudy
           : fieldsOfStudy // ignore: cast_nullable_to_non_nullable
               as List<FieldOfStudy>,
-      sort: freezed == sort
-          ? _value.sort
-          : sort // ignore: cast_nullable_to_non_nullable
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as SortOption?,
       order: freezed == order
           ? _value.order
@@ -93,7 +93,7 @@ abstract class _$$PostFilterImplCopyWith<$Res>
   $Res call(
       {String? query,
       List<FieldOfStudy> fieldsOfStudy,
-      SortOption? sort,
+      SortOption? category,
       OrderOption? order});
 }
 
@@ -112,7 +112,7 @@ class __$$PostFilterImplCopyWithImpl<$Res>
   $Res call({
     Object? query = freezed,
     Object? fieldsOfStudy = null,
-    Object? sort = freezed,
+    Object? category = freezed,
     Object? order = freezed,
   }) {
     return _then(_$PostFilterImpl(
@@ -124,9 +124,9 @@ class __$$PostFilterImplCopyWithImpl<$Res>
           ? _value._fieldsOfStudy
           : fieldsOfStudy // ignore: cast_nullable_to_non_nullable
               as List<FieldOfStudy>,
-      sort: freezed == sort
-          ? _value.sort
-          : sort // ignore: cast_nullable_to_non_nullable
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
               as SortOption?,
       order: freezed == order
           ? _value.order
@@ -142,7 +142,7 @@ class _$PostFilterImpl implements _PostFilter {
   const _$PostFilterImpl(
       {this.query,
       final List<FieldOfStudy> fieldsOfStudy = const [],
-      this.sort,
+      this.category,
       this.order})
       : _fieldsOfStudy = fieldsOfStudy;
 
@@ -158,13 +158,13 @@ class _$PostFilterImpl implements _PostFilter {
   }
 
   @override
-  final SortOption? sort;
+  final SortOption? category;
   @override
   final OrderOption? order;
 
   @override
   String toString() {
-    return 'PostFilter(query: $query, fieldsOfStudy: $fieldsOfStudy, sort: $sort, order: $order)';
+    return 'PostFilter(query: $query, fieldsOfStudy: $fieldsOfStudy, category: $category, order: $order)';
   }
 
   @override
@@ -175,13 +175,14 @@ class _$PostFilterImpl implements _PostFilter {
             (identical(other.query, query) || other.query == query) &&
             const DeepCollectionEquality()
                 .equals(other._fieldsOfStudy, _fieldsOfStudy) &&
-            (identical(other.sort, sort) || other.sort == sort) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.order, order) || other.order == order));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, query,
-      const DeepCollectionEquality().hash(_fieldsOfStudy), sort, order);
+      const DeepCollectionEquality().hash(_fieldsOfStudy), category, order);
 
   /// Create a copy of PostFilter
   /// with the given fields replaced by the non-null parameter values.
@@ -196,7 +197,7 @@ abstract class _PostFilter implements PostFilter {
   const factory _PostFilter(
       {final String? query,
       final List<FieldOfStudy> fieldsOfStudy,
-      final SortOption? sort,
+      final SortOption? category,
       final OrderOption? order}) = _$PostFilterImpl;
 
   @override
@@ -204,7 +205,7 @@ abstract class _PostFilter implements PostFilter {
   @override
   List<FieldOfStudy> get fieldsOfStudy;
   @override
-  SortOption? get sort;
+  SortOption? get category;
   @override
   OrderOption? get order;
 

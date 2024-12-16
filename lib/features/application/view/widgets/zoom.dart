@@ -10,13 +10,17 @@ import 'package:ulearning_app/features/coming/coming_soon.dart';
 import 'package:ulearning_app/features/contact/view/contact.dart';
 import 'package:ulearning_app/features/favorites/views/favorites.dart';
 import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
-import 'package:ulearning_app/main.dart';
 
 class DrawerWidget extends ConsumerWidget {
   const DrawerWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appZoomController = ref.watch(appZoomControllerProvider);
+    final isLoggedIn = ref.watch(isLoggedInProvider);
+    if (!isLoggedIn) {
+       ref.read(appZoomControllerProvider).toggle?.call();
+      return const SignIn();
+    }
     return ZoomDrawer(
       controller: appZoomController,
       menuBackgroundColor: const Color.fromARGB(255, 86, 86, 138),
@@ -48,8 +52,8 @@ class DrawerWidget extends ConsumerWidget {
                 ref.read(appZoomControllerProvider).toggle?.call();
               },
               icon: const Icon(
-                Icons.close,
-                color: Colors.black,
+                Icons.close_rounded,
+                color: AppColors.primaryElement,
               ),
             ),
             // Liste des options de menu
@@ -100,7 +104,7 @@ class DrawerWidget extends ConsumerWidget {
         onTap: () {
           _navigateToPage(index, ref);
         },
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
         splashColor: AppColors.primaryElement.withOpacity(0.5),
         child: ListTile(
           leading: Container(
@@ -109,25 +113,25 @@ class DrawerWidget extends ConsumerWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primaryText.withOpacity(0.2),
+                  color: AppColors.primaryElement.withOpacity(0.4),
                   blurRadius: 8,
-                  offset: const Offset(0, 1),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
             padding: const EdgeInsets.all(8),
             child: Icon(
               icon,
-              color: AppColors.primaryElement,
-              size: MediaQuery.of(context).size.width * 0.06,
+              color: Colors.white,
+              size: MediaQuery.of(context).size.width * 0.055,
             ),
           ),
           title: Text(
             label,
             style: TextStyle(
               color: AppColors.primaryElement,
-              fontSize: MediaQuery.of(context).size.width * 0.045,
-              fontWeight: FontWeight.w600,
+              fontSize: MediaQuery.of(context).size.width * 0.04,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -137,9 +141,9 @@ class DrawerWidget extends ConsumerWidget {
 
   // Navigate to a specific page
   void _navigateToPage(int index, WidgetRef ref) {
-    if(index == 1){
-     navKey.currentState!.pushNamed('/favorites');
-    }
+    // if(index == 1){
+    //  Global.navigatorKey.currentState!.pushNamed('/favorites');
+    // }
     ref.read(zoomIndexProvider.notifier).setIndex(index);
     ref.read(appZoomControllerProvider).toggle?.call();
   }
@@ -183,14 +187,13 @@ class CurrentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final zoomIndex = ref.watch(zoomIndexProvider);
     final isLoggedIn = ref.watch(isLoggedInProvider);
-    print(isLoggedIn);
     switch (zoomIndex) {
       case 0:
         return isLoggedIn ? const BuildCurrent() : const SignIn();
       case 1:
         return isLoggedIn ? const Favorites() : const SignIn();
       case 2:
-        return isLoggedIn ? Contact() : const SignIn();
+        return isLoggedIn ? const Contact() : const SignIn();
       case 3:
         ref.read(isLoggedInProvider.notifier).logout();
         return isLoggedIn ? const BuildCurrent() : const SignIn();

@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -185,15 +186,18 @@ class _MediaWidgetState extends State<MediaWidget> {
             )
           : const Center(child: CircularProgressIndicator());
     } else {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(8.0), 
-        child: CachedNetworkImage(
-          imageUrl: widget.url,
-          placeholder: (context, url) =>
-              const Center(child: CircularProgressIndicator()),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-          fit:
-              BoxFit.cover, 
+      return InkWell(
+        onTap: ()=> Navigator.of(context).pushNamed(AppRoutes.Photoview,arguments: {"url": widget.url}),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), 
+          child: CachedNetworkImage(
+            imageUrl: widget.url,
+            placeholder: (context, url) =>
+                const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            fit:
+                BoxFit.cover, 
+          ),
         ),
       );
     }

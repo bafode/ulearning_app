@@ -5,7 +5,6 @@ import 'package:ulearning_app/common/models/chat.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/global.dart';
-import 'package:ulearning_app/main.dart';
 
 class TopSnackbar extends StatefulWidget {
   const TopSnackbar({super.key});
@@ -43,17 +42,17 @@ class TopSnackbarState extends State<TopSnackbar>
     super.dispose();
   }
 
-  Future<void> show(String to_name, String to_token, String to_avatar,
-      String doc_id, String call_role, String title, String route_name) {
+  Future<void> show(String toName, String toToken, String toAvatar,
+      String docId, String callRole, String title, String routeName) {
     _isShow = true;
     setState(() {
-      _toName = to_name;
-      _toToken = to_token;
-      _toAvatar = to_avatar;
-      _docId = doc_id;
-      _callRole = call_role;
+      _toName = toName;
+      _toToken = toToken;
+      _toAvatar = toAvatar;
+      _docId = docId;
+      _callRole = callRole;
       _title = title;
-      _routeName = route_name;
+      _routeName = routeName;
     });
     return _animationController.forward();
   }
@@ -76,14 +75,14 @@ class TopSnackbarState extends State<TopSnackbar>
     });
   }
 
-  _sendNotifications(String call_type, String to_token, String to_avatar,
-      String to_name, String doc_id) async {
-    CallRequestEntity callRequestEntity = new CallRequestEntity();
-    callRequestEntity.call_type = call_type;
-    callRequestEntity.to_token = to_token;
-    callRequestEntity.to_avatar = to_avatar;
-    callRequestEntity.doc_id = doc_id;
-    callRequestEntity.to_name = to_name;
+  _sendNotifications(String callType, String toToken, String toAvatar,
+      String toName, String docId) async {
+    CallRequestEntity callRequestEntity = CallRequestEntity();
+    callRequestEntity.call_type = callType;
+    callRequestEntity.to_token = toToken;
+    callRequestEntity.to_avatar = toAvatar;
+    callRequestEntity.doc_id = docId;
+    callRequestEntity.to_name = toName;
     var res = await ChatAPI.call_notifications(params: callRequestEntity);
     if (res.code == 0) {
       print("sendNotifications success");
@@ -120,7 +119,7 @@ class TopSnackbarState extends State<TopSnackbar>
                             color: Colors.grey.withOpacity(0.1),
                             spreadRadius: 2,
                             blurRadius: 3,
-                            offset: Offset(0, 1), // changes position of shadow
+                            offset: const Offset(0, 1), // changes position of shadow
                           ),
                         ],
                       ),
@@ -150,7 +149,7 @@ class TopSnackbarState extends State<TopSnackbar>
                                       width: 135.w,
                                       margin: EdgeInsets.only(left: 10.w),
                                       child: Text(
-                                        "${_toName}",
+                                        _toName,
                                         overflow: TextOverflow.clip,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -234,8 +233,9 @@ class TopSnackbarState extends State<TopSnackbar>
                                       "assets/icons/a_telephone.png"),
                                 ),
                                 onTap: () {
-                                  if (navKey.currentContext != null) {
-                                    Navigator.of(navKey.currentContext!)
+                                  if (Global.navigatorKey.currentContext != null) {
+                                    Navigator.of(Global.navigatorKey
+                                            .currentContext!)
                                         .pushNamed(_routeName, arguments: {
                                       "to_token": _toToken,
                                       "to_name": _toName,

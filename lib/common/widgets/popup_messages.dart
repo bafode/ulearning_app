@@ -5,11 +5,11 @@ import 'package:ulearning_app/common/utils/app_colors.dart';
 
 toastInfo(String msg,
     {Color backgroundColor = AppColors.primaryElement,
-    Color textColor = AppColors.primaryText}) {
+    Color textColor = Colors.white}) {
   return Fluttertoast.showToast(
     msg: msg,
     toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.TOP,
+    gravity: ToastGravity.SNACKBAR,
     timeInSecForIosWeb: 2,
     backgroundColor: backgroundColor,
     textColor: textColor,

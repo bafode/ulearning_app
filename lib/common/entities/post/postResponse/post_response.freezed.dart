@@ -274,6 +274,8 @@ mixin _$Post {
   String? get category => throw _privateConstructorUsedError;
   List<String>? get media => throw _privateConstructorUsedError;
   List<Author> get likes => throw _privateConstructorUsedError;
+  int? get likesCount => throw _privateConstructorUsedError;
+  List<String>? get domain => throw _privateConstructorUsedError;
   List<Comment>? get comments => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
@@ -298,6 +300,8 @@ abstract class $PostCopyWith<$Res> {
       String? category,
       List<String>? media,
       List<Author> likes,
+      int? likesCount,
+      List<String>? domain,
       List<Comment>? comments,
       String id});
 
@@ -325,6 +329,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? category = freezed,
     Object? media = freezed,
     Object? likes = null,
+    Object? likesCount = freezed,
+    Object? domain = freezed,
     Object? comments = freezed,
     Object? id = null,
   }) {
@@ -353,6 +359,14 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<Author>,
+      likesCount: freezed == likesCount
+          ? _value.likesCount
+          : likesCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      domain: freezed == domain
+          ? _value.domain
+          : domain // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -389,6 +403,8 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       String? category,
       List<String>? media,
       List<Author> likes,
+      int? likesCount,
+      List<String>? domain,
       List<Comment>? comments,
       String id});
 
@@ -414,6 +430,8 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? category = freezed,
     Object? media = freezed,
     Object? likes = null,
+    Object? likesCount = freezed,
+    Object? domain = freezed,
     Object? comments = freezed,
     Object? id = null,
   }) {
@@ -442,6 +460,14 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
               as List<Author>,
+      likesCount: freezed == likesCount
+          ? _value.likesCount
+          : likesCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      domain: freezed == domain
+          ? _value._domain
+          : domain // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       comments: freezed == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -464,10 +490,13 @@ class _$PostImpl implements _Post {
       required this.category,
       required final List<String>? media,
       required final List<Author> likes,
+      required this.likesCount,
+      required final List<String>? domain,
       required final List<Comment>? comments,
       required this.id})
       : _media = media,
         _likes = likes,
+        _domain = domain,
         _comments = comments;
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
@@ -499,6 +528,18 @@ class _$PostImpl implements _Post {
     return EqualUnmodifiableListView(_likes);
   }
 
+  @override
+  final int? likesCount;
+  final List<String>? _domain;
+  @override
+  List<String>? get domain {
+    final value = _domain;
+    if (value == null) return null;
+    if (_domain is EqualUnmodifiableListView) return _domain;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<Comment>? _comments;
   @override
   List<Comment>? get comments {
@@ -514,7 +555,7 @@ class _$PostImpl implements _Post {
 
   @override
   String toString() {
-    return 'Post(title: $title, content: $content, author: $author, category: $category, media: $media, likes: $likes, comments: $comments, id: $id)';
+    return 'Post(title: $title, content: $content, author: $author, category: $category, media: $media, likes: $likes, likesCount: $likesCount, domain: $domain, comments: $comments, id: $id)';
   }
 
   @override
@@ -529,6 +570,9 @@ class _$PostImpl implements _Post {
                 other.category == category) &&
             const DeepCollectionEquality().equals(other._media, _media) &&
             const DeepCollectionEquality().equals(other._likes, _likes) &&
+            (identical(other.likesCount, likesCount) ||
+                other.likesCount == likesCount) &&
+            const DeepCollectionEquality().equals(other._domain, _domain) &&
             const DeepCollectionEquality().equals(other._comments, _comments) &&
             (identical(other.id, id) || other.id == id));
   }
@@ -543,6 +587,8 @@ class _$PostImpl implements _Post {
       category,
       const DeepCollectionEquality().hash(_media),
       const DeepCollectionEquality().hash(_likes),
+      likesCount,
+      const DeepCollectionEquality().hash(_domain),
       const DeepCollectionEquality().hash(_comments),
       id);
 
@@ -570,6 +616,8 @@ abstract class _Post implements Post {
       required final String? category,
       required final List<String>? media,
       required final List<Author> likes,
+      required final int? likesCount,
+      required final List<String>? domain,
       required final List<Comment>? comments,
       required final String id}) = _$PostImpl;
 
@@ -587,6 +635,10 @@ abstract class _Post implements Post {
   List<String>? get media;
   @override
   List<Author> get likes;
+  @override
+  int? get likesCount;
+  @override
+  List<String>? get domain;
   @override
   List<Comment>? get comments;
   @override

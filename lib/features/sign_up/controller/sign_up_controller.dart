@@ -2,21 +2,23 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ulearning_app/common/data/di/repository_module.dart';
-import 'package:ulearning_app/common/global_loader/global_loader.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
+import 'package:ulearning_app/common/utils/logger.dart';
 import 'package:ulearning_app/common/widgets/popup_messages.dart';
 import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 import 'package:ulearning_app/features/home/controller/home_controller.dart';
-import 'package:ulearning_app/features/res/notifiers/step_notifier.dart';
+import 'package:ulearning_app/features/sign_up/notifiers/step_notifier.dart';
 import 'package:ulearning_app/features/sign_up/provider/register_notifier.dart';
 import 'package:ulearning_app/features/sign_up/provider/update_user_info_notifier.dart';
 import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/common/entities/auth/registrationRequest/registration_request.dart';
-import 'package:ulearning_app/main.dart';
 
 class SignUpController {
   final WidgetRef ref;
@@ -55,7 +57,7 @@ class SignUpController {
       }
       toastInfo("Registration failed. Please check your details.");
     } finally {
-      ref.read(appLoaderProvider.notifier).setLoaderValue(false);
+      EasyLoading.dismiss();
     }
   }
 
@@ -157,7 +159,10 @@ class SignUpController {
   }
 
   Future<void> asyncPostAllData(RegistrationRequest registerRequest) async {
-    ref.read(appLoaderProvider.notifier).setLoaderValue(true);
+    EasyLoading.show(
+        indicator: const CircularProgressIndicator(),
+        maskType: EasyLoadingMaskType.clear,
+        dismissOnTap: true);
     final authRepository = ref.read(authRepositoryProvider);
     var result = await authRepository.register(registerRequest);
     if (result.code == 201) {
@@ -173,19 +178,23 @@ class SignUpController {
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(2);
       }
     } else {
-      toastInfo("Sign-up error");
+      EasyLoading.dismiss();
+      toastInfo('Registration failed. Please check your details.');
+      Logger.write("Error in asyncPostAllData: ${result.message}");
     }
-    ref.read(appLoaderProvider.notifier).setLoaderValue(false);
+    EasyLoading.dismiss();
   }
 
   Future<void> updateUserInfo() async {
+    EasyLoading.show(
+        indicator: const CircularProgressIndicator(),
+        maskType: EasyLoadingMaskType.clear,
+        dismissOnTap: true);
+    try {
     final state = ref.watch(updateUserInfoNotifierProvier);
     final authRepository = ref.read(authRepositoryProvider);
     final userInfo = ref.watch(homeUserProfileProvider);
-    ref.read(appLoaderProvider.notifier).setLoaderValue(true);
     final userId = userInfo.asData?.value.id ;
-   
-    try {
        if (userId != null) {
           final response = await authRepository.updateUserInfo(userId, state);
         Global.storageService.setString(
@@ -193,21 +202,20 @@ class SignUpController {
           jsonEncode(response),
         );
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(0);
-        navKey.currentState
-            ?.pushNamedAndRemoveUntil("/application", (route) => false);
+         Global.navigatorKey.currentState
+            ?.pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
        }else{
         toastInfo("Error in updateUserInfo");
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(0);
-        navKey.currentState
-            ?.pushNamedAndRemoveUntil("/application", (route) => false);
+         Global.navigatorKey.currentState
+            ?.pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
        }
     } catch (e) {
-      if (kDebugMode) {
-        print("Error in updateUserInfo: $e");
-      }
-      toastInfo("Update failed. Please check your details.");
+      EasyLoading.dismiss();
+      toastInfo('Error in updateUserInfo');
+      Logger.write("Error in updateUserInfo: $e");
     } finally {
-      ref.read(appLoaderProvider.notifier).setLoaderValue(false);
+      EasyLoading.dismiss();
     }
   }
 }

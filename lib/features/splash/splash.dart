@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/names.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
 import 'package:ulearning_app/global.dart';
@@ -33,17 +33,17 @@ class _SplashState extends ConsumerState<Splash>
     _animationController.forward();
 
     Future.delayed(const Duration(seconds: 3), () {
-      bool deviceFirstTime = Global.storageService.getDeviceFirstOpen();
-      if (deviceFirstTime) {
+      bool isFirstTime = Global.storageService.getDeviceFirstOpen();
+      if (isFirstTime) {
+       // Global.storageService.setDeviceFirstOpen(false); // Marquer comme vu
+        Navigator.of(context).pushReplacementNamed(AppRoutes.WELCOME);
+      } else {
         bool isLoggedIn = Global.storageService.isLoggedIn();
         if (isLoggedIn) {
-          Navigator.of(context)
-              .pushReplacementNamed(AppRoutesNames.APPLICATION);
+          Navigator.of(context).pushReplacementNamed(AppRoutes.APPLICATION);
         } else {
-          Navigator.of(context).pushReplacementNamed(AppRoutesNames.AUTH);
+          Navigator.of(context).pushReplacementNamed(AppRoutes.AUTH);
         }
-      } else {
-        Navigator.of(context).pushReplacementNamed(AppRoutesNames.WELCOME);
       }
     });
   }

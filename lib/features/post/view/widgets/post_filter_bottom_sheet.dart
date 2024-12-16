@@ -5,7 +5,7 @@ import 'package:ulearning_app/features/post/controller/post_filters_providers.da
 import 'package:ulearning_app/features/post/domain/post_filter.dart';
 
 class PostFilterBottomSheet extends ConsumerWidget {
-  final AlwaysAliveProviderBase<PostFilter> filterProvider;
+  final ProviderBase<PostFilter> filterProvider;
   final Function(PostFilter) onFilterChanged;
 
   const PostFilterBottomSheet({
@@ -34,39 +34,47 @@ class PostFilterBottomSheet extends ConsumerWidget {
                 const Text(
                   'Filtrer Par:',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primaryText,
+                    color: Colors.black,
                   ),
                 ),
                 IconButton(
-                  color: AppColors.primaryText,
+                  color: Colors.black,
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            
             Wrap(
               spacing: 20,
               children: [
                 for (final sortOption in sortOptions)
-                  ChoiceChip(
-                    selectedColor: AppColors.primaryElementStatus,
-                    selectedShadowColor: AppColors.primaryText,
+                 ChoiceChip(
+                    selectedColor: AppColors
+                        .primaryElement, 
+                    selectedShadowColor:
+                        AppColors.primaryText, 
                     label: Text(
                       sortOption.label,
-                      style: const TextStyle(
-                        color: AppColors.primaryElement,
+                      style: TextStyle(
+                        color: filter.category?.value == sortOption.value
+                            ? Colors.white 
+                            : AppColors.primaryElement, 
+                        fontSize: 12,
                       ),
                     ),
-                    selected: filter.sort?.value == sortOption.value,
+                    selected: filter.category?.value == sortOption.value,
                     onSelected: (selected) {
-                      if (selected) {
-                        onFilterChanged(filter.copyWith(sort: sortOption));
+                      if (selected && filter.category?.value != sortOption.value) {
+                        onFilterChanged(filter.copyWith(category: sortOption));
+                      } else {
+                        onFilterChanged(filter.copyWith(category: null));
                       }
                     },
                   ),
+
               ],
             ),
             const SizedBox(height: 16),
@@ -75,10 +83,9 @@ class PostFilterBottomSheet extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryText,
+                color: Colors.black,
               ),
             ),
-            const SizedBox(height: 8),
             Wrap(
               spacing: 20,
               children: [
@@ -86,16 +93,22 @@ class PostFilterBottomSheet extends ConsumerWidget {
                   ChoiceChip(
                     label: Text(
                       orderOption.label,
-                      style: const TextStyle(
-                        color: AppColors.primaryElement,
+                      style: TextStyle(
+                        color: filter.order?.value == orderOption.value
+                            ? Colors.white // White text when selected
+                            : AppColors.primaryElement, // Default color
+                        fontSize: 12,
                       ),
                     ),
-                    selectedColor: AppColors.primaryElementStatus,
-                    selectedShadowColor: AppColors.primaryText,
+                    selectedColor: AppColors.primaryElement,
+                    selectedShadowColor: Colors.black,
                     selected: filter.order?.value == orderOption.value,
                     onSelected: (selected) {
-                      if (selected) {
+                      if (selected&& filter.order?.value != orderOption.value) {
                         onFilterChanged(filter.copyWith(order: orderOption));
+                      }
+                       else {
+                        onFilterChanged(filter.copyWith(order: null));
                       }
                     },
                   ),
@@ -107,10 +120,9 @@ class PostFilterBottomSheet extends ConsumerWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryText,
+                color: Colors.black,
               ),
             ),
-            const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -121,23 +133,24 @@ class PostFilterBottomSheet extends ConsumerWidget {
                     children: [
                       Checkbox(
                         side: const BorderSide(color: AppColors.primaryElement),
-                        activeColor: AppColors.primaryElementStatus,
+                        activeColor: AppColors.primaryElement,
                         value: filter.fieldsOfStudy.contains(fieldOfStudy),
                         onChanged: (selected) {
-                          final List<FieldOfStudy> newLanguages =
+                          final List<FieldOfStudy> newFields =
                               List.from(filter.fieldsOfStudy);
                           if (selected != null && selected) {
-                            newLanguages.add(fieldOfStudy);
+                            newFields.add(fieldOfStudy);
                           } else {
-                            newLanguages.remove(fieldOfStudy);
+                            newFields.remove(fieldOfStudy);
                           }
                           onFilterChanged(
-                              filter.copyWith(fieldsOfStudy: newLanguages));
+                              filter.copyWith(fieldsOfStudy: newFields));
                         },
                       ),
                       Text(
                         fieldOfStudy.label,
-                        style: const TextStyle(color: AppColors.primaryElement),
+                        style: const TextStyle(
+                            color: AppColors.primaryElement, fontSize: 12),
                       ),
                     ],
                   ),

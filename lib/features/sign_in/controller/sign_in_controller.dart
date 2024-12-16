@@ -1,26 +1,26 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ulearning_app/common/data/di/repository_module.dart';
 import 'package:ulearning_app/common/entities/auth/loginRequest/login_request.dart';
-import 'package:ulearning_app/common/global_loader/global_loader.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/common/utils/logger.dart';
 import 'package:ulearning_app/common/widgets/popup_messages.dart';
 import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
 import 'package:ulearning_app/global.dart';
 import 'package:ulearning_app/features/sign_in/provider/sign_in_notifier.dart';
-import 'package:ulearning_app/main.dart';
 
 class SignInController {
   final WidgetRef ref;
   SignInController({required this.ref});
 
-    init() {}
- 
+  init() {}
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>[
       'openid',
@@ -29,17 +29,17 @@ class SignInController {
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
- 
+
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
- 
+
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
- 
+
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -56,11 +56,10 @@ class SignInController {
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
-   Future<UserCredential> signInWithApple() async {
+  Future<UserCredential> signInWithApple() async {
     final appleProvider = AppleAuthProvider();
     return await FirebaseAuth.instance.signInWithProvider(appleProvider);
   }
-
 
   Future<void> handleSignIn(String type) async {
     try {
@@ -90,6 +89,7 @@ class SignInController {
     final notifier = ref.read(signInNotifierProvier.notifier);
     notifier.onUserAuthTypeChange("email");
     var state = ref.watch(signInNotifierProvier);
+    FocusManager.instance.primaryFocus?.unfocus();
     try {
       asyncPostAllData(state);
     } catch (e) {
@@ -104,7 +104,7 @@ class SignInController {
     try {
       var user = await _googleSignIn.signIn();
       if (user != null) {
-         _updateUserData(
+        _updateUserData(
           displayName: user.displayName ?? '',
           email: user.email,
           id: user.id,
@@ -129,7 +129,7 @@ class SignInController {
       var user = await signInWithFacebook();
       Logger.write("${user.user}");
       if (user.user != null) {
-         _updateUserData(
+        _updateUserData(
           displayName: user.user?.displayName ?? '',
           email: user.user?.email ?? '',
           id: user.user?.uid ?? '',
@@ -148,10 +148,9 @@ class SignInController {
     }
   }
 
-  
   Future<void> _handleAppleSignIn() async {
     try {
-     Logger.write("apple");
+      Logger.write("apple");
       var user = await signInWithApple();
       Logger.write("${user.user}");
       if (user.user != null) {
@@ -176,7 +175,7 @@ class SignInController {
     }
   }
 
-   void _updateUserData({
+  void _updateUserData({
     required String displayName,
     required String email,
     required String id,
@@ -192,40 +191,40 @@ class SignInController {
     notifier.onUserEmailChange(email);
     notifier.onUserFirstNameChange(firstName);
     notifier.onUserLastNameChange(lastName);
-    notifier.onUserAvatarChange(photoUrl ??
-        "default.png");
+    notifier.onUserAvatarChange(photoUrl ?? "default.png");
     notifier.onUserOpenIdChange(id);
     notifier.onUserAuthTypeChange(authType);
   }
 
-
-  Future<void> asyncPostAllData(
-      LoginRequest loginRequest) async {
-    ref.read(appLoaderProvider.notifier).setLoaderValue(true);
+  Future<void> asyncPostAllData(LoginRequest loginRequest) async {
+    EasyLoading.show(
+        indicator: const CircularProgressIndicator(),
+        maskType: EasyLoadingMaskType.clear,
+        dismissOnTap: true);
     //we need to talk to server
     final authRepository = ref.read(authRepositoryProvider);
+    try {
     var result = await authRepository.login(loginRequest);
-    if (result.code == 200) {
-      //have local storage
-      try {
+      if (result.code == 200) {
+        //have local storage
         //try to remember user info
         Global.storageService.setString(
             AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.user));
         Global.storageService.setString(
             AppConstants.STORAGE_USER_TOKEN_KEY, jsonEncode(result.tokens));
         ref.read(isLoggedInProvider.notifier).setValue(true);
-        navKey.currentState
+        EasyLoading.dismiss();
+        Global.navigatorKey.currentState
             ?.pushNamedAndRemoveUntil("/application", (route) => false);
-      } catch (e) {
-        if (kDebugMode) {
-          print(e.toString());
-        }
+        //redirect to new page
+      } else {
+         EasyLoading.dismiss();
+        toastInfo('invalid credentials');
       }
-      //redirect to new page
-    } else {
-      ref.read(appLoaderProvider.notifier).setLoaderValue(false);
-      toastInfo("Login error");
+    } catch (e) {
+      EasyLoading.dismiss();
+      toastInfo('invalid credentials or internet error');
+      Logger.write("$e");
     }
-    ref.read(appLoaderProvider.notifier).setLoaderValue(false);
   }
 }

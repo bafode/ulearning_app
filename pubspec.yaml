@@ -85,6 +85,9 @@ dependencies:
   flutter_launcher_icons: ^0.14.1
   share: ^2.0.4
   collection: ^1.18.0
+  connectivity_plus: ^6.1.0
+  firebase_messaging: ^15.1.6
+  flutter_local_notifications: ^18.0.1
 
 flutter_launcher_icons:
   android: true

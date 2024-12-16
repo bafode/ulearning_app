@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/features/otp/controller/otp_controller.dart';
 import 'package:ulearning_app/features/otp/provider/otp_provider.dart';
@@ -245,7 +245,7 @@ class _OtpState extends ConsumerState<Otp> {
                       },
                     );
                     Navigator.of(context)
-                        .popAndPushNamed(AppRoutesNames.SIGN_IN);
+                        .popAndPushNamed(AppRoutes.SIGN_IN);
                   } else {
                     errorController!.add(ErrorAnimationType
                         .shake); // Triggering error shake animation

@@ -26,6 +26,8 @@ class Post with _$Post {
     required String? category,
     required List<String>? media,
     required List<Author> likes,
+    required int? likesCount,
+    required List<String>? domain,
     required List<Comment>? comments,
     required String id,
   }) = _Post;

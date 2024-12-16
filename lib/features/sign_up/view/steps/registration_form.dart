@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/global_loader/global_loader.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
+import 'package:ulearning_app/common/widgets/app_textfields.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
-import 'package:ulearning_app/features/registration/view/widgets/textFields.dart';
 import 'package:ulearning_app/features/sign_in/view/widgets/sign_in_widgets.dart';
 import 'package:ulearning_app/features/sign_up/controller/sign_up_controller.dart';
 import 'package:ulearning_app/features/sign_up/provider/register_notifier.dart';
@@ -107,8 +106,7 @@ ondispose() {
 
   @override
   Widget build(BuildContext context) {
-    final loader = ref.watch(appLoaderProvider);
-    return !loader?SingleChildScrollView(
+    return SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Column(
@@ -250,7 +248,7 @@ ondispose() {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(AppRoutesNames.SIGN_IN);
+                                  Navigator.of(context).pushNamed(AppRoutes.SIGN_IN);
                                 },
                           ),
                         ],
@@ -258,11 +256,6 @@ ondispose() {
           ],
         ),
       ),
-    ): const Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-              color: AppColors.primaryElement,
-            ),
-          );
+    );
   }
 }

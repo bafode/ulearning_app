@@ -24,16 +24,16 @@ class _RestClientApi implements RestClientApi {
   @override
   Future<PostResponse> getPosts({
     String? query,
-    String? sort,
-    String? order,
+    String? category,
+    String? sortBy,
     int? page,
     int? limit,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'q': query,
-      r'sort': sort,
-      r'order': order,
+      r'query': query,
+      r'category': category,
+      r'sortBy': sortBy,
       r'page': page,
       r'limit': limit,
     };
@@ -419,6 +419,7 @@ class _RestClientApi implements RestClientApi {
     String title,
     String content,
     String category,
+    List<String> domain,
     List<MultipartFile>? media, {
     void Function(int, int)? onSendProgress,
   }) async {
@@ -439,6 +440,9 @@ class _RestClientApi implements RestClientApi {
       'category',
       category,
     ));
+    domain.forEach((i) {
+      _data.fields.add(MapEntry('domain', i));
+    });
     if (media != null) {
       _data.files.addAll(media.map((i) => MapEntry('media', i)));
     }
