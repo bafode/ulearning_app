@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/global_loader/global_loader.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
+import 'package:ulearning_app/common/widgets/app_textfields.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
-import 'package:ulearning_app/features/registration/view/widgets/textFields.dart';
 import 'package:ulearning_app/features/sign_in/provider/sign_in_notifier.dart';
 import 'package:ulearning_app/features/sign_in/controller/sign_in_controller.dart';
 
@@ -55,20 +54,12 @@ class _SignInState extends ConsumerState<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    final loader = ref.watch(appLoaderProvider);
     return Container(
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: loader
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                    color: AppColors.primaryElement,
-                  ),
-                )
-              : SingleChildScrollView(
+          body:SingleChildScrollView(
                   padding:
                       EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
                   child: Column(
@@ -101,13 +92,13 @@ class _SignInState extends ConsumerState<SignIn> {
                             .watch(signInNotifierProvier.notifier)
                             .onUserPasswordChange(value),
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 15.h),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
                             Navigator.of(context)
-                                .pushNamed(AppRoutesNames.FORGOT_PASSWORD);
+                                .pushNamed(AppRoutes.FORGOT_PASSWORD);
                           },
                           child: const Text(
                             "Mot de passe oublié ?",
@@ -119,7 +110,7 @@ class _SignInState extends ConsumerState<SignIn> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 15.h),
                       AppButton(
                         buttonName: "Connexion",
                         isLogin: true,
@@ -131,21 +122,23 @@ class _SignInState extends ConsumerState<SignIn> {
                         child: Row(children: <Widget>[
                           Expanded(
                               child: Divider(
-                            height: 2.h,
+                            height: 3.h,
                             indent: 50,
                             color: AppColors.primarySecondaryElementText,
                           )),
                           const Text("  ou  "),
                           Expanded(
                               child: Divider(
-                            height: 2.h,
+                            height: 3.h,
                             endIndent: 50,
                             color: AppColors.primarySecondaryElementText,
                           )),
                         ]),
                       ),
                       _buildThirdPartyGoogleLogin(),
+                      SizedBox(height: 15.h),
                       _buildThirdPartyFacebookLogin(),
+                      SizedBox(height: 15.h),
                       Platform.isIOS ? _buildThirdPartyAppleLogin() : Container(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +164,7 @@ class _SignInState extends ConsumerState<SignIn> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(AppRoutesNames.REGISTER);
+                                  Navigator.of(context).pushNamed(AppRoutes.SIGN_UP);
                                 },
                           ),
                         ],

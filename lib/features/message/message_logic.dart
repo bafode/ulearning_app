@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/models/entities.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/features/message/notifiers/message_notifier.dart';
 import 'package:ulearning_app/global.dart';
 class MessageLogic {
@@ -143,7 +143,7 @@ class MessageLogic {
         await listener2?.cancel();
       }
 
-     Navigator.of(ref.context).pushNamed(AppRoutesNames.Chat,arguments: {
+     Navigator.of(ref.context).pushNamed(AppRoutes.Chat,arguments: {
         "doc_id": item.doc_id!,
         "to_token": item.token!,
         "to_name": item.name!,

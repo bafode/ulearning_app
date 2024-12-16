@@ -17,16 +17,16 @@ class PhotoView extends ConsumerStatefulWidget {
 }
 
 class _PhotoViewPage extends ConsumerState<PhotoView> {
-
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero,(){
+    Future.delayed(Duration.zero, () {
       final data = ModalRoute.of(context)!.settings.arguments as Map;
       print(data);
-      ref.read(photoViewProvider.notifier).onPhotoViewChanged(PhotoViewChanged(data["url"]));
+      ref
+          .read(photoViewProvider.notifier)
+          .onPhotoViewChanged(PhotoViewChanged(data["url"]));
     });
-
   }
 
   @override
@@ -35,37 +35,43 @@ class _PhotoViewPage extends ConsumerState<PhotoView> {
     return Container(
         color: Colors.white,
         child: SafeArea(
-        child: Scaffold(
-        appBar: _buildAppBar(),
-        backgroundColor: Colors.white,
-        body: state.url.isEmpty
-                  ? const Center(
-                child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                        color: Colors.black26, strokeWidth: 2)),
-              )
-                  : Container(
-                  child: PhotoImgView.PhotoView(
-                    imageProvider: NetworkImage(state.url),
-                  )
-              )
-
-    )));
+            child: Scaffold(
+                appBar: _buildAppBar(),
+                backgroundColor: Colors.white,
+                body: state.url.isEmpty
+                    ? const Center(
+                        child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                                color: Colors.black26, strokeWidth: 2)),
+                      )
+                    : Container(
+                        child: PhotoImgView.PhotoView(
+                        imageProvider: NetworkImage(state.url),
+                      )))));
   }
+
   AppBar _buildAppBar() {
     return AppBar(
+        backgroundColor: AppColors.primaryElement,
+        foregroundColor: Colors.white,
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Container(
-              color: AppColors.primaryThirdElementText,
+              color: Colors.white,
               height: 2.0,
             )),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back), // Back button icon
+          color: Colors.white, // Set the back button color
+          onPressed: () {
+            Navigator.of(context).pop(); // Define the back navigation
+          },
+        ),
         title: Text(
           "PhotoView",
           style: TextStyle(
-            color: AppColors.primaryText,
             fontSize: 16.sp,
             fontWeight: FontWeight.normal,
           ),

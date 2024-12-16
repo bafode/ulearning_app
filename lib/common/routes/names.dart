@@ -1,8 +1,8 @@
-class AppRoutesNames {
-  static const String SPLASH = "/";
+class AppRoutes {
+  static const String INITIAL = "/";
   static const String WELCOME = "/welcome";
   static const String SIGN_IN = "/sign_in";
-  static const String REGISTER = "/register";
+    static const String SIGN_UP= "/sign_up";
   static const String APPLICATION = "/application";
   static const String HOME = "/home";
   static const String COURSE_DETAIL = '/course_detail';

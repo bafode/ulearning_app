@@ -15,15 +15,15 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future<PostResponse> getPosts({
     String? query,
-    SortOption? sort,
+    SortOption? category,
     OrderOption? order,
     int? page,
     int? limit,
   }) async {
     final response = await api.getPosts(
       query: query,
-      sort: sort?.value,
-      order: order?.value,
+      category: category?.value,
+      sortBy: order?.value,
       page: page,
       limit: limit ?? 10,
     );
@@ -41,7 +41,7 @@ class PostRepositoryImpl extends PostRepository {
     final response = await api.getFavorites(
       query: query,
       page: page,
-      limit: limit ?? 10,
+      limit: limit ?? 9,
     );
     return response;
   }
@@ -57,15 +57,15 @@ class PostRepositoryImpl extends PostRepository {
     final response = await api.getLoggedUserPost(
       query: query,
       page: page,
-      limit: limit ?? 10,
+      limit: limit ?? 9,
     );
     return response;
   }
 
   @override
   Future<PostCreateResponse?> createPost(String title, String content,
-      String category, List<MultipartFile> media) async {
-    final response = await api.createPost(title, content, category, media);
+      String category,List<String> domain, List<MultipartFile> media) async {
+    final response = await api.createPost(title, content, category,domain, media);
     return response;
   }
   

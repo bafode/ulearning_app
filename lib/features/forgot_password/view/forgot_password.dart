@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/image_res.dart';
+import 'package:ulearning_app/common/widgets/app_textfields.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
 import 'package:ulearning_app/common/widgets/image_widgets.dart';
 import 'package:ulearning_app/features/forgot_password/controller/forgot_password_controller.dart';
 import 'package:ulearning_app/features/forgot_password/provider/forgot_password_provider.dart';
-import 'package:ulearning_app/features/registration/view/widgets/textFields.dart';
 
 class ForgotPassword extends ConsumerStatefulWidget {
   const ForgotPassword({super.key});

@@ -29,9 +29,9 @@ abstract class RestClientApi {
 
   @GET(AppConstants.postEndPointUrl)
   Future<PostResponse> getPosts({
-    @Query("q") String? query,
-    @Query("sort") String? sort,
-    @Query("order") String? order,
+    @Query("query") String? query,
+    @Query("category") String? category,
+    @Query("sortBy") String? sortBy,
     @Query("page") int? page,
     @Query("limit") int? limit,
   });
@@ -95,6 +95,7 @@ abstract class RestClientApi {
       @Part(name: 'title') String title,
       @Part(name: 'content') String content,
       @Part(name: 'category') String category,
+      @Part(name: 'domain') List<String> domain,
       @Part() List<MultipartFile>? media,
       {@SendProgress() ProgressCallback? onSendProgress});
 

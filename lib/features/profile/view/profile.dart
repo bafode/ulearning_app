@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/utils/constants.dart';
 import 'package:ulearning_app/common/utils/network_error.dart';
@@ -88,7 +88,7 @@ class _ProfileScreenState extends ConsumerState<Profile>
                           ? BoxDecoration(
                               image: const DecorationImage(
                                   image:
-                                      AssetImage('assets/icons/headpic.png')),
+                                      AssetImage('assets/icons/profile.png')),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20.w)),
                             )
@@ -275,7 +275,7 @@ class _ProfileScreenState extends ConsumerState<Profile>
                     (context, index) => InkWell(
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          AppRoutesNames.POST_DETAIL,
+                          AppRoutes.POST_DETAIL,
                           arguments: {"id": repositories[index].id},
                         );
                       },

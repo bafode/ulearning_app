@@ -9,7 +9,7 @@ import 'package:ulearning_app/features/post/domain/post_filter.dart';
 abstract class PostRepository {
   Future<PostResponse> getPosts({
     String query = "",
-    SortOption? sort,
+    SortOption? category,
     OrderOption? order,
     int? page,
     int? limit,
@@ -28,7 +28,7 @@ abstract class PostRepository {
   });
 
   Future<PostCreateResponse?> createPost(
-      String title, String content, String category, List<MultipartFile> media);
+      String title, String content, String category,List<String> domain, List<MultipartFile> media);
 
   Future<Post?> toggleLikePost(String postId);
 

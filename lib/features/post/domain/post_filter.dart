@@ -7,7 +7,7 @@ class PostFilter with _$PostFilter {
   const factory PostFilter({
     String? query,
     @Default([]) List<FieldOfStudy> fieldsOfStudy,
-    SortOption? sort,
+    SortOption? category,
     OrderOption? order,
   }) = _PostFilter;
 }
@@ -24,7 +24,7 @@ class InspirationSort extends SortOption {
 }
 
 class CommunauteSort extends SortOption {
-  const CommunauteSort() : super('communaute', 'Communaute');
+  const CommunauteSort() : super('communaute', 'Communauté');
 }
 
 sealed class OrderOption {
@@ -34,12 +34,12 @@ sealed class OrderOption {
   final String label;
 }
 
-class LatestOrder extends OrderOption {
-  const LatestOrder() : super('latest', 'Latest');
+class NouveauteOrder extends OrderOption {
+  const NouveauteOrder() : super('nouveaute', 'Nouveauté');
 }
 
-class PopularOrder extends OrderOption {
-  const PopularOrder() : super('popular', 'Popular');
+class PopulaireOrder extends OrderOption {
+  const PopulaireOrder() : super('populaire', 'Populaire');
 }
 
 class DomainOrder extends OrderOption {
@@ -53,50 +53,18 @@ sealed class FieldOfStudy {
   final String label;
 }
 
-class Science extends FieldOfStudy {
-  const Science() : super('science', 'Science');
-}
-
-class Technologie extends FieldOfStudy {
-  const Technologie() : super('technologie', 'Technologie');
-}
-
-class Environnement extends FieldOfStudy {
-  const Environnement() : super('environnement', 'Environnement');
-}
-
-class Sante extends FieldOfStudy {
-  const Sante() : super('santé', 'Santé');
-}
-
-class Art extends FieldOfStudy {
-  const Art() : super('art', 'Art');
-}
-
-class Ingenerie extends FieldOfStudy {
-  const Ingenerie() : super('ingénerie', 'Ingénerie');
-}
-
-class Politique extends FieldOfStudy {
-  const Politique() : super('politique', 'Politique');
-}
-
-class Commerce extends FieldOfStudy {
-  const Commerce() : super('commerce', 'Commerce');
-}
-
-class UiUx extends FieldOfStudy {
-  const UiUx() : super('ui/ux', 'UI/UX');
-}
-
-class Graphisme extends FieldOfStudy {
-  const Graphisme() : super('graphisme', 'Graphisme');
-}
-
 class Dev extends FieldOfStudy {
-  const Dev() : super('dev', 'Dev');
+  const Dev() : super('dev', 'Dévéloppement');
 }
 
 class Marketing extends FieldOfStudy {
   const Marketing() : super('marketing', 'Marketing');
+}
+
+class DesignUiUx extends FieldOfStudy {
+  const DesignUiUx() : super('design UI/UX', 'Design UI/UX');
+}
+
+class DA extends FieldOfStudy {
+  const DA() : super('da', 'Direction Artistique');
 }

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
 import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
 import 'package:ulearning_app/common/view_model/post_view_model.dart';
 import 'package:ulearning_app/common/widgets/botton_widgets.dart';
@@ -35,10 +35,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   List<Comment>? comments = [];
   List<String> favorites = [];
 
-  @override
-  void didChangeDependencies() {
-    controller = PageController(initialPage: ref.watch(postBannerDotsProvider));
-    super.didChangeDependencies();
+ void initializePostDetails() {
     var profileState = ref.watch(homeUserProfileProvider);
     final userId = profileState.asData?.value.id;
     favorites = profileState.asData?.value.favorites ?? [];
@@ -46,8 +43,17 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     isLiked = widget.post.likes.any((like) => like.id == userId);
     postlength = widget.post.likes.length;
     comments = widget.post.comments;
-    commentLength = widget.post.comments?.length??0;
-    isFollowing = profileState.asData?.value.following?.contains(widget.post.author.id)??false;
+    commentLength = widget.post.comments?.length ?? 0;
+    isFollowing =
+        profileState.asData?.value.following?.contains(widget.post.author.id) ??
+            false;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    controller = PageController(initialPage: ref.watch(postBannerDotsProvider));
+    initializePostDetails();
   }
 
   @override
@@ -55,7 +61,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
-          AppRoutesNames.POST_DETAIL,
+          AppRoutes.POST_DETAIL,
           arguments: {"id": widget.post.id},
         );
       },
@@ -361,13 +367,12 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             .read(favoriteControllerProvider.notifier)
             .toggleUserFavorites(widget.post.id);
         setState(() {
-          isFavorite = !isFavorite;
-           favorites = List.from(favorites);
           if (isFavorite) {
-            favorites.add(widget.post.id);
-          } else {
             favorites.remove(widget.post.id);
+          } else {
+            favorites.add(widget.post.id);
           }
+          isFavorite = !isFavorite;
         });
       },
       child: Icon(

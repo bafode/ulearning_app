@@ -1,57 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/widgets/app_shadow.dart';
-import 'package:ulearning_app/common/widgets/text_widgets.dart';
 
-Widget appTextField({
-  TextEditingController? controller,
-  String text = "",
-  IconData iconName = Icons.person,
-  String hintText = "Type in your info",
-  bool obscureText = false,
-  void Function(String value)? func,
-}) {
-  return Container(
-    padding: EdgeInsets.only(left: 25.w, right: 25.w),
-    child: Column(
+class AppTextField extends StatefulWidget {
+  final TextEditingController? controller;
+  final String text;
+  final IconData iconName;
+  final String hintText;
+  final bool obscureText;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+
+  const AppTextField({
+    super.key,
+    this.controller,
+    this.text = "",
+    this.iconName = Icons.person,
+    this.hintText = "Type in your info",
+    this.obscureText = false,
+    this.validator,
+    this.onChanged,
+  });
+
+  @override
+  AppTextFieldState createState() => AppTextFieldState();
+}
+
+class AppTextFieldState extends State<AppTextField> {
+  String? _errorText;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {}); // Rafraîchit pour montrer le focus
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _validate(String? value) {
+    if (widget.validator != null) {
+      final error = widget.validator!(value);
+      setState(() {
+        _errorText = error;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text14Normal(
-          text: text,
-          color: AppColors.primaryText,
-        ),
         SizedBox(
-          height: 5.h,
-        ),
-        Container(
-          width: 325.w,
-          height: 50.h,
-          padding: EdgeInsets.only(left: 15.w),
-          decoration:
-              appBoxDecorationTextField(borderColor: AppColors.primaryElement),
-          child: Row(
-            children: [
-              Icon(
-                iconName,
-                color: AppColors.primaryText,
-                size: 20,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: TextField(
+            controller: widget.controller,
+            focusNode: _focusNode,
+            onChanged: (value) {
+              _validate(value);
+              if (widget.onChanged != null) {
+                widget.onChanged!(value);
+              }
+            },
+            obscureText: widget.obscureText,
+            keyboardType: TextInputType.multiline,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(
+                color: Colors.grey,
+                fontSize: 14.0,
+                fontStyle: FontStyle.italic,
               ),
-              Expanded(
-                child: appTextFieldOnly(
-                  controller: controller,
-                  hintText: hintText,
-                  func: func,
-                  obscureText: obscureText,
+              labelText: widget.text,
+              labelStyle: TextStyle(
+                color: _focusNode.hasFocus
+                    ? AppColors
+                        .primaryElement // Couleur du label quand le champ est focus
+                    : Colors.grey, // Couleur par défaut
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                    color: AppColors.primaryElement, width: 0.1),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: AppColors.primaryElement,
                 ),
               ),
-            ],
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(
+                  color: _errorText != null
+                      ? Colors.red
+                      : AppColors.primaryElement,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                ),
+              ),
+              suffixIcon: Icon(
+                widget.iconName,
+                color: AppColors.primaryElement,
+                size: 20,
+              ),
+              errorText: _errorText,
+            ),
+            maxLines: 1,
+            autocorrect: false,
           ),
-        )
+        ),
       ],
-    ),
-  );
+    );
+  }
+
+  void validate() => _validate(widget.controller?.text);
 }
 
 Widget appTextFieldOnly({

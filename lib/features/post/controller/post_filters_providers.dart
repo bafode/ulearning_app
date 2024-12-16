@@ -18,23 +18,15 @@ class PostQueryRepository {
   }
 
   List<OrderOption> fetchOrderOptions() {
-    return [const LatestOrder(), const DomainOrder(), const PopularOrder()];
+    return [const NouveauteOrder(), const DomainOrder(), const PopulaireOrder()];
   }
 
   List<FieldOfStudy> fetchFieldOfStudy() {
     return [
-      const Science(),
-      const Technologie(),
-      const Art(),
-      const Sante(),
-      const Environnement(),
-      const Ingenerie(),
-      const Politique(),
-      const UiUx(),
-      const Commerce(),
-      const Graphisme(),
       const Dev(),
-      const Marketing()
+      const Marketing(),
+      const DA(),
+      const DesignUiUx(),
     ];
   }
 }

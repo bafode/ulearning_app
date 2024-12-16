@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ulearning_app/common/api/chat.dart';
 import 'package:ulearning_app/common/entities/user/user.dart';
 import 'package:ulearning_app/common/models/entities.dart';
-import 'package:ulearning_app/common/routes/app_routes_names.dart';
+import 'package:ulearning_app/common/routes/routes.dart';
 import 'package:ulearning_app/common/widgets/popup_messages.dart';
 import 'package:ulearning_app/features/message/chat/notifiers/chat_notifier.dart';
 import 'package:ulearning_app/global.dart';
@@ -300,7 +300,7 @@ class ChatLogic {
   }
 
   photoImg(Msgcontent item){
-    Navigator.of(ref.context).pushNamed(AppRoutesNames.Photoview,arguments: {"url": item.content});
+    Navigator.of(ref.context).pushNamed(AppRoutes.Photoview,arguments: {"url": item.content});
   }
 
   goVoiceCall() async{
@@ -310,7 +310,7 @@ class ChatLogic {
     bool microphoneStatus = await request_permission(Permission.microphone);
     if(microphoneStatus){
     ChatState state = ref.read(chatProvider);
-    Navigator.of(ref.context).pushNamed(AppRoutesNames.VoiceCall, arguments: {
+    Navigator.of(ref.context).pushNamed(AppRoutes.VoiceCall, arguments: {
       "to_token": state.to_token,
       "to_name": state.to_name,
       "to_avatar": state.to_avatar,
@@ -329,7 +329,7 @@ class ChatLogic {
     bool cameraStatus = await request_permission(Permission.camera);
     if(microphoneStatus && cameraStatus){
     ChatState state = ref.read(chatProvider);
-    Navigator.of(ref.context).pushNamed(AppRoutesNames.VideoCall, arguments: {
+    Navigator.of(ref.context).pushNamed(AppRoutes.VideoCall, arguments: {
       "to_token": state.to_token,
       "to_name": state.to_name,
       "to_avatar": state.to_avatar,

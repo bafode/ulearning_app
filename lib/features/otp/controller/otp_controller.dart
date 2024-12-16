@@ -4,7 +4,7 @@ import 'package:ulearning_app/common/data/di/repository_module.dart';
 import 'package:ulearning_app/common/global_loader/global_loader.dart';
 import 'package:ulearning_app/common/widgets/popup_messages.dart';
 import 'package:ulearning_app/features/otp/provider/otp_provider.dart';
-import 'package:ulearning_app/features/res/notifiers/step_notifier.dart';
+import 'package:ulearning_app/features/sign_up/notifiers/step_notifier.dart';
 
 class OtpController {
   final WidgetRef ref;

@@ -36,6 +36,9 @@ _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       likes: (json['likes'] as List<dynamic>)
           .map((e) => Author.fromJson(e as Map<String, dynamic>))
           .toList(),
+      likesCount: (json['likesCount'] as num?)?.toInt(),
+      domain:
+          (json['domain'] as List<dynamic>?)?.map((e) => e as String).toList(),
       comments: (json['comments'] as List<dynamic>?)
           ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -50,6 +53,8 @@ Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
       'category': instance.category,
       'media': instance.media,
       'likes': instance.likes,
+      'likesCount': instance.likesCount,
+      'domain': instance.domain,
       'comments': instance.comments,
       'id': instance.id,
     };

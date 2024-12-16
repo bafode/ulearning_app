@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ulearning_app/common/entities/post/createPostFilter/create_post_filter.dart';
 import 'package:ulearning_app/common/entities/post/createPostRequest/post_create_request.dart';
 
 class PostCreateNotifier extends StateNotifier<PostCreateRequest> {
@@ -12,20 +13,49 @@ class PostCreateNotifier extends StateNotifier<PostCreateRequest> {
 
   void onPostContentChange(String content) {
     state = state.copyWith(content: content);
-    print(state);
   }
 
   void onPostCategoryChange(String category) {
     state = state.copyWith(category: category);
-    print(state);
   }
 
   void onPostMediaChange(List<File>? media) {
     state = state.copyWith(media: media);
-    print(state);
   }
 }
 
 final postCreateNotifierProvier =
     StateNotifierProvider<PostCreateNotifier, PostCreateRequest>(
         (ref) => PostCreateNotifier());
+
+
+
+final createPostfieldOfStudyProvider = Provider<List<FieldOfStudy>>(
+    (ref) => ref.watch(createPostRepositoryProvider).fetchFieldOfStudy());
+
+final createPostRepositoryProvider = Provider((ref) => CreatePostQueryRepository());
+
+class CreatePostQueryRepository {
+  List<FieldOfStudy> fetchFieldOfStudy() {
+    return [
+      const Dev(),
+      const Marketing(),
+      const DA(),
+      const DesignUiUx(),
+    ];
+  }
+}
+
+final createPostFilterNotifierProvider =
+    NotifierProvider<CreatePostFilterNotifier, CreatePostFilter>(
+        () => CreatePostFilterNotifier());
+
+class CreatePostFilterNotifier extends Notifier<CreatePostFilter> {
+
+  @override
+  CreatePostFilter build() => const CreatePostFilter();
+
+  void update(CreatePostFilter filter) {
+    state = filter;
+  }
+}
