@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/features/home/controller/home_controller.dart';
-import 'package:ulearning_app/features/home/view/widgets/home_widget.dart';
-import 'package:ulearning_app/features/post/controller/post_filter_notifier.dart';
-import 'package:ulearning_app/common/utils/network_error.dart';
-import 'package:ulearning_app/common/utils/snackbar.dart';
-import 'package:ulearning_app/features/post/view/widgets/search_filter_row.dart';
-import 'package:ulearning_app/common/view_model/post_view_model.dart';
-import 'package:ulearning_app/features/post/view/widgets/post_widget.dart';
-import 'package:ulearning_app/features/post/view/widgets/sliver_empty_search.dart';
-import 'package:ulearning_app/features/post/view/widgets/sliver_list_tile_shimmer.dart';
-import 'package:ulearning_app/features/post/view/widgets/sliver_loading_spinner.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/features/home/controller/home_controller.dart';
+import 'package:beehive/features/home/view/widgets/home_widget.dart';
+import 'package:beehive/features/post/controller/post_filter_notifier.dart';
+import 'package:beehive/common/utils/network_error.dart';
+import 'package:beehive/common/utils/snackbar.dart';
+import 'package:beehive/features/post/view/widgets/search_filter_row.dart';
+import 'package:beehive/common/view_model/post_view_model.dart';
+import 'package:beehive/features/post/view/widgets/post_widget.dart';
+import 'package:beehive/features/post/view/widgets/sliver_empty_search.dart';
+import 'package:beehive/features/post/view/widgets/sliver_list_tile_shimmer.dart';
+import 'package:beehive/features/post/view/widgets/sliver_loading_spinner.dart';
 
 class Home extends ConsumerStatefulWidget {
   const Home({super.key});

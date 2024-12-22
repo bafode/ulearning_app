@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/view_model/post_view_model.dart';
-import 'package:ulearning_app/features/home/controller/home_controller.dart';
-import 'package:ulearning_app/features/post/view/widgets/comment.dart';
-import 'package:ulearning_app/features/post/view/widgets/post_banner.dart';
-import 'package:ulearning_app/features/post_detail/controller/post_detail_controller.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/view_model/post_view_model.dart';
+import 'package:beehive/features/home/controller/home_controller.dart';
+import 'package:beehive/features/post/view/widgets/comment.dart';
+import 'package:beehive/features/post/view/widgets/post_banner.dart';
+import 'package:beehive/features/post_detail/controller/post_detail_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PostDetail extends ConsumerStatefulWidget {

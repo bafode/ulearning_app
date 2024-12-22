@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:beehive/features/editProfile/view/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/widgets/app_bar.dart';
-import 'package:ulearning_app/features/editProfile/view/widgets/image_input.dart';
+import 'package:beehive/common/widgets/app_bar.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});

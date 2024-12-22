@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ulearning_app/common/entities/auth/token/token.dart';
+import 'package:beehive/common/entities/auth/token/token.dart';
 part 'tokens.freezed.dart';
 part 'tokens.g.dart';
 

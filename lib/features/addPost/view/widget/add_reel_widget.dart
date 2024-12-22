@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:ulearning_app/features/addPost/view/widget/reel_edit_widget.dart';
+import 'package:beehive/features/addPost/view/widget/reel_edit_widget.dart';
 
 class AddReels extends StatefulWidget {
   const AddReels({super.key});

@@ -1,8 +1,8 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:ulearning_app/common/widgets/image_widgets.dart';
-// import 'package:ulearning_app/features/post/view/widgets/like_animation.dart';
+// import 'package:beehive/common/widgets/image_widgets.dart';
+// import 'package:beehiveres/post/view/widgets/like_animation.dart';
 // import 'package:video_player/video_player.dart';
 
 // class ReelsItem extends StatefulWidget {

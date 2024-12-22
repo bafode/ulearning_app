@@ -32,7 +32,7 @@ mixin _$User {
   bool? get isEmailVerified => throw _privateConstructorUsedError;
   bool? get accountClosed => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
-  bool? get online => throw _privateConstructorUsedError;
+  int? get online => throw _privateConstructorUsedError;
   String? get open_id => throw _privateConstructorUsedError;
   String? get authType => throw _privateConstructorUsedError;
   String? get city => throw _privateConstructorUsedError;
@@ -71,7 +71,7 @@ abstract class $UserCopyWith<$Res> {
       bool? isEmailVerified,
       bool? accountClosed,
       String? phone,
-      bool? online,
+      int? online,
       String? open_id,
       String? authType,
       String? city,
@@ -175,7 +175,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       online: freezed == online
           ? _value.online
           : online // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       open_id: freezed == open_id
           ? _value.open_id
           : open_id // ignore: cast_nullable_to_non_nullable
@@ -240,7 +240,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       bool? isEmailVerified,
       bool? accountClosed,
       String? phone,
-      bool? online,
+      int? online,
       String? open_id,
       String? authType,
       String? city,
@@ -341,7 +341,7 @@ class __$$UserImplCopyWithImpl<$Res>
       online: freezed == online
           ? _value.online
           : online // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as int?,
       open_id: freezed == open_id
           ? _value.open_id
           : open_id // ignore: cast_nullable_to_non_nullable
@@ -446,7 +446,7 @@ class _$UserImpl implements _User {
   @override
   final String? phone;
   @override
-  final bool? online;
+  final int? online;
   @override
   final String? open_id;
   @override
@@ -605,7 +605,7 @@ abstract class _User implements User {
       final bool? isEmailVerified,
       final bool? accountClosed,
       final String? phone,
-      final bool? online,
+      final int? online,
       final String? open_id,
       final String? authType,
       final String? city,
@@ -644,7 +644,7 @@ abstract class _User implements User {
   @override
   String? get phone;
   @override
-  bool? get online;
+  int? get online;
   @override
   String? get open_id;
   @override

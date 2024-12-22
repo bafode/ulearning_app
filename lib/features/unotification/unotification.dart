@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/features/unotification/notifiers/unotification_notifier.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/features/unotification/notifiers/unotification_notifier.dart';
 
 class Unotification extends ConsumerStatefulWidget {
   const Unotification({super.key});

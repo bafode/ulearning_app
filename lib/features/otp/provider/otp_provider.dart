@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
+import 'package:beehive/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 
 class OtpNotifier extends StateNotifier<VerifyEmailRequest> {
   OtpNotifier() : super(const VerifyEmailRequest());

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/entities/user/user.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/common/widgets/image_widgets.dart';
-import 'package:ulearning_app/features/profile/controller/profile_controller.dart';
-import 'package:ulearning_app/features/profile/view/profil_list_view.dart';
+import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/common/widgets/image_widgets.dart';
+import 'package:beehive/features/profile/controller/profile_controller.dart';
+import 'package:beehive/features/profile/view/profil_list_view.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});

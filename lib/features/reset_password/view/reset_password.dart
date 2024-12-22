@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/common/widgets/app_textfields.dart';
-import 'package:ulearning_app/common/widgets/botton_widgets.dart';
-import 'package:ulearning_app/common/widgets/image_widgets.dart';
-import 'package:ulearning_app/features/reset_password/controller/reset_password_controller.dart';
-import 'package:ulearning_app/features/reset_password/provider/reset_password_provider.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/image_res.dart';
+import 'package:beehive/common/widgets/app_textfields.dart';
+import 'package:beehive/common/widgets/botton_widgets.dart';
+import 'package:beehive/common/widgets/image_widgets.dart';
+import 'package:beehive/features/reset_password/controller/reset_password_controller.dart';
+import 'package:beehive/features/reset_password/provider/reset_password_provider.dart';
 
 class ResetPassword extends ConsumerStatefulWidget {
   const ResetPassword({super.key});

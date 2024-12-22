@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/auth/registrationRequest/registration_request.dart';
+import 'package:beehive/common/entities/auth/registrationRequest/registration_request.dart';
 
 class SignUpNotifier extends StateNotifier<RegistrationRequest> {
   SignUpNotifier() : super(RegistrationRequest());

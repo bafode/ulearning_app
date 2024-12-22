@@ -2,10 +2,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/features/welcome/provider/welcome_notifier.dart';
-import 'package:ulearning_app/features/welcome/view/widgets/widgets.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/image_res.dart';
+import 'package:beehive/features/welcome/provider/welcome_notifier.dart';
+import 'package:beehive/features/welcome/view/widgets/widgets.dart';
 
 class Welcome extends ConsumerWidget {
   const Welcome({super.key});

@@ -1,10 +1,6 @@
+import 'package:beehive/features/post/view/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-//import 'package:ulearning_app/common/utils/app_colors.dart';
-//import 'package:ulearning_app/features/post/domain/post_filter.dart';
-//import 'package:ulearning_app/features/post/view/widgets/filter_botton.dart';
-//import 'package:ulearning_app/features/post/view/widgets/post_filter_bottom_sheet.dart';
-import 'package:ulearning_app/features/post/view/widgets/search_bar.dart';
 
 class SearchFilterRow extends ConsumerWidget {
   final Function(String) onSearch;

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/auth/loginRequest/login_request.dart';
+import 'package:beehive/common/entities/auth/loginRequest/login_request.dart';
 
 class SignInNotifier extends StateNotifier<LoginRequest> {
   SignInNotifier() : super(const LoginRequest());

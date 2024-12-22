@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/data/remote/rest_client_api.dart';
-import 'package:ulearning_app/common/data/repository/post_repository.dart';
-import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
-import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/entities/user/user.dart';
-import 'package:ulearning_app/features/post/domain/post_filter.dart';
+import 'package:beehive/common/data/remote/rest_client_api.dart';
+import 'package:beehive/common/data/repository/post_repository.dart';
+import 'package:beehive/common/entities/post/createCommentRequest/create_comment_request.dart';
+import 'package:beehive/common/entities/post/createPostResponse/post_create_response.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/features/post/domain/post_filter.dart';
 
 class PostRepositoryImpl extends PostRepository {
   final RestClientApi api;

@@ -1,6 +1,6 @@
+import 'package:beehive/features/addPost/view/widget/media_item.dart';
 import 'package:flutter/material.dart';
-import 'package:ulearning_app/features/addPost/modet/media.dart';
-import 'package:ulearning_app/features/addPost/view/widget/media_item.dart';
+import 'package:beehive/features/addPost/modet/media.dart';
 
 class MediaGridView extends StatelessWidget {
   // List of all media items

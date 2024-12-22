@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/common/widgets/app_shadow.dart';
-import 'package:ulearning_app/common/widgets/app_textfields.dart';
-import 'package:ulearning_app/common/widgets/image_widgets.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/image_res.dart';
+import 'package:beehive/common/widgets/app_shadow.dart';
+import 'package:beehive/common/widgets/app_textfields.dart';
+import 'package:beehive/common/widgets/image_widgets.dart';
 
 Widget searchBar() {
   return Row(

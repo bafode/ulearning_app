@@ -26,4 +26,5 @@ class AppRoutes {
   static const String POST_DETAIL = '/post_detail';
   static const String FAVORITES = '/favorites';
   static const String CONTACT = '/contact';
+  static const String FEEDBACK= '/feedback';
 }

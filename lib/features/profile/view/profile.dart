@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/common/utils/network_error.dart';
-import 'package:ulearning_app/common/utils/snackbar.dart';
-import 'package:ulearning_app/features/favorites/controller/controller.dart';
-import 'package:ulearning_app/features/post/view/widgets/sliver_empty_search.dart';
-import 'package:ulearning_app/features/post/view/widgets/sliver_list_tile_shimmer.dart';
-import 'package:ulearning_app/features/post/view/widgets/sliver_loading_spinner.dart';
-import 'package:ulearning_app/features/profile/controller/profile_controller.dart';
-import 'package:ulearning_app/features/profile/controller/profile_post_controller.dart';
-import 'package:ulearning_app/features/profile/view/profil_list_view.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/common/utils/network_error.dart';
+import 'package:beehive/common/utils/snackbar.dart';
+import 'package:beehive/features/favorites/controller/controller.dart';
+import 'package:beehive/features/post/view/widgets/sliver_empty_search.dart';
+import 'package:beehive/features/post/view/widgets/sliver_list_tile_shimmer.dart';
+import 'package:beehive/features/post/view/widgets/sliver_loading_spinner.dart';
+import 'package:beehive/features/profile/controller/profile_controller.dart';
+import 'package:beehive/features/profile/controller/profile_post_controller.dart';
+import 'package:beehive/features/profile/view/profil_list_view.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});

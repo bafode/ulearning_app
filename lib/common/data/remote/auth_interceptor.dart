@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/entities/auth/token/tokens.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/entities/auth/token/tokens.dart';
+import 'package:beehive/global.dart';
 
 class AuthInterceptor extends Interceptor {
   @override

@@ -18,7 +18,7 @@ class User with _$User {
     bool? isEmailVerified,
     bool? accountClosed,
     String? phone,
-    bool? online,
+    int? online,
     String? open_id,
     String? authType,
     String? city,

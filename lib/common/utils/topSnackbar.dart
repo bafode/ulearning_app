@@ -1,10 +1,10 @@
+import 'package:beehive/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/api/chat.dart';
-import 'package:ulearning_app/common/models/chat.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/api/chat.dart';
+import 'package:beehive/common/models/chat.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/constants.dart';
 
 class TopSnackbar extends StatefulWidget {
   const TopSnackbar({super.key});
@@ -18,7 +18,8 @@ class TopSnackbarState extends State<TopSnackbar>
   late AnimationController _animationController;
   late Animation<Offset> _position;
   bool _isShow = false;
-  String _toName = "";
+  String _toFirstName = "";
+  String _toLastName = "";
   String _toToken = "";
   String _toAvatar = "";
   String _docId = "";
@@ -42,11 +43,12 @@ class TopSnackbarState extends State<TopSnackbar>
     super.dispose();
   }
 
-  Future<void> show(String toName, String toToken, String toAvatar,
+  Future<void> show(String toFirstName,String toLastName, String toToken, String toAvatar,
       String docId, String callRole, String title, String routeName) {
     _isShow = true;
     setState(() {
-      _toName = toName;
+      _toFirstName = toFirstName;
+      _toLastName = toLastName;
       _toToken = toToken;
       _toAvatar = toAvatar;
       _docId = docId;
@@ -65,7 +67,8 @@ class TopSnackbarState extends State<TopSnackbar>
     _isShow = false;
     _animationController.reverse();
     setState(() {
-      _toName = "";
+      _toFirstName = "";
+      _toLastName = "";
       _toToken = "";
       _toAvatar = "";
       _docId = "";
@@ -76,13 +79,14 @@ class TopSnackbarState extends State<TopSnackbar>
   }
 
   _sendNotifications(String callType, String toToken, String toAvatar,
-      String toName, String docId) async {
+      String toFirstName, String toLastName, String docId) async {
     CallRequestEntity callRequestEntity = CallRequestEntity();
     callRequestEntity.call_type = callType;
     callRequestEntity.to_token = toToken;
     callRequestEntity.to_avatar = toAvatar;
     callRequestEntity.doc_id = docId;
-    callRequestEntity.to_name = toName;
+    callRequestEntity.to_firstname = toFirstName;
+    callRequestEntity.to_lastname = toLastName;
     var res = await ChatAPI.call_notifications(params: callRequestEntity);
     if (res.code == 0) {
       print("sendNotifications success");
@@ -149,7 +153,7 @@ class TopSnackbarState extends State<TopSnackbar>
                                       width: 135.w,
                                       margin: EdgeInsets.only(left: 10.w),
                                       child: Text(
-                                        _toName,
+                                        "$_toFirstName $_toLastName",
                                         overflow: TextOverflow.clip,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -207,7 +211,7 @@ class TopSnackbarState extends State<TopSnackbar>
                                 onTap: () {
                                   hide();
                                   _sendNotifications("cancel", _toToken,
-                                      _toAvatar, _toName, _docId);
+                                      _toAvatar, _toFirstName,_toLastName, _docId);
                                 },
                               ),
                               GestureDetector(
@@ -238,7 +242,8 @@ class TopSnackbarState extends State<TopSnackbar>
                                             .currentContext!)
                                         .pushNamed(_routeName, arguments: {
                                       "to_token": _toToken,
-                                      "to_name": _toName,
+                                      "to_firstname": _toFirstName,
+                                      "to_lastname": _toLastName,
                                       "to_avatar": _toAvatar,
                                       "doc_id": _docId,
                                       "call_role": _callRole

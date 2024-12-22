@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/auth/forgotPasswordRequest/forgot_password_request.dart';
+import 'package:beehive/common/entities/auth/forgotPasswordRequest/forgot_password_request.dart';
 
 final sendEmailButtonEnabledProvider = StateProvider<bool>((ref) => false);
 

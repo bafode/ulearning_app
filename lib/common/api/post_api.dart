@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/data/remote/models/paginated_post_response.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/services/http_util.dart';
+import 'package:beehive/common/data/remote/models/paginated_post_response.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/services/http_util.dart';
 
 final dio = Dio();
 

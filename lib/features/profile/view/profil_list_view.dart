@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/app_colors.dart';
 
 class ProfileListView extends StatelessWidget {
   const ProfileListView({super.key});

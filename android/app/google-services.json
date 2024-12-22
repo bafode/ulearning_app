@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "344088867271",
-    "project_id": "beehive-startup",
-    "storage_bucket": "beehive-startup.firebasestorage.app"
+    "project_number": "974951431124",
+    "project_id": "beehiveapp-24adf",
+    "storage_bucket": "beehiveapp-24adf.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:344088867271:android:c3739665799829675529e2",
+        "mobilesdk_app_id": "1:974951431124:android:d824d09deecb93e776f441",
         "android_client_info": {
-          "package_name": "com.example.ulearning_app"
+          "package_name": "com.example.beehive"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "344088867271-jv4eros525a43il6ukb373kv0f19p1bg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.ulearning_app",
-            "certificate_hash": "338e273b3bd9ea8bb08664ded9c9cd557d61f8b9"
-          }
-        },
-        {
-          "client_id": "344088867271-2inqgbhmp4339tg7qjf2t4qr0j22o6u8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyADJqpQoRiLiBzYLh4Ij_fHvNhy9zIEYeM"
+          "current_key": "AIzaSyDB-8B9EbmeVW_TAUgkVUMAx7I78hvNuXw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "344088867271-2inqgbhmp4339tg7qjf2t4qr0j22o6u8.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "344088867271-s8o0524sulkbdv7j5eq31g0m86jg628b.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.ulearningApp"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

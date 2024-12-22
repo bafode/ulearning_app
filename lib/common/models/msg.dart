@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Msg {
   final String? from_token;
   final String? to_token;
-  final String? from_name;
-  final String? to_name;
+  final String? from_firstname;
+  final String? from_lastname;
+  final String? to_firstname;
+  final String? to_lastname;
   final String? from_avatar;
   final String? to_avatar;
   final int? from_online;
@@ -18,8 +20,10 @@ class Msg {
   Msg({
     this.from_token,
     this.to_token,
-    this.from_name,
-    this.to_name,
+    this.from_firstname,
+    this.from_lastname,
+    this.to_firstname,
+    this.to_lastname,
     this.from_avatar,
     this.to_avatar,
     this.from_online,
@@ -39,8 +43,10 @@ class Msg {
     return Msg(
       from_token: data?['from_token'],
       to_token: data?['to_token'],
-      from_name: data?['from_name'],
-      to_name: data?['to_name'],
+      from_firstname: data?['from_firstname'],
+      from_lastname: data?['from_lastname'],
+      to_firstname: data?['to_firstname'],
+      to_lastname: data?['to_lastname'],
       from_avatar: data?['from_avatar'],
       to_avatar: data?['to_avatar'],
       from_online: data?['from_online'],
@@ -57,8 +63,10 @@ class Msg {
     return {
       if (from_token != null) "from_token": from_token,
       if (to_token != null) "to_token": to_token,
-      if (from_name != null) "from_name": from_name,
-      if (to_name != null) "to_name": to_name,
+      if (from_firstname != null) "from_firstname": from_firstname,
+      if (from_lastname != null) "from_lastname": from_lastname,
+      if (to_firstname != null) "to_firstname": to_firstname,
+      if (to_lastname != null) "to_lastname": to_lastname,
       if (from_avatar != null) "from_avatar": from_avatar,
       if (to_avatar != null) "to_avatar": to_avatar,
       if (from_online != null) "from_online": from_online,

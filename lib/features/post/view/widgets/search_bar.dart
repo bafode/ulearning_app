@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/debouncer.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/debouncer.dart';
 
 class StyledSearchBar extends StatelessWidget {
   final Duration? debounceDuration;

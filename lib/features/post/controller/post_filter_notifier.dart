@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/features/post/domain/post_filter.dart';
+import 'package:beehive/features/post/domain/post_filter.dart';
 
 final postFilterNotifierProvider =
     NotifierProvider<PostFilterNotifier, PostFilter>(

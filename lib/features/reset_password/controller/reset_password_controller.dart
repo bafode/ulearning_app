@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/data/di/repository_module.dart';
-import 'package:ulearning_app/common/global_loader/global_loader.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/widgets/popup_messages.dart';
-import 'package:ulearning_app/features/reset_password/provider/reset_password_provider.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/data/di/repository_module.dart';
+import 'package:beehive/common/global_loader/global_loader.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/widgets/popup_messages.dart';
+import 'package:beehive/features/reset_password/provider/reset_password_provider.dart';
+import 'package:beehive/global.dart';
 
 class ResetPasswordController {
   final WidgetRef ref;

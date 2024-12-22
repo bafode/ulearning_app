@@ -3,9 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:ulearning_app/common/services/storage.dart';
-import 'package:ulearning_app/common/utils/loading.dart';
-import 'package:ulearning_app/common/utils/topSnackbar.dart';
+import 'package:beehive/common/services/storage.dart';
+import 'package:beehive/common/utils/loading.dart';
+import 'package:beehive/common/utils/topSnackbar.dart';
 import 'firebase_options.dart';
 
 class Global {
@@ -19,6 +19,7 @@ class Global {
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     setSystemUi();
     Loading();
     await Firebase.initializeApp(

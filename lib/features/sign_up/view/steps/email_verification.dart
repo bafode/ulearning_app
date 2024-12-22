@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/widgets/botton_widgets.dart';
-import 'package:ulearning_app/features/otp/controller/otp_controller.dart';
-import 'package:ulearning_app/features/otp/provider/otp_provider.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/widgets/botton_widgets.dart';
+import 'package:beehive/features/otp/controller/otp_controller.dart';
+import 'package:beehive/features/otp/provider/otp_provider.dart';
 
 class EmailVerificationStep extends ConsumerStatefulWidget {
   const EmailVerificationStep({super.key});

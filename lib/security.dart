@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:ulearning_app/common/widgets/toast.dart';
+import 'package:beehive/common/widgets/toast.dart';
 
 /// SHA256
 String duSHA256(String input) {

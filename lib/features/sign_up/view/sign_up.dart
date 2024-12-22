@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/features/sign_up/notifiers/step_notifier.dart';
-import 'package:ulearning_app/features/sign_up/view/steps/registration_form.dart';
-import 'package:ulearning_app/features/sign_up/view/steps/email_verification.dart';
-import 'package:ulearning_app/features/sign_up/view/steps/update_user_info_form.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/features/sign_up/notifiers/step_notifier.dart';
+import 'package:beehive/features/sign_up/view/steps/registration_form.dart';
+import 'package:beehive/features/sign_up/view/steps/email_verification.dart';
+import 'package:beehive/features/sign_up/view/steps/update_user_info_form.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});

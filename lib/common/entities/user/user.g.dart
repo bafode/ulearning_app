@@ -19,7 +19,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       isEmailVerified: json['isEmailVerified'] as bool?,
       accountClosed: json['accountClosed'] as bool?,
       phone: json['phone'] as String?,
-      online: json['online'] as bool?,
+      online: (json['online'] as num?)?.toInt(),
       open_id: json['open_id'] as String?,
       authType: json['authType'] as String?,
       city: json['city'] as String?,

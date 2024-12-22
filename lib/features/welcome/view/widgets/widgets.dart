@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/global.dart';
 
 class AppOnboardingPage extends StatelessWidget {
   final PageController controller;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/widgets/app_textfields.dart';
-import 'package:ulearning_app/common/widgets/botton_widgets.dart';
-import 'package:ulearning_app/features/sign_up/controller/sign_up_controller.dart';
-import 'package:ulearning_app/features/sign_up/provider/update_user_info_notifier.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/widgets/app_textfields.dart';
+import 'package:beehive/common/widgets/botton_widgets.dart';
+import 'package:beehive/features/sign_up/controller/sign_up_controller.dart';
+import 'package:beehive/features/sign_up/provider/update_user_info_notifier.dart';
 
 class UpdateUserInfoForm extends ConsumerStatefulWidget {
   const UpdateUserInfoForm({super.key});

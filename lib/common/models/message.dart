@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Message {
   String? doc_id;
   String? token;
-  String? name;
+  String? firstname;
+  String? lastname;
   String? avatar;
   String? last_msg;
   Timestamp? last_time;
@@ -14,7 +15,8 @@ class Message {
   Message({
     this.doc_id,
     this.token,
-    this.name,
+    this.firstname,
+    this.lastname,
     this.avatar,
     this.last_msg,
     this.last_time,

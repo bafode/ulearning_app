@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ulearning_app/common/data/di/repository_module.dart';
-import 'package:ulearning_app/common/data/repository/impl/post_repository_impl.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/entities/user/user.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/common/utils/pagination_controller.dart';
+import 'package:beehive/common/data/di/repository_module.dart';
+import 'package:beehive/common/data/repository/impl/post_repository_impl.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/common/utils/pagination_controller.dart';
 import 'package:collection/collection.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/global.dart';
 
 final loggedUserPostControllerProvider =
     AsyncNotifierProvider<LoggedUserPostController, List<Post>>(
