@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/models/base.dart';
-import 'package:ulearning_app/common/models/chat.dart';
-import 'package:ulearning_app/common/services/http_util.dart';
+import 'package:beehive/common/models/base.dart';
+import 'package:beehive/common/models/chat.dart';
+import 'package:beehive/common/services/http_util.dart';
 
 class ChatAPI {
   static Future<BaseResponseEntity> bind_fcmtoken(
       {BindFcmTokenRequestEntity? params}) async {
     var response = await HttpUtil().post(
-      'api/bind_fcmtoken',
+      'v1/auth/bind_fcmtoken',
       queryParameters: params?.toJson(),
     );
     return BaseResponseEntity.fromJson(response);
@@ -18,8 +18,8 @@ class ChatAPI {
   static Future<BaseResponseEntity> call_notifications(
       {CallRequestEntity? params}) async {
     var response = await HttpUtil().post(
-      'api/send_notice',
-      queryParameters: params?.toJson(),
+      'v1/notifications/send_notice',
+      data: params?.toJson(),
     );
     return BaseResponseEntity.fromJson(response);
   }
@@ -27,7 +27,7 @@ class ChatAPI {
   static Future<BaseResponseEntity> call_token(
       {CallTokenRequestEntity? params}) async {
     var response = await HttpUtil().post(
-      'api/get_rtc_token',
+      'v1/auth/get_rtc_token',
       queryParameters: params?.toJson(),
     );
     return BaseResponseEntity.fromJson(response);
@@ -52,7 +52,7 @@ class ChatAPI {
       ),
     });
     var response = await HttpUtil().post(
-      'api/upload_photo',
+      'v1/notifications/upload_photo',
       data: data,
     );
     return BaseResponseEntity.fromJson(response);

@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/utils/FirebaseMessageHandler.dart';
-import 'package:ulearning_app/common/utils/app_styles.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/FirebaseMessageHandler.dart';
+import 'package:beehive/common/utils/app_styles.dart';
+import 'package:beehive/global.dart';
+import 'package:get/get.dart';
 
 void main() async {
   await Global.init();
@@ -41,16 +43,16 @@ class MyApp extends StatelessWidget {
     return ProviderScope(
         child: ScreenUtilInit(
             designSize: const Size(375, 812),
-            builder: (context, child) => MaterialApp(
+            builder: (context, child) => GetMaterialApp(
                   title: 'Beehive',
                   theme: AppTheme.appThemeData,
                   navigatorKey: Global.navigatorKey,
                   scaffoldMessengerKey: Global.rootScaffoldMessengerKey,
-                  builder: Global.MaterialAppBuilder(),
                   debugShowCheckedModeBanner: false,
                   navigatorObservers: [AppPages.observer],
-                  initialRoute: AppRoutes.INITIAL,
-                  onGenerateRoute: AppPages.GenerateRouteSettings,
+                 initialRoute: AppRoutes.INITIAL,
+                  getPages: AppPages.routes,
+                  builder: EasyLoading.init(),
                 )));
   }
 }

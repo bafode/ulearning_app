@@ -1,10 +1,9 @@
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
-
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/image_res.dart';
 AppBar addPostAppBar(WidgetRef ref) {
   return AppBar(
       title: Container(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:ulearning_app/features/addPost/modet/media.dart';
+import 'package:beehive/features/addPost/modet/media.dart';
 
 // Widget to display a media item with optional selection overlay
 class MediaItem extends StatelessWidget {

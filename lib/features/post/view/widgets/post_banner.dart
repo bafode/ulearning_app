@@ -1,9 +1,9 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/app_colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

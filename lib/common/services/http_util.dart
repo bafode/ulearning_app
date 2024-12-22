@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/entities/auth/token/tokens.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/entities/auth/token/tokens.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/global.dart';
 
 class HttpUtil {
   late Dio dio;

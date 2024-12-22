@@ -6,14 +6,14 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ulearning_app/common/data/di/repository_module.dart';
-import 'package:ulearning_app/common/entities/auth/loginRequest/login_request.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/common/utils/logger.dart';
-import 'package:ulearning_app/common/widgets/popup_messages.dart';
-import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
-import 'package:ulearning_app/global.dart';
-import 'package:ulearning_app/features/sign_in/provider/sign_in_notifier.dart';
+import 'package:beehive/common/data/di/repository_module.dart';
+import 'package:beehive/common/entities/auth/loginRequest/login_request.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/common/utils/logger.dart';
+import 'package:beehive/common/widgets/popup_messages.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
+import 'package:beehive/global.dart';
+import 'package:beehive/features/sign_in/provider/sign_in_notifier.dart';
 
 class SignInController {
   final WidgetRef ref;

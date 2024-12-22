@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:ulearning_app/common/entities/post/createPostFilter/create_post_filter.dart';
-import 'package:ulearning_app/common/routes/names.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/features/addPost/controller/post_controller.dart';
-import 'package:ulearning_app/features/addPost/modet/media.dart';
-import 'package:ulearning_app/features/addPost/provider/post_create_notifier.dart';
-import 'package:ulearning_app/features/addPost/view/picker_screen.dart';
-import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
-import 'package:ulearning_app/features/home/controller/home_controller.dart';
+import 'package:beehive/common/entities/post/createPostFilter/create_post_filter.dart';
+import 'package:beehive/common/routes/names.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/common/utils/image_res.dart';
+import 'package:beehive/features/addPost/controller/post_controller.dart';
+import 'package:beehive/features/addPost/modet/media.dart';
+import 'package:beehive/features/addPost/provider/post_create_notifier.dart';
+import 'package:beehive/features/addPost/view/picker_screen.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
+import 'package:beehive/features/home/controller/home_controller.dart';
 
 class Add extends ConsumerStatefulWidget {
   const Add({super.key});

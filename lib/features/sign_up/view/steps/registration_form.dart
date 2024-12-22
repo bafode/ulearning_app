@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/widgets/app_textfields.dart';
-import 'package:ulearning_app/common/widgets/botton_widgets.dart';
-import 'package:ulearning_app/features/sign_in/view/widgets/sign_in_widgets.dart';
-import 'package:ulearning_app/features/sign_up/controller/sign_up_controller.dart';
-import 'package:ulearning_app/features/sign_up/provider/register_notifier.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/widgets/app_textfields.dart';
+import 'package:beehive/common/widgets/botton_widgets.dart';
+import 'package:beehive/features/sign_in/view/widgets/sign_in_widgets.dart';
+import 'package:beehive/features/sign_up/controller/sign_up_controller.dart';
+import 'package:beehive/features/sign_up/provider/register_notifier.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
 

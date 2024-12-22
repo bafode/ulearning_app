@@ -1,6 +1,6 @@
 {
-    "name": "ulearning_app",
-    "short_name": "ulearning_app",
+    "name": "beehive",
+    "short_name": "beehive",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",

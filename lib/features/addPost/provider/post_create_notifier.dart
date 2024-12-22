@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/post/createPostFilter/create_post_filter.dart';
-import 'package:ulearning_app/common/entities/post/createPostRequest/post_create_request.dart';
+import 'package:beehive/common/entities/post/createPostFilter/create_post_filter.dart';
+import 'package:beehive/common/entities/post/createPostRequest/post_create_request.dart';
 
 class PostCreateNotifier extends StateNotifier<PostCreateRequest> {
   PostCreateNotifier() : super(const PostCreateRequest(title: "post title"));

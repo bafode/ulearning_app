@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/features/addPost/modet/media.dart';
+import 'package:beehive/features/addPost/modet/media.dart';
 
 class AddPostDescription extends StatefulWidget {
   List<Media> _files;

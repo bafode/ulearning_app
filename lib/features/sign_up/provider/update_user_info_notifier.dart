@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
+import 'package:beehive/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 
 class UpdateUserInfoNotifier extends StateNotifier<UpdateUserInfoRequest> {
   UpdateUserInfoNotifier() : super(UpdateUserInfoRequest());

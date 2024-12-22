@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:ulearning_app/features/addPost/service/grant_permission.dart';
+import 'package:beehive/features/addPost/service/grant_permission.dart';
 
 // Function to fetch albums while ensuring necessary permissions are granted
 Future<List<AssetPathEntity>> fetchAlbums() async {

@@ -1,9 +1,9 @@
+import 'package:beehive/features/addPost/service/fetch_albums.dart';
+import 'package:beehive/features/addPost/service/fetch_medias.dart';
+import 'package:beehive/features/addPost/view/widget/medias_grid_view_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:ulearning_app/features/addPost/modet/media.dart';
-import 'package:ulearning_app/features/addPost/service/fetch_albums.dart';
-import 'package:ulearning_app/features/addPost/service/fetch_medias.dart';
-import 'package:ulearning_app/features/addPost/view/widget/medias_grid_view_dart.dart';
+import 'package:beehive/features/addPost/modet/media.dart';
 
 class PickerScreen extends StatefulWidget {
   final List<Media> selectedMedias;

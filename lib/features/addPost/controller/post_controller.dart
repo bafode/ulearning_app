@@ -6,13 +6,13 @@ import 'package:http_parser/http_parser.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/data/di/repository_module.dart';
-import 'package:ulearning_app/common/routes/routes.dart';
-import 'package:ulearning_app/common/utils/logger.dart';
-import 'package:ulearning_app/common/widgets/popup_messages.dart';
-import 'package:ulearning_app/features/addPost/provider/post_create_notifier.dart';
-import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/data/di/repository_module.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/logger.dart';
+import 'package:beehive/common/widgets/popup_messages.dart';
+import 'package:beehive/features/addPost/provider/post_create_notifier.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
+import 'package:beehive/global.dart';
 
 class CreatePostController  {
   final WidgetRef ref;

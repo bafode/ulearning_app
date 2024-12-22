@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ulearning_app/common/entities/auth/token/tokens.dart';
-import 'package:ulearning_app/common/entities/user/user.dart';
-import 'package:ulearning_app/common/utils/constants.dart';
+import 'package:beehive/common/entities/auth/token/tokens.dart';
+import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/common/utils/constants.dart';
 
 class StorageService {
   late final SharedPreferences _pref;
@@ -32,6 +32,10 @@ class StorageService {
 
   bool getDeviceFirstOpen() {
     return _pref.getBool(AppConstants.STORAGE_DEVICE_OPEN_FIRST_KEY) ?? false;
+  }
+
+  bool getIsCallVocie() {
+    return _pref.getBool(AppConstants.isCallVocie) ?? false;
   }
 
   bool isLoggedIn() {

@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+ android:hardwareAccelerated="true"
+ android:usesCleartextTraffic="true" 
+ package="com.example.beehive">
  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
  <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -22,6 +25,7 @@
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -29,6 +33,7 @@
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token"/>
+        <meta-data android:name="io.flutter.embedding.android.RASTERIZER" android:value="skia" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

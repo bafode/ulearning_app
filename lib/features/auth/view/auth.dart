@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/widgets/botton_widgets.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/common/widgets/image_widgets.dart';
+import 'package:beehive/common/widgets/botton_widgets.dart';
+import 'package:beehive/common/utils/image_res.dart';
+import 'package:beehive/common/widgets/image_widgets.dart';
 
 class Auth extends ConsumerWidget {
   const Auth({super.key});

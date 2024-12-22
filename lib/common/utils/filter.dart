@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/utils/pagination_controller.dart';
+import 'package:beehive/common/utils/pagination_controller.dart';
 
 abstract class PaginationFilter<F> {
   late F currentFilter;

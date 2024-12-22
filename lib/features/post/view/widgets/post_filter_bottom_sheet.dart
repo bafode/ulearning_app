@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/features/post/controller/post_filters_providers.dart';
-import 'package:ulearning_app/features/post/domain/post_filter.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/features/post/controller/post_filters_providers.dart';
+import 'package:beehive/features/post/domain/post_filter.dart';
 
 class PostFilterBottomSheet extends ConsumerWidget {
   final ProviderBase<PostFilter> filterProvider;

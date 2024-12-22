@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/widgets/text_widgets.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/widgets/text_widgets.dart';
 
 AppBar buildAppbar({String title = ""}) {
   return AppBar(

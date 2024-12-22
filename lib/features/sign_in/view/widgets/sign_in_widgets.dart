@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/features/sign_up/controller/sign_up_controller.dart';
+import 'package:beehive/features/sign_up/controller/sign_up_controller.dart';
 
 class ThirdPartyLogin extends ConsumerWidget {
    final SignUpController controller;

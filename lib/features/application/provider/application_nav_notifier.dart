@@ -1,9 +1,9 @@
+import 'package:beehive/global.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:ulearning_app/common/data/di/repository_module.dart';
-import 'package:ulearning_app/common/entities/auth/logoutRequest/logout_request.dart';
-import 'package:ulearning_app/common/entities/auth/token/tokens.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/data/di/repository_module.dart';
+import 'package:beehive/common/entities/auth/logoutRequest/logout_request.dart';
+import 'package:beehive/common/entities/auth/token/tokens.dart';
 part 'application_nav_notifier.g.dart';
 
 @riverpod

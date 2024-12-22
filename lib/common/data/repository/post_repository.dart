@@ -1,10 +1,10 @@
 
 import 'package:dio/dio.dart';
-import 'package:ulearning_app/common/entities/post/createCommentRequest/create_comment_request.dart';
-import 'package:ulearning_app/common/entities/post/createPostResponse/post_create_response.dart';
-import 'package:ulearning_app/common/entities/post/postResponse/post_response.dart';
-import 'package:ulearning_app/common/entities/user/user.dart';
-import 'package:ulearning_app/features/post/domain/post_filter.dart';
+import 'package:beehive/common/entities/post/createCommentRequest/create_comment_request.dart';
+import 'package:beehive/common/entities/post/createPostResponse/post_create_response.dart';
+import 'package:beehive/common/entities/post/postResponse/post_response.dart';
+import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/features/post/domain/post_filter.dart';
 
 abstract class PostRepository {
   Future<PostResponse> getPosts({

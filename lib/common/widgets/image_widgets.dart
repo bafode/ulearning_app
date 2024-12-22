@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/image_res.dart';
 
 class AppImage extends StatelessWidget {
   final String imagePath;
   final double width;
   final double height;
   const AppImage(
-      {Key? key,
+      {super.key,
       this.imagePath = ImageRes.defaultImg,
       this.width = 16,
-      this.height = 16})
-      : super(key: key);
+      this.height = 16});
 
   @override
   Widget build(BuildContext context) {

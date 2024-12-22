@@ -1,10 +1,11 @@
 class AppConstants {
-  static const String SERVER_API_URL ="https://569e-77-136-67-27.ngrok-free.app/";
+  static const String SERVER_API_URL ="http://185.98.139.242:4000/";
   static String IMAGE_UPLOADS_PATH = "${SERVER_API_URL}uploads/";
   static const String STORAGE_USER_PROFILE_KEY = "user_profile";
   static const String STORAGE_USER_TOKEN_KEY = "user_token";
   static const String STORAGE_DEVICE_OPEN_FIRST_KEY = "first_time";
-  static const String APPID = "2b8731acd0d4481e851913553c702663";
+  static const String isCallVocie = "is_call_voice";
+  static const String APPID = "02f02ad6657a44c59f89c9a893edf65e";
   static const String loginEndPointUrl = "v1/auth/login";
   static const String registrationEndPointUrl = "v1/auth/register";
   static const String userEndpoint = "v1/users";

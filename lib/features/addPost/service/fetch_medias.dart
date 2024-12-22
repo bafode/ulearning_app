@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:ulearning_app/features/addPost/modet/media.dart';
+import 'package:beehive/features/addPost/modet/media.dart';
 
 // Function to fetch media items from a specific album and page
 Future<List<Media>> fetchMedias({

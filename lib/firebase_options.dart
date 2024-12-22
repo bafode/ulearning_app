@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,23 +46,29 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCTNe-M7FV91NDVEZ-gFOiFHw6cJ8wpZ1s',
+    appId: '1:974951431124:web:0cd4b3f4c254cfc976f441',
+    messagingSenderId: '974951431124',
+    projectId: 'beehiveapp-24adf',
+    authDomain: 'beehiveapp-24adf.firebaseapp.com',
+    storageBucket: 'beehiveapp-24adf.firebasestorage.app',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyADJqpQoRiLiBzYLh4Ij_fHvNhy9zIEYeM',
-    appId: '1:344088867271:android:c3739665799829675529e2',
-    messagingSenderId: '344088867271',
-    projectId: 'beehive-startup',
-    storageBucket: 'beehive-startup.firebasestorage.app',
+    apiKey: 'AIzaSyDB-8B9EbmeVW_TAUgkVUMAx7I78hvNuXw',
+    appId: '1:974951431124:android:d824d09deecb93e776f441',
+    messagingSenderId: '974951431124',
+    projectId: 'beehiveapp-24adf',
+    storageBucket: 'beehiveapp-24adf.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAx2uRL3OsCRwRxhPAj0_Daj1BsL8q-Uws',
-    appId: '1:344088867271:ios:9aca466674f2731d5529e2',
-    messagingSenderId: '344088867271',
-    projectId: 'beehive-startup',
-    storageBucket: 'beehive-startup.firebasestorage.app',
-    androidClientId: '344088867271-jv4eros525a43il6ukb373kv0f19p1bg.apps.googleusercontent.com',
-    iosClientId: '344088867271-s8o0524sulkbdv7j5eq31g0m86jg628b.apps.googleusercontent.com',
-    iosBundleId: 'com.example.ulearningApp',
+    apiKey: 'AIzaSyCakm87QBIzDS_c0TT3m_sPnAk0rz4LqYg',
+    appId: '1:974951431124:ios:8da33dcf5732095b76f441',
+    messagingSenderId: '974951431124',
+    projectId: 'beehiveapp-24adf',
+    storageBucket: 'beehiveapp-24adf.firebasestorage.app',
+    iosBundleId: 'com.example.beehive',
   );
-
 }

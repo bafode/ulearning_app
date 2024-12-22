@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ulearning_app/features/coming/views/widget.dart';
+import 'package:beehive/features/coming/views/widget.dart';
 
 class ComingSoon extends ConsumerWidget {
   const ComingSoon({super.key});

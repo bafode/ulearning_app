@@ -1,15 +1,15 @@
 // Import necessary packages
+import 'package:beehive/features/feedback/view/feedback.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/features/application/provider/application_nav_notifier.dart';
-import 'package:ulearning_app/features/application/view/widgets/widgets.dart';
-import 'package:ulearning_app/features/coming/coming_soon.dart';
-import 'package:ulearning_app/features/contact/view/contact.dart';
-import 'package:ulearning_app/features/favorites/views/favorites.dart';
-import 'package:ulearning_app/features/sign_in/view/sign_in.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
+import 'package:beehive/features/application/view/widgets/widgets.dart';
+import 'package:beehive/features/coming/coming_soon.dart';
+import 'package:beehive/features/favorites/views/favorites.dart';
+import 'package:beehive/features/sign_in/view/sign_in.dart';
 
 class DrawerWidget extends ConsumerWidget {
   const DrawerWidget({super.key});
@@ -193,7 +193,7 @@ class CurrentScreen extends ConsumerWidget {
       case 1:
         return isLoggedIn ? const Favorites() : const SignIn();
       case 2:
-        return isLoggedIn ? const Contact() : const SignIn();
+        return isLoggedIn ? const Feedbacks() : const SignIn();
       case 3:
         ref.read(isLoggedInProvider.notifier).logout();
         return isLoggedIn ? const BuildCurrent() : const SignIn();

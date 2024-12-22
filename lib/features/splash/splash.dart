@@ -1,11 +1,11 @@
+import 'package:beehive/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ulearning_app/common/routes/names.dart';
-import 'package:ulearning_app/common/utils/app_colors.dart';
-import 'package:ulearning_app/common/utils/image_res.dart';
-import 'package:ulearning_app/global.dart';
+import 'package:beehive/common/routes/names.dart';
+import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/common/utils/image_res.dart';
 
 class Splash extends ConsumerStatefulWidget {
   const Splash({super.key});
