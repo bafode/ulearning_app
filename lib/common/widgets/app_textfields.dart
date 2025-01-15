@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/utils/app_colors.dart';
@@ -8,8 +10,10 @@ class AppTextField extends StatefulWidget {
   final IconData iconName;
   final String hintText;
   final bool obscureText;
+  final int? maxLines;
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
+  final void Function()? onChangeVisibility;
 
   const AppTextField({
     super.key,
@@ -19,7 +23,9 @@ class AppTextField extends StatefulWidget {
     this.hintText = "Type in your info",
     this.obscureText = false,
     this.validator,
+    this.maxLines,
     this.onChanged,
+    this.onChangeVisibility,
   });
 
   @override
@@ -55,9 +61,7 @@ class AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+    return 
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           child: TextField(
@@ -110,19 +114,24 @@ class AppTextFieldState extends State<AppTextField> {
                   color: Colors.red,
                 ),
               ),
-              suffixIcon: Icon(
-                widget.iconName,
-                color: AppColors.primaryElement,
-                size: 20,
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  if (widget.onChangeVisibility != null) {
+                    widget.onChangeVisibility!();
+                  }
+                },
+                child: Icon(
+                  widget.iconName,
+                  color: AppColors.primaryElement,
+                  size: 20,
+                ),
               ),
               errorText: _errorText,
             ),
-            maxLines: 1,
+            maxLines: widget.maxLines??1,
             autocorrect: false,
           ),
-        ),
-      ],
-    );
+        );
   }
 
   void validate() => _validate(widget.controller?.text);

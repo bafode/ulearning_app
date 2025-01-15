@@ -82,7 +82,7 @@ _$CommentImpl _$$CommentImplFromJson(Map<String, dynamic> json) =>
       userFirstName: json['userFirstName'] as String?,
       userLastName: json['userLastName'] as String?,
       userAvatar: json['userAvatar'] as String?,
-      id: json['id'] as String,
+      id: json['id'] as String?,
     );
 
 Map<String, dynamic> _$$CommentImplToJson(_$CommentImpl instance) =>

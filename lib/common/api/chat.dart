@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/common/utils/constants.dart';
+import 'package:beehive/global.dart';
 import 'package:dio/dio.dart';
 import 'package:beehive/common/models/base.dart';
 import 'package:beehive/common/models/chat.dart';
@@ -56,6 +60,26 @@ class ChatAPI {
       data: data,
     );
     return BaseResponseEntity.fromJson(response);
+  }
+
+  static Future<User> uploadProfileImage({File? file,String? id}) async {
+    String fileName = file!.path.split('/').last;
+
+    FormData data = FormData.fromMap({
+      "image": await MultipartFile.fromFile(
+        file.path,
+        filename: fileName,
+      ),
+    });
+    final response = await HttpUtil().patch(
+      "v1/users/$id",
+      data: data,
+    );
+    User user= User.fromJson(response);
+   
+   await Global.storageService.setString(
+        AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(response));
+    return user;
   }
 
   static Future<SyncMessageResponseEntity> sync_message(

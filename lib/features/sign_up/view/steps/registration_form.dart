@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:beehive/common/widgets/botton_widgets.dart';
 import 'package:beehive/features/sign_in/view/widgets/sign_in_widgets.dart';
 import 'package:beehive/features/sign_up/controller/sign_up_controller.dart';
 import 'package:beehive/features/sign_up/provider/register_notifier.dart';
+import 'package:get/get.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
 
@@ -38,46 +40,61 @@ class RegistrationFormState extends ConsumerState<RegistrationForm> {
 
   String? validateFirstName(String? value) {
     if (value == null || value.isEmpty) {
+      ref.read(signUpNotifierProvier.notifier).setFirstNameValidity(false);
       return 'Le prénom est requis';
     } else if (value.length < 3) {
+      ref.read(signUpNotifierProvier.notifier).setFirstNameValidity(false);
       return 'Le prénom doit contenir au moins 3 lettres';
     }
+    ref.read(signUpNotifierProvier.notifier).setFirstNameValidity(true);
     return null;
   }
 
   String? validateLastName(String? value) {
     if (value == null || value.isEmpty) {
+      ref.read(signUpNotifierProvier.notifier).setLastNameValidity(false);
       return 'Le nom est requis';
     } else if (value.length < 3) {
+      ref.read(signUpNotifierProvier.notifier).setLastNameValidity(false);
       return 'Le nom doit contenir au moins 3 lettres';
     }
+    ref.read(signUpNotifierProvier.notifier).setLastNameValidity(true);
     return null;
   }
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
+      ref.read(signUpNotifierProvier.notifier).setEmailValidity(false);
       return 'L\'email est requis';
     } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      ref.read(signUpNotifierProvier.notifier).setEmailValidity(false);
       return 'Veuillez entrer un email valide';
     }
+    ref.read(signUpNotifierProvier.notifier).setEmailValidity(true);
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
+      ref.read(signUpNotifierProvier.notifier).setPasswordValidity(false);
       return 'Le mot de passe est requis';
     } else if (value.length < 6) {
+      ref.read(signUpNotifierProvier.notifier).setPasswordValidity(false);
       return 'Le mot de passe doit contenir au moins 6 caractères';
     }
+    ref.read(signUpNotifierProvier.notifier).setPasswordValidity(true);
     return null;
   }
 
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
+      ref.read(signUpNotifierProvier.notifier).setRePasswordValidity(false);
       return 'La confirmation du mot de passe est requise';
     } else if (value != password.text) {
+      ref.read(signUpNotifierProvier.notifier).setRePasswordValidity(false);
       return 'Les mots de passe ne correspondent pas';
     }
+    ref.read(signUpNotifierProvier.notifier).setRePasswordValidity(true);
     return null;
   }
 
@@ -85,14 +102,7 @@ class RegistrationFormState extends ConsumerState<RegistrationForm> {
     return _isChecked ? null : "Vous devez accepter les conditions";
   }
 
-  Future<void> _onRegister() async {
-    final isFormValid = _formKey.currentState?.validate() ?? false;
-    if (isFormValid && _isChecked) {
-      await _controller.handleSignUp("email");
-    } else {
-      setState(() {}); // Pour déclencher la validation des cases
-    }
-  }
+ 
 
 
 ondispose() {
@@ -106,6 +116,7 @@ ondispose() {
 
   @override
   Widget build(BuildContext context) {
+    final state= ref.watch(signUpNotifierProvier);
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
@@ -149,26 +160,46 @@ ondispose() {
               controller: password,
               text: "Mot de passe",
               hintText: "Entrez votre mot de passe",
-              iconName: Icons.lock_clock_outlined,
-              obscureText: true,
+              iconName: (state.passwordVisibility!)
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined,
+              obscureText: state.passwordVisibility!,
               validator: validatePassword,
               onChanged: (value) => ref
                         .read(signUpNotifierProvier.notifier)
                         .onUserPasswordChange(value),
+              onChangeVisibility: () {
+                ref
+                    .read(signUpNotifierProvier.notifier)
+                    .onPasswordVisibilityChange(
+                        !(state.passwordVisibility!));
+              },
             ),
             const SizedBox(height: 12),
             AppTextField(
               controller: confirmPassword,
               text: "Confirmez le mot de passe",
               hintText: "Confirmez votre mot de passe",
-              obscureText: true,
-              iconName: Icons.lock_clock_outlined,
+              obscureText: state.rePasswordVisibility!,
+              iconName: (state.rePasswordVisibility!)
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined,
               validator: validateConfirmPassword,
               onChanged: (value) => ref
                         .read(signUpNotifierProvier.notifier)
                         .onUserRePasswordChange(value),
+               onChangeVisibility: () {
+                ref
+                    .watch(signUpNotifierProvier.notifier)
+                    .onRePasswordVisibilityChange(
+                        !(state.rePasswordVisibility ?? true));
+              },
             ),
             const SizedBox(height: 25),
+             // Vos champs de formulaire existants ici
+
+            const SizedBox(height: 16),
+            
             Row(
               children: [
                 Checkbox(
@@ -179,9 +210,46 @@ ondispose() {
                     });
                   },
                 ),
-                const Expanded(
-                  child: Text(
-                    "En cochant cette case, vous acceptez les conditions de notre application.",
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      text: "En vous inscrivant, vous acceptez nos ",
+                      style: const TextStyle(color: Colors.black,fontSize: 16.0),
+                      children: [
+                        TextSpan(
+                          text: "Conditions générales",
+                          style: const TextStyle(
+                            color: AppColors.primaryText,
+                            decoration: TextDecoration.underline,
+                            fontSize: 16.0
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // Remplacez par le lien vers vos termes et conditions
+                              Get.toNamed(AppRoutes.TERMS);
+                            },
+                        ),
+                        const TextSpan(
+                          text: " et notre ",
+                          style: TextStyle(
+                            fontSize: 16.0
+                          )
+                        ),
+                        TextSpan(
+                          text: "Politique de confidentialité.",
+                          style: const TextStyle(
+                            color: AppColors.primaryText,
+                            decoration: TextDecoration.underline,
+                            fontSize: 16.0
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // Remplacez par le lien vers votre politique de confidentialité
+                              Get.toNamed(AppRoutes.PRIVACY);
+                            },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -199,8 +267,14 @@ ondispose() {
               child: AppButton(
                 buttonName: "S'inscrire",
                 isLogin: true,
+                isEnabled: state.isFirstnameValid! &&
+                    state.isLastnameValid! &&
+                    state.isEmailValid! &&
+                    state.isPasswordValid! &&
+                    state.isRePasswordValid! &&
+                    _isChecked,
                 context: context,
-                func: _onRegister,
+                func:()=> _controller.handleSignUp("email"),
               ),
             ),
             Container(

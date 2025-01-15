@@ -34,12 +34,13 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
     final userId = profileState.asData?.value.id;
     favorites = profileState.asData?.value.favorites ?? [];
     isFavorite = favorites.contains(post?.id);
-    isLiked = post?.likes.any((like) => like.id == userId)??false;
-    postlength = post?.likes.length??0;
-    comments = post?.comments??[];
+    isLiked = post?.likes.any((like) => like.id == userId) ?? false;
+    postlength = post?.likes.length ?? 0;
+    comments = post?.comments ?? [];
     commentLength = post?.comments?.length ?? 0;
     isFollowing =
-        profileState.asData?.value.following?.contains(post?.author.id) ?? false;
+        profileState.asData?.value.following?.contains(post?.author.id) ??
+            false;
   }
 
   @override
@@ -148,7 +149,9 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ActionButton(
-                            icon: isLiked? Icons.favorite : Icons.favorite_border,
+                            icon: isLiked
+                                ? Icons.favorite
+                                : Icons.favorite_border,
                             label: "${value.likes.length}",
                             onPressed: () {
                               _likePost(value.id);

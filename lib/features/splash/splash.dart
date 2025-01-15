@@ -35,7 +35,6 @@ class _SplashState extends ConsumerState<Splash>
     Future.delayed(const Duration(seconds: 3), () {
       bool isFirstTime = Global.storageService.getDeviceFirstOpen();
       if (isFirstTime) {
-       // Global.storageService.setDeviceFirstOpen(false); // Marquer comme vu
         Navigator.of(context).pushReplacementNamed(AppRoutes.WELCOME);
       } else {
         bool isLoggedIn = Global.storageService.isLoggedIn();

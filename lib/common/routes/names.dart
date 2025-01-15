@@ -27,4 +27,8 @@ class AppRoutes {
   static const String FAVORITES = '/favorites';
   static const String CONTACT = '/contact';
   static const String FEEDBACK= '/feedback';
+  static const String FOLLOWERS = '/followers';
+  static const String FOLLOWING = '/following';
+  static const String TERMS = '/terms';
+  static const String PRIVACY = '/privacy';
 }

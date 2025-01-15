@@ -35,7 +35,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   List<Comment>? comments = [];
   List<String> favorites = [];
 
- void initializePostDetails() {
+  void initializePostDetails() {
     var profileState = ref.watch(homeUserProfileProvider);
     final userId = profileState.asData?.value.id;
     favorites = profileState.asData?.value.favorites ?? [];
@@ -66,57 +66,66 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         );
       },
       child: Container(
-      margin: EdgeInsets.symmetric(vertical: 8.h),
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 6.r,
-            offset: Offset(0, 4.h),
-          ),
-        ],
+        margin: EdgeInsets.symmetric(vertical: 8.h),
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              blurRadius: 6.r,
+              offset: Offset(0, 4.h),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(context),
+            SizedBox(height: 8.h),
+            PostContent(content: widget.post.content ?? ''),
+            SizedBox(height: 8.h),
+            if (widget.post.media != null) _buildMedia(context),
+            SizedBox(height: 8.h),
+            _buildActions(context),
+            SizedBox(height: 8.h),
+            //  _buildFooter(),
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(context),
-          SizedBox(height: 8.h),
-          PostContent(content: widget.post.content??''),
-          SizedBox(height: 8.h),
-          if (widget.post.media!=null) _buildMedia(context),
-          SizedBox(height: 8.h),
-          _buildActions(context),
-          SizedBox(height: 8.h),
-          //  _buildFooter(),
-        ],
-      ),
-    ),);
-    }
+    );
+  }
 
   Widget _buildHeader(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
       leading: ClipOval(
-        child: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 4,
-                offset: const Offset(2, 2),
-              ),
-            ],
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              AppRoutes.Profile,
+              arguments: {"id": widget.post.author.id},
+            );
+          },
+          child: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(2, 2),
+                ),
+              ],
+            ),
+            child: CachedImage(widget.post.author.avatar),
           ),
-          child: CachedImage(widget.post.author.avatar),
         ),
       ),
       title: Text(
-        "${widget.post.author.firstname??""} ${widget.post.author.lastname??""}",
+        "${widget.post.author.firstname ?? ""} ${widget.post.author.lastname ?? ""}",
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14.sp,
@@ -144,7 +153,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                 isFollowing = !isFollowing;
               }),
             },
-            ),
+          ),
           SizedBox(width: 8.w),
           GestureDetector(
             onTap: () {
@@ -297,7 +306,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                               );
                           setState(() {
                             commentLength++;
-                             comments = List.from(comments??[]);
+                            comments = List.from(comments ?? []);
                             comments?.add(
                               Comment(
                                 content: content,
@@ -321,7 +330,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           },
           child: const Icon(
             Icons.comment_bank_outlined,
-            color: Colors.black,
+            color: AppColors.primaryElement,
           ),
         ),
         SizedBox(width: 4.w),
@@ -367,18 +376,19 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             .read(favoriteControllerProvider.notifier)
             .toggleUserFavorites(widget.post.id);
         setState(() {
+          isFavorite = !isFavorite;
+          favorites = List.from(favorites);
           if (isFavorite) {
             favorites.remove(widget.post.id);
           } else {
             favorites.add(widget.post.id);
           }
-          isFavorite = !isFavorite;
         });
       },
       child: Icon(
         isFavorite ? Icons.bookmark : Icons.bookmark_border,
-        color:  Colors.black,
-       // color: isFavorite ? Colors.red : AppColors.primaryElement,
+        color: Colors.black,
+        // color: isFavorite ? Colors.red : AppColors.primaryElement,
       ),
     );
   }

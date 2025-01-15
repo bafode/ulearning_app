@@ -894,7 +894,7 @@ mixin _$Comment {
   String? get userFirstName => throw _privateConstructorUsedError;
   String? get userLastName => throw _privateConstructorUsedError;
   String? get userAvatar => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
 
   /// Serializes this Comment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -915,7 +915,7 @@ abstract class $CommentCopyWith<$Res> {
       String? userFirstName,
       String? userLastName,
       String? userAvatar,
-      String id});
+      String? id});
 }
 
 /// @nodoc
@@ -937,7 +937,7 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? userFirstName = freezed,
     Object? userLastName = freezed,
     Object? userAvatar = freezed,
-    Object? id = null,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       content: null == content
@@ -956,10 +956,10 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.userAvatar
           : userAvatar // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -976,7 +976,7 @@ abstract class _$$CommentImplCopyWith<$Res> implements $CommentCopyWith<$Res> {
       String? userFirstName,
       String? userLastName,
       String? userAvatar,
-      String id});
+      String? id});
 }
 
 /// @nodoc
@@ -996,7 +996,7 @@ class __$$CommentImplCopyWithImpl<$Res>
     Object? userFirstName = freezed,
     Object? userLastName = freezed,
     Object? userAvatar = freezed,
-    Object? id = null,
+    Object? id = freezed,
   }) {
     return _then(_$CommentImpl(
       content: null == content
@@ -1015,10 +1015,10 @@ class __$$CommentImplCopyWithImpl<$Res>
           ? _value.userAvatar
           : userAvatar // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1045,7 +1045,7 @@ class _$CommentImpl implements _Comment {
   @override
   final String? userAvatar;
   @override
-  final String id;
+  final String? id;
 
   @override
   String toString() {
@@ -1094,7 +1094,7 @@ abstract class _Comment implements Comment {
       required final String? userFirstName,
       required final String? userLastName,
       required final String? userAvatar,
-      required final String id}) = _$CommentImpl;
+      required final String? id}) = _$CommentImpl;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$CommentImpl.fromJson;
 
@@ -1107,7 +1107,7 @@ abstract class _Comment implements Comment {
   @override
   String? get userAvatar;
   @override
-  String get id;
+  String? get id;
 
   /// Create a copy of Comment
   /// with the given fields replaced by the non-null parameter values.

@@ -1,3 +1,5 @@
+import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
+import 'package:beehive/common/entities/user/editProfileRequest/edit_profil_request.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -45,7 +47,7 @@ abstract class RestClientApi {
 
   @GET("${AppConstants.userEndpoint}/me/posts")
   Future<PostResponse> getLoggedUserPost({
-    @Query("q") String? query,
+    @Query("query") String? query,
     @Query("page") int? page,
     @Query("limit") int? limit,
   });
@@ -65,6 +67,31 @@ abstract class RestClientApi {
       @Path("userId") required String userId,
       @Body() required UpdateUserInfoRequest updateUserInfoRequest,
     });
+
+  @PATCH("${AppConstants.userEndpoint}/{userId}")
+  Future<User> updateUserProfile({
+    @Path("userId") required String userId,
+    @Body() required EditProfilRequest profilRequest,
+  });
+
+  @GET("${AppConstants.userEndpoint}/contacts")
+  Future<ContactResponseEntity> getContacts();
+
+  @GET("${AppConstants.userEndpoint}/{userId}/followers")
+  Future<ContactResponseEntity> getFollowers({
+    @Path("userId") required String userId,
+  });
+
+  @GET("${AppConstants.userEndpoint}/{userId}/following")
+  Future<ContactResponseEntity> getFollowings({
+    @Path("userId") required String userId,
+  });
+
+  @GET("${AppConstants.userEndpoint}/{userId}")
+  Future<User> getUserById({
+    @Path("userId") required String userId,
+  });
+
 
   @POST(AppConstants.sendEmailVerificationTokenUrl)
   Future<void> sendEmailVerificationToken();
@@ -99,6 +126,12 @@ abstract class RestClientApi {
       @Part() List<MultipartFile>? media,
       {@SendProgress() ProgressCallback? onSendProgress});
 
+  @PATCH("${AppConstants.userEndpoint}/{userId}")
+  @MultiPart()
+  Future<User> updateProfilePicture(
+      @Part(name: 'userId') String title,
+      @Part() List<MultipartFile>? media,
+      {@SendProgress() ProgressCallback? onSendProgress});
   
   @PATCH("${AppConstants.postEndPointUrl}/{postId}/likes")
   Future<Post> toagleLikePost(
