@@ -1,14 +1,17 @@
 import 'package:beehive/common/middlewares/middlewares.dart';
 import 'package:beehive/features/contact/bindings.dart';
 import 'package:beehive/features/contact/view.dart';
-import 'package:beehive/features/message/bindings.dart';
+import 'package:beehive/features/edit_profil/view/edit_profil.dart';
+import 'package:beehive/features/follower/index.dart';
+import 'package:beehive/features/following/index.dart';
+import 'package:beehive/features/message/index.dart';
 import 'package:beehive/features/message/chat/index.dart';
-import 'package:beehive/features/message/chat/view.dart';
 import 'package:beehive/features/message/videocall/bindings.dart';
 import 'package:beehive/features/message/videocall/view.dart';
-import 'package:beehive/features/message/view.dart';
-import 'package:beehive/features/message/voicecall/bindings.dart';
 import 'package:beehive/features/message/voicecall/index.dart';
+import 'package:beehive/features/profile/view/profile.dart';
+import 'package:beehive/features/sign_up/view/widgets/privacy.dart';
+import 'package:beehive/features/sign_up/view/widgets/term.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:beehive/common/routes/names.dart';
@@ -18,13 +21,11 @@ import 'package:beehive/features/addPost/view/add.dart';
 import 'package:beehive/features/application/view/application.dart';
 import 'package:beehive/features/auth/view/auth.dart';
 import 'package:beehive/features/feedback/view/feedback.dart';
-import 'package:beehive/features/editProfile/view/edit_profile.dart';
 import 'package:beehive/features/favorites/views/favorites.dart';
 import 'package:beehive/features/forgot_password/view/forgot_password.dart';
 import 'package:beehive/features/home/view/home.dart';
 import 'package:beehive/features/otp/view/otp.dart';
 import 'package:beehive/features/post_detail/view/post_detail.dart';
-import 'package:beehive/features/profile/view/profile.dart';
 import 'package:beehive/features/profile/view/setting/setting.dart';
 import 'package:beehive/features/sign_up/view/sign_up.dart';
 import 'package:beehive/features/reset_password/view/reset_password.dart';
@@ -86,7 +87,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.EditProfile,
-      page: () => const EditProfile(),
+      page: () => const EditProfil(),
     ),
     GetPage(
       name: AppRoutes.Add,
@@ -122,6 +123,16 @@ class AppPages {
       binding: ContactBinding(),
     ),
     GetPage(
+      name: AppRoutes.FOLLOWERS,
+      page: () => const FollowersPage(),
+      binding: FollowersBinding(),
+    ),
+     GetPage(
+      name: AppRoutes.FOLLOWING,
+      page: () => const FollowingPage(),
+      binding: FollowingBinding(),
+    ),
+    GetPage(
       name: AppRoutes.Message,
       page: () => const MessagePage(),
       binding: MessageBinding(),
@@ -140,6 +151,15 @@ class AppPages {
     GetPage(
         name: AppRoutes.VideoCall,
         page: () => const VideoCallPage(),
-        binding: VideoCallBinding()),
+        binding: VideoCallBinding(),
+        ),
+        GetPage(
+        name: AppRoutes.TERMS,
+        page: () => const TermsPage(),
+        ),
+        GetPage(
+      name: AppRoutes.PRIVACY,
+      page: () => const PrivacyPolicyPage(),
+    ),
   ];
 }

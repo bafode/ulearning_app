@@ -1,26 +1,43 @@
 {
   "project_info": {
-    "project_number": "974951431124",
-    "project_id": "beehiveapp-24adf",
-    "storage_bucket": "beehiveapp-24adf.firebasestorage.app"
+    "project_number": "955687176754",
+    "project_id": "beehive-20153",
+    "storage_bucket": "beehive-20153.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:974951431124:android:d824d09deecb93e776f441",
+        "mobilesdk_app_id": "1:955687176754:android:05cd903c0944c032ea0a2b",
         "android_client_info": {
           "package_name": "com.example.beehive"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "955687176754-37ab72f24mrteunqvd9l034jcp2varo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDB-8B9EbmeVW_TAUgkVUMAx7I78hvNuXw"
+          "current_key": "AIzaSyCnkrX27PDp3Tu9acLSBZ7jdGSjHcLQhc8"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955687176754-37ab72f24mrteunqvd9l034jcp2varo0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "955687176754-4havp3tda1f0fo6o24kusnr643tpjr5t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.beehive"
+              }
+            }
+          ]
         }
       }
     }

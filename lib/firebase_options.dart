@@ -47,28 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCTNe-M7FV91NDVEZ-gFOiFHw6cJ8wpZ1s',
-    appId: '1:974951431124:web:0cd4b3f4c254cfc976f441',
-    messagingSenderId: '974951431124',
-    projectId: 'beehiveapp-24adf',
-    authDomain: 'beehiveapp-24adf.firebaseapp.com',
-    storageBucket: 'beehiveapp-24adf.firebasestorage.app',
+    apiKey: 'AIzaSyDq6w-i0XFYwlf6hvDe558WmjrdApctLOQ',
+    appId: '1:955687176754:web:c94289c34508323cea0a2b',
+    messagingSenderId: '955687176754',
+    projectId: 'beehive-20153',
+    authDomain: 'beehive-20153.firebaseapp.com',
+    storageBucket: 'beehive-20153.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDB-8B9EbmeVW_TAUgkVUMAx7I78hvNuXw',
-    appId: '1:974951431124:android:d824d09deecb93e776f441',
-    messagingSenderId: '974951431124',
-    projectId: 'beehiveapp-24adf',
-    storageBucket: 'beehiveapp-24adf.firebasestorage.app',
+    apiKey: 'AIzaSyCnkrX27PDp3Tu9acLSBZ7jdGSjHcLQhc8',
+    appId: '1:955687176754:android:05cd903c0944c032ea0a2b',
+    messagingSenderId: '955687176754',
+    projectId: 'beehive-20153',
+    storageBucket: 'beehive-20153.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCakm87QBIzDS_c0TT3m_sPnAk0rz4LqYg',
-    appId: '1:974951431124:ios:8da33dcf5732095b76f441',
-    messagingSenderId: '974951431124',
-    projectId: 'beehiveapp-24adf',
-    storageBucket: 'beehiveapp-24adf.firebasestorage.app',
+    apiKey: 'AIzaSyB1vgrCbqJnyJIlCV3fZmxuQWWy6yppJrA',
+    appId: '1:955687176754:ios:ba7288d8f907c44dea0a2b',
+    messagingSenderId: '955687176754',
+    projectId: 'beehive-20153',
+    storageBucket: 'beehive-20153.firebasestorage.app',
+    iosClientId: '955687176754-4havp3tda1f0fo6o24kusnr643tpjr5t.apps.googleusercontent.com',
     iosBundleId: 'com.example.beehive',
   );
 }

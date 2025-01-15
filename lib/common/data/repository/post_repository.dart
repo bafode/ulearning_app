@@ -8,7 +8,7 @@ import 'package:beehive/features/post/domain/post_filter.dart';
 
 abstract class PostRepository {
   Future<PostResponse> getPosts({
-    String query = "",
+    String? query,
     SortOption? category,
     OrderOption? order,
     int? page,

@@ -35,6 +35,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
     try {
      
       final postResponse = await repository.getPosts(
+        query: currentFilter.query,
         category: currentFilter.category,
         order: currentFilter.order,
         page: page,

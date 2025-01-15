@@ -55,7 +55,7 @@ class Comment with _$Comment {
     required String? userFirstName,
     required String? userLastName,
     required String? userAvatar,
-    required String id,
+    required String? id,
   }) = _Comment;
 
   factory Comment.fromJson(Map<String, dynamic> json) =>

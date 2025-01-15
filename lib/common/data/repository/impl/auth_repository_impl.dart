@@ -10,6 +10,8 @@ import 'package:beehive/common/entities/auth/registrationResponse/registration_r
 import 'package:beehive/common/entities/auth/resetPasswordRequest/reset_password_request.dart';
 import 'package:beehive/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:beehive/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
+import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
+import 'package:beehive/common/entities/user/editProfileRequest/edit_profil_request.dart';
 import 'package:beehive/common/entities/user/user.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -67,6 +69,42 @@ class AuthRepositoryImpl extends AuthRepository {
       userId: userId,
       updateUserInfoRequest: userInfo,
     );
+    return response;
+  }
+
+  @override
+  Future<User> getUserById(String userId) async {
+    final response = await api.getUserById(
+      userId: userId,
+    );
+    return response;
+  }
+
+  @override
+  Future<User> updateUserProfile(
+      String userId, EditProfilRequest userInfo) async {
+    final response = await api.updateUserProfile(
+      userId: userId,
+      profilRequest: userInfo,
+    );
+    return response;
+  }
+
+  @override
+  Future<ContactResponseEntity> getContacts() async {
+    final response = await api.getContacts();
+    return response;
+  }
+
+  @override
+  Future<ContactResponseEntity> getFollowers(String userId) async {
+    final response = await api.getFollowers(userId: userId);
+    return response;
+  }
+
+  @override
+  Future<ContactResponseEntity> getFollowings(String userId) async {
+    final response = await api.getFollowings(userId: userId);
     return response;
   }
 }

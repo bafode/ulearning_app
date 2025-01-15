@@ -1,7 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:beehive/common/api/chat.dart';
+import 'package:beehive/common/data/repository/impl/auth_repository_impl.dart';
+import 'package:beehive/common/routes/names.dart';
+import 'package:beehive/common/widgets/popup_messages.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:beehive/common/data/di/repository_module.dart';
 import 'package:beehive/common/data/repository/impl/post_repository_impl.dart';
 import 'package:beehive/common/entities/post/postResponse/post_response.dart';
@@ -18,10 +27,14 @@ final loggedUserPostControllerProvider =
 class LoggedUserPostController extends AsyncNotifier<List<Post>>
     with AsyncPaginationController<Post, int> {
   PostRepositoryImpl get repository => ref.read(postRepositoryProvider);
+  AuthRepositoryImpl get authRepository => ref.read(authRepositoryProvider);
 
   var _canLoadMore = true;
 
   bool get canLoadMore => _canLoadMore;
+
+   File? _photo;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   int get initialPage => 1;
@@ -137,5 +150,50 @@ class LoggedUserPostController extends AsyncNotifier<List<Post>>
   void handleError(Object e) {
     // Log or handle the error as required
     print('Error: $e');
+  }
+
+    Future imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      _photo = File(pickedFile.path);
+     uploadFile(Global.storageService.getUserProfile().id);
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  Future imgFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      _photo = File(pickedFile.path);
+     uploadFile(Global.storageService.getUserProfile().id);
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  
+  Future uploadFile(String? id) async {
+    if (_photo == null) return;
+    // print(_photo);
+    var result = await ChatAPI.uploadProfileImage(file: _photo,id: id);
+    await Global.storageService
+        .setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result));
+    EasyLoading.dismiss();
+    ref.read(applicationNavNotifierProvider.notifier).changeIndex(3);
+    Global.navigatorKey.currentState
+        ?.pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
+   
+    }
+
+     FutureOr<User?> getUserById(String userId) async {
+    try {
+      return await authRepository.getUserById(userId);
+    } catch (e) {
+      handleError(e);
+      return null;
+    }
   }
 }

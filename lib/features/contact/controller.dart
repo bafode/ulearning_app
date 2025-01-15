@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 class ContactController extends GetxController {
   ContactController();
 
-  final title = "Chatty .";
+  final title = "Contacts .";
   final state = ContactState();
   final token = Global.storageService.getUserProfile().id;
   final db = FirebaseFirestore.instance;
@@ -122,6 +122,7 @@ class ContactController extends GetxController {
         dismissOnTap: true
     );
     state.contactList.clear();
+
     var result = await ContactAPI.post_contact();
     if (kDebugMode) {
       print(result.data!);

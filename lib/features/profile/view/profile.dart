@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/entities/post/postResponse/post_response.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/app_colors.dart';
-import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/common/utils/network_error.dart';
 import 'package:beehive/common/utils/snackbar.dart';
 import 'package:beehive/features/favorites/controller/controller.dart';
@@ -13,7 +14,7 @@ import 'package:beehive/features/post/view/widgets/sliver_list_tile_shimmer.dart
 import 'package:beehive/features/post/view/widgets/sliver_loading_spinner.dart';
 import 'package:beehive/features/profile/controller/profile_controller.dart';
 import 'package:beehive/features/profile/controller/profile_post_controller.dart';
-import 'package:beehive/features/profile/view/profil_list_view.dart';
+import 'package:get/get.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});
@@ -34,16 +35,32 @@ class _ProfileScreenState extends ConsumerState<Profile>
   FavoriteController get favoriteController =>
       ref.read(favoriteControllerProvider.notifier);
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     favoriteController.build();
     loggedUserPostController.build();
     _tabController = TabController(length: 2, vsync: this);
+    final route = ModalRoute.of(ref.context);
+    final args = route?.settings.arguments as Map<String, dynamic>? ?? {};
+
+    if (kDebugMode) {
+      debugPrint("Arguments : ${args['id']}");
+    }
+    if (args["id"] != null) {
+      final id = args["id"];
+      final profileId = ref.read(profileControllerProvider).id;
+
+      yourse = (id == profileId);
+    }
+
+     ref
+        .read(asyncNotifierProfileControllerProvider.notifier)
+        .init(args["id"]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProfile = ref.watch(profileControllerProvider);
+    final userState = ref.watch(asyncNotifierProfileControllerProvider);
     ref.listen(favoriteControllerProvider, (_, state) {
       if (!state.isLoading && state.hasError) {
         debugPrint("Erreur capturée : ${state.error}");
@@ -70,184 +87,183 @@ class _ProfileScreenState extends ConsumerState<Profile>
     final loggedUserPostState = ref.watch(loggedUserPostControllerProvider);
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          yourse ? "Mon Profil" :
+          "Profil",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          Visibility(visible: yourse, child: IconButton(
+            icon: const Icon(Icons.settings_outlined,
+                size: 28, color: Colors.black),
+            onPressed: () {
+              Get.toNamed(AppRoutes.Setting);
+            },
+          )),
+          
+        ],
+      ),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: EdgeInsets.symmetric(
-                vertical: 30.h,
-                horizontal: 25.w,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    Container(
-                      width: 80.w,
-                      height: 80.h,
-                      decoration: userProfile.avatar == null
-                          ? BoxDecoration(
-                              image: const DecorationImage(
-                                  image:
-                                      AssetImage('assets/icons/profile.png')),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.w)),
-                            )
-                          : BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(userProfile.avatar ==
-                                          "default.jpg"
-                                      ? "${AppConstants.SERVER_API_URL}${userProfile.avatar}"
-                                      : "${userProfile.avatar}")),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.w)),
-                            ),
-                      child: Container(
-                        alignment: Alignment.bottomRight,
-                        padding: EdgeInsets.only(right: 6.w),
-                        child: Image(
-                          image: const AssetImage("assets/icons/edit_3.png"),
-                          width: 25.w,
-                          height: 25.h,
-                        ),
-                      ),
+        child: switch(userState){
+          AsyncData(:final value)=>value==null?(const Center(
+                child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                        color: Colors.black26, strokeWidth: 2)),
+              )): CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 15.h,
+                      horizontal: 25.w,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 12.w),
-                      child: Text(
-                        "${userProfile.firstname ?? ""} ${userProfile.lastname ?? ''}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    userProfile.description == null
-                        ? Container()
-                        : Container(
-                            padding: EdgeInsets.only(left: 50.w, right: 50.w),
-                            margin: EdgeInsets.only(bottom: 10.h, top: 5.h),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          _buildLogo(context, value.avatar, yourse),
+                          Container(
+                            margin: EdgeInsets.only(top: 12.w),
                             child: Text(
-                              "${userProfile.description}",
-                              textAlign: TextAlign.center,
+                              "${value.firstname ?? ""} ${value.lastname ?? ''}",
                               style: TextStyle(
-                                color: AppColors.primarySecondaryElementText,
-                                fontSize: 9.sp,
-                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-
+                          value.description == null
+                              ? Container()
+                              : Container(
+                                  padding: EdgeInsets.all(5.w),
+                                  child: Text(
+                                    "${value.description}",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                      color:
+                                          AppColors.primarySecondaryElementText,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
                           Padding(
-                      padding: EdgeInsets.only(top: 10.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _buildClickableStatColumn(
-                              "${userProfile.followers?.length ?? "0"}",
-                              "Followers",
-                              () {}),
-                          _buildClickableStatColumn(
-                              "${userProfile.following?.length ?? "0"}",
-                              "Following",
-                              () {}),
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                _buildClickableStatColumn(
+                                    "${value.followers?.length ?? "0"}",
+                                    "Followers",
+                                    () {}),
+                                _buildClickableStatColumn(
+                                  "${value.following?.length ?? "0"}",
+                                  "Following",
+                                  () {
+                                    Get.toNamed(AppRoutes.FOLLOWING);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(child: ProfileLinks()),
-            SliverToBoxAdapter(
-              child: DefaultTabController(
-                length: 2,
-                child: TabBar(
-                  tabs: const [
-                    Tab(
-                      icon: Icon(Icons.grid_on),
-                    ),
-                    Tab(
-                      icon: Icon(Icons.bookmark),
-                    )
-                  ],
-                  controller: _tabController,
-                  unselectedLabelColor: Colors.grey.shade600,
-                  labelColor: Colors.black,
-                  indicatorColor: Colors.black,
-                ),
-              ),
-            ),
-            SliverFillRemaining(
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  NotificationListener(
-                    onNotification: (ScrollNotification scrollInfo) {
-                      if (scrollInfo is ScrollEndNotification &&
-                          scrollInfo.metrics.axisDirection ==
-                              AxisDirection.down &&
-                          scrollInfo.metrics.pixels >=
-                              scrollInfo.metrics.maxScrollExtent) {
-                        if (loggedUserPostController.canLoadMore) {
-                          loggedUserPostController.loadNextPage();
-                        }
-                      }
-                      return true;
-                    },
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        loggedUserPostController
-                            .refresh(); // Rafraîchit la liste des posts
-                      },
-                      child: CustomScrollView(
-                        slivers: [...gridPosts(context, loggedUserPostState)],
+                  ),
+                  SliverToBoxAdapter(
+                    child: DefaultTabController(
+                      length: 2,
+                      child: TabBar(
+                        tabs: const [
+                          Tab(
+                            icon: Icon(Icons.grid_on),
+                          ),
+                          Tab(
+                            icon: Icon(Icons.bookmark),
+                          )
+                        ],
+                        controller: _tabController,
+                        unselectedLabelColor: Colors.grey.shade600,
+                        labelColor: Colors.black,
+                        indicatorColor: Colors.black,
                       ),
                     ),
                   ),
-                  NotificationListener(
-                    onNotification: (ScrollNotification scrollInfo) {
-                      if (scrollInfo is ScrollEndNotification &&
-                          scrollInfo.metrics.axisDirection ==
-                              AxisDirection.down &&
-                          scrollInfo.metrics.pixels >=
-                              scrollInfo.metrics.maxScrollExtent) {
-                        if (favoriteController.canLoadMore) {
-                          favoriteController.loadNextPage();
-                        }
-                      }
-                      return true;
-                    },
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        favoriteController
-                            .refresh(); // Rafraîchit la liste des posts
-                      },
-                      child: CustomScrollView(
-                        slivers: [...gridPosts(context, favoritesState)],
-                      ),
+                  SliverFillRemaining(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: <Widget>[
+                        NotificationListener(
+                          onNotification: (ScrollNotification scrollInfo) {
+                            if (scrollInfo is ScrollEndNotification &&
+                                scrollInfo.metrics.axisDirection ==
+                                    AxisDirection.down &&
+                                scrollInfo.metrics.pixels >=
+                                    scrollInfo.metrics.maxScrollExtent) {
+                              if (loggedUserPostController.canLoadMore) {
+                                loggedUserPostController.loadNextPage();
+                              }
+                            }
+                            return true;
+                          },
+                          child: RefreshIndicator(
+                            onRefresh: () async {
+                              loggedUserPostController
+                                  .refresh(); // Rafraîchit la liste des posts
+                            },
+                            child: CustomScrollView(
+                              slivers: [
+                                ...gridPosts(context, loggedUserPostState)
+                              ],
+                            ),
+                          ),
+                        ),
+                        NotificationListener(
+                          onNotification: (ScrollNotification scrollInfo) {
+                            if (scrollInfo is ScrollEndNotification &&
+                                scrollInfo.metrics.axisDirection ==
+                                    AxisDirection.down &&
+                                scrollInfo.metrics.pixels >=
+                                    scrollInfo.metrics.maxScrollExtent) {
+                              if (favoriteController.canLoadMore) {
+                                favoriteController.loadNextPage();
+                              }
+                            }
+                            return true;
+                          },
+                          child: RefreshIndicator(
+                            onRefresh: () async {
+                              favoriteController
+                                  .refresh(); // Rafraîchit la liste des posts
+                            },
+                            child: CustomScrollView(
+                              slivers: [...gridPosts(context, favoritesState)],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ignore: non_constant_identifier_names
-  Widget ProfileLinks() {
-    return Container(
-      color: Colors.white,
-      child: 
-         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-            child: const ProfileListView(),
+             AsyncError(:final error) => Text('Error: $error'),
+        _ => const Center(
+            child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                    color: Colors.black26, strokeWidth: 2)),
           ),
-        
-      
+        }
+      ),
     );
   }
 
@@ -325,11 +341,103 @@ class _ProfileScreenState extends ConsumerState<Profile>
             label,
             style: TextStyle(
               fontSize: 13.sp,
-              color: AppColors.primaryElement, // Mettre en évidence qu'il est cliquable
+              color: Colors.black // Mettre en évidence qu'il est cliquable
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Gallery'),
+                      onTap: () {
+                        loggedUserPostController.imgFromGallery();
+                        Get.back();
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Camera'),
+                    onTap: () {
+                      loggedUserPostController.imgFromCamera();
+                      Get.back();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Widget _buildLogo(BuildContext context, String? avatar,bool yourse) {
+    return Stack(alignment: Alignment.center, children: [
+      Container(
+        width: 120.w,
+        height: 120.w,
+        margin: EdgeInsets.only(top: 0.h, bottom: 10.h),
+        decoration: BoxDecoration(
+          color: AppColors.primarySecondaryBackground,
+          borderRadius: BorderRadius.all(Radius.circular(60.w)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 2,
+              offset: const Offset(0, 1), // changes position of shadow
+            ),
+          ],
+        ),
+        child: avatar != null
+            ? CachedNetworkImage(
+                imageUrl: avatar,
+                height: 120.w,
+                width: 120.w,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(60.w)),
+                    image:
+                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                  ),
+                ),
+              )
+            : CircleAvatar(
+                backgroundColor: Colors.white30,
+                radius: 35.r,
+                child: Image.asset("assets/icons/profile.png"),
+              ),
+      ),
+      Visibility(
+        visible: yourse,child: Positioned(
+          bottom: 10.w,
+          right: 0.w,
+          height: 35.w,
+          child: GestureDetector(
+              child: Container(
+                height: 35.w,
+                width: 35.w,
+                padding: EdgeInsets.all(7.w),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryElement,
+                  borderRadius: BorderRadius.all(Radius.circular(40.w)),
+                ),
+                child: Image.asset(
+                  "assets/icons/edit.png",
+                ),
+              ),
+              onTap: () {
+                _showPicker(context);
+              })
+              ),)
+    ]);
   }
 }

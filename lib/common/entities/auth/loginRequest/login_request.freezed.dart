@@ -30,6 +30,12 @@ mixin _$LoginRequest {
   String? get avatar => throw _privateConstructorUsedError;
   String? get open_id => throw _privateConstructorUsedError;
   int? get online => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get passwordVisibility => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isEmailValid => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isPasswordValid => throw _privateConstructorUsedError;
 
   /// Serializes this LoginRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,7 +63,12 @@ abstract class $LoginRequestCopyWith<$Res> {
       String? phone,
       String? avatar,
       String? open_id,
-      int? online});
+      int? online,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool? isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isPasswordValid});
 }
 
 /// @nodoc
@@ -85,6 +96,9 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
     Object? avatar = freezed,
     Object? open_id = freezed,
     Object? online = freezed,
+    Object? passwordVisibility = freezed,
+    Object? isEmailValid = freezed,
+    Object? isPasswordValid = freezed,
   }) {
     return _then(_value.copyWith(
       email: freezed == email
@@ -127,6 +141,18 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
           ? _value.online
           : online // ignore: cast_nullable_to_non_nullable
               as int?,
+      passwordVisibility: freezed == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isEmailValid: freezed == isEmailValid
+          ? _value.isEmailValid
+          : isEmailValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isPasswordValid: freezed == isPasswordValid
+          ? _value.isPasswordValid
+          : isPasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -149,7 +175,12 @@ abstract class _$$LoginRequestImplCopyWith<$Res>
       String? phone,
       String? avatar,
       String? open_id,
-      int? online});
+      int? online,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool? isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isPasswordValid});
 }
 
 /// @nodoc
@@ -175,6 +206,9 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? open_id = freezed,
     Object? online = freezed,
+    Object? passwordVisibility = freezed,
+    Object? isEmailValid = freezed,
+    Object? isPasswordValid = freezed,
   }) {
     return _then(_$LoginRequestImpl(
       email: freezed == email
@@ -217,6 +251,18 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
           ? _value.online
           : online // ignore: cast_nullable_to_non_nullable
               as int?,
+      passwordVisibility: freezed == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isEmailValid: freezed == isEmailValid
+          ? _value.isEmailValid
+          : isEmailValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isPasswordValid: freezed == isPasswordValid
+          ? _value.isPasswordValid
+          : isPasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -234,7 +280,12 @@ class _$LoginRequestImpl implements _LoginRequest {
       this.phone,
       this.avatar,
       this.open_id,
-      this.online});
+      this.online,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.isPasswordValid});
 
   factory _$LoginRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginRequestImplFromJson(json);
@@ -259,10 +310,19 @@ class _$LoginRequestImpl implements _LoginRequest {
   final String? open_id;
   @override
   final int? online;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? passwordVisibility;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isEmailValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isPasswordValid;
 
   @override
   String toString() {
-    return 'LoginRequest(email: $email, password: $password, authType: $authType, firstname: $firstname, lastname: $lastname, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online)';
+    return 'LoginRequest(email: $email, password: $password, authType: $authType, firstname: $firstname, lastname: $lastname, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online, passwordVisibility: $passwordVisibility, isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid)';
   }
 
   @override
@@ -284,13 +344,32 @@ class _$LoginRequestImpl implements _LoginRequest {
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.open_id, open_id) || other.open_id == open_id) &&
-            (identical(other.online, online) || other.online == online));
+            (identical(other.online, online) || other.online == online) &&
+            (identical(other.passwordVisibility, passwordVisibility) ||
+                other.passwordVisibility == passwordVisibility) &&
+            (identical(other.isEmailValid, isEmailValid) ||
+                other.isEmailValid == isEmailValid) &&
+            (identical(other.isPasswordValid, isPasswordValid) ||
+                other.isPasswordValid == isPasswordValid));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, email, password, authType,
-      firstname, lastname, description, phone, avatar, open_id, online);
+  int get hashCode => Object.hash(
+      runtimeType,
+      email,
+      password,
+      authType,
+      firstname,
+      lastname,
+      description,
+      phone,
+      avatar,
+      open_id,
+      online,
+      passwordVisibility,
+      isEmailValid,
+      isPasswordValid);
 
   /// Create a copy of LoginRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -319,7 +398,13 @@ abstract class _LoginRequest implements LoginRequest {
       final String? phone,
       final String? avatar,
       final String? open_id,
-      final int? online}) = _$LoginRequestImpl;
+      final int? online,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isPasswordValid}) = _$LoginRequestImpl;
 
   factory _LoginRequest.fromJson(Map<String, dynamic> json) =
       _$LoginRequestImpl.fromJson;
@@ -344,6 +429,15 @@ abstract class _LoginRequest implements LoginRequest {
   String? get open_id;
   @override
   int? get online;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get passwordVisibility;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isEmailValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isPasswordValid;
 
   /// Create a copy of LoginRequest
   /// with the given fields replaced by the non-null parameter values.

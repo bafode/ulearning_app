@@ -27,19 +27,25 @@ class _SignInState extends ConsumerState<SignIn> {
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
+      ref.watch(signInNotifierProvier.notifier).setIsEmailValidity(false);
       return 'L\'email est requis';
     } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      ref.watch(signInNotifierProvier.notifier).setIsEmailValidity(false);
       return 'Veuillez entrer un email valide';
     }
+    ref.watch(signInNotifierProvier.notifier).setIsEmailValidity(true);
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
+      ref.watch(signInNotifierProvier.notifier).setIsPasswordValidity(false);
       return 'Le mot de passe est requis';
     } else if (value.length < 6) {
+      ref.watch(signInNotifierProvier.notifier).setIsPasswordValidity(false);
       return 'Le mot de passe doit contenir au moins 6 caractères';
     }
+    ref.watch(signInNotifierProvier.notifier).setIsPasswordValidity(true);
     return null;
   }
 
@@ -54,6 +60,7 @@ class _SignInState extends ConsumerState<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    var state=ref.watch(signInNotifierProvier);
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -85,12 +92,17 @@ class _SignInState extends ConsumerState<SignIn> {
                         controller: password,
                         text: "Mot de passe",
                         hintText: "Entrez votre mot de passe",
-                        iconName: Icons.lock_outline,
-                        obscureText: true,
+                        iconName: (state.passwordVisibility!) ?  Icons.visibility_outlined: Icons.visibility_off_outlined,
+                        obscureText: state.passwordVisibility!,
                         validator: validatePassword,
                         onChanged: (value) => ref
                             .watch(signInNotifierProvier.notifier)
                             .onUserPasswordChange(value),
+                        onChangeVisibility: (){
+                          ref
+                            .watch(signInNotifierProvier.notifier)
+                            .onPasswordVisibilityChange(!(state.passwordVisibility!));
+                        },
                       ),
                       SizedBox(height: 15.h),
                       Align(
@@ -114,6 +126,7 @@ class _SignInState extends ConsumerState<SignIn> {
                       AppButton(
                         buttonName: "Connexion",
                         isLogin: true,
+                        isEnabled: state.isEmailValid! && state.isPasswordValid!,
                         context: context,
                         func: () => _controller.handleSignIn("email"),
                       ),

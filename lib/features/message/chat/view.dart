@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'controller.dart';
 
 class ChatPage extends GetView<ChatController> {
-  const ChatPage({Key? key}) : super(key: key);
+  const ChatPage({super.key});
 
   AppBar _buildAppBar(){
     return AppBar(

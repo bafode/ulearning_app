@@ -1,7 +1,11 @@
+import 'package:beehive/common/routes/names.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
+import 'package:beehive/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/utils/app_colors.dart';
+import 'package:get/get.dart';
 
 class Setting extends ConsumerStatefulWidget {
   const Setting({super.key});
@@ -39,27 +43,30 @@ class _SettingPage extends ConsumerState<Setting> {
                         Container(
                           alignment: Alignment.center,
                           child: Image(
-                            image: const AssetImage("assets/icons/person(1).png"),
+                            image:
+                                const AssetImage("assets/icons/person(1).png"),
                             width: 20.w,
                             height: 20.h,
                           ),
                         ),
-                        Container(
-                          child: Text(
-                            "Account",
-                            style: TextStyle(
-                              color: AppColors.primaryText,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                            ),
+                        Text(
+                          " Compte",
+                          style: TextStyle(
+                            color: AppColors.primaryElement,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                  _buildListItem("Edit Account"),
-                  _buildListItem("Change your password"),
-                  _buildListItem("Security & privacy"),
+                  _buildListItem(
+                      "Editer mon profil",
+                      () => Get.toNamed(
+                            AppRoutes.EditProfile,
+                          )),
+                  _buildListItem("Changer le mot de passe", () => {}),
+                  _buildListItem("Changer l'adresse email", () => {}),
                 ],
               )),
             ),
@@ -83,21 +90,20 @@ class _SettingPage extends ConsumerState<Setting> {
                             height: 20.h,
                           ),
                         ),
-                        Container(
-                          child: Text(
-                            "Notification",
-                            style: TextStyle(
-                              color: AppColors.primaryText,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                            ),
+                        Text(
+                          " Confidentialités",
+                          style: TextStyle(
+                            color: AppColors.primaryElement,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                  _buildListItem("Notification"),
-                  _buildListItem("App notification"),
+                  _buildListItem("Sécurité & Confidentialité", () => {}),
+                  _buildListItem("Aide & support", () => {}),
+                  _buildListItem("Conditions & politiques", () => {}),
                 ],
               )),
             ),
@@ -123,9 +129,9 @@ class _SettingPage extends ConsumerState<Setting> {
                         ),
                         Container(
                           child: Text(
-                            "More",
+                            " Noters",
                             style: TextStyle(
-                              color: AppColors.primaryText,
+                              color: AppColors.primaryElement,
                               fontWeight: FontWeight.bold,
                               fontSize: 16.sp,
                             ),
@@ -134,8 +140,8 @@ class _SettingPage extends ConsumerState<Setting> {
                       ],
                     ),
                   ),
-                  _buildListItem("Language"),
-                  _buildListItem("Country"),
+                  _buildListItem("Noter l'application", () => {}),
+                  _buildListItem("Partager l'application", () => {}),
                 ],
               )),
             ),
@@ -157,13 +163,12 @@ class _SettingPage extends ConsumerState<Setting> {
                     ),
                   ),
                   onTap: () {
-                    print("object");
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text("Confirm logout"),
-                            content: const Text("Confirm logout."),
+                            title: const Text("Confirmer la déconnexion"),
+                            content: const Text("Confirmer."),
                             actions: [
                               TextButton(
                                 child: const Text("Cancel"),
@@ -172,15 +177,15 @@ class _SettingPage extends ConsumerState<Setting> {
                                 },
                               ),
                               TextButton(
-                                child: const Text("Confirm"),
+                                child: const Text("Confirmer"),
                                 onPressed: () {
-                                  // Global.storageService
-                                  //     .remove(STORAGE_USER_PROFILE_KEY);
-                                  // Global.storageService
-                                  //     .remove(STORAGE_USER_TOKEN_KEY);
-                                  // Navigator.of(context).pushNamedAndRemoveUntil(
-                                  //     AppRoutes.Sign_in,
-                                  //     (Route<dynamic> route) => false);
+                                  ref
+                                      .read(isLoggedInProvider.notifier)
+                                      .logout();
+                                  Global.storageService.resetStorage();
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      AppRoutes.AUTH,
+                                      (Route<dynamic> route) => false);
                                 },
                               )
                             ],
@@ -197,21 +202,27 @@ class _SettingPage extends ConsumerState<Setting> {
   AppBar _buildAppBar() {
     return AppBar(
         backgroundColor: AppColors.primaryElement,
+        leading: GestureDetector(
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onTap: () => {Get.back()},
+        ),
         title: Container(
           margin: EdgeInsets.only(left: 7.w, right: 7.w),
-          child:  Text(
-              "Reglages",
-              style: TextStyle(
-                color: AppColors.primaryText,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
-              ),
+          child: Text(
+            "Reglages",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
             ),
-          
+          ),
         ));
   }
 
-  Widget _buildListItem(String title) {
+  Widget _buildListItem(String title, Function()? onTap) {
     return Container(
       width: 325.w,
       height: 40.h,
@@ -232,7 +243,7 @@ class _SettingPage extends ConsumerState<Setting> {
         ],
       ),
       child: InkWell(
-          onTap: () {},
+          onTap: onTap,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
