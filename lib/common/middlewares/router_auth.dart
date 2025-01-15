@@ -16,7 +16,9 @@ class RouteAuthMiddleware extends GetMiddleware {
   RouteSettings? redirect(String? route) {
     if (Global.storageService.isLoggedIn() ||
         route == AppRoutes.AUTH ||
-        route == AppRoutes.INITIAL
+        route == AppRoutes.INITIAL||
+        route == AppRoutes.TERMS ||
+        route == AppRoutes.PRIVACY
         ) {
       return null;
     } else {

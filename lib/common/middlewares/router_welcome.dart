@@ -16,10 +16,12 @@ class RouteWelcomeMiddleware extends GetMiddleware {
     print(Global.storageService.getDeviceFirstOpen());
     if (Global.storageService.getDeviceFirstOpen() == false) {
       return const RouteSettings(name: AppRoutes.WELCOME);
-    } else if (Global.storageService.getDeviceFirstOpen() == true) {
-      return const RouteSettings(name: AppRoutes.APPLICATION);
     } else {
-      return const RouteSettings(name: AppRoutes.AUTH);
+      if (Global.storageService.isLoggedIn()) {
+        return const RouteSettings(name: AppRoutes.APPLICATION);
+      } else {
+        return const RouteSettings(name: AppRoutes.AUTH);
+      }
     }
   }
 }

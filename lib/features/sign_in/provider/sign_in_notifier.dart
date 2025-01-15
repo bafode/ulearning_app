@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beehive/common/entities/auth/loginRequest/login_request.dart';
 
 class SignInNotifier extends StateNotifier<LoginRequest> {
-  SignInNotifier() : super(const LoginRequest());
+  SignInNotifier() : super(const LoginRequest(passwordVisibility: true,isEmailValid: false,isPasswordValid: false));
 
   void onUserEmailChange(String email) {
     state = state.copyWith(email: email);
@@ -30,6 +30,17 @@ class SignInNotifier extends StateNotifier<LoginRequest> {
 
   void onUserAuthTypeChange(String authType) {
     state = state.copyWith(authType: authType);
+  }
+
+  void onPasswordVisibilityChange(bool visibility) {
+    state = state.copyWith(passwordVisibility: visibility);
+  }
+
+  void setIsEmailValidity(bool valid) {
+    state = state.copyWith(isEmailValid: valid);
+  }
+   void setIsPasswordValidity(bool valid) {
+    state = state.copyWith(isPasswordValid: valid);
   }
 }
 

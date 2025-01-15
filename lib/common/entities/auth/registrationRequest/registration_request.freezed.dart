@@ -32,6 +32,20 @@ mixin _$RegistrationRequest {
   int? get online => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get passwordVisibility => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get rePasswordVisibility => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isFirstnameValid => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isLastnameValid => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isEmailValid => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isPasswordValid => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isRePasswordValid => throw _privateConstructorUsedError;
 
   /// Serializes this RegistrationRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -60,8 +74,20 @@ abstract class $RegistrationRequestCopyWith<$Res> {
       String? avatar,
       String? open_id,
       int? online,
+      @JsonKey(includeFromJson: false, includeToJson: false) String? rePassword,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      String? rePassword});
+      bool? passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? rePasswordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isFirstnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isLastnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool? isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isPasswordValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isRePasswordValid});
 }
 
 /// @nodoc
@@ -90,6 +116,13 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
     Object? open_id = freezed,
     Object? online = freezed,
     Object? rePassword = freezed,
+    Object? passwordVisibility = freezed,
+    Object? rePasswordVisibility = freezed,
+    Object? isFirstnameValid = freezed,
+    Object? isLastnameValid = freezed,
+    Object? isEmailValid = freezed,
+    Object? isPasswordValid = freezed,
+    Object? isRePasswordValid = freezed,
   }) {
     return _then(_value.copyWith(
       firstname: freezed == firstname
@@ -136,6 +169,34 @@ class _$RegistrationRequestCopyWithImpl<$Res, $Val extends RegistrationRequest>
           ? _value.rePassword
           : rePassword // ignore: cast_nullable_to_non_nullable
               as String?,
+      passwordVisibility: freezed == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rePasswordVisibility: freezed == rePasswordVisibility
+          ? _value.rePasswordVisibility
+          : rePasswordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFirstnameValid: freezed == isFirstnameValid
+          ? _value.isFirstnameValid
+          : isFirstnameValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isLastnameValid: freezed == isLastnameValid
+          ? _value.isLastnameValid
+          : isLastnameValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isEmailValid: freezed == isEmailValid
+          ? _value.isEmailValid
+          : isEmailValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isPasswordValid: freezed == isPasswordValid
+          ? _value.isPasswordValid
+          : isPasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isRePasswordValid: freezed == isRePasswordValid
+          ? _value.isRePasswordValid
+          : isRePasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -159,8 +220,20 @@ abstract class _$$RegistrationRequestImplCopyWith<$Res>
       String? avatar,
       String? open_id,
       int? online,
+      @JsonKey(includeFromJson: false, includeToJson: false) String? rePassword,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      String? rePassword});
+      bool? passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? rePasswordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isFirstnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isLastnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool? isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isPasswordValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      bool? isRePasswordValid});
 }
 
 /// @nodoc
@@ -187,6 +260,13 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
     Object? open_id = freezed,
     Object? online = freezed,
     Object? rePassword = freezed,
+    Object? passwordVisibility = freezed,
+    Object? rePasswordVisibility = freezed,
+    Object? isFirstnameValid = freezed,
+    Object? isLastnameValid = freezed,
+    Object? isEmailValid = freezed,
+    Object? isPasswordValid = freezed,
+    Object? isRePasswordValid = freezed,
   }) {
     return _then(_$RegistrationRequestImpl(
       firstname: freezed == firstname
@@ -233,6 +313,34 @@ class __$$RegistrationRequestImplCopyWithImpl<$Res>
           ? _value.rePassword
           : rePassword // ignore: cast_nullable_to_non_nullable
               as String?,
+      passwordVisibility: freezed == passwordVisibility
+          ? _value.passwordVisibility
+          : passwordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      rePasswordVisibility: freezed == rePasswordVisibility
+          ? _value.rePasswordVisibility
+          : rePasswordVisibility // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFirstnameValid: freezed == isFirstnameValid
+          ? _value.isFirstnameValid
+          : isFirstnameValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isLastnameValid: freezed == isLastnameValid
+          ? _value.isLastnameValid
+          : isLastnameValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isEmailValid: freezed == isEmailValid
+          ? _value.isEmailValid
+          : isEmailValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isPasswordValid: freezed == isPasswordValid
+          ? _value.isPasswordValid
+          : isPasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isRePasswordValid: freezed == isRePasswordValid
+          ? _value.isRePasswordValid
+          : isRePasswordValid // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -251,7 +359,20 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
       this.avatar,
       this.open_id,
       this.online,
-      @JsonKey(includeFromJson: false, includeToJson: false) this.rePassword});
+      @JsonKey(includeFromJson: false, includeToJson: false) this.rePassword,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.rePasswordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.isFirstnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.isLastnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.isPasswordValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.isRePasswordValid});
 
   factory _$RegistrationRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegistrationRequestImplFromJson(json);
@@ -279,10 +400,31 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String? rePassword;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? passwordVisibility;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? rePasswordVisibility;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isFirstnameValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isLastnameValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isEmailValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isPasswordValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final bool? isRePasswordValid;
 
   @override
   String toString() {
-    return 'RegistrationRequest(firstname: $firstname, lastname: $lastname, email: $email, password: $password, authType: $authType, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online, rePassword: $rePassword)';
+    return 'RegistrationRequest(firstname: $firstname, lastname: $lastname, email: $email, password: $password, authType: $authType, description: $description, phone: $phone, avatar: $avatar, open_id: $open_id, online: $online, rePassword: $rePassword, passwordVisibility: $passwordVisibility, rePasswordVisibility: $rePasswordVisibility, isFirstnameValid: $isFirstnameValid, isLastnameValid: $isLastnameValid, isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isRePasswordValid: $isRePasswordValid)';
   }
 
   @override
@@ -306,7 +448,21 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
             (identical(other.open_id, open_id) || other.open_id == open_id) &&
             (identical(other.online, online) || other.online == online) &&
             (identical(other.rePassword, rePassword) ||
-                other.rePassword == rePassword));
+                other.rePassword == rePassword) &&
+            (identical(other.passwordVisibility, passwordVisibility) ||
+                other.passwordVisibility == passwordVisibility) &&
+            (identical(other.rePasswordVisibility, rePasswordVisibility) ||
+                other.rePasswordVisibility == rePasswordVisibility) &&
+            (identical(other.isFirstnameValid, isFirstnameValid) ||
+                other.isFirstnameValid == isFirstnameValid) &&
+            (identical(other.isLastnameValid, isLastnameValid) ||
+                other.isLastnameValid == isLastnameValid) &&
+            (identical(other.isEmailValid, isEmailValid) ||
+                other.isEmailValid == isEmailValid) &&
+            (identical(other.isPasswordValid, isPasswordValid) ||
+                other.isPasswordValid == isPasswordValid) &&
+            (identical(other.isRePasswordValid, isRePasswordValid) ||
+                other.isRePasswordValid == isRePasswordValid));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -323,7 +479,14 @@ class _$RegistrationRequestImpl implements _RegistrationRequest {
       avatar,
       open_id,
       online,
-      rePassword);
+      rePassword,
+      passwordVisibility,
+      rePasswordVisibility,
+      isFirstnameValid,
+      isLastnameValid,
+      isEmailValid,
+      isPasswordValid,
+      isRePasswordValid);
 
   /// Create a copy of RegistrationRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -355,7 +518,21 @@ abstract class _RegistrationRequest implements RegistrationRequest {
       final String? open_id,
       final int? online,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final String? rePassword}) = _$RegistrationRequestImpl;
+      final String? rePassword,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? passwordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? rePasswordVisibility,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isFirstnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isLastnameValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isEmailValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isPasswordValid,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final bool? isRePasswordValid}) = _$RegistrationRequestImpl;
 
   factory _RegistrationRequest.fromJson(Map<String, dynamic> json) =
       _$RegistrationRequestImpl.fromJson;
@@ -383,6 +560,27 @@ abstract class _RegistrationRequest implements RegistrationRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? get rePassword;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get passwordVisibility;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get rePasswordVisibility;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isFirstnameValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isLastnameValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isEmailValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isPasswordValid;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? get isRePasswordValid;
 
   /// Create a copy of RegistrationRequest
   /// with the given fields replaced by the non-null parameter values.

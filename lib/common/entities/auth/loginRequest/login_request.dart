@@ -15,6 +15,12 @@ class LoginRequest with _$LoginRequest {
     String? avatar,
     String? open_id,
     int? online,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    bool? passwordVisibility,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    bool? isEmailValid,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    bool? isPasswordValid,
   }) = _LoginRequest;
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>

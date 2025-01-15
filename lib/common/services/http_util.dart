@@ -85,6 +85,27 @@ class HttpUtil {
 
     return response.data;
   }
+
+  Future patch(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) async {
+    Options requestOptions = options ?? Options();
+    requestOptions.headers = requestOptions.headers ?? {};
+
+    Map<String, dynamic>? authorization = getAuthorizationHeader();
+
+    if (authorization != null) {
+      requestOptions.headers!.addAll(authorization);
+    }
+
+    var response = await dio.patch(path,
+        data: data, queryParameters: queryParameters, options: requestOptions);
+
+    return response.data;
+  }
 }
 
 class ErrorEntity implements Exception {
