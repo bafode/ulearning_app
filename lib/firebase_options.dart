@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,30 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDq6w-i0XFYwlf6hvDe558WmjrdApctLOQ',
-    appId: '1:955687176754:web:c94289c34508323cea0a2b',
-    messagingSenderId: '955687176754',
-    projectId: 'beehive-20153',
-    authDomain: 'beehive-20153.firebaseapp.com',
-    storageBucket: 'beehive-20153.firebasestorage.app',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCnkrX27PDp3Tu9acLSBZ7jdGSjHcLQhc8',
-    appId: '1:955687176754:android:05cd903c0944c032ea0a2b',
-    messagingSenderId: '955687176754',
-    projectId: 'beehive-20153',
-    storageBucket: 'beehive-20153.firebasestorage.app',
+    apiKey: 'AIzaSyB4KI2F0SmNvM96lqu08s7xG7h1B7yPtkI',
+    appId: '1:1008584285338:android:c0eefe0bee621ee7351323',
+    messagingSenderId: '1008584285338',
+    projectId: 'beehive-dev-1fefb',
+    storageBucket: 'beehive-dev-1fefb.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB1vgrCbqJnyJIlCV3fZmxuQWWy6yppJrA',
-    appId: '1:955687176754:ios:ba7288d8f907c44dea0a2b',
-    messagingSenderId: '955687176754',
-    projectId: 'beehive-20153',
-    storageBucket: 'beehive-20153.firebasestorage.app',
-    iosClientId: '955687176754-4havp3tda1f0fo6o24kusnr643tpjr5t.apps.googleusercontent.com',
-    iosBundleId: 'com.example.beehive',
+    apiKey: 'AIzaSyAqukFtHSgGFM9MUItrg2kMLoZVrOHlp2s',
+    appId: '1:1008584285338:ios:fe8cbedf1ea3a611351323',
+    messagingSenderId: '1008584285338',
+    projectId: 'beehive-dev-1fefb',
+    storageBucket: 'beehive-dev-1fefb.firebasestorage.app',
+    iosClientId: '1008584285338-ttk9ee0li7u1i3ukfmmcbgbtm1c1oo8n.apps.googleusercontent.com',
+    iosBundleId: 'fr.beehiveapp.beehive',
   );
 }
