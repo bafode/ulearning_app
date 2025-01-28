@@ -31,4 +31,5 @@ class AppRoutes {
   static const String FOLLOWING = '/following';
   static const String TERMS = '/terms';
   static const String PRIVACY = '/privacy';
+  static const String WEBVIEW = '/webview';
 }

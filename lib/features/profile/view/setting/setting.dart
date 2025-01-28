@@ -42,11 +42,10 @@ class _SettingPage extends ConsumerState<Setting> {
                       children: [
                         Container(
                           alignment: Alignment.center,
-                          child: Image(
-                            image:
-                                const AssetImage("assets/icons/person(1).png"),
-                            width: 20.w,
-                            height: 20.h,
+                          child: Icon(
+                            Icons.account_circle,
+                            color: Colors.black,
+                            size: 20.w,
                           ),
                         ),
                         Text(
@@ -65,8 +64,8 @@ class _SettingPage extends ConsumerState<Setting> {
                       () => Get.toNamed(
                             AppRoutes.EditProfile,
                           )),
-                  _buildListItem("Changer le mot de passe", () => {}),
-                  _buildListItem("Changer l'adresse email", () => {}),
+                  // _buildListItem("Changer le mot de passe", () => {}),
+                  // _buildListItem("Changer l'adresse email", () => {}),
                 ],
               )),
             ),
@@ -84,14 +83,14 @@ class _SettingPage extends ConsumerState<Setting> {
                       children: [
                         Container(
                           alignment: Alignment.center,
-                          child: Image(
-                            image: const AssetImage("assets/icons/bell.png"),
-                            width: 20.w,
-                            height: 20.h,
+                          child: Icon(
+                            Icons.info,
+                            color: Colors.black,
+                            size: 20.w,
                           ),
                         ),
                         Text(
-                          " Confidentialités",
+                          " A Propos",
                           style: TextStyle(
                             color: AppColors.primaryElement,
                             fontWeight: FontWeight.bold,
@@ -101,9 +100,29 @@ class _SettingPage extends ConsumerState<Setting> {
                       ],
                     ),
                   ),
-                  _buildListItem("Sécurité & Confidentialité", () => {}),
-                  _buildListItem("Aide & support", () => {}),
-                  _buildListItem("Conditions & politiques", () => {}),
+                  _buildListItem("Politique & Confidentialité", () => {
+                      Navigator.of(context).pushNamed(
+                                AppRoutes.WEBVIEW,
+                                arguments: {"url": "https://beehiveapp.fr/privacy-policy"},
+                              )
+                  }),
+                  _buildListItem("Conditions Générales d'Utilisation", () => {
+                     Navigator.of(context).pushNamed(
+                              AppRoutes.WEBVIEW,
+                              arguments: {
+                                "url": "https://beehiveapp.fr/terms-and-conditions"
+                              },
+                            )
+                  }),
+                  _buildListItem("Nous Contacter", () => {
+                    Navigator.of(context).pushNamed(
+                              AppRoutes.WEBVIEW,
+                              arguments: {
+                                "url":
+                                    "https://beehiveapp.fr/contact"
+                              },
+                            )
+                  }),
                 ],
               )),
             ),
@@ -121,15 +140,15 @@ class _SettingPage extends ConsumerState<Setting> {
                       children: [
                         Container(
                           alignment: Alignment.center,
-                          child: Image(
-                            image: const AssetImage("assets/icons/list.png"),
-                            width: 20.w,
-                            height: 20.h,
+                          child: Icon(
+                            Icons.star,
+                            color: Colors.black,
+                            size: 20.w,
                           ),
                         ),
                         Container(
                           child: Text(
-                            " Noters",
+                            " Noter",
                             style: TextStyle(
                               color: AppColors.primaryElement,
                               fontWeight: FontWeight.bold,

@@ -12,6 +12,7 @@ import 'package:beehive/features/message/voicecall/index.dart';
 import 'package:beehive/features/profile/view/profile.dart';
 import 'package:beehive/features/sign_up/view/widgets/privacy.dart';
 import 'package:beehive/features/sign_up/view/widgets/term.dart';
+import 'package:beehive/features/webview/view/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:beehive/common/routes/names.dart';
@@ -42,7 +43,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.INITIAL,
       page: () => const Splash(),
-        middlewares: [
+      middlewares: [
         RouteWelcomeMiddleware(priority: 1),
       ],
     ),
@@ -127,7 +128,7 @@ class AppPages {
       page: () => const FollowersPage(),
       binding: FollowersBinding(),
     ),
-     GetPage(
+    GetPage(
       name: AppRoutes.FOLLOWING,
       page: () => const FollowingPage(),
       binding: FollowingBinding(),
@@ -149,17 +150,21 @@ class AppPages {
         page: () => const VoiceCallPage(),
         binding: VoiceCallBinding()),
     GetPage(
-        name: AppRoutes.VideoCall,
-        page: () => const VideoCallPage(),
-        binding: VideoCallBinding(),
-        ),
-        GetPage(
-        name: AppRoutes.TERMS,
-        page: () => const TermsPage(),
-        ),
-        GetPage(
+      name: AppRoutes.VideoCall,
+      page: () => const VideoCallPage(),
+      binding: VideoCallBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.TERMS,
+      page: () => const TermsPage(),
+    ),
+    GetPage(
       name: AppRoutes.PRIVACY,
       page: () => const PrivacyPolicyPage(),
+    ),
+    GetPage(
+      name: AppRoutes.WEBVIEW,
+      page: () => const Webview(),
     ),
   ];
 }
