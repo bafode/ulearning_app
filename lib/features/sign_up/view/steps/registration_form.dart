@@ -217,7 +217,7 @@ ondispose() {
                       style: const TextStyle(color: Colors.black,fontSize: 16.0),
                       children: [
                         TextSpan(
-                          text: "Conditions générales",
+                          text: "Politique de confidentialité",
                           style: const TextStyle(
                             color: AppColors.primaryText,
                             decoration: TextDecoration.underline,
@@ -226,7 +226,11 @@ ondispose() {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // Remplacez par le lien vers vos termes et conditions
-                              Get.toNamed(AppRoutes.TERMS);
+                            //  Get.toNamed(AppRoutes.WEBVIEW);
+                              Navigator.of(context).pushNamed(
+                                AppRoutes.WEBVIEW,
+                                arguments: {"url": "https://beehiveapp.fr/privacy-policy"},
+                              );
                             },
                         ),
                         const TextSpan(
@@ -236,7 +240,7 @@ ondispose() {
                           )
                         ),
                         TextSpan(
-                          text: "Politique de confidentialité.",
+                          text: "Conditions Générales d'Utilisation.",
                           style: const TextStyle(
                             color: AppColors.primaryText,
                             decoration: TextDecoration.underline,
@@ -245,7 +249,11 @@ ondispose() {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               // Remplacez par le lien vers votre politique de confidentialité
-                              Get.toNamed(AppRoutes.PRIVACY);
+                            //  Get.toNamed(AppRoutes.PRIVACY);
+                             Navigator.of(context).pushNamed(
+                                AppRoutes.WEBVIEW,
+                                arguments: {"url": "https://beehiveapp.fr/terms-and-conditions"},
+                              );
                             },
                         ),
                       ],
