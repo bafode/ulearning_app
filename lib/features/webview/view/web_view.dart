@@ -13,32 +13,26 @@ class Webview extends ConsumerStatefulWidget {
 
 class _PayWebviewPage extends ConsumerState<Webview> {
   late final WebViewController controller;
+  final ValueNotifier<int> progressNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
     super.initState();
 
-    // Initialiser la WebView après le chargement des arguments
     Future.delayed(Duration.zero, () {
-      final args = ModalRoute.of(context)?.settings.arguments;
+      final args =
+          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>? ??
+              {};
+      final url = args['url'] as String? ?? 'https://beehiveapp.fr/contact';
 
-      // Vérifier et définir l'URL à charger
-      final String url = (args is Map<String, dynamic> &&
-              args["url"] is String &&
-              args["url"].isNotEmpty)
-          ? args["url"]
-          : 'https://beehiveapp.fr/contact';
-
-      // Notifier le provider de l'URL actuelle
       ref.read(webviewProvider.notifier).onUrlChanged(UrlChanged(url));
 
-      // Configurer le contrôleur WebView
       controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setNavigationDelegate(
           NavigationDelegate(
             onProgress: (int progress) {
-              // Vous pouvez ajouter une logique pour afficher la progression si nécessaire
+              progressNotifier.value = progress;
             },
             onPageStarted: (String url) {
               debugPrint("Page started loading: $url");
@@ -66,27 +60,37 @@ class _PayWebviewPage extends ConsumerState<Webview> {
 
   @override
   void dispose() {
-    // Nettoyer le cache et réinitialiser la WebView
+    progressNotifier.dispose();
     controller.clearCache();
-    controller.loadRequest(Uri.parse('about:blank'));
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(webviewProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () async {
+            if (await controller.canGoBack()) {
+              await controller.goBack();
+            } else {
+              Navigator.pop(context);
+            }
           },
         ),
         backgroundColor: AppColors.primaryElement,
+        title: ValueListenableBuilder<int>(
+          valueListenable: progressNotifier,
+          builder: (context, progress, child) {
+            return progress < 100
+                ? LinearProgressIndicator(
+                    value: progress / 100.0, backgroundColor: Colors.white)
+                : const SizedBox.shrink();
+          },
+        ),
       ),
       backgroundColor: Colors.white,
       body: state.url.isEmpty
