@@ -25,6 +25,8 @@ mixin _$PostCreateRequest {
   String? get category => throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<File>? get media => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<FieldOfStudy>? get selectedDomain => throw _privateConstructorUsedError;
 
   /// Serializes this PostCreateRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,8 +48,9 @@ abstract class $PostCreateRequestCopyWith<$Res> {
       {String? title,
       String? content,
       String? category,
+      @JsonKey(includeFromJson: false, includeToJson: false) List<File>? media,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      List<File>? media});
+      List<FieldOfStudy>? selectedDomain});
 }
 
 /// @nodoc
@@ -69,6 +72,7 @@ class _$PostCreateRequestCopyWithImpl<$Res, $Val extends PostCreateRequest>
     Object? content = freezed,
     Object? category = freezed,
     Object? media = freezed,
+    Object? selectedDomain = freezed,
   }) {
     return _then(_value.copyWith(
       title: freezed == title
@@ -87,6 +91,10 @@ class _$PostCreateRequestCopyWithImpl<$Res, $Val extends PostCreateRequest>
           ? _value.media
           : media // ignore: cast_nullable_to_non_nullable
               as List<File>?,
+      selectedDomain: freezed == selectedDomain
+          ? _value.selectedDomain
+          : selectedDomain // ignore: cast_nullable_to_non_nullable
+              as List<FieldOfStudy>?,
     ) as $Val);
   }
 }
@@ -103,8 +111,9 @@ abstract class _$$PostCreateRequestImplCopyWith<$Res>
       {String? title,
       String? content,
       String? category,
+      @JsonKey(includeFromJson: false, includeToJson: false) List<File>? media,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      List<File>? media});
+      List<FieldOfStudy>? selectedDomain});
 }
 
 /// @nodoc
@@ -124,6 +133,7 @@ class __$$PostCreateRequestImplCopyWithImpl<$Res>
     Object? content = freezed,
     Object? category = freezed,
     Object? media = freezed,
+    Object? selectedDomain = freezed,
   }) {
     return _then(_$PostCreateRequestImpl(
       title: freezed == title
@@ -142,6 +152,10 @@ class __$$PostCreateRequestImplCopyWithImpl<$Res>
           ? _value._media
           : media // ignore: cast_nullable_to_non_nullable
               as List<File>?,
+      selectedDomain: freezed == selectedDomain
+          ? _value._selectedDomain
+          : selectedDomain // ignore: cast_nullable_to_non_nullable
+              as List<FieldOfStudy>?,
     ));
   }
 }
@@ -154,8 +168,11 @@ class _$PostCreateRequestImpl implements _PostCreateRequest {
       this.content,
       this.category,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final List<File>? media})
-      : _media = media;
+      final List<File>? media,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final List<FieldOfStudy>? selectedDomain})
+      : _media = media,
+        _selectedDomain = selectedDomain;
 
   factory _$PostCreateRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostCreateRequestImplFromJson(json);
@@ -177,9 +194,20 @@ class _$PostCreateRequestImpl implements _PostCreateRequest {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<FieldOfStudy>? _selectedDomain;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<FieldOfStudy>? get selectedDomain {
+    final value = _selectedDomain;
+    if (value == null) return null;
+    if (_selectedDomain is EqualUnmodifiableListView) return _selectedDomain;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'PostCreateRequest(title: $title, content: $content, category: $category, media: $media)';
+    return 'PostCreateRequest(title: $title, content: $content, category: $category, media: $media, selectedDomain: $selectedDomain)';
   }
 
   @override
@@ -191,13 +219,20 @@ class _$PostCreateRequestImpl implements _PostCreateRequest {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other._media, _media));
+            const DeepCollectionEquality().equals(other._media, _media) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedDomain, _selectedDomain));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, title, content, category,
-      const DeepCollectionEquality().hash(_media));
+  int get hashCode => Object.hash(
+      runtimeType,
+      title,
+      content,
+      category,
+      const DeepCollectionEquality().hash(_media),
+      const DeepCollectionEquality().hash(_selectedDomain));
 
   /// Create a copy of PostCreateRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -222,7 +257,9 @@ abstract class _PostCreateRequest implements PostCreateRequest {
       final String? content,
       final String? category,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final List<File>? media}) = _$PostCreateRequestImpl;
+      final List<File>? media,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final List<FieldOfStudy>? selectedDomain}) = _$PostCreateRequestImpl;
 
   factory _PostCreateRequest.fromJson(Map<String, dynamic> json) =
       _$PostCreateRequestImpl.fromJson;
@@ -236,6 +273,9 @@ abstract class _PostCreateRequest implements PostCreateRequest {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<File>? get media;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<FieldOfStudy>? get selectedDomain;
 
   /// Create a copy of PostCreateRequest
   /// with the given fields replaced by the non-null parameter values.

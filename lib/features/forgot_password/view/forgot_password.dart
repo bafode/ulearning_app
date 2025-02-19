@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 import 'package:beehive/common/utils/image_res.dart';
 import 'package:beehive/common/widgets/app_textfields.dart';
 import 'package:beehive/common/widgets/botton_widgets.dart';
-import 'package:beehive/common/widgets/image_widgets.dart';
 import 'package:beehive/features/forgot_password/controller/forgot_password_controller.dart';
 import 'package:beehive/features/forgot_password/provider/forgot_password_provider.dart';
 
@@ -20,7 +20,6 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword>
     with SingleTickerProviderStateMixin {
   final TextEditingController email = TextEditingController();
   late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
 
   late ForgotPasswordController controller;
 
@@ -33,7 +32,6 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword>
       vsync: this,
       duration: const Duration(seconds: 2),
     );
-    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
   }
 
@@ -60,10 +58,10 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword>
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.primaryElement,
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: AppColors.primaryText),
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () => Navigator.of(context).pop(),
       ),
       centerTitle: true,
@@ -73,29 +71,26 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword>
   Widget _buildLogo() {
     return Column(
       children: [
-        SizedBox(height: 20.h),
-        AppImage(
-          width: 250.w, // Agrandir le logo
-          height: 125.h,
-          imagePath: ImageRes.logo,
+        SvgPicture.asset(
+          ImageRes.beehivelogo,
+          height: 200.h,
+          fit: BoxFit.contain, // Essaye différents BoxFit si besoin
+          alignment: Alignment.center, // Assure un bon centrage
         ),
-        FadeTransition(
-          opacity: _fadeAnimation,
-          child: Text(
-            "Mot de passe oublié",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppColors.primaryText,
-              fontWeight: FontWeight.bold,
-              fontSize: 22.sp,
-              shadows: [
-                Shadow(
-                  offset: const Offset(0, 2),
-                  blurRadius: 4.0,
-                  color: Colors.grey.withOpacity(0.5),
-                ),
-              ],
-            ),
+        Text(
+          "Mot de passe oublié",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: AppColors.primaryText,
+            fontWeight: FontWeight.bold,
+            fontSize: 22.sp,
+            shadows: [
+              Shadow(
+                offset: const Offset(0, 2),
+                blurRadius: 4.0,
+                color: Colors.grey.withOpacity(0.5),
+              ),
+            ],
           ),
         ),
       ],
@@ -152,11 +147,11 @@ class ForgotPasswordState extends ConsumerState<ForgotPassword>
           Center(
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _buildLogo(),
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 20.h),
                   _buildEmailField(),
                   SizedBox(height: 20.h),
                   _buildSendButton(context),

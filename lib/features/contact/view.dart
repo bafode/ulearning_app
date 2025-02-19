@@ -10,12 +10,23 @@ class ContactPage extends GetView<ContactController> {
   const ContactPage({super.key});
   AppBar _buildAppBar(){
     return AppBar(
+      backgroundColor: AppColors.primaryElement,
+      leading: GestureDetector(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20.sp,
+        ),
+        onTap: () {
+          Get.back();
+        },
+      ),
       title: Text(
         "Contact",
         style: TextStyle(
-          color: AppColors.primaryText,
+          color: Colors.white,
           fontSize: 16.sp,
-          fontWeight: FontWeight.normal
+          fontWeight: FontWeight.bold
         ),
       ),
     );

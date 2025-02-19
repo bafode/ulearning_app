@@ -64,29 +64,26 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
+  Future<LogoutResponse> deleteAccount(String userId) async {
+    final response = await api.deleteAccount(userId);
+    return response;
+  }
+
+  @override
   Future<User> updateUserInfo(String userId, UpdateUserInfoRequest userInfo) async {
-      final response = await api.updateUser(
-      userId: userId,
-      updateUserInfoRequest: userInfo,
-    );
+    final response = await api.updateUser(userId, userInfo);
     return response;
   }
 
   @override
   Future<User> getUserById(String userId) async {
-    final response = await api.getUserById(
-      userId: userId,
-    );
+    final response = await api.getUserById(userId);
     return response;
   }
 
   @override
-  Future<User> updateUserProfile(
-      String userId, EditProfilRequest userInfo) async {
-    final response = await api.updateUserProfile(
-      userId: userId,
-      profilRequest: userInfo,
-    );
+  Future<User> updateUserProfile(String userId, EditProfilRequest userInfo) async {
+    final response = await api.updateUserProfile(userId, userInfo);
     return response;
   }
 
@@ -98,13 +95,13 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<ContactResponseEntity> getFollowers(String userId) async {
-    final response = await api.getFollowers(userId: userId);
+    final response = await api.getFollowers(userId);
     return response;
   }
 
   @override
   Future<ContactResponseEntity> getFollowings(String userId) async {
-    final response = await api.getFollowings(userId: userId);
+    final response = await api.getFollowings(userId);
     return response;
   }
 }

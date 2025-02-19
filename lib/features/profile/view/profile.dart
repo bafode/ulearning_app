@@ -119,51 +119,79 @@ class _ProfileScreenState extends ConsumerState<Profile>
                     child: CircularProgressIndicator(
                         color: Colors.black26, strokeWidth: 2)),
               )): CustomScrollView(
+                physics: const BouncingScrollPhysics(),
                 slivers: [
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.h,
-                      horizontal: 25.w,
-                    ),
-                    sliver: SliverToBoxAdapter(
+                  // Profile Info Section
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20.h),
                       child: Column(
                         children: [
                           _buildLogo(context, value.avatar, yourse),
-                          Container(
-                            margin: EdgeInsets.only(top: 12.w),
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 200),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                             child: Text(
                               "${value.firstname ?? ""} ${value.lastname ?? ''}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
                             ),
                           ),
-                          value.description == null
-                              ? Container()
-                              : Container(
-                                  padding: EdgeInsets.all(5.w),
-                                  child: Text(
-                                    "${value.description}",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color:
-                                          AppColors.primarySecondaryElementText,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
+                          if (value.description != null)
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 25.w,
+                                vertical: 10.h,
+                              ),
+                              child: Text(
+                                "${value.description}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14.sp,
+                                  height: 1.5,
                                 ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.h),
+                              ),
+                            ),
+                          // Stats Row
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical: 15.h,
+                              horizontal: 20.w,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 15.h,
+                              horizontal: 20.w,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 _buildClickableStatColumn(
-                                    "${value.followers?.length ?? "0"}",
-                                    "Followers",
-                                    () {}),
+                                  "${value.followers?.length ?? "0"}",
+                                  "Followers",
+                                  () {
+                                    Get.toNamed(AppRoutes.FOLLOWERS);
+                                  },
+                                ),
+                                Container(
+                                  height: 30.h,
+                                  width: 1,
+                                  color: Colors.grey[300],
+                                ),
                                 _buildClickableStatColumn(
                                   "${value.following?.length ?? "0"}",
                                   "Following",
@@ -280,36 +308,57 @@ class _ProfileScreenState extends ConsumerState<Profile>
                 const SliverEmptySearch(text: "No Posts Found"),
               ]
             : [
-                SliverGrid(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // Nombre de colonnes dans la grille
-                    crossAxisSpacing: 4.0,
-                    mainAxisSpacing: 4.0,
-                    childAspectRatio: 1, // Carrés parfaits
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.POST_DETAIL,
-                          arguments: {"id": repositories[index].id},
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image:
-                                NetworkImage(repositories[index].media?.first ??
-                                    ""
-                                        ""),
-                            fit: BoxFit.cover,
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 2.0,
+                      mainAxisSpacing: 2.0,
+                      childAspectRatio: 1,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Hero(
+                        tag: 'post_${repositories[index].id}',
+                        child: Material(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                AppRoutes.POST_DETAIL,
+                                arguments: {"id": repositories[index].id},
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: CachedNetworkImage(
+                                  imageUrl: repositories[index].media?.first ?? "",
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(
+                                    color: Colors.grey[300],
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black26),
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) => Container(
+                                    color: Colors.grey[300],
+                                    child: Icon(Icons.error, color: Colors.grey[400]),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      childCount: repositories.length,
                     ),
-                    childCount: repositories.length,
                   ),
                 ),
                 if (loadingMore)
@@ -351,32 +400,76 @@ class _ProfileScreenState extends ConsumerState<Profile>
 
   void _showPicker(context) {
     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  ListTile(
-                      leading: const Icon(Icons.photo_library),
-                      title: const Text('Gallery'),
-                      onTap: () {
-                        loggedUserPostController.imgFromGallery();
-                        Get.back();
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.photo_camera),
-                    title: const Text('Camera'),
-                    onTap: () {
-                      loggedUserPostController.imgFromCamera();
-                      Get.back();
-                    },
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext bc) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+          ),
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 8.h),
+                  width: 40.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2.r),
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.h),
+                  child: Text(
+                    "Change Profile Photo",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(Icons.photo_library, color: Colors.blue, size: 24.sp),
+                  ),
+                  title: Text('Choose from Gallery',
+                      style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                  onTap: () {
+                    loggedUserPostController.imgFromGallery();
+                    Get.back();
+                  },
+                ),
+                ListTile(
+                  leading: Container(
+                    padding: EdgeInsets.all(8.w),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(Icons.photo_camera, color: Colors.green, size: 24.sp),
+                  ),
+                  title: Text('Take a Photo',
+                      style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500)),
+                  onTap: () {
+                    loggedUserPostController.imgFromCamera();
+                    Get.back();
+                  },
+                ),
+                SizedBox(height: 20.h),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildLogo(BuildContext context, String? avatar,bool yourse) {

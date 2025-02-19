@@ -64,7 +64,7 @@ class PostRepositoryImpl extends PostRepository {
 
   @override
   Future<PostCreateResponse?> createPost(String title, String content,
-      String category,List<String> domain, List<MultipartFile> media) async {
+      String category,List<String>? domain, List<MultipartFile> media) async {
     final response = await api.createPost(title, content, category,domain, media);
     return response;
   }

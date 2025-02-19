@@ -13,6 +13,7 @@ import 'package:beehive/common/utils/pagination_controller.dart';
 import 'package:beehive/features/post/domain/post_filter.dart';
 import 'package:collection/collection.dart';
 import 'package:beehive/global.dart';
+import 'package:beehive/features/home/controller/home_controller.dart';
 
 final postsViewModelProvider =
     AsyncNotifierProvider<PostsViewModel, List<Post>>(() => PostsViewModel());
@@ -161,10 +162,13 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
     try {
       final user = await repository.toggleUserFollow(followId);
       if (user != null) {
+        // Update user profile in storage
         Global.storageService
             .setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(user));
+            
+        // Update the profile state
+        ref.read(homeUserProfileProvider.notifier).updateProfile(user);
       }
-      await loadPage(currentPage);
       return user;
     } catch (e) {
       handleError(e);
@@ -175,9 +179,14 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   @override
   Future<List<Post>> build() async {
     try {
-       return await loadPage(initialPage); 
+      final posts = await loadPage(initialPage);
+      if (state.hasError) {
+        state = AsyncData(posts);
+      }
+      return posts;
     } catch (e) {
       handleError(e);
+      state = const AsyncData([]);
       return [];
     }
   }

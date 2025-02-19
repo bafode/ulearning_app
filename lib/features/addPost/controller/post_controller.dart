@@ -27,13 +27,13 @@ class CreatePostController  {
         dismissOnTap: true);
       
     var state = ref.read(postCreateNotifierProvier);
-    var createPostFilterState=ref.read(createPostFilterNotifierProvider);
+   // var createPostFilterState=ref.read(createPostFilterNotifierProvider);
     final postRepository = ref.read(postRepositoryProvider);
     String title = state.title ?? "";
     String content = state.content ?? "";
     String category = state.category ?? "";
     List<File>? mediaFiles = state.media;
-    List<String> domain=createPostFilterState.fieldsOfStudy.map((e) => e.value).toList();
+    List<String>? domain=state.selectedDomain?.map((e) => e.value).toList();
     if (kDebugMode) {
       print(domain);
     }
@@ -63,7 +63,6 @@ class CreatePostController  {
             )
             .toList();
       }
-
       final response = await postRepository.createPost(
         title,
         content,
@@ -80,6 +79,7 @@ class CreatePostController  {
         toastInfo("post create succeffuly");
         ref.read(applicationNavNotifierProvider.notifier).changeIndex(0);
         ref.read(zoomIndexProvider.notifier).setIndex(0);
+        ref.read(postCreateNotifierProvier.notifier).onPostDomainChange([]);
         Global.navigatorKey.currentState?.pushNamedAndRemoveUntil(
             AppRoutes.APPLICATION, (route) => false);
       }

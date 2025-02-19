@@ -1,10 +1,10 @@
 import 'package:beehive/common/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/widgets/botton_widgets.dart';
 import 'package:beehive/common/utils/image_res.dart';
-import 'package:beehive/common/widgets/image_widgets.dart';
 
 class Auth extends ConsumerWidget {
   const Auth({super.key});
@@ -22,12 +22,12 @@ class Auth extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Logo de l'application
                   SizedBox(height: 40.h),
-                  AppImage(
-                    width: 400.w,
-                    height: 330.h,
-                    imagePath: ImageRes.logo,
+                  SvgPicture.asset(
+                    ImageRes.beehivelogo,
+                    height: 200.h,
+                    fit: BoxFit.contain, // Essaye différents BoxFit si besoin
+                    alignment: Alignment.center, // Assure un bon centrage
                   ),
                   SizedBox(height: 40.h),
 
@@ -36,7 +36,8 @@ class Auth extends ConsumerWidget {
                     buttonName: "Se connecter",
                     isLogin: true,
                     context: context,
-                    func: () => Navigator.of(context).pushNamed(AppRoutes.SIGN_IN),
+                    func: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.SIGN_IN),
                   ),
                   SizedBox(height: 20.h),
 
@@ -44,7 +45,8 @@ class Auth extends ConsumerWidget {
                   AppOutlinedButton(
                     buttonName: "Créer un compte",
                     context: context,
-                    func: () => Navigator.of(context).pushNamed(AppRoutes.SIGN_UP),
+                    func: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.SIGN_UP),
                   ),
 
                   SizedBox(height: 40.h),

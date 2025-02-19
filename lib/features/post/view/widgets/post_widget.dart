@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,6 @@ import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 import 'package:beehive/common/view_model/post_view_model.dart';
 import 'package:beehive/common/widgets/botton_widgets.dart';
-import 'package:beehive/common/widgets/image_widgets.dart';
 import 'package:beehive/features/favorites/controller/controller.dart';
 import 'package:beehive/features/home/controller/home_controller.dart';
 import 'package:beehive/features/post/view/widgets/comment.dart';
@@ -24,80 +24,190 @@ class BeehavePostWidget extends ConsumerStatefulWidget {
 }
 
 class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
+  // UI State
   bool isAnimating = false;
   bool isExpanded = false;
   late PageController controller;
+  
+  // Post Interaction State
   bool isLiked = false;
   bool isFavorite = false;
   bool isFollowing = false;
-  int postlength = 0;
-  int commentLength = 0;
+  int postLikeCount = 0;
+  int commentCount = 0;
+  
+  // Data State
   List<Comment>? comments = [];
   List<String> favorites = [];
+  String? currentUserId;
 
-  void initializePostDetails() {
-    var profileState = ref.watch(homeUserProfileProvider);
-    final userId = profileState.asData?.value.id;
-    favorites = profileState.asData?.value.favorites ?? [];
-    isFavorite = favorites.contains(widget.post.id);
-    isLiked = widget.post.likes.any((like) => like.id == userId);
-    postlength = widget.post.likes.length;
-    comments = widget.post.comments;
-    commentLength = widget.post.comments?.length ?? 0;
-    isFollowing =
-        profileState.asData?.value.following?.contains(widget.post.author.id) ??
-            false;
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController(initialPage: ref.read(postBannerDotsProvider));
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    controller = PageController(initialPage: ref.watch(postBannerDotsProvider));
-    initializePostDetails();
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          AppRoutes.POST_DETAIL,
-          arguments: {"id": widget.post.id},
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.h),
-        padding: EdgeInsets.all(12.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade300,
-              blurRadius: 6.r,
-              offset: Offset(0, 4.h),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(context),
-            SizedBox(height: 8.h),
-            PostContent(content: widget.post.content ?? ''),
-            SizedBox(height: 8.h),
-            if (widget.post.media != null) _buildMedia(context),
-            SizedBox(height: 8.h),
-            _buildActions(context),
-            SizedBox(height: 8.h),
-            //  _buildFooter(),
-          ],
-        ),
+  void didUpdateWidget(BeehavePostWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.post != widget.post) {
+      _updatePostDetails();
+    }
+  }
+
+  void _updatePostDetails() {
+    final profileState = ref.read(homeUserProfileProvider);
+    if (!profileState.hasValue) return;
+
+    final profile = profileState.value!;
+    final newFollowing = profile.following?.contains(widget.post.author.id) ?? false;
+    
+    if (currentUserId != profile.id || isFollowing != newFollowing) {
+      setState(() {
+        currentUserId = profile.id;
+        favorites = profile.favorites ?? [];
+        isFavorite = favorites.contains(widget.post.id);
+        isLiked = widget.post.likes.any((like) => like.id == currentUserId);
+        postLikeCount = widget.post.likes.length;
+        comments = widget.post.comments;
+        commentCount = widget.post.comments?.length ?? 0;
+        isFollowing = newFollowing;
+      });
+    }
+  }
+
+  void showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  // Like Management
+  Future<void> handleLikeToggle() async {
+    if (currentUserId == null) {
+      showErrorSnackbar('Please log in to like posts');
+      return;
+    }
+
+    setState(() {
+      isLiked = !isLiked;
+      postLikeCount += isLiked ? 1 : -1;
+    });
+
+    try {
+      await ref.read(postsViewModelProvider.notifier)
+          .toggleLikePost(widget.post.id);
+    } catch (error) {
+      setState(() {
+        isLiked = !isLiked;
+        postLikeCount += isLiked ? 1 : -1;
+      });
+      showErrorSnackbar('Failed to update like');
+    }
+  }
+
+  // Comment Management
+  Future<void> handleNewComment(String content) async {
+    if (currentUserId == null) {
+      showErrorSnackbar('Please log in to comment');
+      return;
+    }
+
+    final loggedUser = ref.read(homeUserProfileProvider).value!;
+    final newComment = Comment(
+      content: content,
+      userFirstName: loggedUser.firstname ?? '',
+      userLastName: loggedUser.lastname ?? '',
+      userAvatar: loggedUser.avatar ?? '',
+      id: DateTime.now().toString(),
+    );
+
+    setState(() {
+      commentCount++;
+      comments = List.from(comments ?? [])..add(newComment);
+    });
+
+    try {
+      await ref.read(postsViewModelProvider.notifier)
+          .createComment(widget.post.id, content);
+    } catch (error) {
+      setState(() {
+        commentCount--;
+        comments?.removeLast();
+      });
+      showErrorSnackbar('Failed to post comment');
+    }
+  }
+
+  // Favorite Management
+  Future<void> handleFavoriteToggle() async {
+    if (currentUserId == null) {
+      showErrorSnackbar('Please log in to add to favorites');
+      return;
+    }
+
+    setState(() {
+      isFavorite = !isFavorite;
+      if (isFavorite) {
+        favorites.add(widget.post.id);
+      } else {
+        favorites.remove(widget.post.id);
+      }
+    });
+
+    try {
+      await ref.read(favoriteControllerProvider.notifier)
+          .toggleUserFavorites(widget.post.id);
+    } catch (error) {
+      setState(() {
+        isFavorite = !isFavorite;
+        if (isFavorite) {
+          favorites.remove(widget.post.id);
+        } else {
+          favorites.add(widget.post.id);
+        }
+      });
+      showErrorSnackbar('Failed to update favorites');
+    }
+  }
+
+  // Following Management
+  Future<void> handleFollowToggle() async {
+    if (currentUserId == null) {
+      showErrorSnackbar('Please log in to follow users');
+      return;
+    }
+
+    final wasFollowing = isFollowing;
+    setState(() {
+      isFollowing = !isFollowing;
+    });
+
+    try {
+      final user = await ref.read(postsViewModelProvider.notifier)
+          .toggleUserFollow(widget.post.author.id);
+      
+      if (user == null) {
+        throw Exception('Failed to update follow status');
+      }
+    } catch (error) {
+      setState(() {
+        isFollowing = wasFollowing;
+      });
+      showErrorSnackbar('Failed to update follow status');
+    }
+  }
+
+  Widget buildHeader(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
       leading: ClipOval(
@@ -120,7 +230,33 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                 ),
               ],
             ),
-            child: CachedImage(widget.post.author.avatar),
+            child: CachedNetworkImage(
+              imageUrl: Uri.tryParse(widget.post.author.avatar ?? '')?.isAbsolute == true
+                  ? widget.post.author.avatar!
+                  : widget.post.author.avatar ?? '',
+              height: 56.w,
+              width: 56.w,
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.primaryElement,
+                ),
+              ),
+              errorWidget: (context, url, error) => Icon(
+                Icons.person,
+                size: 30.w,
+                color: AppColors.primaryElement,
+              ),
+            ),
           ),
         ),
       ),
@@ -145,14 +281,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           FollowButton(
             buttonName: "s'abonner",
             isFollowing: isFollowing,
-            onTap: () => {
-              ref
-                  .read(postsViewModelProvider.notifier)
-                  .toggleUserFollow(widget.post.author.id),
-              setState(() {
-                isFollowing = !isFollowing;
-              }),
-            },
+            onTap: handleFollowToggle,
           ),
           SizedBox(width: 8.w),
           GestureDetector(
@@ -169,7 +298,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     );
   }
 
-  Widget _buildMedia(BuildContext context) {
+  Widget buildMedia(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
         setState(() {
@@ -189,18 +318,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                 setState(() {
                   isAnimating = false;
                 });
-                setState(() {
-                  isLiked = !isLiked;
-                  if (isLiked) {
-                    postlength++;
-                  } else {
-                    postlength--;
-                  }
-                });
-
-                ref
-                    .read(postsViewModelProvider.notifier)
-                    .toggleLikePost(widget.post.id);
+                handleLikeToggle();
               },
               child: Icon(Icons.favorite, size: 100.w, color: Colors.red),
             ),
@@ -209,12 +327,12 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     );
   }
 
-  Widget _buildActions(BuildContext context) {
+  Widget buildActions(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Row(
         children: [
-          _buildLikeButton(),
+          buildLikeButton(),
           SizedBox(width: 20.w),
           buildCommentButton(),
           SizedBox(width: 20.w),
@@ -226,24 +344,11 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     );
   }
 
-  Widget _buildLikeButton() {
+  Widget buildLikeButton() {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            setState(() {
-              isLiked = !isLiked;
-              if (isLiked) {
-                postlength++;
-              } else {
-                postlength--;
-              }
-            });
-
-            ref
-                .read(postsViewModelProvider.notifier)
-                .toggleLikePost(widget.post.id);
-          },
+          onTap: handleLikeToggle,
           child: AnimatedScale(
             scale: isLiked ? 1.2 : 1.0,
             duration: const Duration(milliseconds: 200),
@@ -254,8 +359,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             ),
           ),
         ),
-        const SizedBox(
-            width: 8.0), // Slightly increase spacing for a more balanced look
+        const SizedBox(width: 8.0),
         AnimatedDefaultTextStyle(
           duration: const Duration(milliseconds: 200),
           style: TextStyle(
@@ -263,7 +367,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             fontWeight: FontWeight.bold,
             color: isLiked ? Colors.red : Colors.grey,
           ),
-          child: Text("$postlength"),
+          child: Text("$postLikeCount"),
         ),
       ],
     );
@@ -292,35 +396,10 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                     maxChildSize: 0.7,
                     expand: false,
                     builder: (_, scrollController) {
-                      var loggedUser = ref.watch(homeUserProfileProvider);
                       return CommentWidget(
                         scrollController: scrollController,
                         comments: comments,
-                        addComment: (content) {
-                          print(content);
-                          ref
-                              .read(postsViewModelProvider.notifier)
-                              .createComment(
-                                widget.post.id,
-                                content,
-                              );
-                          setState(() {
-                            commentLength++;
-                            comments = List.from(comments ?? []);
-                            comments?.add(
-                              Comment(
-                                content: content,
-                                userFirstName:
-                                    loggedUser.asData?.value.firstname ?? '',
-                                userLastName:
-                                    loggedUser.asData?.value.lastname ?? '',
-                                userAvatar:
-                                    loggedUser.asData?.value.avatar ?? '',
-                                id: "commentId$commentLength",
-                              ),
-                            );
-                          });
-                        },
+                        addComment: handleNewComment,
                       );
                     },
                   ),
@@ -335,7 +414,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         ),
         SizedBox(width: 4.w),
         Text(
-          "$commentLength",
+          "$commentCount",
           style: TextStyle(
             fontSize: 12.sp,
             color: Colors.grey,
@@ -346,49 +425,93 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   }
 
   Widget buildShareButton() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Share.share("https://beehive-landing-page.vercel.app/");
-          },
-          child: const Icon(
-            Icons.send_outlined,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(width: 4.w),
-        Text(
-          "3",
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: Colors.grey,
-          ),
-        ),
-      ],
+    return GestureDetector(
+      onTap: () {
+        final postUrl = "https://beehive-landing-page.vercel.app/post/${widget.post.id}";
+        Share.share(
+          "Découvrez ce post sur Beehive: $postUrl",
+          subject: "Partager via Beehive",
+        );
+      },
+      child: const Icon(
+        Icons.send_outlined,
+        color: Colors.black,
+      ),
     );
   }
 
   Widget buildFavoriteButton() {
     return GestureDetector(
-      onTap: () {
-        ref
-            .read(favoriteControllerProvider.notifier)
-            .toggleUserFavorites(widget.post.id);
-        setState(() {
-          isFavorite = !isFavorite;
-          favorites = List.from(favorites);
-          if (isFavorite) {
-            favorites.remove(widget.post.id);
-          } else {
-            favorites.add(widget.post.id);
-          }
-        });
-      },
+      onTap: handleFavoriteToggle,
       child: Icon(
         isFavorite ? Icons.bookmark : Icons.bookmark_border,
-        color: Colors.black,
-        // color: isFavorite ? Colors.red : AppColors.primaryElement,
+        color: isFavorite ? AppColors.primaryElement : Colors.black,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Watch profile state in build method
+    final profileState = ref.watch(homeUserProfileProvider);
+    
+    // Update local state based on profile changes
+    if (profileState.hasValue) {
+      final profile = profileState.value!;
+      final newFollowing = profile.following?.contains(widget.post.author.id) ?? false;
+      
+      if (currentUserId != profile.id || isFollowing != newFollowing) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() {
+              currentUserId = profile.id;
+              favorites = profile.favorites ?? [];
+              isFavorite = favorites.contains(widget.post.id);
+              isLiked = widget.post.likes.any((like) => like.id == currentUserId);
+              postLikeCount = widget.post.likes.length;
+              comments = widget.post.comments;
+              commentCount = widget.post.comments?.length ?? 0;
+              isFollowing = newFollowing;
+            });
+          }
+        });
+      }
+    }
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          AppRoutes.POST_DETAIL,
+          arguments: {"id": widget.post.id},
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 8.h),
+        padding: EdgeInsets.all(12.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              blurRadius: 6.r,
+              offset: Offset(0, 4.h),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildHeader(context),
+            SizedBox(height: 8.h),
+            PostContent(content: widget.post.content ?? ''),
+            SizedBox(height: 8.h),
+            if (widget.post.media != null) buildMedia(context),
+            SizedBox(height: 8.h),
+            buildActions(context),
+            SizedBox(height: 8.h),
+          ],
+        ),
       ),
     );
   }

@@ -1,148 +1,177 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:beehive/common/models/notification.dart';
 import 'package:beehive/common/utils/app_colors.dart';
-import 'package:beehive/features/unotification/notifiers/unotification_notifier.dart';
+import 'package:beehive/features/message/state.dart';
+import 'package:beehive/common/utils/date.dart';
+import 'package:beehive/features/message/controller.dart';
 
-class Unotification extends ConsumerStatefulWidget {
+class Unotification extends GetView<MessageController> {
   const Unotification({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const Unotification());
+  List<AppNotification> _getNotifications() {
+    final messageState = controller.state;
+    List<AppNotification> notifications = [];
+
+    // Add message notifications
+    notifications.addAll(
+      messageState.msgList.map((msg) => AppNotification.fromMessage(msg))
+    );
+
+    // Add call notifications
+    notifications.addAll(
+      messageState.callList.map((call) => AppNotification.fromCall(call))
+    );
+
+    // Sort by timestamp, most recent first
+    notifications.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+    return notifications;
   }
 
-  @override
-  ConsumerState<Unotification> createState() => _UnotificationPage();
-}
+  Widget _buildNotificationItem(AppNotification notification) {
+    IconData iconData;
+    Color iconColor;
 
-class _UnotificationPage extends ConsumerState<Unotification> {
+    switch (notification.type) {
+      case NotificationType.message:
+        iconData = Icons.message;
+        iconColor = Colors.blue;
+        break;
+      case NotificationType.call:
+        iconData = Icons.call;
+        iconColor = Colors.green;
+        break;
+      case NotificationType.like:
+        iconData = Icons.favorite;
+        iconColor = Colors.red;
+        break;
+      case NotificationType.comment:
+        iconData = Icons.comment;
+        iconColor = Colors.orange;
+        break;
+      case NotificationType.follow:
+        iconData = Icons.person_add;
+        iconColor = Colors.purple;
+        break;
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(unotificationProvider);
-      return Scaffold(
-        appBar: _buildAppBar(),
-        backgroundColor: Colors.white,
-        body: CustomScrollView(slivers: [
-          SliverPadding(
-            padding: EdgeInsets.symmetric(
-              vertical: 20.h,
-              horizontal: 25.w,
+    return InkWell(
+      onTap: () {
+        if (notification.targetRoute != null) {
+          Get.toNamed(notification.targetRoute!, parameters: notification.routeParams);
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+        decoration: BoxDecoration(
+          color: notification.isRead ? Colors.white : Colors.blue.withOpacity(0.1),
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey.withOpacity(0.2),
+              width: 1,
             ),
-            sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (content, index) {
-                    return _buildListItem();
-                  },
-                  childCount: 6,
-                )
-            ),),
-          SliverPadding(
-              padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 0.w),
-              sliver:const SliverToBoxAdapter(
-                child:Align(alignment: Alignment.center,child: Text('loading...'),),
-              )
           ),
-        ]),
-      );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-        title:  Container(
-          child: Text(
-            "Notification",
-            style: TextStyle(
-              color: AppColors.primaryText,
-              fontWeight: FontWeight.bold,
-              fontSize: 16.sp,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40.w,
+              height: 40.w,
+              decoration: BoxDecoration(
+                color: iconColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                iconData,
+                color: iconColor,
+                size: 20.w,
+              ),
             ),
-          ),
-        ),);
-  }
-
-  Widget _buildListItem() {
-
-    return Container(
-      width: 325.w,
-      height: 80.h,
-      margin: EdgeInsets.only(bottom: 20.h,),
-      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 255, 255, 1),
-        borderRadius: BorderRadius.all(Radius.circular(10.w)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 3,
-            offset:
-            const Offset(0, 1), // changes position of shadow
-          ),
-        ],
-      ),
-      child: InkWell(
-          onTap: () {
-
-          },
-          child:Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 60.h,
-                      child: Image(
-                        image: const AssetImage("assets/icons/image(5).png"),
-                        width: 60.w,
-                        height: 60.h,
-                      ),
+            SizedBox(width: 15.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    notification.title,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryText,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 220.w,
-                          margin: EdgeInsets.only(left:6.w),
-                          child: Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            maxLines: 2,
-                            style: TextStyle(
-                              color: AppColors.primarySecondaryElementText,
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left:6.w,top: 5.h),
-                          child: Text(
-                            "50 minutes ago",
-                            style: TextStyle(
-                              color: AppColors.primaryElement,
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ),
-                      ],)
-                  ]),
-              // 右侧
-              Container(
-                margin: EdgeInsets.only(top: 8.h),
-                alignment:Alignment.topRight,
-                child: Image(
-                  image: const AssetImage("assets/icons/more-vertical-2.png"),
-                  width: 16.w,
-                  height: 16.h,
-                ),
-              )
-            ],
-          )),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    notification.message,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: AppColors.primarySecondaryElementText,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    duTimeLineFormat(notification.timestamp),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: AppColors.primaryThirdElementText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    // Load both messages and calls
+    controller.asyncLoadMsgData();
+    controller.asyncLoadCallData();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          'Notifications',
+          style: TextStyle(
+            color: AppColors.primaryText,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.primaryText,
+          ),
+          onPressed: () => Get.back(),
+        ),
+      ),
+      body: Obx(() {
+        final notifications = _getNotifications();
+        return notifications.isEmpty
+            ? Center(
+                child: Text(
+                  'Aucune notification',
+                  style: TextStyle(
+                    color: AppColors.primaryThirdElementText,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  return _buildNotificationItem(notifications[index]);
+                },
+              );
+      }),
+    );
+  }
 }

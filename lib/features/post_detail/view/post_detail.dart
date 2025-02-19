@@ -19,8 +19,9 @@ class PostDetail extends ConsumerStatefulWidget {
   ConsumerState<PostDetail> createState() => _PostDetailPage();
 }
 
-class _PostDetailPage extends ConsumerState<PostDetail> {
+class _PostDetailPage extends ConsumerState<PostDetail> with SingleTickerProviderStateMixin {
   late PageController controller;
+  late AnimationController _animationController;
   bool isLiked = false;
   bool isFavorite = false;
   bool isFollowing = false;
@@ -28,6 +29,21 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
   List<String> favorites = [];
   int commentLength = 0;
   List<Comment>? comments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   void initializePostDetails(Post? post) {
     var profileState = ref.watch(homeUserProfileProvider);
@@ -62,9 +78,10 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
 
     return Scaffold(
         backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 1,
+          backgroundColor: Colors.white.withOpacity(0.95),
+          elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: AppColors.primaryElement),
             onPressed: () => Navigator.of(context).pop(),
@@ -93,22 +110,60 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Header: Auteur et date
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: CircleAvatar(
-                          radius: 30.r,
-                          backgroundImage:
-                              NetworkImage(value.author.avatar ?? ''),
-                        ),
-                        title: Text(
-                          "${value.author.firstname} ${value.author.lastname}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14.sp),
-                        ),
-                        subtitle: Text(
-                          "Publié le 10/11/2024 10:00 AM",
-                          style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                      // Header: Auteur et date avec design moderne
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                        child: Row(
+                          children: [
+                            Hero(
+                              tag: 'avatar-${value.author.id}',
+                              child: Container(
+                                width: 44.w,
+                                height: 44.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: AppColors.primaryElement.withOpacity(0.2),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(value.author.avatar ?? ''),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${value.author.firstname} ${value.author.lastname}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.sp,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Publié le 10/11/2024 10:00 AM",
+                                    style: TextStyle(
+                                      fontSize: 13.sp,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.more_horiz,
+                                color: Colors.grey[700],
+                              ),
+                              onPressed: () {
+                                // Show post options
+                              },
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 12.h),
@@ -138,72 +193,189 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
                       ),
                       SizedBox(height: 16.h),
 
-                      // Media: Image ou Vidéo
+                      // Media
                       if (value.media?.isNotEmpty ?? false)
-                        PostBanner(controller: controller, postItem: value),
+                        Container(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.6,
+                          ),
+                          child: PostBanner(
+                            controller: controller,
+                            postItem: value,
+                          ),
+                        ),
 
                       SizedBox(height: 16.h),
 
-                      // Actions: Like, Commentaire, Partage
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ActionButton(
-                            icon: isLiked
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            label: "${value.likes.length}",
-                            onPressed: () {
-                              _likePost(value.id);
-                            },
-                          ),
-                          ActionButton(
-                            icon: Icons.comment,
-                            label: "${comments?.length ?? 0}",
-                            onPressed: () {
-                              _showCommentModalBottomSheet(value);
-                            },
-                          ),
-                          ActionButton(
-                            icon: Icons.share,
-                            label: "Partager",
-                            onPressed: () {
-                              Share.share("Regarde ce post : ${value.title}");
-                            },
-                          ),
-                        ],
+                      // Actions avec animations
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                ScaleTransition(
+                                  scale: Tween<double>(begin: 1.0, end: 1.3).animate(
+                                    CurvedAnimation(
+                                      parent: _animationController,
+                                      curve: Curves.elasticOut,
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      isLiked ? Icons.favorite : Icons.favorite_border,
+                                      color: isLiked ? Colors.red : Colors.grey[700],
+                                      size: 28,
+                                    ),
+                                    onPressed: () {
+                                      _likePost(value.id);
+                                      if (isLiked) {
+                                        _animationController.forward(from: 0.0);
+                                      }
+                                    },
+                                  ),
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  "${value.likes.length}",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                SizedBox(width: 20.w),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.chat_bubble_outline,
+                                    color: Colors.grey[700],
+                                    size: 24,
+                                  ),
+                                  onPressed: () => _showCommentModalBottomSheet(value),
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  "${comments?.length ?? 0}",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.share_outlined,
+                                color: Colors.grey[700],
+                                size: 24,
+                              ),
+                              onPressed: () {
+                                Share.share("Regarde ce post : ${value.title}");
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 24.h),
 
-                      // Liste des commentaires
-                      Text(
-                        "Commentaires (${comments?.length})",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
+                      // Section des commentaires avec design moderne
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[50],
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
-                      ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: comments?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final comment = comments?[index];
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: CircleAvatar(
-                              radius: 20.r,
-                              backgroundImage:
-                                  NetworkImage(comment?.userAvatar ?? ''),
+                        padding: EdgeInsets.all(16.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Commentaires (${comments?.length})",
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () => _showCommentModalBottomSheet(value),
+                                  child: const Text(
+                                    "Ajouter",
+                                    style: TextStyle(
+                                      color: AppColors.primaryElement,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            title: Text(
-                              "${comment?.userFirstName} ${comment?.userLastName}",
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
+                            SizedBox(height: 12.h),
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: comments?.length ?? 0,
+                              separatorBuilder: (context, index) => Divider(
+                                color: Colors.grey[200],
+                                height: 24.h,
+                              ),
+                              itemBuilder: (context, index) {
+                                final comment = comments?[index];
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: 36.w,
+                                          height: 36.w,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: AppColors.primaryElement.withOpacity(0.1),
+                                              width: 2,
+                                            ),
+                                          ),
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(comment?.userAvatar ?? ''),
+                                          ),
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${comment?.userFirstName} ${comment?.userLastName}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 14.sp,
+                                                ),
+                                              ),
+                                              SizedBox(height: 4.h),
+                                              Text(
+                                                comment?.content ?? '',
+                                                style: TextStyle(
+                                                  fontSize: 13.sp,
+                                                  color: Colors.black87,
+                                                  height: 1.4,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
-                            subtitle: Text(comment?.content ?? ''),
-                          );
-                        },
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -320,36 +492,6 @@ class _PostDetailPage extends ConsumerState<PostDetail> {
           ),
         );
       },
-    );
-  }
-}
-
-// Widget d'action personnalisé
-class ActionButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
-
-  const ActionButton({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(
-          icon: Icon(icon, color: AppColors.primaryElement),
-          onPressed: onPressed,
-        ),
-        Text(
-          label,
-          style: TextStyle(fontSize: 12.sp, color: Colors.grey),
-        ),
-      ],
     );
   }
 }

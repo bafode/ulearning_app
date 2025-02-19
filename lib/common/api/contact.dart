@@ -19,10 +19,17 @@ class ContactAPI {
     return ContactResponseEntity.fromJson(response);
   }
 
-  static Future<ContactResponseEntity> getFollowings( id) async {
+  static Future<ContactResponseEntity> getFollowings(String id) async {
     var response = await HttpUtil().get(
       "v1/users/$id/following",
     );
     return ContactResponseEntity.fromJson(response);
+  }
+
+  static Future<void> toggleFollow(String targetId) async {
+    print("targetId: $targetId");
+    var response = await HttpUtil().patch(
+      "v1/users/$targetId/follow",
+    );
   }
 }

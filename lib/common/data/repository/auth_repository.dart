@@ -21,6 +21,7 @@ abstract class AuthRepository {
   Future<RegistrationResponse> resetPassword(
       ResetPasswordRequest resetPasswordRequest);
   Future<LogoutResponse> logout(LogoutRequest refreshToken);
+  Future<LogoutResponse> deleteAccount(String userId);
   Future<User> updateUserInfo(String userId,UpdateUserInfoRequest userInfo);
   Future<User> updateUserProfile(String userId, EditProfilRequest userInfo);
   Future<ContactResponseEntity> getContacts();

@@ -3,35 +3,52 @@ import 'package:beehive/features/following/widgets/follow_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'controller.dart';
 
 class FollowingPage extends GetView<FollowingController> {
   const FollowingPage({super.key});
-  AppBar _buildAppBar(){
+
+  PreferredSizeWidget _buildAppBar() {
     return AppBar(
+      backgroundColor: AppColors.primaryElement,
+      leading: GestureDetector(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20.sp,
+        ),
+        onTap: () {
+          Get.back();
+        },
+      ),
       title: Text(
         "Following",
         style: TextStyle(
-          color: AppColors.primaryText,
+          color: Colors.white,
           fontSize: 16.sp,
-          fontWeight: FontWeight.normal
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body:SizedBox(
-        width: 360.w,
-        height: 780.h,
-        child: const FollowingList()
-      )
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            // Refresh both following list and status
+            await Future.wait([
+              controller.getFollowingList(),
+              controller.updateFollowingStatus(),
+            ]);
+          },
+          child: const FollowingList(),
+        ),
+      ),
     );
   }
 }

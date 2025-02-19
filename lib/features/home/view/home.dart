@@ -29,11 +29,16 @@ class _HomeState extends ConsumerState<Home> {
       ref.read(postFilterNotifierProvider.notifier);
 
   @override
-  void didChangeDependencies() {
-    controller =
-        PageController(initialPage: ref.watch(homeScreenBannerDotsProvider));
-      viewModel.build();
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    controller = PageController(initialPage: ref.read(postBannerDotsProvider));
+    viewModel.build();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override

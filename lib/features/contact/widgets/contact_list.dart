@@ -1,7 +1,6 @@
 
 import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
 import 'package:beehive/common/utils/app_colors.dart';
-import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/features/contact/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,20 +44,34 @@ class ContactList extends GetView<ContactController> {
                ]
              ),
              child: CachedNetworkImage(
-                imageUrl: Uri.tryParse(item.avatar ?? '')?.isAbsolute == true
-                    ? item.avatar! // Use the valid URI directly
-                    : "${AppConstants.SERVER_API_URL}${item.avatar ?? ''}", 
-               height: 44.w,
-               width: 44.w,
-               imageBuilder: (context, imageProvider) => Container(
-                 decoration: BoxDecoration(
-                   borderRadius: BorderRadius.all(Radius.circular(22.w)),
-                   image: DecorationImage(
-                     image: imageProvider
-                   )
-                 ),
-               ),
-             ),
+                imageUrl: Uri.tryParse(item.avatar ?? '')
+                            ?.isAbsolute ==
+                        true
+                    ? item.avatar!
+                    : item.avatar ?? '',
+                height: 50.w,
+                width: 50.w,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.primaryElement,
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.person,
+                  size: 30.w,
+                  color: AppColors.primaryElement,
+                ),
+              ),
            ),
            Container(
              width: 275.w,

@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1008584285338-9tb8959n980ufm80cl8k0b9no7h75jdi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.beehiveapp.beehive",
+            "certificate_hash": "338e273b3bd9ea8bb08664ded9c9cd557d61f8b9"
+          }
+        },
+        {
+          "client_id": "1008584285338-vdp6kk9urbe1khejek05nvpe832co7or.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.beehiveapp.beehive",
+            "certificate_hash": "db185a3be15ee4b296280154fbe83f044e16185d"
+          }
+        },
+        {
           "client_id": "1008584285338-r6jvk97osqrt7hs7fq9e6cedrta3j73d.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +45,13 @@
             {
               "client_id": "1008584285338-r6jvk97osqrt7hs7fq9e6cedrta3j73d.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1008584285338-ttk9ee0li7u1i3ukfmmcbgbtm1c1oo8n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.beehiveapp.beehive"
+              }
             }
           ]
         }

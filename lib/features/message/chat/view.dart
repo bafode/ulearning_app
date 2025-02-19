@@ -1,5 +1,4 @@
 import 'package:beehive/common/utils/app_colors.dart';
-import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/features/message/chat/widgets/chat_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +12,11 @@ class ChatPage extends GetView<ChatController> {
 
   AppBar _buildAppBar(){
     return AppBar(
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColors.primaryElement,
       leading: GestureDetector(
         child: Icon(
           Icons.arrow_back_ios,
-          color: Colors.black,
+          color: Colors.white,
           size: 20.sp,
         ),
         onTap: (){
@@ -33,7 +32,7 @@ class ChatPage extends GetView<ChatController> {
             style: TextStyle(
               fontFamily: "Avenir",
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 16.sp
             ),
           ),
@@ -46,30 +45,54 @@ class ChatPage extends GetView<ChatController> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              SizedBox(
-                width: 44.w,
-                height: 44.h,
-                child:CachedNetworkImage(
-                 // imageUrl: controller.state.to_avatar.value,
-                  imageUrl: Uri.tryParse(controller.state.to_avatar.value)?.isAbsolute == true
-                      ? controller
-                          .state.to_avatar.value // Use the valid URI directly
-                      : "${AppConstants.SERVER_API_URL}${controller.state.to_avatar.value}", 
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22.w),
-
-                      image: DecorationImage(
-                        image: imageProvider
+              Hero(
+                tag: 'avatar_${controller.state.to_token.value}',
+                child: Container(
+                  width: 50.w,
+                  height: 50.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.primarySecondaryBackground,
+                    borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
                       )
+                    ],
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        Uri.tryParse(controller.state.to_avatar.value ??
+                                    '')?.isAbsolute == true
+                            ? controller.state.to_avatar.value
+                            : controller.state.to_avatar.value ?? '',
+                    height: 50.w,
+                    width: 50.w,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primaryElement,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      size: 30.w,
+                      color: AppColors.primaryElement,
                     ),
                   ),
-                  errorWidget: (context, url, error)=>const Image(image:
-                  AssetImage('assets/images/account_header.png')
-                  ),
-
                 ),
-                ),
+              ),
               Positioned(
                 bottom: 5.w,
                 right: 0.w,

@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1008584285338',
     projectId: 'beehive-dev-1fefb',
     storageBucket: 'beehive-dev-1fefb.firebasestorage.app',
+    androidClientId: '1008584285338-9tb8959n980ufm80cl8k0b9no7h75jdi.apps.googleusercontent.com',
     iosClientId: '1008584285338-ttk9ee0li7u1i3ukfmmcbgbtm1c1oo8n.apps.googleusercontent.com',
     iosBundleId: 'fr.beehiveapp.beehive',
   );
