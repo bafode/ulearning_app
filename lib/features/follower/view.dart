@@ -10,12 +10,23 @@ class FollowersPage extends GetView<FollowersController> {
   const FollowersPage({super.key});
   AppBar _buildAppBar(){
     return AppBar(
+      backgroundColor: AppColors.primaryElement,
+      leading: GestureDetector(
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+          size: 20.sp,
+        ),
+        onTap: () {
+          Get.back();
+        },
+      ),
       title: Text(
         "Followers",
         style: TextStyle(
-          color: AppColors.primaryText,
+          color: Colors.white,
           fontSize: 16.sp,
-          fontWeight: FontWeight.normal
+          fontWeight: FontWeight.bold
         ),
       ),
     );
@@ -27,10 +38,13 @@ class FollowersPage extends GetView<FollowersController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
-      body:SizedBox(
-        width: 360.w,
-        height: 780.h,
-        child: const FollowersList()
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.getFollowersList();
+          },
+          child: const FollowersList(),
+        ),
       )
     );
   }

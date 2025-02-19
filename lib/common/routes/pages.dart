@@ -32,6 +32,7 @@ import 'package:beehive/features/sign_up/view/sign_up.dart';
 import 'package:beehive/features/reset_password/view/reset_password.dart';
 import 'package:beehive/features/sign_in/view/sign_in.dart';
 import 'package:beehive/features/unotification/unotification.dart';
+import 'package:beehive/features/unotification/binding.dart';
 import 'package:beehive/features/welcome/view/welcome.dart';
 
 class AppPages {
@@ -109,6 +110,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.Unotification,
       page: () => const Unotification(),
+      binding: UnotificationBinding(),
     ),
     GetPage(
       name: AppRoutes.FAVORITES,

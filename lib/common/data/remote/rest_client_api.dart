@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
 import 'package:beehive/common/entities/user/editProfileRequest/edit_profil_request.dart';
+import 'package:beehive/common/entities/base/base_response_entity.dart';
+import 'package:beehive/common/entities/auth/bindFcmTokenRequest/bind_fcm_token_request.dart';
+import 'package:beehive/common/models/chat.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -63,35 +67,28 @@ abstract class RestClientApi {
   });
 
   @PATCH("${AppConstants.userEndpoint}/{userId}")
-    Future<User> updateUser({
-      @Path("userId") required String userId,
-      @Body() required UpdateUserInfoRequest updateUserInfoRequest,
-    });
+  Future<User> updateUser(
+    @Path("userId") String userId,
+    @Body() UpdateUserInfoRequest updateUserInfoRequest
+  );
 
   @PATCH("${AppConstants.userEndpoint}/{userId}")
-  Future<User> updateUserProfile({
-    @Path("userId") required String userId,
-    @Body() required EditProfilRequest profilRequest,
-  });
+  Future<User> updateUserProfile(
+    @Path("userId") String userId,
+    @Body() EditProfilRequest profilRequest
+  );
 
   @GET("${AppConstants.userEndpoint}/contacts")
   Future<ContactResponseEntity> getContacts();
 
   @GET("${AppConstants.userEndpoint}/{userId}/followers")
-  Future<ContactResponseEntity> getFollowers({
-    @Path("userId") required String userId,
-  });
+  Future<ContactResponseEntity> getFollowers(@Path("userId") String userId);
 
   @GET("${AppConstants.userEndpoint}/{userId}/following")
-  Future<ContactResponseEntity> getFollowings({
-    @Path("userId") required String userId,
-  });
+  Future<ContactResponseEntity> getFollowings(@Path("userId") String userId);
 
   @GET("${AppConstants.userEndpoint}/{userId}")
-  Future<User> getUserById({
-    @Path("userId") required String userId,
-  });
-
+  Future<User> getUserById(@Path("userId") String userId);
 
   @POST(AppConstants.sendEmailVerificationTokenUrl)
   Future<void> sendEmailVerificationToken();
@@ -116,13 +113,18 @@ abstract class RestClientApi {
     @Body() required LogoutRequest refreshToken,
   });
 
+  @DELETE("${AppConstants.userEndpoint}/{userId}")
+  Future<LogoutResponse> deleteAccount(
+    @Path("userId") String userId,
+  );
+
   @POST(AppConstants.postEndPointUrl)
   @MultiPart()
   Future<PostCreateResponse> createPost(
       @Part(name: 'title') String title,
       @Part(name: 'content') String content,
       @Part(name: 'category') String category,
-      @Part(name: 'domain') List<String> domain,
+      @Part(name: 'domain') List<String>? domain,
       @Part() List<MultipartFile>? media,
       {@SendProgress() ProgressCallback? onSendProgress});
 
@@ -157,5 +159,44 @@ abstract class RestClientApi {
   @PATCH("${AppConstants.userEndpoint}/{followId}/follow")
   Future<User> toggleUserFollow(
     @Path("followId") String followId,
+  );
+
+  // Chat endpoints
+  @POST("v1/auth/bind_fcmtoken")
+  Future<BaseResponseEntity> bindFcmToken(
+    @Body() BindFcmTokenRequestEntity params,
+  );
+
+  @POST("v1/notifications/send_notice")
+  Future<BaseResponseEntity> sendCallNotification(
+    @Body() CallRequestEntity params,
+  );
+
+  @POST("v1/auth/get_rtc_token")
+  Future<BaseResponseEntity> getRtcToken(
+    @Body() CallTokenRequestEntity params,
+  );
+
+  @POST("api/message")
+  Future<BaseResponseEntity> sendMessage(
+    @Body() ChatRequestEntity params,
+  );
+
+  @POST("v1/notifications/upload_photo")
+  @MultiPart()
+  Future<BaseResponseEntity> uploadImage(
+    @Part() File file,
+  );
+
+  @PATCH("${AppConstants.userEndpoint}/{userId}")
+  @MultiPart()
+  Future<User> uploadProfileImage(
+    @Path("userId") String userId,
+    @Part() File image,
+  );
+
+  @POST("api/sync_message")
+  Future<SyncMessageResponseEntity> syncMessage(
+    @Body() SyncMessageRequestEntity params,
   );
 }

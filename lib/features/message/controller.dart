@@ -1,6 +1,8 @@
 
+import 'dart:async';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/models/entities.dart';
+import 'package:beehive/common/models/chatcall.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/features/message/index.dart';
 import 'package:beehive/global.dart';
@@ -35,7 +37,7 @@ class MessageController extends GetxController {
     if (state.tabStatus.value) {
       asyncLoadMsgData();
     } else {
-
+      asyncLoadCallData();
     }
 
     EasyLoading.dismiss();
@@ -110,17 +112,128 @@ class MessageController extends GetxController {
     }
   }
 
+  Future<void> asyncLoadCallData() async {
+    var fromCalls = await db.collection("calls")
+        .withConverter(
+        fromFirestore: ChatCall.fromFirestore,
+        toFirestore: (ChatCall call, options) => call.toFirestore()
+    ).where("from_token", isEqualTo: token).get();
+
+    var toCalls = await db.collection("calls")
+        .withConverter(
+        fromFirestore: ChatCall.fromFirestore,
+        toFirestore: (ChatCall call, options) => call.toFirestore()
+    ).where("to_token", isEqualTo: token).get();
+
+    state.callList.clear();
+
+    if(fromCalls.docs.isNotEmpty) {
+      for (var element in fromCalls.docs) {
+        var call = element.data();
+        call = ChatCall(
+          doc_id: element.id,
+          from_token: call.from_token,
+          to_token: call.to_token,
+          from_firstname: call.from_firstname,
+          to_firstname: call.to_firstname,
+          from_lastname: call.from_lastname,
+          to_lastname: call.to_lastname,
+          from_avatar: call.from_avatar,
+          to_avatar: call.to_avatar,
+          call_time: call.call_time,
+          type: call.type,
+          last_time: call.last_time
+        );
+        state.callList.add(call);
+      }
+    }
+
+    if(toCalls.docs.isNotEmpty) {
+      for (var element in toCalls.docs) {
+        var call = element.data();
+        call = ChatCall(
+          doc_id: element.id,
+          from_token: call.from_token,
+          to_token: call.to_token,
+          from_firstname: call.from_firstname,
+          to_firstname: call.to_firstname,
+          from_lastname: call.from_lastname,
+          to_lastname: call.to_lastname,
+          from_avatar: call.from_avatar,
+          to_avatar: call.to_avatar,
+          call_time: call.call_time,
+          type: call.type,
+          last_time: call.last_time
+        );
+        state.callList.add(call);
+      }
+    }
+
+    state.callList.value.sort((a, b) {
+      if (b.last_time == null) return 0;
+      if (a.last_time == null) return 0;
+      return b.last_time!.compareTo(a.last_time!);
+    });
+  }
+
   @override
   void onReady() {
     super.onReady();
     firebaseMessageSetup();
   }
 
+  final List<StreamSubscription> _subscriptions = [];
+
   @override
   void onInit() {
     super.onInit();
     getProfile();
-    _snapShots();
+    _setupListeners();
+    asyncLoadMsgData();
+    asyncLoadCallData();
+  }
+
+  @override
+  void onClose() {
+    for (var subscription in _subscriptions) {
+      subscription.cancel();
+    }
+    super.onClose();
+  }
+
+  void _setupListeners() {
+    final token = Global.storageService.getUserProfile().id;
+    final db = FirebaseFirestore.instance;
+
+    // Listen to message changes
+    _subscriptions.add(
+      db.collection("message")
+        .where("to_token", isEqualTo: token)
+        .snapshots()
+        .listen((_) => asyncLoadMsgData())
+    );
+
+    _subscriptions.add(
+      db.collection("message")
+        .where("from_token", isEqualTo: token)
+        .snapshots()
+        .listen((_) => asyncLoadMsgData())
+    );
+
+    // Listen to call changes
+    _subscriptions.add(
+      db.collection("calls")
+        .where("to_token", isEqualTo: token)
+        .snapshots()
+        .listen((_) => asyncLoadCallData())
+    );
+
+    _subscriptions.add(
+      db.collection("calls")
+        .where("from_token", isEqualTo: token)
+        .snapshots()
+        .listen((_) => asyncLoadCallData())
+    );
   }
 
   _snapShots(){
@@ -138,12 +251,38 @@ class MessageController extends GetxController {
           toFirestore: (Msg msg, options)=>msg.toFirestore()
       ).where("from_token", isEqualTo: token);
 
+    final toCallRef = db
+        .collection("calls")
+        .withConverter(
+            fromFirestore: ChatCall.fromFirestore,
+            toFirestore: (ChatCall call, options) => call.toFirestore()
+        ).where("to_token", isEqualTo: token);
+
+    final fromCallRef = db
+        .collection("calls")
+        .withConverter(
+            fromFirestore: ChatCall.fromFirestore,
+            toFirestore: (ChatCall call, options) => call.toFirestore()
+        ).where("from_token", isEqualTo: token);
+
     toMessageRef.snapshots().listen((event) {
       asyncLoadMsgData();
     });
 
     fromMessageRef.snapshots().listen((event) {
       asyncLoadMsgData();
+    });
+
+    toCallRef.snapshots().listen((event) {
+      if (!state.tabStatus.value) {
+        asyncLoadCallData();
+      }
+    });
+
+    fromCallRef.snapshots().listen((event) {
+      if (!state.tabStatus.value) {
+        asyncLoadCallData();
+      }
     });
   }
 

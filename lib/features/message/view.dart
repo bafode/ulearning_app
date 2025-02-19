@@ -1,4 +1,5 @@
 import 'package:beehive/common/models/message.dart';
+import 'package:beehive/common/models/chatcall.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 import 'package:beehive/common/utils/constants.dart';
@@ -9,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 class MessagePage extends GetView<MessageController> {
   const MessagePage({super.key});
@@ -40,31 +40,21 @@ class MessagePage extends GetView<MessageController> {
                         ]),
                     child: controller.state.head_detail.value.avatar == null
                         ? const Image(
-                            image:
-                                AssetImage("assets/icons/default.png"),
+                            image: AssetImage("assets/icons/default.png"),
                           )
                         : CachedNetworkImage(
-                            // imageUrl:
-                            //     controller.state.head_detail.value.avatar!,
-                                 imageUrl: Uri.tryParse(controller
-                                            .state.head_detail.value.avatar!)
-                                        ?.isAbsolute ==
-                                    true
-                                ? controller.state.head_detail.value
-                                    .avatar! // Use the valid URI directly
+                            imageUrl: Uri.tryParse(controller.state.head_detail.value.avatar!)?.isAbsolute == true
+                                ? controller.state.head_detail.value.avatar!
                                 : "${AppConstants.SERVER_API_URL}${controller.state.head_detail.value.avatar!}",
                             height: 50,
                             width: 50,
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(22.w)),
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.fill)),
+                                  borderRadius: BorderRadius.all(Radius.circular(22.w)),
+                                  image: DecorationImage(image: imageProvider, fit: BoxFit.fill)),
                             ),
                             errorWidget: (context, url, error) => const Image(
-                              image: AssetImage(
-                                  'assets/icons/default.png'),
+                              image: AssetImage('assets/icons/default.png'),
                             ),
                           ),
                   ),
@@ -80,11 +70,9 @@ class MessagePage extends GetView<MessageController> {
                       width: 14.w,
                       height: 14.w,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 2.w, color: AppColors.primaryElementText),
+                          border: Border.all(width: 2.w, color: AppColors.primaryElementText),
                           color: AppColors.primaryElementStatus,
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12.w))),
+                          borderRadius: BorderRadius.all(Radius.circular(12.w))),
                     ))
               ],
             )
@@ -115,8 +103,7 @@ class MessagePage extends GetView<MessageController> {
                 decoration: controller.state.tabStatus.value
                     ? BoxDecoration(
                         color: AppColors.primaryBackground,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
                         boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -150,8 +137,7 @@ class MessagePage extends GetView<MessageController> {
                     ? const BoxDecoration()
                     : BoxDecoration(
                         color: AppColors.primaryBackground,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
                         boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
@@ -182,21 +168,15 @@ class MessagePage extends GetView<MessageController> {
       padding: EdgeInsets.only(top: 10.h, left: 0.w, right: 0.w, bottom: 10.h),
       child: InkWell(
         onTap: () {
-          print("doc_id:${item.doc_id}");
-          print("to_token:${item.token}");
-          print("to_firstname:${item.firstname}");
-          print("to_lastname:${item.lastname}");
-          print("to_avatar:${item.avatar}");
-          print("to_online:${item.online}");
           if(item.doc_id!=null){
             Get.toNamed("/chat",
               parameters: {
-                "doc_id":item.doc_id!,
-                "to_token":item.token!,
-                "to_firstname":item.firstname!,
-                "to_lastname":item.lastname!,
-                "to_avatar":item.avatar!,
-                "to_online":item.online.toString()
+                "doc_id":item.doc_id??"",
+                "to_token":item.token??"",
+                "to_firstname":item.firstname??"",
+                "to_lastname":item.lastname??"",
+                "to_avatar":item.avatar??"",
+                "to_online":"${item.online??0}"
               }
             );
           }
@@ -217,28 +197,35 @@ class MessagePage extends GetView<MessageController> {
                         blurRadius: 2,
                         offset: const Offset(0, 1))
                   ]),
-              child: item.avatar == null
-                  ? const Image(
-                      image: AssetImage("assets/images/account_header.png"),
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: item.avatar!,
-                      height: 44.w,
-                      width: 44.w,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(22.w)),
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.fill)),
-                      ),
-                      errorWidget: (context, url, error) => const Image(
-                        image: AssetImage('assets/images/account_header.png'),
+              child:  CachedNetworkImage(
+                    imageUrl: Uri.tryParse(item.avatar ?? '')?.isAbsolute == true
+                        ? item.avatar!
+                        : item.avatar ?? '',
+                    height: 60.w,
+                    width: 60.w,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(28.w)),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primaryElement,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      size: 30.w,
+                      color: AppColors.primaryElement,
+                    ),
+                  ),
             ),
             Container(
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -283,15 +270,13 @@ class MessagePage extends GetView<MessageController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          item.last_time==null?""
-                              :duTimeLineFormat((item.last_time as Timestamp).toDate()),
+                          item.last_time==null ? "" : duTimeLineFormat((item.last_time as Timestamp).toDate()),
                           maxLines: 1,
                           softWrap: false,
                           style: TextStyle(
                               fontFamily: "Avenir",
                               fontWeight: FontWeight.normal,
-                              color:
-                              AppColors.primarySecondaryElementText,
+                              color: AppColors.primarySecondaryElementText,
                               fontSize: 11.sp),
                         ),
                         item.msg_num == 0
@@ -299,8 +284,7 @@ class MessagePage extends GetView<MessageController> {
                             : Container(
                                 decoration: const BoxDecoration(
                                     color: Colors.red,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
+                                    borderRadius: BorderRadius.all(Radius.circular(10))),
                                 padding: EdgeInsets.only(
                                   left: 4.w,
                                   right: 4.w,
@@ -312,8 +296,7 @@ class MessagePage extends GetView<MessageController> {
                                   style: TextStyle(
                                       fontFamily: "Avenir",
                                       fontWeight: FontWeight.normal,
-                                      color:
-                                          AppColors.primarySecondaryElementText,
+                                      color: AppColors.primarySecondaryElementText,
                                       fontSize: 11.sp),
                                 ),
                               )
@@ -329,13 +312,106 @@ class MessagePage extends GetView<MessageController> {
     );
   }
 
+  Widget _callListItem(ChatCall item) {
+    return Container(
+      padding: EdgeInsets.only(top: 10.h, left: 0.w, right: 0.w, bottom: 10.h),
+      child: Row(
+        children: [
+          Container(
+            width: 44.h,
+            height: 44.h,
+            margin: EdgeInsets.only(top: 0.h, left: 0.w, right: 10.w),
+            decoration: BoxDecoration(
+                color: AppColors.primarySecondaryBackground,
+                borderRadius: BorderRadius.all(Radius.circular(22.h)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1))
+                ]),
+            child: item.from_avatar == null
+                ? const Image(
+                    image: AssetImage("assets/images/account_header.png"),
+                  )
+                : CachedNetworkImage(
+                    imageUrl: item.from_avatar!,
+                    height: 44.w,
+                    width: 44.w,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(22.w)),
+                          image: DecorationImage(image: imageProvider, fit: BoxFit.fill)),
+                    ),
+                    errorWidget: (context, url, error) => const Image(
+                      image: AssetImage('assets/images/account_header.png'),
+                    ),
+                  ),
+          ),
+          SizedBox(
+            width: 250.w,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${item.from_firstname} ${item.from_lastname}",
+                      overflow: TextOverflow.clip,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                          fontFamily: "Avenir",
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryThirdElementText,
+                          fontSize: 14.sp),
+                    ),
+                    Row(
+                      children: [
+                        Image.asset(
+                          item.type == "voice" ? "assets/icons/a_phone.png" : "assets/icons/a_video.png",
+                          width: 16.w,
+                          height: 16.w,
+                        ),
+                        SizedBox(width: 5.w),
+                        Text(
+                          item.call_time ?? "Unknown duration",
+                          style: TextStyle(
+                              fontFamily: "Avenir",
+                              fontWeight: FontWeight.normal,
+                              color: AppColors.primarySecondaryElementText,
+                              fontSize: 12.sp),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Text(
+                  item.last_time == null ? "" : duTimeLineFormat((item.last_time as Timestamp).toDate()),
+                  style: TextStyle(
+                      fontFamily: "Avenir",
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.primarySecondaryElementText,
+                      fontSize: 11.sp),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         body: Obx(() => SafeArea(
               child: Padding(
-                 padding: EdgeInsets.only(top: 20.h),
+                padding: EdgeInsets.only(top: 20.h),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -346,15 +422,13 @@ class MessagePage extends GetView<MessageController> {
                           title: _headBar(),
                         ),
                         SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 0.w, horizontal: 20.w),
+                          padding: EdgeInsets.symmetric(vertical: 0.w, horizontal: 20.w),
                           sliver: SliverToBoxAdapter(
                             child: _headTabs(),
                           ),
                         ),
                         SliverPadding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 0.w, horizontal: 20.w),
+                          padding: EdgeInsets.symmetric(vertical: 0.w, horizontal: 20.w),
                           sliver: controller.state.tabStatus.value
                               ? SliverList(
                                   delegate: SliverChildBuilderDelegate(
@@ -363,8 +437,12 @@ class MessagePage extends GetView<MessageController> {
                                     return _chatListItem(item);
                                   }, childCount: controller.state.msgList.length),
                                 )
-                              : SliverToBoxAdapter(
-                                  child: Container(),
+                              : SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                      (context, index) {
+                                    var item = controller.state.callList[index];
+                                    return _callListItem(item);
+                                  }, childCount: controller.state.callList.length),
                                 ),
                         )
                       ],
@@ -381,8 +459,7 @@ class MessagePage extends GetView<MessageController> {
                           padding: EdgeInsets.all(10.w),
                           decoration: BoxDecoration(
                               color: AppColors.primaryElement,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(40.w)),
+                              borderRadius: BorderRadius.all(Radius.circular(40.w)),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.grey.withOpacity(0.2),

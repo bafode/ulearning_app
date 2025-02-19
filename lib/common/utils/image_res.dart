@@ -27,6 +27,7 @@ class ImageRes {
   static const String downloadDetail = '$_imageBase/download_detail.png';
   static const String add = '$_imageBase/add.png';
   static const String share = '$_imageBase/share.png';
+  static const String beehivelogo = '$_imageBase/beehive.svg';
 
   static const String reading = 'assets/images/reading.png';
   static const String man = 'assets/images/man.png';

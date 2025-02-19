@@ -1,3 +1,4 @@
+import 'package:beehive/common/entities/user/user.dart';
 import 'package:beehive/global.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -38,6 +39,21 @@ class IsLoggedIn extends _$IsLoggedIn {
       await Global.storageService.resetStorage();
       ref.read(zoomIndexProvider.notifier).setIndex(0);
       setValue(false);
+    } else {
+      setValue(true);
+    }
+  }
+
+  void deleteAccount() async {
+    User? loggedUser = Global.storageService.getUserProfile();
+    String userId=loggedUser.id!;
+    final authRepository = ref.read(authRepositoryProvider);
+    final response = await authRepository.deleteAccount(userId);
+    if (response.code == 200) {
+      await Global.storageService.resetStorage();
+      ref.read(zoomIndexProvider.notifier).setIndex(0);
+      setValue(false);
+       logout();
     } else {
       setValue(true);
     }

@@ -23,7 +23,7 @@ final applicationNavNotifierProvider =
 );
 
 typedef _$ApplicationNavNotifier = AutoDisposeNotifier<int>;
-String _$isLoggedInHash() => r'c2063a404275bd772dd20a749380fc2954a49e70';
+String _$isLoggedInHash() => r'3a97746f3b8e35bd2262b03c2ced9fc7e8b05275';
 
 /// See also [IsLoggedIn].
 @ProviderFor(IsLoggedIn)

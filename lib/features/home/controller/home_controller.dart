@@ -33,11 +33,15 @@ class Logout extends _$Logout {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeUserProfile extends _$HomeUserProfile {
   @override
   FutureOr<User> build() {
     return Global.storageService.getUserProfile();
+  }
+
+  void updateProfile(User user) {
+    state = AsyncData(user);
   }
 }
 

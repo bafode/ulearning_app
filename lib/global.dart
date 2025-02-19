@@ -6,6 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:beehive/common/services/storage.dart';
 import 'package:beehive/common/utils/loading.dart';
 import 'package:beehive/common/utils/topSnackbar.dart';
+import 'package:beehive/features/message/state.dart';
+import 'package:get/get.dart';
 import 'firebase_options.dart';
 
 class Global {
@@ -26,6 +28,9 @@ class Global {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     storageService = await StorageService().init();
+    
+    // Initialize MessageState
+    Get.put(MessageState());
   }
 
   static TransitionBuilder MaterialAppBuilder({

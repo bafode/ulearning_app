@@ -17,7 +17,7 @@ sealed class FieldOfStudy {
 }
 
 class Dev extends FieldOfStudy {
-  const Dev() : super('dev', 'Dévéloppement');
+  const Dev() : super('dev', 'Développement');
 }
 
 class Marketing extends FieldOfStudy {
@@ -30,4 +30,48 @@ class DesignUiUx extends FieldOfStudy {
 
 class DA extends FieldOfStudy {
   const DA() : super('da', 'Direction Artistique');
+}
+
+class WebDev extends FieldOfStudy {
+  const WebDev() : super('web_dev', 'Développement Web');
+}
+
+class MobileDev extends FieldOfStudy {
+  const MobileDev() : super('mobile_dev', 'Développement Mobile');
+}
+
+class DataScience extends FieldOfStudy {
+  const DataScience() : super('data_science', 'Data Science');
+}
+
+class AI extends FieldOfStudy {
+  const AI() : super('ai', 'Intelligence Artificielle');
+}
+
+class GraphicDesign extends FieldOfStudy {
+  const GraphicDesign() : super('graphic_design', 'Design Graphique');
+}
+
+class ProductDesign extends FieldOfStudy {
+  const ProductDesign() : super('product_design', 'Design Produit');
+}
+
+class DigitalMarketing extends FieldOfStudy {
+  const DigitalMarketing() : super('digital_marketing', 'Marketing Digital');
+}
+
+class ContentStrategy extends FieldOfStudy {
+  const ContentStrategy() : super('content_strategy', 'Stratégie de Contenu');
+}
+
+class ProjectManagement extends FieldOfStudy {
+  const ProjectManagement() : super('project_management', 'Gestion de Projet');
+}
+
+class BusinessStrategy extends FieldOfStudy {
+  const BusinessStrategy() : super('business_strategy', 'Stratégie d\'Entreprise');
+}
+
+class Communication extends FieldOfStudy {
+  const Communication() : super('communication', 'Communication');
 }

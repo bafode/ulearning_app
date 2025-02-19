@@ -6,7 +6,12 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:beehive/common/utils/constants.dart';
 
 final dioProvider = Provider((ref) {
-  final options = BaseOptions(baseUrl: AppConstants.SERVER_API_URL);
+  final options = BaseOptions(
+    baseUrl: AppConstants.SERVER_API_URL,
+    connectTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 10),
+    sendTimeout: const Duration(seconds: 10),
+  );
   final dio = Dio(options);
   dio.interceptors.add(ref.read(authInterceptorProvider));
   if (!kReleaseMode) {

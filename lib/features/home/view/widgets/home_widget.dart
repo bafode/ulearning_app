@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-//import 'package:beehive/common/routes/app_routes_names.dart';
+import 'package:beehive/common/routes/names.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 //import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/common/utils/image_res.dart';
@@ -15,6 +15,11 @@ import 'package:beehive/features/post/domain/post_filter.dart';
 import 'package:beehive/global.dart';
 import 'package:beehive/features/post/view/widgets/filter_botton.dart';
 import 'package:beehive/features/post/view/widgets/post_filter_bottom_sheet.dart';
+import 'package:beehive/features/home/controller/notification_controller.dart';
+import 'package:get/get.dart';
+import 'package:beehive/features/message/state.dart';
+import 'package:beehive/features/message/controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeBanner extends StatelessWidget {
   final PageController controller;
@@ -101,8 +106,7 @@ class UserName extends StatelessWidget {
   }
 }
 
-class HomeAppBar extends ConsumerWidget {
-
+class HomeAppBar extends ConsumerStatefulWidget {
   final AlwaysAliveProviderBase<PostFilter> filterProvider;
   final Function(PostFilter) onFilterChanged;
 
@@ -111,23 +115,36 @@ class HomeAppBar extends ConsumerWidget {
     required this.filterProvider,
     required this.onFilterChanged,
   });
-  
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends ConsumerState<HomeAppBar> {
+  MessageController? messageController;
+
+  @override
+  void initState() {
+    super.initState();
+    messageController = Get.put(MessageController());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SliverAppBar(
     floating: true,
     pinned: true,
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.transparent,
-    leading:   FilterButton(
+    leading: FilterButton(
     onTap: () {
       showModalBottomSheet(
         backgroundColor: Colors.white,
         context: context,
         builder: (BuildContext context) {
           return PostFilterBottomSheet(
-            filterProvider: filterProvider,
-            onFilterChanged: onFilterChanged,
+            filterProvider: widget.filterProvider,
+            onFilterChanged: widget.onFilterChanged,
           );
         },
       );
@@ -139,14 +156,50 @@ class HomeAppBar extends ConsumerWidget {
       imagePath: ImageRes.logo,
     ),
     actions: [
-      GestureDetector(
-        onTap: () {},
-        child: const Icon(
-          Icons.notifications_none_sharp,
-          color: Colors.black,
-          size: 30,
-        ),
-      ),
+      Obx(() {
+        final messageState = Get.find<MessageState>();
+        final int messageCount = messageState.msgList
+            .fold(0, (sum, message) => sum + (message.msg_num ?? 0));
+        final int callCount = messageState.callList.length;
+        final int totalCount = messageCount + callCount;
+        
+        return Stack(
+          children: [
+            GestureDetector(
+              onTap: () => Get.toNamed(AppRoutes.Unotification),
+              child: const Icon(
+                Icons.notifications_none_sharp,
+                color: Colors.black,
+                size: 30,
+              ),
+            ),
+            if (totalCount > 0)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '$totalCount',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        );
+      }),
       SizedBox(
         width: 10.w,
       ),
@@ -156,8 +209,7 @@ class HomeAppBar extends ConsumerWidget {
 }
 
 SliverAppBar homeAppBar(WidgetRef ref) {
- // var profileState = ref.watch(homeUserProfileProvider);
- 
+  final messageController = Get.put(MessageController());
   return SliverAppBar(
     floating: true,
     pinned: true,
@@ -173,14 +225,50 @@ SliverAppBar homeAppBar(WidgetRef ref) {
       imagePath: ImageRes.logo,
     ),
     actions: [
-      GestureDetector(
-        onTap: () {},
-        child: const Icon(
-          Icons.notifications_none_sharp,
-          color: AppColors.primaryElement,
-          size: 30,
-        ),
-      ),
+      Obx(() {
+        final messageState = Get.find<MessageState>();
+        final int messageCount = messageState.msgList
+            .fold(0, (sum, message) => sum + (message.msg_num ?? 0));
+        final int callCount = messageState.callList.length;
+        final int totalCount = messageCount + callCount;
+        
+        return Stack(
+          children: [
+            GestureDetector(
+              onTap: () => Get.toNamed(AppRoutes.Unotification),
+              child: const Icon(
+                Icons.notifications_none_sharp,
+                color: AppColors.primaryElement,
+                size: 30,
+              ),
+            ),
+            if (totalCount > 0)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '$totalCount',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        );
+      }),
       SizedBox(
         width: 10.w,
       ),
