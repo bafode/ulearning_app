@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:beehive/common/api/contact.dart';
 import 'package:beehive/common/routes/names.dart';
 import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/features/follower/index.dart';
 import 'package:beehive/global.dart';
 import 'package:flutter/foundation.dart';
@@ -58,7 +61,9 @@ class FollowersController extends GetxController {
   Future<void> toggleFollow(String targetId) async {
     try {
       EasyLoading.show();
-      await ContactAPI.toggleFollow(targetId);
+      final response=await ContactAPI.toggleFollow(targetId);
+      await Global.storageService
+          .setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(response));
        followingStatus[targetId] = !isFollowing(targetId);
       EasyLoading.dismiss();
     } catch (e) {

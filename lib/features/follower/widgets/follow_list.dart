@@ -144,8 +144,8 @@ class FollowersList extends GetView<FollowersController> {
                     SizedBox(width: 4.w),
                     Text(
                       controller.isFollowing(item.id ?? "") 
-                          ? "Unfollow" 
-                          : "Follow",
+                          ? "Retirer" 
+                          : "Ajouter",
                       style: TextStyle(
                         color: controller.isFollowing(item.id ?? "") 
                             ? Colors.white 

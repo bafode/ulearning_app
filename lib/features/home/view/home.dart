@@ -102,23 +102,47 @@ class _HomeState extends ConsumerState<Home> {
     final initialLoading = postState.isLoading && repositories.isEmpty;
     final loadingMore = postState.isLoading && repositories.isNotEmpty;
 
-    return initialLoading
-        ? shimmerLoading() // Affiche une animation de chargement si les posts sont encore en cours de récupération
-        : repositories.isEmpty
-            ? [
-                const SliverEmptySearch(text: "No Posts found")
-              ] // Si aucune donnée n'est trouvée
-            : [
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => BeehavePostWidget(
-                        post: repositories[index]), // Affiche chaque post
-                    childCount: repositories.length,
-                  ),
+    // Only show the "No Posts found" message during initial loading when there are no posts
+    // Don't show it when we've reached the end of the list
+    if (initialLoading) {
+      return shimmerLoading(); // Affiche une animation de chargement si les posts sont encore en cours de récupération
+    } else if (repositories.isEmpty && !viewModel.canLoadMore) {
+      // Si aucun post n'est disponible, essayer de charger depuis SharedPreferences
+      return [
+        FutureBuilder<List<Post>>(
+          future: viewModel.getPostsFromLocalStorage(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SliverLoadingSpinner();
+            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              // Afficher les posts depuis SharedPreferences
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => BeehavePostWidget(
+                      post: snapshot.data![index]),
+                  childCount: snapshot.data!.length,
                 ),
-                if (loadingMore)
-                  const SliverLoadingSpinner(), // Affiche un spinner lors du chargement supplémentaire
-              ];
+              );
+            } else {
+              // Aucun post disponible, même dans SharedPreferences
+              return const SliverEmptySearch(text: "No Posts found");
+            }
+          },
+        )
+      ];
+    } else {
+      return [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => BeehavePostWidget(
+                post: repositories[index]), // Affiche chaque post
+            childCount: repositories.length,
+          ),
+        ),
+        if (loadingMore)
+          const SliverLoadingSpinner(), // Affiche un spinner lors du chargement supplémentaire
+      ];
+    }
   }
 
   // Méthode pour afficher l'animation de chargement

@@ -51,6 +51,9 @@ class AppPages {
     GetPage(
       name: AppRoutes.WELCOME,
       page: () => const Welcome(),
+      middlewares: [
+        RouteWelcomeMiddleware(priority: 1),
+      ],
     ),
     GetPage(
       name: AppRoutes.SIGN_IN,
@@ -59,6 +62,9 @@ class AppPages {
     GetPage(
       name: AppRoutes.AUTH,
       page: () => const Auth(),
+      middlewares: [
+        RouteWelcomeMiddleware(priority: 1),
+      ],
     ),
     GetPage(
       name: AppRoutes.SIGN_UP,

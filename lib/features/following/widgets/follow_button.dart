@@ -50,7 +50,7 @@ class FollowButton extends StatelessWidget {
               ),
               SizedBox(width: 4.w),
               Text(
-                isFollowing ? "Unfollow" : "Follow",
+                isFollowing ? "Retirer" : "Ajouter",
                 style: TextStyle(
                   color: isFollowing ? Colors.white : AppColors.primaryElement,
                   fontSize: 13.sp,

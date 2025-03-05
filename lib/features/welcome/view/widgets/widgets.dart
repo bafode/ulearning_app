@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:beehive/common/routes/names.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/global.dart';
@@ -89,10 +91,12 @@ Widget _nextButton(int index, PageController controller, BuildContext context) {
           curve: Curves.easeInOut,
         );
       } else {
+        // Définir que l'utilisateur a vu l'écran de bienvenue
         Global.storageService
             .setBool(AppConstants.STORAGE_DEVICE_OPEN_FIRST_KEY, true);
 
-        Navigator.pushNamed(context, "/auth");
+        // Utiliser Get.offAllNamed au lieu de Navigator.pushNamed pour respecter le système de routage
+        Get.offAllNamed(AppRoutes.AUTH);
       }
     },
     child: Container(

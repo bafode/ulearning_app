@@ -7,7 +7,7 @@ import 'package:beehive/common/entities/auth/logoutRequest/logout_request.dart';
 import 'package:beehive/common/entities/auth/token/tokens.dart';
 part 'application_nav_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ApplicationNavNotifier extends _$ApplicationNavNotifier {
   @override
   int build() {

@@ -57,10 +57,7 @@ class ProfileSection extends ConsumerWidget {
                       )
                     : CircleAvatar(
                         radius: 32.r,
-                        backgroundImage: NetworkImage(
-                          data.avatar == "default.png"
-                              ? "${AppConstants.SERVER_API_URL}${data.avatar ?? ''}"
-                              : data.avatar ?? '',
+                        backgroundImage: NetworkImage(data.avatar!
                         ),
                       ),
               ),

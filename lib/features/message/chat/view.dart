@@ -1,7 +1,10 @@
+import 'package:beehive/common/routes/names.dart';
 import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
 import 'package:beehive/features/message/chat/widgets/chat_list.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,7 +23,9 @@ class ChatPage extends GetView<ChatController> {
           size: 20.sp,
         ),
         onTap: (){
-          Get.back();
+          final container = ProviderContainer();
+         container.read(applicationNavNotifierProvider.notifier).changeIndex(2);
+          Get.toNamed(AppRoutes.APPLICATION);
         },
       ),
       title:Obx((){

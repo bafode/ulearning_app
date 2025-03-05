@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:beehive/common/api/contact.dart';
 import 'package:beehive/common/routes/names.dart';
+import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/features/following/state.dart';
 import 'package:beehive/global.dart';
 import 'package:flutter/foundation.dart';
@@ -66,7 +69,9 @@ class FollowingController extends GetxController {
       state.followingStatus.refresh(); // Force UI update
 
       // Make API call in background
-      await ContactAPI.toggleFollow(targetId);
+      final response=await ContactAPI.toggleFollow(targetId);
+      await Global.storageService.setString(
+          AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(response));
        if (!newStatus) {
         state.followingList.removeWhere((user) => user.token == targetId);
       }

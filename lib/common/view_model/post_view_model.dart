@@ -34,7 +34,6 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
   @override
   FutureOr<List<Post>> loadPage(int page) async {
     try {
-     
       final postResponse = await repository.getPosts(
         query: currentFilter.query,
         category: currentFilter.category,
@@ -42,17 +41,51 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
         page: page,
       );
 
+      // Vérifier si nous avons atteint le nombre total de posts
       final previousLength = state.valueOrNull?.length ?? 0;
-      _canLoadMore = previousLength + postResponse.results.length <
-          postResponse.totalResults;
+      final totalFetched = previousLength + postResponse.results.length;
+      
+      // Mettre à jour canLoadMore en fonction du nombre total de posts
+      _canLoadMore = totalFetched < postResponse.totalResults;
+      
+      // Si nous avons atteint le nombre total ou s'il n'y a pas de nouveaux résultats, 
+      // désactiver le chargement de plus de posts
+      if (postResponse.results.isEmpty || totalFetched >= postResponse.totalResults) {
+        _canLoadMore = false;
+      }
 
       await savePostsToLocalStorage(postResponse.results);
 
-      emitIfChanged(postResponse.results);
+      // Si c'est la première page, remplacer l'état
+      if (page == initialPage) {
+        state = AsyncData(postResponse.results);
+      } else {
+        // Sinon, ajouter aux posts existants
+        final currentPosts = state.valueOrNull ?? [];
+        final combinedPosts = [...currentPosts, ...postResponse.results];
+        state = AsyncData(combinedPosts);
+      }
+      
       return postResponse.results;
     } catch (e) {
       handleError(e);
-      return getPostsFromLocalStorage();
+      // En cas d'erreur, charger les posts depuis SharedPreferences
+      final cachedPosts = await getPostsFromLocalStorage();
+      if (cachedPosts.isNotEmpty) {
+        // Mettre à jour l'état avec les posts en cache
+        if (page == initialPage) {
+          // Si c'est la première page, remplacer complètement l'état
+          state = AsyncData(cachedPosts);
+        } else {
+          // Si c'est une page suivante, ajouter aux posts existants
+          final currentPosts = state.valueOrNull ?? [];
+          final combinedPosts = [...currentPosts, ...cachedPosts];
+          state = AsyncData(combinedPosts);
+        }
+        // Indiquer qu'il n'y a plus de pages à charger puisque nous utilisons le cache
+        _canLoadMore = false;
+      }
+      return cachedPosts;
     }
   }
 
@@ -115,6 +148,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
 
   Future<void> saveSinglePostToLocalStorage(Post post) async {
     try {
+      // Update local storage
       final posts = await getPostsFromLocalStorage();
       final index = posts.indexWhere((p) => p.id == post.id);
 
@@ -125,6 +159,17 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       }
 
       await savePostsToLocalStorage(posts);
+      
+      // Update the state to reflect changes in the UI
+      if (state.hasValue) {
+        final currentPosts = state.value!.toList();
+        final stateIndex = currentPosts.indexWhere((p) => p.id == post.id);
+        
+        if (stateIndex != -1) {
+          currentPosts[stateIndex] = post;
+          state = AsyncData(currentPosts);
+        }
+      }
     } catch (e) {
       handleError(e);
     }
@@ -186,8 +231,15 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       return posts;
     } catch (e) {
       handleError(e);
-      state = const AsyncData([]);
-      return [];
+      // Essayer de charger les posts depuis SharedPreferences en cas d'erreur
+      final cachedPosts = await getPostsFromLocalStorage();
+      if (cachedPosts.isNotEmpty) {
+        state = AsyncData(cachedPosts);
+        return cachedPosts;
+      } else {
+        state = const AsyncData([]);
+        return [];
+      }
     }
   }
 

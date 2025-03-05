@@ -5,14 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 import 'package:beehive/common/widgets/app_textfields.dart';
-import 'package:beehive/common/widgets/botton_widgets.dart';
 import 'package:beehive/features/sign_in/view/widgets/sign_in_widgets.dart';
 import 'package:beehive/features/sign_up/controller/sign_up_controller.dart';
 import 'package:beehive/features/sign_up/provider/register_notifier.dart';
-import 'package:get/get.dart';
 
 class RegistrationForm extends ConsumerStatefulWidget {
-
   const RegistrationForm({super.key});
 
   @override
@@ -21,7 +18,6 @@ class RegistrationForm extends ConsumerStatefulWidget {
 
 class RegistrationFormState extends ConsumerState<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
-
   late SignUpController _controller;
 
   @override
@@ -102,10 +98,8 @@ class RegistrationFormState extends ConsumerState<RegistrationForm> {
     return _isChecked ? null : "Vous devez accepter les conditions";
   }
 
- 
-
-
-ondispose() {
+  @override
+  void dispose() {
     firstName.dispose();
     lastName.dispose();
     email.dispose();
@@ -116,35 +110,52 @@ ondispose() {
 
   @override
   Widget build(BuildContext context) {
-    final state= ref.watch(signUpNotifierProvier);
+    final state = ref.watch(signUpNotifierProvier);
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Column(
           children: [
-            const SizedBox(height: 10),
+            SizedBox(height: 20.h),
+            Text(
+              "Créez votre compte",
+              style: TextStyle(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              "Remplissez les informations ci-dessous",
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Colors.black54,
+              ),
+            ),
+            SizedBox(height: 30.h),
             AppTextField(
-                    controller: lastName,
-                    text: "Nom",
-                    hintText: "Entrez votre nom",
-                    iconName: Icons.person,
-                    validator: validateLastName,
-                    onChanged: (value) => ref
-                        .read(signUpNotifierProvier.notifier)
-                        .onlastNameChange(value),
-                  ),
-            const SizedBox(height: 12),
+              controller: lastName,
+              text: "Nom",
+              hintText: "Entrez votre nom",
+              iconName: Icons.person_outline,
+              validator: validateLastName,
+              onChanged: (value) => ref
+                  .read(signUpNotifierProvier.notifier)
+                  .onlastNameChange(value),
+            ),
+            SizedBox(height: 16.h),
             AppTextField(
-                    controller: firstName,
-                    text: "Prénom",
-                    iconName: Icons.person,
-                    hintText: "Entrez votre prénom",
-                    validator: validateFirstName,
-                    onChanged: (value) => ref
-                        .read(signUpNotifierProvier.notifier)
-                        .onfirstNameChange(value),
-                  ),
-            const SizedBox(height: 12),
+              controller: firstName,
+              text: "Prénom",
+              iconName: Icons.person_outline,
+              hintText: "Entrez votre prénom",
+              validator: validateFirstName,
+              onChanged: (value) => ref
+                  .read(signUpNotifierProvier.notifier)
+                  .onfirstNameChange(value),
+            ),
+            SizedBox(height: 16.h),
             AppTextField(
               controller: email,
               text: "Email",
@@ -152,115 +163,121 @@ ondispose() {
               hintText: "Entrez votre adresse email",
               validator: validateEmail,
               onChanged: (value) => ref
-                        .read(signUpNotifierProvier.notifier)
-                        .onUserEmailChange(value),
+                  .read(signUpNotifierProvier.notifier)
+                  .onUserEmailChange(value),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 16.h),
             AppTextField(
               controller: password,
               text: "Mot de passe",
               hintText: "Entrez votre mot de passe",
-              iconName: (state.passwordVisibility!)
-                  ? Icons.visibility_outlined
-                  : Icons.visibility_off_outlined,
-              obscureText: state.passwordVisibility!,
+              iconName: Icons.lock_outline,
+              obscureText: !state.passwordVisibility!,
               validator: validatePassword,
               onChanged: (value) => ref
-                        .read(signUpNotifierProvier.notifier)
-                        .onUserPasswordChange(value),
+                  .read(signUpNotifierProvier.notifier)
+                  .onUserPasswordChange(value),
               onChangeVisibility: () {
                 ref
                     .read(signUpNotifierProvier.notifier)
-                    .onPasswordVisibilityChange(
-                        !(state.passwordVisibility!));
+                    .onPasswordVisibilityChange(!(state.passwordVisibility!));
               },
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 16.h),
             AppTextField(
               controller: confirmPassword,
               text: "Confirmez le mot de passe",
               hintText: "Confirmez votre mot de passe",
-              obscureText: state.rePasswordVisibility!,
-              iconName: (state.rePasswordVisibility!)
-                  ? Icons.visibility_outlined
-                  : Icons.visibility_off_outlined,
+              iconName: Icons.lock_outline,
+              obscureText: !state.rePasswordVisibility!,
               validator: validateConfirmPassword,
               onChanged: (value) => ref
-                        .read(signUpNotifierProvier.notifier)
-                        .onUserRePasswordChange(value),
-               onChangeVisibility: () {
+                  .read(signUpNotifierProvier.notifier)
+                  .onUserRePasswordChange(value),
+              onChangeVisibility: () {
                 ref
-                    .watch(signUpNotifierProvier.notifier)
-                    .onRePasswordVisibilityChange(
-                        !(state.rePasswordVisibility ?? true));
+                    .read(signUpNotifierProvier.notifier)
+                    .onRePasswordVisibilityChange(!(state.rePasswordVisibility ?? true));
               },
             ),
-            const SizedBox(height: 25),
-             // Vos champs de formulaire existants ici
-
-            const SizedBox(height: 16),
-            
-            Row(
-              children: [
-                Checkbox(
-                  value: _isChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      _isChecked = value ?? false;
-                    });
-                  },
+            SizedBox(height: 30.h),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Colors.black87.withOpacity(0.1),
                 ),
-                Expanded(
-                  child: RichText(
-                    text: TextSpan(
-                      text: "En vous inscrivant, vous acceptez nos ",
-                      style: const TextStyle(color: Colors.black,fontSize: 16.0),
-                      children: [
-                        TextSpan(
-                          text: "Politique de confidentialité",
-                          style: const TextStyle(
-                            color: AppColors.primaryText,
-                            decoration: TextDecoration.underline,
-                            fontSize: 16.0
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // Remplacez par le lien vers vos termes et conditions
-                            //  Get.toNamed(AppRoutes.WEBVIEW);
-                              Navigator.of(context).pushNamed(
-                                AppRoutes.WEBVIEW,
-                                arguments: {"url": "https://beehiveapp.fr/privacy-policy"},
-                              );
-                            },
-                        ),
-                        const TextSpan(
-                          text: " et notre ",
-                          style: TextStyle(
-                            fontSize: 16.0
-                          )
-                        ),
-                        TextSpan(
-                          text: "Conditions Générales d'Utilisation.",
-                          style: const TextStyle(
-                            color: AppColors.primaryText,
-                            decoration: TextDecoration.underline,
-                            fontSize: 16.0
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // Remplacez par le lien vers votre politique de confidentialité
-                            //  Get.toNamed(AppRoutes.PRIVACY);
-                             Navigator.of(context).pushNamed(
-                                AppRoutes.WEBVIEW,
-                                arguments: {"url": "https://beehiveapp.fr/terms-and-conditions"},
-                              );
-                            },
-                        ),
-                      ],
+              ),
+              padding: EdgeInsets.all(16.w),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Transform.scale(
+                    scale: 0.9,
+                    child: Checkbox(
+                      value: _isChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          _isChecked = value ?? false;
+                        });
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      side: BorderSide(
+                        color: Colors.black87.withOpacity(0.5),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        text: "En vous inscrivant, vous acceptez nos ",
+                        style: const TextStyle(color: Colors.black, fontSize: 16.0),
+                        children: [
+                          TextSpan(
+                            text: "Politique de confidentialité",
+                            style: const TextStyle(
+                              color: AppColors.primaryText,
+                              decoration: TextDecoration.underline,
+                              fontSize: 16.0
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context).pushNamed(
+                                  AppRoutes.WEBVIEW,
+                                  arguments: {"url": "https://beehiveapp.fr/privacy-policy"},
+                                );
+                              },
+                          ),
+                          const TextSpan(
+                            text: " et notre ",
+                            style: TextStyle(
+                              fontSize: 16.0
+                            )
+                          ),
+                          TextSpan(
+                            text: "Conditions Générales d'Utilisation.",
+                            style: const TextStyle(
+                              color: AppColors.primaryText,
+                              decoration: TextDecoration.underline,
+                              fontSize: 16.0
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context).pushNamed(
+                                  AppRoutes.WEBVIEW,
+                                  arguments: {"url": "https://beehiveapp.fr/terms-and-conditions"},
+                                );
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             if (validateTerms() != null)
               Padding(
@@ -270,71 +287,93 @@ ondispose() {
                   style: TextStyle(color: Colors.red, fontSize: 12.sp),
                 ),
               ),
-            const SizedBox(height: 25),
-            Center(
-              child: AppButton(
-                buttonName: "S'inscrire",
-                isLogin: true,
-                isEnabled: state.isFirstnameValid! &&
-                    state.isLastnameValid! &&
-                    state.isEmailValid! &&
-                    state.isPasswordValid! &&
-                    state.isRePasswordValid! &&
-                    _isChecked,
-                context: context,
-                func:()=> _controller.handleSignUp("email"),
+            SizedBox(height: 30.h),
+            SizedBox(
+              width: double.infinity,
+              height: 55.h,
+              child: ElevatedButton(
+                onPressed: (state.isFirstnameValid! &&
+                        state.isLastnameValid! &&
+                        state.isEmailValid! &&
+                        state.isPasswordValid! &&
+                        state.isRePasswordValid! &&
+                        _isChecked)
+                    ? () => _controller.handleSignUp("email")
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryElement,
+                  foregroundColor: Colors.white,
+                  disabledBackgroundColor: Colors.black12,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: Text(
+                  "S'inscrire",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             Container(
-                    margin: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Row(children: <Widget>[
-                      Expanded(
-                          child: Divider(
-                        height: 2.h,
-                        indent: 50,
-                        color: AppColors.primarySecondaryElementText,
-                      )),
-                      const Text("  ou  "),
-                      Expanded(
-                          child: Divider(
-                        height: 2.h,
-                        endIndent: 50,
-                        color: AppColors.primarySecondaryElementText,
-                      )),
-                    ]),
+              margin: EdgeInsets.symmetric(vertical: 20.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      height: 1.h,
+                      color: Colors.black12,
+                    ),
                   ),
-
-                  ThirdPartyLogin(controller: _controller,),
-                  const SizedBox(height: 10),
-                   Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                           Text(
-                              "Vous avez déjà un compte?",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.primaryText,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          const SizedBox(width: 10,),
-                           GestureDetector(
-                                child: Text(
-                                  "se connecter",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: AppColors.primaryElement,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 12.sp,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(AppRoutes.SIGN_IN);
-                                },
-                          ),
-                        ],
-                      )
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Text(
+                      "ou",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      height: 1.h,
+                      color: Colors.black12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ThirdPartyLogin(controller: _controller),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Vous avez déjà un compte? ",
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 12.sp,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pushNamed(AppRoutes.SIGN_IN),
+                  child: Text(
+                    "Se connecter",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

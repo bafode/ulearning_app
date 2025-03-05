@@ -1,5 +1,6 @@
 
 import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
+import 'package:beehive/common/entities/user/user.dart';
 import 'package:beehive/common/services/http_util.dart';
 
 class ContactAPI {
@@ -26,10 +27,11 @@ class ContactAPI {
     return ContactResponseEntity.fromJson(response);
   }
 
-  static Future<void> toggleFollow(String targetId) async {
+  static Future<User> toggleFollow(String targetId) async {
     print("targetId: $targetId");
     var response = await HttpUtil().patch(
       "v1/users/$targetId/follow",
     );
+    return User.fromJson(response);
   }
 }

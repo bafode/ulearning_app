@@ -29,6 +29,8 @@ class Post with _$Post {
     required int? likesCount,
     required List<String>? domain,
     required List<Comment>? comments,
+    required String? createdAt,
+    required String? updatedAt,
     required String id,
   }) = _Post;
 
@@ -41,6 +43,7 @@ class Author with _$Author {
     required String? firstname,
     required String? lastname,
     required String? email,
+    required String? school,
     required String? avatar,
     required String id,
   }) = _Author;

@@ -277,6 +277,8 @@ mixin _$Post {
   int? get likesCount => throw _privateConstructorUsedError;
   List<String>? get domain => throw _privateConstructorUsedError;
   List<Comment>? get comments => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
+  String? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
   /// Serializes this Post to a JSON map.
@@ -303,6 +305,8 @@ abstract class $PostCopyWith<$Res> {
       int? likesCount,
       List<String>? domain,
       List<Comment>? comments,
+      String? createdAt,
+      String? updatedAt,
       String id});
 
   $AuthorCopyWith<$Res> get author;
@@ -332,6 +336,8 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? likesCount = freezed,
     Object? domain = freezed,
     Object? comments = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -371,6 +377,14 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<Comment>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -406,6 +420,8 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       int? likesCount,
       List<String>? domain,
       List<Comment>? comments,
+      String? createdAt,
+      String? updatedAt,
       String id});
 
   @override
@@ -433,6 +449,8 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? likesCount = freezed,
     Object? domain = freezed,
     Object? comments = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
   }) {
     return _then(_$PostImpl(
@@ -472,6 +490,14 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
               as List<Comment>?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -493,6 +519,8 @@ class _$PostImpl implements _Post {
       required this.likesCount,
       required final List<String>? domain,
       required final List<Comment>? comments,
+      required this.createdAt,
+      required this.updatedAt,
       required this.id})
       : _media = media,
         _likes = likes,
@@ -551,11 +579,15 @@ class _$PostImpl implements _Post {
   }
 
   @override
+  final String? createdAt;
+  @override
+  final String? updatedAt;
+  @override
   final String id;
 
   @override
   String toString() {
-    return 'Post(title: $title, content: $content, author: $author, category: $category, media: $media, likes: $likes, likesCount: $likesCount, domain: $domain, comments: $comments, id: $id)';
+    return 'Post(title: $title, content: $content, author: $author, category: $category, media: $media, likes: $likes, likesCount: $likesCount, domain: $domain, comments: $comments, createdAt: $createdAt, updatedAt: $updatedAt, id: $id)';
   }
 
   @override
@@ -574,6 +606,10 @@ class _$PostImpl implements _Post {
                 other.likesCount == likesCount) &&
             const DeepCollectionEquality().equals(other._domain, _domain) &&
             const DeepCollectionEquality().equals(other._comments, _comments) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id));
   }
 
@@ -590,6 +626,8 @@ class _$PostImpl implements _Post {
       likesCount,
       const DeepCollectionEquality().hash(_domain),
       const DeepCollectionEquality().hash(_comments),
+      createdAt,
+      updatedAt,
       id);
 
   /// Create a copy of Post
@@ -619,6 +657,8 @@ abstract class _Post implements Post {
       required final int? likesCount,
       required final List<String>? domain,
       required final List<Comment>? comments,
+      required final String? createdAt,
+      required final String? updatedAt,
       required final String id}) = _$PostImpl;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
@@ -642,6 +682,10 @@ abstract class _Post implements Post {
   @override
   List<Comment>? get comments;
   @override
+  String? get createdAt;
+  @override
+  String? get updatedAt;
+  @override
   String get id;
 
   /// Create a copy of Post
@@ -661,6 +705,7 @@ mixin _$Author {
   String? get firstname => throw _privateConstructorUsedError;
   String? get lastname => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
+  String? get school => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
@@ -682,6 +727,7 @@ abstract class $AuthorCopyWith<$Res> {
       {String? firstname,
       String? lastname,
       String? email,
+      String? school,
       String? avatar,
       String id});
 }
@@ -704,6 +750,7 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
     Object? firstname = freezed,
     Object? lastname = freezed,
     Object? email = freezed,
+    Object? school = freezed,
     Object? avatar = freezed,
     Object? id = null,
   }) {
@@ -719,6 +766,10 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      school: freezed == school
+          ? _value.school
+          : school // ignore: cast_nullable_to_non_nullable
               as String?,
       avatar: freezed == avatar
           ? _value.avatar
@@ -743,6 +794,7 @@ abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
       {String? firstname,
       String? lastname,
       String? email,
+      String? school,
       String? avatar,
       String id});
 }
@@ -763,6 +815,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
     Object? firstname = freezed,
     Object? lastname = freezed,
     Object? email = freezed,
+    Object? school = freezed,
     Object? avatar = freezed,
     Object? id = null,
   }) {
@@ -778,6 +831,10 @@ class __$$AuthorImplCopyWithImpl<$Res>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      school: freezed == school
+          ? _value.school
+          : school // ignore: cast_nullable_to_non_nullable
               as String?,
       avatar: freezed == avatar
           ? _value.avatar
@@ -798,6 +855,7 @@ class _$AuthorImpl implements _Author {
       {required this.firstname,
       required this.lastname,
       required this.email,
+      required this.school,
       required this.avatar,
       required this.id});
 
@@ -811,13 +869,15 @@ class _$AuthorImpl implements _Author {
   @override
   final String? email;
   @override
+  final String? school;
+  @override
   final String? avatar;
   @override
   final String id;
 
   @override
   String toString() {
-    return 'Author(firstname: $firstname, lastname: $lastname, email: $email, avatar: $avatar, id: $id)';
+    return 'Author(firstname: $firstname, lastname: $lastname, email: $email, school: $school, avatar: $avatar, id: $id)';
   }
 
   @override
@@ -830,6 +890,7 @@ class _$AuthorImpl implements _Author {
             (identical(other.lastname, lastname) ||
                 other.lastname == lastname) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.school, school) || other.school == school) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.id, id) || other.id == id));
   }
@@ -837,7 +898,7 @@ class _$AuthorImpl implements _Author {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, firstname, lastname, email, avatar, id);
+      Object.hash(runtimeType, firstname, lastname, email, school, avatar, id);
 
   /// Create a copy of Author
   /// with the given fields replaced by the non-null parameter values.
@@ -860,6 +921,7 @@ abstract class _Author implements Author {
       {required final String? firstname,
       required final String? lastname,
       required final String? email,
+      required final String? school,
       required final String? avatar,
       required final String id}) = _$AuthorImpl;
 
@@ -871,6 +933,8 @@ abstract class _Author implements Author {
   String? get lastname;
   @override
   String? get email;
+  @override
+  String? get school;
   @override
   String? get avatar;
   @override

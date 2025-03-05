@@ -11,7 +11,13 @@ class RouteWelcomeMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    print(Global.storageService.getDeviceFirstOpen());
+    print("RouteWelcomeMiddleware: route=$route, firstOpen=${Global.storageService.getDeviceFirstOpen()}");
+    
+    // Si la route actuelle est déjà WELCOME ou AUTH, ne pas rediriger pour éviter une boucle
+    if (route == AppRoutes.WELCOME || route == AppRoutes.AUTH) {
+      return null;
+    }
+    
     if (Global.storageService.getDeviceFirstOpen()) {
       // Already seen welcome screen
       if (Global.storageService.isLoggedIn()) {

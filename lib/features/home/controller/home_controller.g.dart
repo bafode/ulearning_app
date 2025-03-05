@@ -52,12 +52,12 @@ final logoutProvider = AutoDisposeAsyncNotifierProvider<Logout, bool>.internal(
 );
 
 typedef _$Logout = AutoDisposeAsyncNotifier<bool>;
-String _$homeUserProfileHash() => r'59537d0f0f22908d6fa519f1eab208f9e77ce11a';
+String _$homeUserProfileHash() => r'fc4b86eca8962368c75bba8f75c8ca681067dfd5';
 
 /// See also [HomeUserProfile].
 @ProviderFor(HomeUserProfile)
 final homeUserProfileProvider =
-    AutoDisposeAsyncNotifierProvider<HomeUserProfile, User>.internal(
+    AsyncNotifierProvider<HomeUserProfile, User>.internal(
   HomeUserProfile.new,
   name: r'homeUserProfileProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -67,7 +67,7 @@ final homeUserProfileProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeUserProfile = AutoDisposeAsyncNotifier<User>;
+typedef _$HomeUserProfile = AsyncNotifier<User>;
 String _$homePostListHash() => r'70fc3483940887048cd7e07960c05f4c9a479694';
 
 /// See also [HomePostList].

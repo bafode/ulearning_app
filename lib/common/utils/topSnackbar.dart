@@ -138,9 +138,9 @@ class TopSnackbarState extends State<TopSnackbar>
                                     height: 70.w,
                                     width: 70.w,
                                     decoration: BoxDecoration(
-                                      image: DecorationImage(
+                                      image: const DecorationImage(
                                           image: NetworkImage(
-                                              "${AppConstants.IMAGE_UPLOADS_PATH}default.png"),
+                                              "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg"),
                                           fit: BoxFit.fill),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(15.h)),

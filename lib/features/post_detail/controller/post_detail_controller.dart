@@ -17,9 +17,16 @@ class AsyncNotifierPostDetailController
   }
 
   asyncPostData(String id) async {
-    var response= await ref.read(postsViewModelProvider.notifier).getPost(id);
-    state = AsyncData(response);
-   
+    var response = await ref.read(postsViewModelProvider.notifier).getPost(id);
+    
+    if (response != null) {
+      // Update the post in the PostsViewModel to ensure changes are reflected in the home screen
+      await ref.read(postsViewModelProvider.notifier).saveSinglePostToLocalStorage(response);
+      
+      // Update the state with the fetched post
+      state = AsyncData(response);
+    } else {
+      state = const AsyncData(null);
+    }
   }
 }
-

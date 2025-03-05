@@ -4,9 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/routes/names.dart';
 import 'package:beehive/common/utils/app_colors.dart';
-//import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/common/utils/image_res.dart';
-//import 'package:beehive/common/widgets/app_shadow.dart';
 import 'package:beehive/common/widgets/image_widgets.dart';
 import 'package:beehive/common/widgets/text_widgets.dart';
 import 'package:beehive/features/application/provider/application_nav_notifier.dart';
@@ -107,7 +105,7 @@ class UserName extends StatelessWidget {
 }
 
 class HomeAppBar extends ConsumerStatefulWidget {
-  final AlwaysAliveProviderBase<PostFilter> filterProvider;
+  final ProviderBase<PostFilter> filterProvider;
   final Function(PostFilter) onFilterChanged;
 
   const HomeAppBar({
@@ -209,7 +207,6 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
 }
 
 SliverAppBar homeAppBar(WidgetRef ref) {
-  final messageController = Get.put(MessageController());
   return SliverAppBar(
     floating: true,
     pinned: true,

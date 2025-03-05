@@ -33,9 +33,15 @@ class PostBanner extends StatelessWidget {
         mediaUrl.toLowerCase().endsWith('.avi') ||
         mediaUrl.toLowerCase().endsWith('.mkv');
 
-    // For videos, we'll use 1.91:1 (landscape) or 4:5 (portrait) based on orientation
+    // Pour les vidéos, utiliser les ratios d'aspect d'Instagram
     if (isVideo) {
-      return 1.91; // Default to landscape video ratio
+      // Instagram prend en charge les ratios suivants pour les vidéos:
+      // - 1:1 (carré) - ratio = 1.0
+      // - 4:5 (portrait) - ratio = 0.8
+      // - 16:9 (paysage) - ratio = 1.78
+      
+      // Par défaut, utiliser 1:1 (carré) qui est le plus polyvalent
+      return 1.0;
     }
 
     // For images, we'll use 4:5 (portrait) as default since it's most common
@@ -161,25 +167,91 @@ class _MediaWidgetState extends State<MediaWidget> {
   }
 
   void _initializeVideoPlayer() {
-    Uri uri = Uri.parse(widget.url);
-    _videoController = VideoPlayerController.networkUrl(uri)
-      ..initialize().then((_) {
+    try {
+      Uri uri = Uri.parse(widget.url);
+      
+      // Créer des options de configuration pour le VideoPlayerController
+      // pour optimiser la qualité vidéo selon les standards Instagram
+      final videoPlayerOptions = VideoPlayerOptions(
+        mixWithOthers: false,
+        allowBackgroundPlayback: false,
+      );
+      
+      // Supprimer le formatHint pour éviter les problèmes de compatibilité
+      _videoController = VideoPlayerController.networkUrl(
+        uri,
+        videoPlayerOptions: videoPlayerOptions,
+        // Ne pas spécifier de formatHint pour laisser le lecteur détecter automatiquement
+      );
+      
+      // Ajouter un gestionnaire d'erreur pour les erreurs de plateforme
+      _videoController!.addListener(() {
+        if (_videoController!.value.hasError) {
+          print('Erreur de lecture vidéo: ${_videoController!.value.errorDescription}');
+          // Si une erreur se produit pendant la lecture, on peut essayer de réinitialiser
+          if (mounted && _isLoading) {
+            setState(() {
+              _isLoading = false;
+            });
+          }
+        }
+      });
+      
+      _videoController!.initialize().then((_) {
         if (mounted) {
+          // Obtenir les dimensions de la vidéo
+          final videoWidth = _videoController!.value.size.width;
+          final videoHeight = _videoController!.value.size.height;
+          
+          // Vérifier si les dimensions sont valides
+          if (videoWidth <= 0 || videoHeight <= 0) {
+            print('Dimensions vidéo invalides: ${videoWidth}x$videoHeight');
+            setState(() {
+              _isLoading = false;
+            });
+            return;
+          }
+          
+          // Calculer le ratio d'aspect réel de la vidéo
+          final videoAspectRatio = videoWidth / videoHeight;
+          
+          print('Vidéo originale: ${videoWidth}x$videoHeight, ratio: $videoAspectRatio');
+          
           setState(() {
             _isLoading = false;
-            _videoController?.play();
-            _videoController?.setLooping(true);
-            _videoController?.setVolume(_isMuted ? 0 : 1);
+            
+            // Vérifier si le contrôleur est toujours valide avant de jouer
+            if (_videoController != null && _videoController!.value.isInitialized) {
+              _videoController!.play();
+              _videoController!.setLooping(true);
+              _videoController!.setVolume(_isMuted ? 0 : 1);
+            }
           });
         }
       }).catchError((error) {
+        print('Erreur d\'initialisation vidéo: $error');
         if (mounted) {
           setState(() {
             _isLoading = false;
           });
-          _showErrorDialog(error.toString());
+          
+          // Afficher un message d'erreur plus convivial
+          String errorMessage = 'Impossible de lire cette vidéo.';
+          if (error.toString().contains('source error')) {
+            errorMessage = 'La source vidéo est inaccessible ou dans un format non pris en charge.';
+          }
+          _showErrorDialog(errorMessage);
         }
       });
+    } catch (e) {
+      print('Exception lors de l\'initialisation du lecteur vidéo: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        _showErrorDialog('Erreur lors de l\'initialisation du lecteur vidéo: $e');
+      }
+    }
   }
 
   void _showErrorDialog(String errorMessage) {
@@ -260,6 +332,20 @@ class _MediaWidgetState extends State<MediaWidget> {
             return _buildErrorWidget();
           }
 
+          // Obtenir les dimensions de la vidéo
+          final videoWidth = _videoController!.value.size.width;
+          final videoHeight = _videoController!.value.size.height;
+          double videoAspectRatio = _videoController!.value.aspectRatio;
+          
+          // Ajuster le ratio d'aspect pour correspondre aux standards Instagram
+          if (videoAspectRatio > 1.91) {
+            videoAspectRatio = 1.91; // Max landscape ratio (16:9 ~ 1.78)
+          } else if (videoAspectRatio < 0.8) {
+            videoAspectRatio = 0.8; // Max portrait ratio (4:5)
+          } else if ((videoAspectRatio - 1.0).abs() < 0.1) {
+            videoAspectRatio = 1.0; // Square if close to 1:1
+          }
+          
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(
@@ -271,32 +357,48 @@ class _MediaWidgetState extends State<MediaWidget> {
                 ),
               );
             },
-            child: AspectRatio(
-              aspectRatio: _videoController!.value.aspectRatio,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  VideoPlayer(_videoController!),
-                  if (!_videoController!.value.isPlaying)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                          size: 32.sp,
+            child: Container(
+              constraints: const BoxConstraints(
+                maxWidth: 1080, // Instagram max width
+                maxHeight: 1350, // Instagram max height (4:5 ratio)
+              ),
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: videoAspectRatio,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Utiliser FittedBox pour s'assurer que la vidéo remplit correctement l'espace
+                      FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: videoWidth,
+                          height: videoHeight,
+                          child: VideoPlayer(_videoController!),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _videoController!.play();
-                          });
-                        },
                       ),
-                    ),
-                ],
+                      if (!_videoController!.value.isPlaying)
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.play_arrow,
+                              color: Colors.white,
+                              size: 32.sp,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _videoController!.play();
+                              });
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               ),
             ),
           );
@@ -453,9 +555,46 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
           children: [
             // Video Player
             Center(
-              child: AspectRatio(
-                aspectRatio: widget.videoController.value.aspectRatio,
-                child: VideoPlayer(widget.videoController),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Obtenir les dimensions de la vidéo
+                  final videoWidth = widget.videoController.value.size.width;
+                  final videoHeight = widget.videoController.value.size.height;
+                  double videoAspectRatio = widget.videoController.value.aspectRatio;
+                  
+                  // Ajuster le ratio d'aspect pour correspondre aux standards Instagram
+                  // tout en préservant la qualité maximale en plein écran
+                  if (MediaQuery.of(context).orientation == Orientation.landscape) {
+                    // En mode paysage, utiliser le ratio d'origine pour maximiser la qualité
+                    return FittedBox(
+                      fit: BoxFit.contain,
+                      child: SizedBox(
+                        width: videoWidth,
+                        height: videoHeight,
+                        child: VideoPlayer(widget.videoController),
+                      ),
+                    );
+                  } else {
+                    // En mode portrait, respecter les contraintes d'Instagram
+                    if (videoAspectRatio > 1.91) {
+                      videoAspectRatio = 1.91; // Max landscape ratio (16:9 ~ 1.78)
+                    } else if (videoAspectRatio < 0.8) {
+                      videoAspectRatio = 0.8; // Max portrait ratio (4:5)
+                    }
+                    
+                    return AspectRatio(
+                      aspectRatio: videoAspectRatio,
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: SizedBox(
+                          width: videoWidth,
+                          height: videoHeight,
+                          child: VideoPlayer(widget.videoController),
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
             // Controls Overlay

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +34,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   bool isLiked = false;
   bool isFavorite = false;
   bool isFollowing = false;
+  bool isMine = false;
   int postLikeCount = 0;
   int commentCount = 0;
   
@@ -51,6 +53,22 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   void dispose() {
     controller.dispose();
     super.dispose();
+    // Reset UI State
+    isAnimating = false;
+    isExpanded = false;
+    
+    // Reset Post Interaction State
+    isLiked = false;
+    isFavorite = false;
+    isFollowing = false;
+    isMine = false;
+    postLikeCount = 0;
+    commentCount = 0;
+    
+    // Reset Data State
+    comments = [];
+    favorites = [];
+    currentUserId = null;
   }
 
   @override
@@ -78,6 +96,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         comments = widget.post.comments;
         commentCount = widget.post.comments?.length ?? 0;
         isFollowing = newFollowing;
+        isMine = profile.id == widget.post.author.id;
       });
     }
   }
@@ -150,6 +169,10 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
 
   // Favorite Management
   Future<void> handleFavoriteToggle() async {
+    if(kDebugMode) {
+      print('Current User ID: $currentUserId');
+      print('Post ID: ${widget.post.id}');
+    }
     if (currentUserId == null) {
       showErrorSnackbar('Please log in to add to favorites');
       return;
@@ -158,9 +181,10 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     setState(() {
       isFavorite = !isFavorite;
       if (isFavorite) {
+        favorites= List.from(favorites)..add(widget.post.id);
         favorites.add(widget.post.id);
       } else {
-        favorites.remove(widget.post.id);
+        favorites = List.from(favorites)..remove(widget.post.id);
       }
     });
 
@@ -269,7 +293,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         ),
       ),
       subtitle: Text(
-        "MDS Paris",
+        widget.post.author.school ?? "",
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
           fontSize: 11.sp,
           color: AppColors.primaryElement.withOpacity(0.7),
@@ -278,11 +304,12 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FollowButton(
-            buttonName: "s'abonner",
-            isFollowing: isFollowing,
-            onTap: handleFollowToggle,
-          ),
+          if (!isMine)
+            FollowButton(
+              buttonName: "s'abonner",
+              isFollowing: isFollowing,
+              onTap: handleFollowToggle,
+            ),
           SizedBox(width: 8.w),
           GestureDetector(
             onTap: () {
@@ -333,9 +360,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       child: Row(
         children: [
           buildLikeButton(),
-          SizedBox(width: 20.w),
+          SizedBox(width: 15.w),
           buildCommentButton(),
-          SizedBox(width: 20.w),
+          SizedBox(width: 15.w),
           buildShareButton(),
           const Spacer(),
           buildFavoriteButton(),

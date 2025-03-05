@@ -191,7 +191,7 @@ class SignInController {
     notifier.onUserEmailChange(email);
     notifier.onUserFirstNameChange(firstName);
     notifier.onUserLastNameChange(lastName);
-    notifier.onUserAvatarChange(photoUrl ?? "default.png");
+    notifier.onUserAvatarChange(photoUrl ?? "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg");
     notifier.onUserOpenIdChange(id);
     notifier.onUserAuthTypeChange(authType);
   }

@@ -25,7 +25,7 @@ class PostRepositoryImpl extends PostRepository {
       category: category?.value,
       sortBy: order?.value,
       page: page,
-      limit: limit ?? 10,
+      limit: limit ?? 30,
     );
     return response;
   }
@@ -41,7 +41,7 @@ class PostRepositoryImpl extends PostRepository {
     final response = await api.getFavorites(
       query: query,
       page: page,
-      limit: limit ?? 9,
+      limit: limit ?? 50,
     );
     return response;
   }
@@ -57,7 +57,43 @@ class PostRepositoryImpl extends PostRepository {
     final response = await api.getLoggedUserPost(
       query: query,
       page: page,
-      limit: limit ?? 9,
+      limit: limit ?? 50,
+    );
+    return response;
+  }
+
+  @override
+  Future<PostResponse> getUserPosts(
+    String userId, {
+    String? query,
+    SortOption? sort,
+    OrderOption? order,
+    int? page,
+    int? limit,
+  }) async {
+    final response = await api.getUserPosts(
+      userId,
+      query: query,
+      page: page,
+      limit: limit ?? 50,
+    );
+    return response;
+  }
+
+  @override
+  Future<PostResponse> getUserFavorites(
+    String userId, {
+    String? query,
+    SortOption? sort,
+    OrderOption? order,
+    int? page,
+    int? limit,
+  }) async {
+    final response = await api.getUserFavorites(
+      userId,
+      query: query,
+      page: page,
+      limit: limit ?? 50,
     );
     return response;
   }
