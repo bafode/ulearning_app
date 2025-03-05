@@ -7,7 +7,7 @@ part of 'post_detail_controller.dart';
 // **************************************************************************
 
 String _$asyncNotifierPostDetailControllerHash() =>
-    r'ad7d4c91944ee2fc94c211bdd74f22a737808775';
+    r'd32344923344604a48a667012a04594e23818daf';
 
 /// See also [AsyncNotifierPostDetailController].
 @ProviderFor(AsyncNotifierPostDetailController)

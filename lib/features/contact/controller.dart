@@ -49,6 +49,9 @@ class ContactController extends GetxController {
 
   if(fromMessages.docs.isEmpty&&toMessages.docs.isEmpty){
     var profile = Global.storageService.getUserProfile();
+    if(kDebugMode){
+      print("profile $profile");
+    }
     var msgdata = Msg(
       from_token: profile.id,
       to_token: contactItem.token,
@@ -56,10 +59,10 @@ class ContactController extends GetxController {
       from_lastname: profile.lastname,
       to_firstname: contactItem.firstname,
       to_lastname: contactItem.lastname,
-      from_avatar: profile.avatar,
-      to_avatar: contactItem.avatar,
-      from_online: profile.online,
-      to_online: contactItem.online,
+      from_avatar: profile.avatar??"https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+      to_avatar: contactItem.avatar??"https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+      from_online: profile.online??0,
+      to_online: contactItem.online??0,
       last_msg: "",
       last_time: Timestamp.now(),
       msg_num: 0,
@@ -75,8 +78,8 @@ class ContactController extends GetxController {
           "to_token":contactItem.token??"",
           "to_firstname":contactItem.firstname??"",
           "to_lastname":contactItem.lastname??"",
-          "to_avatar":contactItem.avatar??"",
-          "to_online":contactItem.online.toString()
+          "to_avatar":contactItem.avatar??"https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+          "to_online":"${contactItem.online??0}"
       }
 
     );
@@ -89,8 +92,8 @@ class ContactController extends GetxController {
             "to_token":contactItem.token??"",
             "to_firstname":contactItem.firstname??"",
             "to_lastname":contactItem.lastname??"",
-            "to_avatar":contactItem.avatar??"",
-            "to_online":contactItem.online.toString()
+            "to_avatar":contactItem.avatar??"https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+            "to_online":"${contactItem.online??0}"
           }
 
       );
@@ -103,8 +106,8 @@ class ContactController extends GetxController {
             "to_token":contactItem.token??"",
             "to_firstname":contactItem.firstname??"",
             "to_lastname":contactItem.lastname??"",
-            "to_avatar":contactItem.avatar??"",
-            "to_online":contactItem.online.toString()
+            "to_avatar":contactItem.avatar??"https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+            "to_online":"${contactItem.online??0}"
           }
 
       );

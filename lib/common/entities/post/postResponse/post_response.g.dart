@@ -42,6 +42,8 @@ _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       comments: (json['comments'] as List<dynamic>?)
           ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
       id: json['id'] as String,
     );
 
@@ -56,6 +58,8 @@ Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
       'likesCount': instance.likesCount,
       'domain': instance.domain,
       'comments': instance.comments,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
       'id': instance.id,
     };
 
@@ -63,6 +67,7 @@ _$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       firstname: json['firstname'] as String?,
       lastname: json['lastname'] as String?,
       email: json['email'] as String?,
+      school: json['school'] as String?,
       avatar: json['avatar'] as String?,
       id: json['id'] as String,
     );
@@ -72,6 +77,7 @@ Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
       'firstname': instance.firstname,
       'lastname': instance.lastname,
       'email': instance.email,
+      'school': instance.school,
       'avatar': instance.avatar,
       'id': instance.id,
     };

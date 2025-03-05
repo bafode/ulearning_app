@@ -56,6 +56,22 @@ abstract class RestClientApi {
     @Query("limit") int? limit,
   });
 
+  @GET("/v1/users/{userId}/posts")
+  Future<PostResponse> getUserPosts(
+    @Path("userId") String userId, {
+    @Query("query") String? query,
+    @Query("page") int? page,
+    @Query("limit") int? limit,
+  });
+
+  @GET("/v1/users/{userId}/favorites")
+  Future<PostResponse> getUserFavorites(
+    @Path("userId") String userId, {
+    @Query("query") String? query,
+    @Query("page") int? page,
+    @Query("limit") int? limit,
+  });
+
   @POST(AppConstants.loginEndPointUrl)
   Future<LoginResponse> login({
     @Body() required LoginRequest loginRequest,

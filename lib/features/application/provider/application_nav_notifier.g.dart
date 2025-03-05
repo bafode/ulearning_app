@@ -7,12 +7,12 @@ part of 'application_nav_notifier.dart';
 // **************************************************************************
 
 String _$applicationNavNotifierHash() =>
-    r'68c92b3ab6f66cde7d4116f5929cace8dd5d9eb3';
+    r'132ddb91706f31dc8ddc0c9be4d08ab4a29cbe80';
 
 /// See also [ApplicationNavNotifier].
 @ProviderFor(ApplicationNavNotifier)
 final applicationNavNotifierProvider =
-    AutoDisposeNotifierProvider<ApplicationNavNotifier, int>.internal(
+    NotifierProvider<ApplicationNavNotifier, int>.internal(
   ApplicationNavNotifier.new,
   name: r'applicationNavNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,7 @@ final applicationNavNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ApplicationNavNotifier = AutoDisposeNotifier<int>;
+typedef _$ApplicationNavNotifier = Notifier<int>;
 String _$isLoggedInHash() => r'3a97746f3b8e35bd2262b03c2ced9fc7e8b05275';
 
 /// See also [IsLoggedIn].

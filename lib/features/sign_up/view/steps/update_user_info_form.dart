@@ -67,7 +67,7 @@ class UpdateUserInfoFormState extends ConsumerState<UpdateUserInfoForm> {
 
   List<Map<String, dynamic>> categories = [
     {'label': 'DA', 'icon': Icons.brush},
-    {'label': 'Marketing', 'icon': Icons.mark_email_read},
+    {'label': 'Market', 'icon': Icons.mark_email_read},
     {'label': 'Dév', 'icon': Icons.code},
     {'label': 'UI/UX', 'icon': Icons.design_services},
   ];

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:beehive/common/services/storage.dart';
@@ -28,6 +29,7 @@ class Global {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     storageService = await StorageService().init();
+    await initializeDateFormatting('fr', null);
     
     // Initialize MessageState
     Get.put(MessageState());

@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/data/repository/impl/auth_repository_impl.dart';
 import 'package:beehive/common/routes/names.dart';
-import 'package:beehive/common/widgets/popup_messages.dart';
 import 'package:beehive/features/application/provider/application_nav_notifier.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -179,6 +179,10 @@ class LoggedUserPostController extends AsyncNotifier<List<Post>>
     if (_photo == null) return;
     // print(_photo);
     var result = await ChatAPI.uploadProfileImage(file: _photo,id: id);
+     EasyLoading.show(
+        indicator: const CircularProgressIndicator(),
+        maskType: EasyLoadingMaskType.clear,
+        dismissOnTap: true);
     await Global.storageService
         .setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result));
     EasyLoading.dismiss();

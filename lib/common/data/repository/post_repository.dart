@@ -27,6 +27,24 @@ abstract class PostRepository {
     int? limit,
   });
 
+  Future<PostResponse> getUserPosts(
+    String userId, {
+    String? query,
+    SortOption? sort,
+    OrderOption? order,
+    int? page,
+    int? limit,
+  });
+
+  Future<PostResponse> getUserFavorites(
+    String userId, {
+    String? query,
+    SortOption? sort,
+    OrderOption? order,
+    int? page,
+    int? limit,
+  });
+
   Future<PostCreateResponse?> createPost(
       String title, String content, String category,List<String> domain, List<MultipartFile> media);
 

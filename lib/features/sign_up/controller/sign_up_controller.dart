@@ -153,7 +153,7 @@ class SignUpController {
     notifier.onfirstNameChange(firstname);
     notifier.onlastNameChange(lastname);
     notifier.onUserAvatarChange(photoUrl ??
-        "default.png");
+        "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg");
     notifier.onUserOpenIdChange(id);
     notifier.onUserAuthTypeChange(authType);
   }

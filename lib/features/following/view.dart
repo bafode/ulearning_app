@@ -22,7 +22,7 @@ class FollowingPage extends GetView<FollowingController> {
         },
       ),
       title: Text(
-        "Following",
+        "Abonnements",
         style: TextStyle(
           color: Colors.white,
           fontSize: 16.sp,

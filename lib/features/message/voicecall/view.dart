@@ -1,6 +1,6 @@
 
 import 'package:beehive/common/utils/app_colors.dart';
-import 'package:beehive/common/utils/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,13 +43,37 @@ class VoiceCallPage extends GetView<VoiceCallController> {
                             borderRadius:
                             BorderRadius.all(Radius.circular(10.w)),
                           ),
-                          child: Image.network(
-                            controller.state.to_avatar.value==
-                                "uploads/default.png"? "${AppConstants.SERVER_API_URL}${controller.state.to_avatar.value}"
-                                :
-                            controller.state.to_avatar.value,
-                            fit: BoxFit.fill,
+                          child: CachedNetworkImage(
+                          imageUrl:
+                              Uri.tryParse(
+                                          controller.state.to_avatar.value )?.isAbsolute ==
+                                      true
+                                  ? controller.state.to_avatar.value
+                                  : controller.state.to_avatar.value,
+                          height: 50.w,
+                          width: 50.w,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(28.w)),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.primaryElement,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.person,
+                            size: 30.w,
+                            color: AppColors.primaryElement,
+                          ),
+                        ),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 6.h),
