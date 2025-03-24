@@ -29,7 +29,7 @@ class _OtpState extends ConsumerState<Otp> {
 
   bool hasError = false;
   String currentText = "";
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -109,7 +109,7 @@ class _OtpState extends ConsumerState<Otp> {
             height: 20,
           ),
           Form(
-            key: formKey,
+            key: _formKey,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 8.0,
@@ -234,7 +234,7 @@ class _OtpState extends ConsumerState<Otp> {
               height: 50,
               child: TextButton(
                 onPressed: () {
-                  formKey.currentState!.validate();
+                  _formKey.currentState!.validate();
                   _controller.handleEmailVerification();
                   // conditions for validating
                   if (emailVerificationResponseState == true) {

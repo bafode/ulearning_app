@@ -66,7 +66,7 @@ class Welcome extends ConsumerWidget {
                     child: DotsIndicator(
                       dotsCount: 3,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      position: index,
+                      position: index.toDouble(),
                       decorator: DotsDecorator(
                         size: Size(10.w, 10.w),
                         activeSize: Size(24.w, 8.h),
