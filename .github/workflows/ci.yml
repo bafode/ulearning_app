@@ -73,4 +73,4 @@ jobs:
 
       # 4. Construire l'AppBundle pour Android
       - name: Build Android AppBundle
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --verbose
