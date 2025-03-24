@@ -9,12 +9,14 @@ import 'package:beehive/common/entities/auth/resetPasswordRequest/reset_password
 import 'package:beehive/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:beehive/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
+import 'package:beehive/common/entities/error/api_error_response.dart';
 import 'package:beehive/common/entities/user/editProfileRequest/edit_profil_request.dart';
 import 'package:beehive/common/entities/user/user.dart';
+import 'package:dartz/dartz.dart';
 
 abstract class AuthRepository {
-  Future<LoginResponse?> login(LoginRequest params);
-  Future<LoginResponse> register(RegistrationRequest params);
+  Future<Either<ApiErrorResponse, LoginResponse>> login(LoginRequest params);
+  Future<Either<ApiErrorResponse, LoginResponse>> register(RegistrationRequest params);
   Future<void> sendEmailVerificationToken();
   Future<RegistrationResponse> verifyEmail(VerifyEmailRequest token);
   Future<RegistrationResponse> forgotPassword(ForgotPasswordRequest forgotPasswordRequest);

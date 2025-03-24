@@ -24,8 +24,8 @@ class ChatPage extends GetView<ChatController> {
         ),
         onTap: (){
           final container = ProviderContainer();
-         container.read(applicationNavNotifierProvider.notifier).changeIndex(2);
-          Get.toNamed(AppRoutes.APPLICATION);
+          container.read(applicationNavNotifierProvider.notifier).changeIndex(2);
+          Get.offAllNamed(AppRoutes.APPLICATION);
         },
       ),
       title:Obx((){

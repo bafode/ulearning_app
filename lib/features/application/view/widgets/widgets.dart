@@ -1,3 +1,4 @@
+import 'package:beehive/features/message/index.dart';
 import 'package:beehive/features/message/view.dart';
 import 'package:beehive/features/profile/view/profile.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';

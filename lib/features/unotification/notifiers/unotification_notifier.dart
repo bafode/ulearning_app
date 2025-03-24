@@ -5,8 +5,7 @@ part 'unotification_event.dart';
 part 'unotification_state.dart';
 
 class UnotificationNotifier extends StateNotifier<UnotificationState> {
-  UnotificationNotifier() : super(const UnotificationState()) {
-  }
+  UnotificationNotifier() : super(const UnotificationState());
 
   void onPageChanged(
       PageChanged event,

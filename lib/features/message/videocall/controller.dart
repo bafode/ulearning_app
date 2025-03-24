@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/models/entities.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/FirebaseMessageHandler.dart';
 import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/features/message/videocall/index.dart';
 import 'package:beehive/global.dart';
@@ -28,7 +30,7 @@ class VideoCallController extends GetxController {
   int call_s = 0;
   int call_m = 0;
   int call_h = 0;
-  late final Timer callTimer;
+  Timer? callTimer;
 
   ChannelProfileType channelProfileType =
       ChannelProfileType.channelProfileCommunication;
@@ -49,7 +51,16 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> initEngine() async {
-    await player.setAsset("assets/voice/Sound_Horizon.mp3");
+    // Configurer la sonnerie en fonction du rôle (expéditeur ou destinataire)
+    if (state.call_role == "anchor") {
+      // Sonnerie pour l'expéditeur (volume plus bas)
+      await player.setAsset("assets/voice/Sound_Horizon.mp3");
+      await player.setVolume(0.5); // Volume à 50% pour l'expéditeur
+    } else {
+      // Sonnerie pour le destinataire (volume plus haut)
+      await player.setAsset("assets/voice/Sound_Horizon.mp3");
+      await player.setVolume(1.0); // Volume maximum pour le destinataire
+    }
 
     engine = createAgoraRtcEngine();
     await engine.initialize(RtcEngineContext(
@@ -74,6 +85,13 @@ class VideoCallController extends GetxController {
       state.isJoined.value = false;
       state.onRemoteUID.value = 0;
       state.isShowAvatar.value = true;
+    }, onUserOffline: (RtcConnection connection, int remoteUid,
+            UserOfflineReasonType reason) {
+      print("---onUserOffline----- remoteUid: $remoteUid, reason: $reason");
+      // Si l'utilisateur distant se déconnecte, retourner à l'écran précédent
+      if (Get.currentRoute.contains(AppRoutes.VideoCall)) {
+        Get.back();
+      }
     }, onRtcStats: (RtcConnection connection, RtcStats stats) {
       print("time....");
       print(stats.duration);
@@ -92,6 +110,12 @@ class VideoCallController extends GetxController {
       // send notifcation to the other user
       await sendNotification("video");
       await player.play();
+    } // Si c'est le destinataire, ne pas jouer la sonnerie
+    else if (state.call_role == "audience") {
+      // Envoyer une notification pour informer l'appelant que l'appel a été accepté
+      await sendNotification("accept");
+      await FirebaseMassagingHandler.player.pause();
+      await FirebaseMassagingHandler.player.stop();
     }
   }
 
@@ -133,8 +157,9 @@ class VideoCallController extends GetxController {
     var res = await ChatAPI.call_notifications(params: callRequestEntity);
     if (res.code == 0) {
       print("notification success");
-    } else
+    } else {
       print("could not send notification");
+    }
   }
 
   Future<String> getToken() async {
@@ -193,27 +218,50 @@ class VideoCallController extends GetxController {
   }
 
   Future<void> joinChannel() async {
-    requestPermissions();
-    EasyLoading.show(
-        indicator: const CircularProgressIndicator(),
-        maskType: EasyLoadingMaskType.clear,
-        dismissOnTap: true);
+    try {
+      // Attendre que les permissions soient accordées avant de continuer
+      await requestPermissions();
 
-    String token = await getToken();
-    if (token.isEmpty) {
+      EasyLoading.show(
+          indicator: const CircularProgressIndicator(),
+          maskType: EasyLoadingMaskType.clear,
+          dismissOnTap: true);
+
+      // Afficher les informations de l'utilisateur pour le débogage
+      print("DEBUG: Joining channel as ${state.call_role}");
+      print("DEBUG: profile_token = $profile_token");
+      print("DEBUG: to_token = ${state.to_token.value}");
+
+      String token = await getToken();
+      if (token.isEmpty) {
+        print("ERROR: Failed to get token");
+        EasyLoading.dismiss();
+        Get.back();
+        return;
+      }
+
+      print("DEBUG: Got token: $token");
+      print("DEBUG: Channel ID: ${state.channelId.value}");
+
+      try {
+        await engine.joinChannel(
+            token: token,
+            channelId: state.channelId.value,
+            uid: 0,
+            options: ChannelMediaOptions(
+                channelProfile: channelProfileType,
+                clientRoleType: ClientRoleType.clientRoleBroadcaster));
+        print("DEBUG: Successfully called joinChannel");
+      } catch (e) {
+        print("ERROR joining channel: $e");
+        EasyLoading.showError("Erreur de connexion: $e");
+      }
+
       EasyLoading.dismiss();
-      Get.back();
-      return;
+    } catch (e) {
+      print("ERROR in joinChannel: $e");
+      EasyLoading.showError("Erreur: $e");
     }
-
-    await engine.joinChannel(
-        token: token,
-        channelId: state.channelId.value,
-        uid: 0,
-        options: ChannelMediaOptions(
-            channelProfile: channelProfileType,
-            clientRoleType: ClientRoleType.clientRoleBroadcaster));
-    EasyLoading.dismiss();
   }
 
   Future<void> leaveChannel() async {
@@ -283,24 +331,24 @@ class VideoCallController extends GetxController {
         .collection("message")
         .doc(state.doc_id.value)
         .withConverter(
-        fromFirestore: Msg.fromFirestore,
-        toFirestore: (Msg msgContent, options) =>
-            msgContent.toFirestore())
+            fromFirestore: Msg.fromFirestore,
+            toFirestore: (Msg msgContent, options) => msgContent.toFirestore())
         .get();
-    if(messageRes.data()!=null){
+    if (messageRes.data() != null) {
       var item = messageRes.data()!;
-      int toMsgNum = item.to_msg_num==null?0:item.to_msg_num!;
-      int fromMsgNum = item.from_msg_num==null?0:item.from_msg_num!;
-      if(item.from_token==profile_token){
+      int toMsgNum = item.to_msg_num == null ? 0 : item.to_msg_num!;
+      int fromMsgNum = item.from_msg_num == null ? 0 : item.from_msg_num!;
+      if (item.from_token == profile_token) {
         fromMsgNum = fromMsgNum + 1;
-      }else{
+      } else {
         toMsgNum = toMsgNum + 1;
       }
 
       await db.collection("message").doc(state.doc_id.value).update({
-        "to_msg_num":toMsgNum,
-        "from_msg_num":fromMsgNum,
-        "last_msg":sendContent, "last_time":Timestamp.now()
+        "to_msg_num": toMsgNum,
+        "from_msg_num": fromMsgNum,
+        "last_msg": sendContent,
+        "last_time": Timestamp.now()
       });
     }
   }
@@ -309,6 +357,8 @@ class VideoCallController extends GetxController {
     if (state.call_role == "anchor") {
       addCallTime();
     }
+    // Cancel the timer to avoid memory leaks
+    callTimer?.cancel();
     await player.pause();
     await engine.leaveChannel();
     await engine.release();

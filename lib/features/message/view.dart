@@ -169,7 +169,7 @@ class MessagePage extends GetView<MessageController> {
       child: InkWell(
         onTap: () {
           if(item.doc_id!=null){
-            Get.toNamed("/chat",
+            Get.offAllNamed("/chat",
               parameters: {
                 "doc_id":item.doc_id??"",
                 "to_token":item.token??"",
@@ -432,10 +432,15 @@ class MessagePage extends GetView<MessageController> {
                           sliver: controller.state.tabStatus.value
                               ? SliverList(
                                   delegate: SliverChildBuilderDelegate(
-                                      (context, index) {
-                                    var item = controller.state.msgList[index];
-                                    return _chatListItem(item);
-                                  }, childCount: controller.state.msgList.length),
+                                    (context, index) {
+                                      var item = controller.state.msgList[index];
+                                      if (item.last_msg == null || item.last_msg!.isEmpty) {
+                                        return const SizedBox.shrink();
+                                      }
+                                      return _chatListItem(item);
+                                    },
+                                    childCount: controller.state.msgList.length,
+                                  ),
                                 )
                               : SliverList(
                                   delegate: SliverChildBuilderDelegate(
@@ -470,13 +475,51 @@ class MessagePage extends GetView<MessageController> {
                           child: Image.asset("assets/icons/contact.png"),
                         ),
                         onTap: () {
-                          Get.toNamed(AppRoutes.CONTACT);
+                          Get.offAllNamed(AppRoutes.CONTACT);
                         },
                       ),
-                    )
+                    ),
+                    // Ensure TopSnackbar is added to the widget tree
+                    if (_Global.topSnakbarKey.currentState != null)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: _Global.topSnakbarKey.currentState!.build(context),
+                      ),
                   ],
                 ),
               ),
             )));
+  }
+}
+
+// Ensure Global.topSnakbarKey is initialized somewhere in your app
+class _Global {
+  static final GlobalKey<TopSnackbarState> topSnakbarKey = GlobalKey<TopSnackbarState>();
+}
+
+// Ensure TopSnackbar widget is implemented correctly
+class TopSnackbar extends StatefulWidget {
+  const TopSnackbar({super.key});
+
+  @override
+  TopSnackbarState createState() => TopSnackbarState();
+}
+
+class TopSnackbarState extends State<TopSnackbar> {
+  void show(String firstname, String lastname, String token, String avatar, String docId, String audience, String callType, String route) {
+    // Implement show logic
+  }
+
+  void hide() {
+    // Implement hide logic
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // Implement snackbar UI
+    );
   }
 }

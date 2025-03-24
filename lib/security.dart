@@ -14,17 +14,17 @@ String duSHA256(String input) {
 }
 
 String getRandomString(int length) {
-  const _chars =
+  const chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  Random _rnd = Random();
+  Random rnd = Random();
   return String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+      length, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
 }
 
 Future<bool> request_permission(Permission permission) async {
-  var permission_status = await permission.status;
-  print("permission_status------${permission_status}");
-  if (permission_status != PermissionStatus.granted) {
+  var permissionStatus = await permission.status;
+  print("permission_status------$permissionStatus");
+  if (permissionStatus != PermissionStatus.granted) {
     //here
     var status = await permission.request();
 

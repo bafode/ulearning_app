@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'login_response.dart';
+part of 'api_error_response.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,66 +14,57 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
-  return _LoginResponse.fromJson(json);
+ApiErrorResponse _$ApiErrorResponseFromJson(Map<String, dynamic> json) {
+  return _ApiErrorResponse.fromJson(json);
 }
 
 /// @nodoc
-mixin _$LoginResponse {
+mixin _$ApiErrorResponse {
   int? get code => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
-  User? get user => throw _privateConstructorUsedError;
-  Tokens? get tokens => throw _privateConstructorUsedError;
   List<ApiErrorDetail>? get details => throw _privateConstructorUsedError;
   String? get stack => throw _privateConstructorUsedError;
 
-  /// Serializes this LoginResponse to a JSON map.
+  /// Serializes this ApiErrorResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of LoginResponse
+  /// Create a copy of ApiErrorResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LoginResponseCopyWith<LoginResponse> get copyWith =>
+  $ApiErrorResponseCopyWith<ApiErrorResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LoginResponseCopyWith<$Res> {
-  factory $LoginResponseCopyWith(
-          LoginResponse value, $Res Function(LoginResponse) then) =
-      _$LoginResponseCopyWithImpl<$Res, LoginResponse>;
+abstract class $ApiErrorResponseCopyWith<$Res> {
+  factory $ApiErrorResponseCopyWith(
+          ApiErrorResponse value, $Res Function(ApiErrorResponse) then) =
+      _$ApiErrorResponseCopyWithImpl<$Res, ApiErrorResponse>;
   @useResult
   $Res call(
       {int? code,
       String? message,
-      User? user,
-      Tokens? tokens,
       List<ApiErrorDetail>? details,
       String? stack});
-
-  $UserCopyWith<$Res>? get user;
-  $TokensCopyWith<$Res>? get tokens;
 }
 
 /// @nodoc
-class _$LoginResponseCopyWithImpl<$Res, $Val extends LoginResponse>
-    implements $LoginResponseCopyWith<$Res> {
-  _$LoginResponseCopyWithImpl(this._value, this._then);
+class _$ApiErrorResponseCopyWithImpl<$Res, $Val extends ApiErrorResponse>
+    implements $ApiErrorResponseCopyWith<$Res> {
+  _$ApiErrorResponseCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LoginResponse
+  /// Create a copy of ApiErrorResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? code = freezed,
     Object? message = freezed,
-    Object? user = freezed,
-    Object? tokens = freezed,
     Object? details = freezed,
     Object? stack = freezed,
   }) {
@@ -86,14 +77,6 @@ class _$LoginResponseCopyWithImpl<$Res, $Val extends LoginResponse>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
-      tokens: freezed == tokens
-          ? _value.tokens
-          : tokens // ignore: cast_nullable_to_non_nullable
-              as Tokens?,
       details: freezed == details
           ? _value.details
           : details // ignore: cast_nullable_to_non_nullable
@@ -104,79 +87,42 @@ class _$LoginResponseCopyWithImpl<$Res, $Val extends LoginResponse>
               as String?,
     ) as $Val);
   }
-
-  /// Create a copy of LoginResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res>? get user {
-    if (_value.user == null) {
-      return null;
-    }
-
-    return $UserCopyWith<$Res>(_value.user!, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
-  }
-
-  /// Create a copy of LoginResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TokensCopyWith<$Res>? get tokens {
-    if (_value.tokens == null) {
-      return null;
-    }
-
-    return $TokensCopyWith<$Res>(_value.tokens!, (value) {
-      return _then(_value.copyWith(tokens: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
-abstract class _$$LoginResponseImplCopyWith<$Res>
-    implements $LoginResponseCopyWith<$Res> {
-  factory _$$LoginResponseImplCopyWith(
-          _$LoginResponseImpl value, $Res Function(_$LoginResponseImpl) then) =
-      __$$LoginResponseImplCopyWithImpl<$Res>;
+abstract class _$$ApiErrorResponseImplCopyWith<$Res>
+    implements $ApiErrorResponseCopyWith<$Res> {
+  factory _$$ApiErrorResponseImplCopyWith(_$ApiErrorResponseImpl value,
+          $Res Function(_$ApiErrorResponseImpl) then) =
+      __$$ApiErrorResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {int? code,
       String? message,
-      User? user,
-      Tokens? tokens,
       List<ApiErrorDetail>? details,
       String? stack});
-
-  @override
-  $UserCopyWith<$Res>? get user;
-  @override
-  $TokensCopyWith<$Res>? get tokens;
 }
 
 /// @nodoc
-class __$$LoginResponseImplCopyWithImpl<$Res>
-    extends _$LoginResponseCopyWithImpl<$Res, _$LoginResponseImpl>
-    implements _$$LoginResponseImplCopyWith<$Res> {
-  __$$LoginResponseImplCopyWithImpl(
-      _$LoginResponseImpl _value, $Res Function(_$LoginResponseImpl) _then)
+class __$$ApiErrorResponseImplCopyWithImpl<$Res>
+    extends _$ApiErrorResponseCopyWithImpl<$Res, _$ApiErrorResponseImpl>
+    implements _$$ApiErrorResponseImplCopyWith<$Res> {
+  __$$ApiErrorResponseImplCopyWithImpl(_$ApiErrorResponseImpl _value,
+      $Res Function(_$ApiErrorResponseImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LoginResponse
+  /// Create a copy of ApiErrorResponse
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? code = freezed,
     Object? message = freezed,
-    Object? user = freezed,
-    Object? tokens = freezed,
     Object? details = freezed,
     Object? stack = freezed,
   }) {
-    return _then(_$LoginResponseImpl(
+    return _then(_$ApiErrorResponseImpl(
       code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -185,14 +131,6 @@ class __$$LoginResponseImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
-      tokens: freezed == tokens
-          ? _value.tokens
-          : tokens // ignore: cast_nullable_to_non_nullable
-              as Tokens?,
       details: freezed == details
           ? _value._details
           : details // ignore: cast_nullable_to_non_nullable
@@ -207,27 +145,21 @@ class __$$LoginResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginResponseImpl implements _LoginResponse {
-  const _$LoginResponseImpl(
+class _$ApiErrorResponseImpl implements _ApiErrorResponse {
+  const _$ApiErrorResponseImpl(
       {this.code,
       this.message,
-      this.user,
-      this.tokens,
       final List<ApiErrorDetail>? details,
       this.stack})
       : _details = details;
 
-  factory _$LoginResponseImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LoginResponseImplFromJson(json);
+  factory _$ApiErrorResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ApiErrorResponseImplFromJson(json);
 
   @override
   final int? code;
   @override
   final String? message;
-  @override
-  final User? user;
-  @override
-  final Tokens? tokens;
   final List<ApiErrorDetail>? _details;
   @override
   List<ApiErrorDetail>? get details {
@@ -243,72 +175,65 @@ class _$LoginResponseImpl implements _LoginResponse {
 
   @override
   String toString() {
-    return 'LoginResponse(code: $code, message: $message, user: $user, tokens: $tokens, details: $details, stack: $stack)';
+    return 'ApiErrorResponse(code: $code, message: $message, details: $details, stack: $stack)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginResponseImpl &&
+            other is _$ApiErrorResponseImpl &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.user, user) || other.user == user) &&
-            (identical(other.tokens, tokens) || other.tokens == tokens) &&
             const DeepCollectionEquality().equals(other._details, _details) &&
             (identical(other.stack, stack) || other.stack == stack));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, code, message, user, tokens,
+  int get hashCode => Object.hash(runtimeType, code, message,
       const DeepCollectionEquality().hash(_details), stack);
 
-  /// Create a copy of LoginResponse
+  /// Create a copy of ApiErrorResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoginResponseImplCopyWith<_$LoginResponseImpl> get copyWith =>
-      __$$LoginResponseImplCopyWithImpl<_$LoginResponseImpl>(this, _$identity);
+  _$$ApiErrorResponseImplCopyWith<_$ApiErrorResponseImpl> get copyWith =>
+      __$$ApiErrorResponseImplCopyWithImpl<_$ApiErrorResponseImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginResponseImplToJson(
+    return _$$ApiErrorResponseImplToJson(
       this,
     );
   }
 }
 
-abstract class _LoginResponse implements LoginResponse {
-  const factory _LoginResponse(
+abstract class _ApiErrorResponse implements ApiErrorResponse {
+  const factory _ApiErrorResponse(
       {final int? code,
       final String? message,
-      final User? user,
-      final Tokens? tokens,
       final List<ApiErrorDetail>? details,
-      final String? stack}) = _$LoginResponseImpl;
+      final String? stack}) = _$ApiErrorResponseImpl;
 
-  factory _LoginResponse.fromJson(Map<String, dynamic> json) =
-      _$LoginResponseImpl.fromJson;
+  factory _ApiErrorResponse.fromJson(Map<String, dynamic> json) =
+      _$ApiErrorResponseImpl.fromJson;
 
   @override
   int? get code;
   @override
   String? get message;
   @override
-  User? get user;
-  @override
-  Tokens? get tokens;
-  @override
   List<ApiErrorDetail>? get details;
   @override
   String? get stack;
 
-  /// Create a copy of LoginResponse
+  /// Create a copy of ApiErrorResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoginResponseImplCopyWith<_$LoginResponseImpl> get copyWith =>
+  _$$ApiErrorResponseImplCopyWith<_$ApiErrorResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

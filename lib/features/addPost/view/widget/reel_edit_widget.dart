@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,13 +29,14 @@ class _ReelsEditeScreenState extends ConsumerState<ReelsEdit> {
       });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: false,
-        title: Text(
+        title: const Text(
           'New Reels',
           style: TextStyle(color: Colors.black),
         ),
@@ -56,7 +56,7 @@ class _ReelsEditeScreenState extends ConsumerState<ReelsEdit> {
                     SizedBox(height: 30.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40.w),
-                      child: Container(
+                      child: SizedBox(
                           width: 270.w,
                           height: 420.h,
                           child: controller.value.isInitialized
@@ -79,7 +79,7 @@ class _ReelsEditeScreenState extends ConsumerState<ReelsEdit> {
                         ),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

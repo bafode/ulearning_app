@@ -18,15 +18,15 @@ class ThirdPartyLogin extends ConsumerWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 60.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _loginButton("assets/icons/google.png",()=> controller.handleSignUp("google")),
           Platform.isIOS
               ? _loginButton("assets/icons/apple.png",
                   () => controller.handleSignUp("apple"))
               : Container(),
-          _loginButton("assets/icons/facebook.png",
-              () => controller.handleSignUp("facebook")),
+          // _loginButton("assets/icons/facebook.png",
+          //     () => controller.handleSignUp("facebook")),
         ],
       ),
     );

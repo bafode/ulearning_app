@@ -14,7 +14,7 @@ import 'package:get/get.dart';
 void main() async {
   await Global.init();
   runApp(const MyApp());
-  firebaseInit().whenComplete(() {
+ await firebaseInit().whenComplete(() {
     FirebaseMassagingHandler.config();
   });
 }
@@ -24,14 +24,24 @@ Future firebaseInit() async {
     FirebaseMassagingHandler.firebaseMessagingBackground,
   );
   if (Platform.isAndroid) {
-    FirebaseMassagingHandler.flutterLocalNotificationsPlugin
+    final androidPlugin = FirebaseMassagingHandler
+        .flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()!
-        .createNotificationChannel(FirebaseMassagingHandler.channel_call);
-    FirebaseMassagingHandler.flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()!
-        .createNotificationChannel(FirebaseMassagingHandler.channel_message);
+            AndroidFlutterLocalNotificationsPlugin>();
+
+    // Créer tous les canaux de notification
+    await androidPlugin
+        ?.createNotificationChannel(FirebaseMassagingHandler.channel_voice);
+    await androidPlugin
+        ?.createNotificationChannel(FirebaseMassagingHandler.channel_video);
+    await androidPlugin
+        ?.createNotificationChannel(FirebaseMassagingHandler.channel_text);
+    await androidPlugin
+        ?.createNotificationChannel(FirebaseMassagingHandler.channel_cancel);
+    await androidPlugin
+        ?.createNotificationChannel(FirebaseMassagingHandler.channel_accept);
+    await androidPlugin?.createNotificationChannel(
+        FirebaseMassagingHandler.channel_notification);
   }
 }
 
@@ -50,9 +60,13 @@ class MyApp extends StatelessWidget {
                   scaffoldMessengerKey: Global.rootScaffoldMessengerKey,
                   debugShowCheckedModeBanner: false,
                   navigatorObservers: [AppPages.observer],
-                 initialRoute: AppRoutes.INITIAL,
+                  initialRoute: AppRoutes.INITIAL,
                   getPages: AppPages.routes,
-                  builder: EasyLoading.init(),
+                  builder: (context, child) {
+                    // Combine EasyLoading and TopSnackbar
+                    child = EasyLoading.init()(context, child);
+                    return Global.MaterialAppBuilder()(context, child);
+                  },
                 )));
   }
 }

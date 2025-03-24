@@ -43,7 +43,7 @@ class _AddPostScreenState extends State<AddPost> {
           FutureBuilder(
             future: asset.thumbnailDataWithSize(const ThumbnailSize(200, 200)),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done)
+              if (snapshot.connectionState == ConnectionState.done) {
                 return Container(
                   child: Stack(
                     children: [
@@ -56,6 +56,7 @@ class _AddPostScreenState extends State<AddPost> {
                     ],
                   ),
                 );
+              }
 
               return Container();
             },

@@ -34,12 +34,24 @@ class NotificationScreen extends StatelessWidget {
     Color iconColor;
 
     switch (notification.type) {
-      case NotificationType.message:
+      case NotificationType.text:
         iconData = Icons.message;
         iconColor = Colors.blue;
         break;
-      case NotificationType.call:
+      case NotificationType.voiceCall:
         iconData = Icons.call;
+        iconColor = Colors.green;
+        break;
+      case NotificationType.videoCall:
+        iconData = Icons.videocam;
+        iconColor = Colors.green;
+        break;
+      case NotificationType.callCanceled:
+        iconData = Icons.call_end;
+        iconColor = Colors.red;
+        break;
+      case NotificationType.acceptCall:
+        iconData = Icons.call_made;
         iconColor = Colors.green;
         break;
       case NotificationType.like:
@@ -53,6 +65,34 @@ class NotificationScreen extends StatelessWidget {
       case NotificationType.follow:
         iconData = Icons.person_add;
         iconColor = Colors.purple;
+        break;
+      case NotificationType.mention:
+        iconData = Icons.alternate_email;
+        iconColor = Colors.blue;
+        break;
+      case NotificationType.tag:
+        iconData = Icons.tag;
+        iconColor = Colors.blue;
+        break;
+      case NotificationType.share:
+        iconData = Icons.share;
+        iconColor = Colors.green;
+        break;
+      case NotificationType.newPost:
+        iconData = Icons.post_add;
+        iconColor = Colors.blue;
+        break;
+      case NotificationType.friendRequest:
+        iconData = Icons.person_add;
+        iconColor = Colors.purple;
+        break;
+      case NotificationType.friendAccept:
+        iconData = Icons.how_to_reg;
+        iconColor = Colors.green;
+        break;
+      case NotificationType.system:
+        iconData = Icons.notifications;
+        iconColor = Colors.grey;
         break;
     }
 

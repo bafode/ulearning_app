@@ -471,9 +471,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                           borderRadius: BorderRadius.circular(5),
                           image: DecorationImage(
                             image:
-                                NetworkImage(repositories[index].media?.first ??
-                                    ""
-                                        ""),
+                                NetworkImage(
+                                  repositories[index].media?.first ??
+                                        "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg"),
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -203,7 +203,7 @@ class _SettingPage extends ConsumerState<Setting> {
                           Text(
                             "Compte",
                             style: TextStyle(
-                              color: AppColors.primaryText,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 18.sp,
                             ),
@@ -258,7 +258,7 @@ class _SettingPage extends ConsumerState<Setting> {
                           Text(
                             "À Propos",
                             style: TextStyle(
-                              color: AppColors.primaryText,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 18.sp,
                             ),
@@ -332,7 +332,7 @@ class _SettingPage extends ConsumerState<Setting> {
                           Text(
                             "Noter",
                             style: TextStyle(
-                              color: AppColors.primaryText,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 18.sp,
                             ),
@@ -390,9 +390,9 @@ class _SettingPage extends ConsumerState<Setting> {
                             ),
                             SizedBox(width: 15.w),
                             Text(
-                              "Suppression",
+                              "Supprimer le compte",
                               style: TextStyle(
-                                color: AppColors.primaryText,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.sp,
                               ),

@@ -74,9 +74,9 @@ class RegistrationFormState extends ConsumerState<RegistrationForm> {
     if (value == null || value.isEmpty) {
       ref.read(signUpNotifierProvier.notifier).setPasswordValidity(false);
       return 'Le mot de passe est requis';
-    } else if (value.length < 6) {
+    } else if (value.length < 8) {
       ref.read(signUpNotifierProvier.notifier).setPasswordValidity(false);
-      return 'Le mot de passe doit contenir au moins 6 caractères';
+      return 'Le mot de passe doit contenir au moins 8 caractères';
     }
     ref.read(signUpNotifierProvier.notifier).setPasswordValidity(true);
     return null;
@@ -331,7 +331,7 @@ class RegistrationFormState extends ConsumerState<RegistrationForm> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Text(
-                      "ou",
+                      "ou s'inscrire avec",
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 14.sp,
@@ -362,7 +362,7 @@ class RegistrationFormState extends ConsumerState<RegistrationForm> {
                 GestureDetector(
                   onTap: () => Navigator.of(context).pushNamed(AppRoutes.SIGN_IN),
                   child: Text(
-                    "Se connecter",
+                    " Se connecter",
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 12.sp,

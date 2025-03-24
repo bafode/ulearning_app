@@ -11,8 +11,12 @@ import 'package:beehive/common/entities/auth/resetPasswordRequest/reset_password
 import 'package:beehive/common/entities/auth/updateUserInfoRequest/update_user_info_request.dart';
 import 'package:beehive/common/entities/auth/verifyEmailRequest/verify_email_request.dart';
 import 'package:beehive/common/entities/contact/contactResponse/contact_response_entity.dart';
+import 'package:beehive/common/entities/error/api_error_response.dart';
 import 'package:beehive/common/entities/user/editProfileRequest/edit_profil_request.dart';
 import 'package:beehive/common/entities/user/user.dart';
+import 'package:beehive/common/utils/network_error.dart';
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final RestClientApi api;
@@ -20,15 +24,62 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this.api);
 
   @override
-  Future<LoginResponse> login(LoginRequest params) async {
-    final response = await api.login(loginRequest: params);
-    return response;
+  Future<Either<ApiErrorResponse, LoginResponse>> login(LoginRequest params) async {
+    try {
+      final response = await api.login(loginRequest: params);
+      if (response.code! >= 400) {
+        return Left(ApiErrorResponse(
+            code: response.code,
+            message: response.message,
+            details: response.details,
+            stack: response.stack));
+      } else {
+        return Right(response);
+      }
+    } catch (e) {
+      // Gérer les exceptions non liées à la réponse de l'API
+      if (e is DioException) {
+        // Extraire les informations d'erreur de la réponse Dio
+        return DioErrorHandler.handleDioException(e);
+      }
+      
+      // Fallback pour les autres types d'erreurs
+      return Left(ApiErrorResponse(
+          code: 500,
+          message: 'Erreur de connexion: ${e.toString()}',
+          details: []));
+    }
   }
 
   @override
-  Future<LoginResponse> register(RegistrationRequest params) async {
-    final response = await api.register(registrationRequest: params);
-    return response;
+  Future<Either<ApiErrorResponse, LoginResponse>> register(
+      RegistrationRequest params) async {
+    try {
+      final response = await api.register(registrationRequest: params);
+
+      if (response.code! >= 400) {
+        return Left(ApiErrorResponse(
+          code: response.code,
+          message: response.message,
+          details: response.details, 
+          stack: response.stack
+        ));
+      }
+      else {
+        return Right(response);
+      }
+    } catch (e) {
+      // Gérer les exceptions non liées à la réponse de l'API
+      if (e is DioException) {
+        return DioErrorHandler.handleDioException(e);
+      }
+      
+      // Fallback pour les autres types d'erreurs
+      return Left(ApiErrorResponse(
+          code: 500,
+          message: 'Erreur de connexion: ${e.toString()}',
+          details: []));
+    }
   }
 
 
@@ -71,8 +122,42 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<User> updateUserInfo(String userId, UpdateUserInfoRequest userInfo) async {
-    final response = await api.updateUser(userId, userInfo);
-    return response;
+    try {
+      final response = await api.updateUser(userId, userInfo);
+      return response;
+    } catch (e) {
+      // Gérer les exceptions et les convertir en un format utilisable
+      if (e is DioException) {
+        // Extraire les informations d'erreur de la réponse Dio
+        if (e.response != null && e.response!.data != null) {
+          final errorData = e.response!.data;
+          String errorMessage = 'Erreur lors de la mise à jour du profil';
+          
+          // Essayer d'extraire un message plus spécifique
+          if (errorData is Map<String, dynamic>) {
+            if (errorData.containsKey('message')) {
+              errorMessage = errorData['message'];
+            }
+            
+            // Vérifier les détails pour des erreurs spécifiques
+            if (errorData.containsKey('details') && errorData['details'] is List) {
+              final details = errorData['details'] as List;
+              if (details.isNotEmpty && details[0] is Map<String, dynamic>) {
+                final detail = details[0] as Map<String, dynamic>;
+                if (detail.containsKey('message')) {
+                  errorMessage = detail['message'];
+                }
+              }
+            }
+          }
+          
+          throw Exception(errorMessage);
+        }
+      }
+      
+      // Rethrow pour les autres types d'erreurs
+      throw Exception('Erreur lors de la mise à jour du profil: ${e.toString()}');
+    }
   }
 
   @override
@@ -83,8 +168,42 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<User> updateUserProfile(String userId, EditProfilRequest userInfo) async {
-    final response = await api.updateUserProfile(userId, userInfo);
-    return response;
+    try {
+      final response = await api.updateUserProfile(userId, userInfo);
+      return response;
+    } catch (e) {
+      // Gérer les exceptions et les convertir en un format utilisable
+      if (e is DioException) {
+        // Extraire les informations d'erreur de la réponse Dio
+        if (e.response != null && e.response!.data != null) {
+          final errorData = e.response!.data;
+          String errorMessage = 'Erreur lors de la mise à jour du profil';
+          
+          // Essayer d'extraire un message plus spécifique
+          if (errorData is Map<String, dynamic>) {
+            if (errorData.containsKey('message')) {
+              errorMessage = errorData['message'];
+            }
+            
+            // Vérifier les détails pour des erreurs spécifiques
+            if (errorData.containsKey('details') && errorData['details'] is List) {
+              final details = errorData['details'] as List;
+              if (details.isNotEmpty && details[0] is Map<String, dynamic>) {
+                final detail = details[0] as Map<String, dynamic>;
+                if (detail.containsKey('message')) {
+                  errorMessage = detail['message'];
+                }
+              }
+            }
+          }
+          
+          throw Exception(errorMessage);
+        }
+      }
+      
+      // Rethrow pour les autres types d'erreurs
+      throw Exception('Erreur lors de la mise à jour du profil: ${e.toString()}');
+    }
   }
 
   @override
