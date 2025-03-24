@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">1008584285338-r6jvk97osqrt7hs7fq9e6cedrta3j73d.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">1008584285338</string>
+    <string name="google_api_key" translatable="false">AIzaSyB4KI2F0SmNvM96lqu08s7xG7h1B7yPtkI</string>
+    <string name="google_app_id" translatable="false">1:1008584285338:android:c0eefe0bee621ee7351323</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB4KI2F0SmNvM96lqu08s7xG7h1B7yPtkI</string>
+    <string name="google_storage_bucket" translatable="false">beehive-dev-1fefb.firebasestorage.app</string>
+    <string name="project_id" translatable="false">beehive-dev-1fefb</string>
+</resources>

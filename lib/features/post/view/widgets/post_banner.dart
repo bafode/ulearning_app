@@ -802,7 +802,7 @@ class _DotsIndicatorWidgetState extends State<DotsIndicatorWidget> {
   @override
   Widget build(BuildContext context) {
     return DotsIndicator(
-      position: _currentIndex.toInt(),
+      position: _currentIndex.toDouble(),
       dotsCount: widget.itemCount,
       mainAxisAlignment: MainAxisAlignment.center,
       decorator: DotsDecorator(

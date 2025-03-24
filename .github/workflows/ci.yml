@@ -64,4 +64,6 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle --release
+      - name: Decrypt keystore
+        run: echo ${{ secrets.KEYSTORE_PASSWORD }} | base64 --decode > android/app/keystore.jks
       

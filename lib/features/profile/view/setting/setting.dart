@@ -8,7 +8,7 @@ import 'package:beehive/common/utils/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:beehive/common/services/user_service.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Setting extends ConsumerStatefulWidget {
   const Setting({super.key});

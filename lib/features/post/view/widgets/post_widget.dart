@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:beehive/common/entities/post/postResponse/post_response.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/app_colors.dart';

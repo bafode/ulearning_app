@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MessagePage extends GetView<MessageController> {
   const MessagePage({super.key});
 
+  final TopSnackbar topSnackbar = const TopSnackbar();
+
   Widget _headBar() {
     return Center(
       child: Container(
@@ -479,14 +481,12 @@ class MessagePage extends GetView<MessageController> {
                         },
                       ),
                     ),
-                    // Ensure TopSnackbar is added to the widget tree
-                    if (_Global.topSnakbarKey.currentState != null)
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: _Global.topSnakbarKey.currentState!.build(context),
-                      ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: topSnackbar,
+                    ),
                   ],
                 ),
               ),
@@ -494,12 +494,6 @@ class MessagePage extends GetView<MessageController> {
   }
 }
 
-// Ensure Global.topSnakbarKey is initialized somewhere in your app
-class _Global {
-  static final GlobalKey<TopSnackbarState> topSnakbarKey = GlobalKey<TopSnackbarState>();
-}
-
-// Ensure TopSnackbar widget is implemented correctly
 class TopSnackbar extends StatefulWidget {
   const TopSnackbar({super.key});
 
