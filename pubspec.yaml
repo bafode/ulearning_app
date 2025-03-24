@@ -92,6 +92,8 @@ dependencies:
   get: ^4.6.6
   webview_flutter: ^4.10.0
   dartz: ^0.10.1
+  mocktail: ^1.0.4
+  mockito: ^5.4.5
 
 flutter_launcher_icons:
   android: true

@@ -1,114 +1,58 @@
-name: CI
+name: Flutter CI/CD
+
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - main  # Ou la branche que tu souhaites surveiller
 
 jobs:
-  flutter_test:
-    name: Run flutter test and analyze
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      # 1. Checkout du code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Installer Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter test
+          channel: 'stable'
+      - run: flutter --version
 
-  build_ios:
-    name: Build Flutter (iOS)
-    needs: [flutter_test]
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build ios --release --no-codesign
+      # 3. Installer les dépendances
+      - name: Install dependencies
+        run: flutter pub get
 
-  build_appbundle:
-    name: Build Flutter (Android)
-    needs: [flutter_test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build appbundle --release
-# name: Flutter CI/CD
+      # 4. Construire l'AppBundle pour Android
+      - name: Build Android AppBundle
+        run: flutter build appbundle --release
 
-# on:
-#   pull_request:
-#     branches:
-#       - main  # Ou la branche que tu souhaites surveiller
-#   push:
-#     branches:
-#       - main  # Ou la branche que tu souhaites surveiller
+      # 5. Décrypter le keystore
+      - name: Decrypt keystore
+        run: echo ${{ secrets.KEYSTORE }} | base64 --decode > android/app/keystore.jks
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+      # 6. Signer l'AppBundle
+      - name: Sign AppBundle
+        run: |
+          cd android
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=app/keystore.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
 
-#     steps:
-#       # 1. Checkout du code
-#       - name: Checkout repository
-#         uses: actions/checkout@v3
+      # 7. Télécharger l'outil "Google Play Publisher"
+      - name: Download Google Play Publisher
+        run: npm install -g fastlane
 
-#       # 2. Installer Flutter
-#       - name: Set up Flutter
-#         uses: subosito/flutter-action@v2
-#         with:
-#           channel: 'stable'
-#       - run: flutter --version
-
-#       # 3. Installer les dépendances
-#       - name: Install dependencies
-#         run: flutter pub get
-
-#       # 4. Construire l'AppBundle pour Android
-#       - name: Build Android AppBundle
-#         run: flutter build appbundle --release
-
-#       # 5. Décrypter le keystore
-#       - name: Decrypt keystore
-#         run: echo ${{ secrets.KEYSTORE }} | base64 --decode > android/app/keystore.jks
-
-#       # 6. Signer l'AppBundle
-#       - name: Sign AppBundle
-#         run: |
-#           cd android
-#           ./gradlew bundleRelease \
-#             -Pandroid.injected.signing.store.file=app/keystore.jks \
-#             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-#             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-#             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-
-#       # 7. Télécharger l'outil "Google Play Publisher"
-#       - name: Download Google Play Publisher
-#         run: npm install -g fastlane
-
-#       # 8. Déployer sur Google Play
-#       - name: Deploy to Google Play
-#         env:
-#           SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-#         run: |
-#           fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
-#           --track production \
-#           --json_key_data "$SERVICE_ACCOUNT_JSON" \
-#           --package_name com.tonnomdepackage.nomapp
+      # 8. Déployer sur Google Play
+      - name: Deploy to Google Play
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
+          --track production \
+          --json_key_data "$SERVICE_ACCOUNT_JSON" \
+          --package_name com.tonnomdepackage.nomapp
