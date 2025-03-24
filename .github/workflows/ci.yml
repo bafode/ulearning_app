@@ -1,58 +1,67 @@
-name: Flutter CI/CD
-
+name: CI
 on:
   push:
     branches:
-      - main  # Ou la branche que tu souhaites surveiller
+      - main
 
 jobs:
-  build:
+  flutter_test:
+    name: Run flutter test and analyze
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Checkout du code
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      # 2. Installer Flutter
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
         with:
-          channel: 'stable'
-      - run: flutter --version
+          java-version: "17.x" # Version stable de Java
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      # - run: flutter analyze
+      # - run: flutter test
 
-      # 3. Installer les dépendances
-      - name: Install dependencies
-        run: flutter pub get
+  build_ios:
+    name: Build Flutter (iOS)
+    needs: [flutter_test]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "17.x" # Version stable de Java
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - name: Set platform version in Podfile
+        run: |
+          cd ios
+          echo "platform :ios, '15.5'" >> Podfile
+      - name: Update CocoaPods repo
+        run: |
+          cd ios
+          pod repo update
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+      - name: Build iOS app
+        run: flutter build ios --release --no-codesign
 
-      # 4. Construire l'AppBundle pour Android
-      - name: Build Android AppBundle
-        run: flutter build appbundle --release
-
-      # 5. Décrypter le keystore
-      # - name: Decrypt keystore
-      #   run: echo ${{ secrets.KEYSTORE }} | base64 --decode > android/app/keystore.jks
-
-      # # 6. Signer l'AppBundle
-      # - name: Sign AppBundle
-      #   run: |
-      #     cd android
-      #     ./gradlew bundleRelease \
-      #       -Pandroid.injected.signing.store.file=app/keystore.jks \
-      #       -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-      #       -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-      #       -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-
-      # # 7. Télécharger l'outil "Google Play Publisher"
-      # - name: Download Google Play Publisher
-      #   run: npm install -g fastlane
-
-      # # 8. Déployer sur Google Play
-      # - name: Deploy to Google Play
-      #   env:
-      #     SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-      #   run: |
-      #     fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
-      #     --track production \
-      #     --json_key_data "$SERVICE_ACCOUNT_JSON" \
-      #     --package_name com.tonnomdepackage.nomapp
+  build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "17.x" # Version stable de Java
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build appbundle --release
+      
