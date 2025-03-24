@@ -1,6 +1,9 @@
+import 'package:beehive/common/routes/names.dart';
 import 'package:beehive/common/utils/app_colors.dart';
+import 'package:beehive/features/application/provider/application_nav_notifier.dart';
 import 'package:beehive/features/contact/widgets/contact_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,13 +15,15 @@ class ContactPage extends GetView<ContactController> {
     return AppBar(
       backgroundColor: AppColors.primaryElement,
       leading: GestureDetector(
-        child: Icon(
+        child:  Icon(
           Icons.arrow_back_ios,
           color: Colors.white,
           size: 20.sp,
         ),
-        onTap: () {
-          Get.back();
+        onTap: (){
+          final container = ProviderContainer();
+          container.read(applicationNavNotifierProvider.notifier).changeIndex(2);
+          Get.offAllNamed(AppRoutes.APPLICATION);
         },
       ),
       title: Text(

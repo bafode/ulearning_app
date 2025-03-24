@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/app_colors.dart';
 import 'package:beehive/common/utils/image_res.dart';
 import 'package:beehive/common/widgets/app_textfields.dart';
 import 'package:beehive/common/widgets/botton_widgets.dart';
-import 'package:beehive/common/widgets/image_widgets.dart';
 import 'package:beehive/features/sign_in/provider/sign_in_notifier.dart';
 import 'package:beehive/features/sign_in/controller/sign_in_controller.dart';
 
@@ -41,9 +41,9 @@ class _SignInState extends ConsumerState<SignIn> {
     if (value == null || value.isEmpty) {
       ref.watch(signInNotifierProvier.notifier).setIsPasswordValidity(false);
       return 'Le mot de passe est requis';
-    } else if (value.length < 6) {
+    } else if (value.length < 8) {
       ref.watch(signInNotifierProvier.notifier).setIsPasswordValidity(false);
-      return 'Le mot de passe doit contenir au moins 6 caractères';
+      return 'Le mot de passe doit contenir au moins 8 caractères';
     }
     ref.watch(signInNotifierProvier.notifier).setIsPasswordValidity(true);
     return null;
@@ -72,11 +72,21 @@ class _SignInState extends ConsumerState<SignIn> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AppImage(
-                        width: 200.w,
-                        height: 100.h,
-                        imagePath: ImageRes.logo,
-                      ),
+                      TweenAnimationBuilder(
+                  duration: const Duration(milliseconds: 800),
+                  tween: Tween<double>(begin: 0.5, end: 1.0),
+                  curve: Curves.easeOutBack,
+                  builder: (context, double value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: child,
+                    );
+                  },
+                  child: SvgPicture.asset(
+                    ImageRes.beehivelogo,
+                    height: 180.h,
+                  ),
+                ),
                       AppTextField(
                         controller: email,
                         text: "Email",
@@ -150,8 +160,8 @@ class _SignInState extends ConsumerState<SignIn> {
                       ),
                       _buildThirdPartyGoogleLogin(),
                       SizedBox(height: 15.h),
-                      _buildThirdPartyFacebookLogin(),
-                      SizedBox(height: 15.h),
+                      // _buildThirdPartyFacebookLogin(),
+                      // SizedBox(height: 15.h),
                       Platform.isIOS ? _buildThirdPartyAppleLogin() : Container(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -217,12 +227,12 @@ class _SignInState extends ConsumerState<SignIn> {
                   child: Image.asset("assets/icons/google.png")),
               Container(
                 child: Text(
-                  "Sign in with Google",
+                  "Se Connecter avec Google",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontSize: 14.sp,
+                    fontSize: 12.sp,
                   ),
                 ),
               ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/models/entities.dart';
 import 'package:beehive/common/routes/names.dart';
+import 'package:beehive/common/services/http_util.dart';
 import 'package:beehive/common/widgets/popup_messages.dart';
 import 'package:beehive/features/message/chat/index.dart';
 import 'package:beehive/global.dart';
@@ -287,8 +288,25 @@ Future <bool> requestPermission(Permission permission) async {
         "last_time":Timestamp.now()
       });
 
+      // Send a social notification for the message
+      try {
+        final socialNotificationData = {
+          "to_token": state.to_token.value,
+          "type": "text",
+          "call_type": "text",
+          "doc_id": doc_id,
+          "target_type": "message",
+          "message": sendContent.length > 30 ? "${sendContent.substring(0, 30)}..." : sendContent
+        };
+        
+        await HttpUtil().post(
+          'v1/notifications/social',
+          data: socialNotificationData,
+        );
+      } catch (e) {
+        print("Error sending social notification: $e");
+      }
     }
-
   }
 
   Future<void> asyncLoadMoreData() async {
@@ -360,6 +378,24 @@ Future <bool> requestPermission(Permission permission) async {
         "last_time":Timestamp.now()
       });
 
+      // Send a social notification for the image message
+      try {
+        final socialNotificationData = {
+          "to_token": state.to_token.value,
+          "type": "text",
+          "target_id": doc_id,
+          "doc_id": doc_id,
+          "target_type": "text",
+          "message": "Image sent"
+        };
+        
+        await HttpUtil().post(
+          'v1/notifications/social',
+          data: socialNotificationData,
+        );
+      } catch (e) {
+        print("Error sending social notification: $e");
+      }
     }
 
   }

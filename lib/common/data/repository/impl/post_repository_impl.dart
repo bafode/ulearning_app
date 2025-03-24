@@ -1,3 +1,6 @@
+import 'package:beehive/common/entities/error/api_error_response.dart';
+import 'package:beehive/common/utils/network_error.dart';
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:beehive/common/data/remote/rest_client_api.dart';
 import 'package:beehive/common/data/repository/post_repository.dart';
@@ -99,10 +102,31 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  Future<PostCreateResponse?> createPost(String title, String content,
+  Future<Either<ApiErrorResponse, PostCreateResponse?>> createPost(String title, String content,
       String category,List<String>? domain, List<MultipartFile> media) async {
-    final response = await api.createPost(title, content, category,domain, media);
-    return response;
+    try {
+      final response =
+          await api.createPost(title, content, category, domain, media);
+
+      if (response.code! >= 400) {
+        return Left(ApiErrorResponse(
+            code: response.code,
+            message: response.message,
+            details: [],
+            stack: ""));
+      } else {
+        return Right(response);
+      }
+    } catch (e) {
+      // Gérer les exceptions non liées à la réponse de l'API
+      if (e is DioException) {
+        return DioErrorHandler.handleDioException(e);
+      }
+      return Left(ApiErrorResponse(
+          code: 500,
+          message: 'Erreur de connexion: ${e.toString()}',
+          details: []));
+    }
   }
   
   @override

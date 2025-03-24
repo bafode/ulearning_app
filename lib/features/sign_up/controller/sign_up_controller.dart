@@ -8,6 +8,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:beehive/common/data/di/repository_module.dart';
+import 'package:beehive/common/entities/error/api_error_response.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/common/utils/logger.dart';
@@ -49,16 +50,7 @@ class SignUpController {
     final notifier = ref.read(signUpNotifierProvier.notifier);
     notifier.onUserAuthTypeChange("email");
     var state = ref.watch(signUpNotifierProvier);
-    try {
-      asyncPostAllData(state);
-    } catch (e) {
-      if (kDebugMode) {
-        print("Error in handleSignUp: $e");
-      }
-      toastInfo("Registration failed. Please check your details.");
-    } finally {
-      EasyLoading.dismiss();
-    }
+    asyncPostAllData(state);
   }
 
   Future<void> _handleGoogleSignUp() async {
@@ -163,26 +155,69 @@ class SignUpController {
         indicator: const CircularProgressIndicator(),
         maskType: EasyLoadingMaskType.clear,
         dismissOnTap: true);
+
     final authRepository = ref.read(authRepositoryProvider);
     var result = await authRepository.register(registerRequest);
-    if (result.code == 201) {
-      print(result.user);
-      Global.storageService.setString(
-          AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.user));
-      Global.storageService.setString(
-          AppConstants.STORAGE_USER_TOKEN_KEY, jsonEncode(result.tokens));
-      ref.read(isLoggedInProvider.notifier).setValue(true);
-      if (registerRequest.authType == "email") {
-        ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(1);
-      } else {
-        ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(2);
-      }
-    } else {
+
+    // Utiliser fold pour gérer les deux cas (erreur et succès)
+    result.fold(
+        // Cas d'erreur (Left)
+        (error) {
       EasyLoading.dismiss();
-      toastInfo('Registration failed. Please check your details.');
-      Logger.write("Error in asyncPostAllData: ${result.message}");
+      _handleRegistrationError(error);
+    },
+        // Cas de succès (Right)
+        (success) {
+      if (success.code == 201) {
+        print(success.user);
+        Global.storageService.setString(
+            AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(success.user));
+        Global.storageService.setString(
+            AppConstants.STORAGE_USER_TOKEN_KEY, jsonEncode(success.tokens));
+
+        ref.read(isLoggedInProvider.notifier).setValue(true);
+
+        if (registerRequest.authType == "email") {
+          ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(1);
+        } else {
+          ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(2);
+        }
+      } else {
+        // Ce cas ne devrait normalement pas se produire car un code non-201 devrait être une erreur
+        EasyLoading.dismiss();
+        toastInfo('Registration failed. Please check your details.');
+        Logger.write(
+            "Unexpected result in asyncPostAllData: ${success.message}");
+      }
+      EasyLoading.dismiss();
+    });
+  }
+
+  void _handleRegistrationError(ApiErrorResponse error) {
+    // Log l'erreur complète pour le débogage
+    Logger.write("Error in registration: ${error.message}, Code: ${error.code}");
+    if (error.details != null && error.details!.isNotEmpty) {
+      Logger.write("Error details: ${error.details}");
     }
-    EasyLoading.dismiss();
+
+    // Vérifier les détails d'erreur pour afficher les messages exacts du backend
+    if (error.details != null && error.details!.isNotEmpty) {
+      // Afficher le premier message d'erreur détaillé
+      final detail = error.details!.first;
+      final String fieldMessage = detail.message ?? '';
+      
+      // Afficher directement le message d'erreur du backend
+      toastInfo(fieldMessage);
+      return;
+    }
+
+    // Si pas de détails spécifiques, afficher le message général
+    if (error.message != null && error.message!.isNotEmpty) {
+      toastInfo(error.message!);
+    } else {
+      // Message par défaut si aucun message n'est fourni
+      toastInfo('Erreur lors de l\'inscription. Veuillez réessayer.');
+    }
   }
 
   Future<void> updateUserInfo() async {
@@ -191,28 +226,49 @@ class SignUpController {
         maskType: EasyLoadingMaskType.clear,
         dismissOnTap: true);
     try {
-    final state = ref.watch(updateUserInfoNotifierProvier);
-    final authRepository = ref.read(authRepositoryProvider);
-    final userInfo = ref.watch(homeUserProfileProvider);
-    final userId = userInfo.asData?.value.id ;
-       if (userId != null) {
-          final response = await authRepository.updateUserInfo(userId, state);
+      final state = ref.watch(updateUserInfoNotifierProvier);
+      final authRepository = ref.read(authRepositoryProvider);
+      final userInfo = ref.watch(homeUserProfileProvider);
+      final userId = userInfo.asData?.value.id;
+      
+      if (userId != null) {
+        final response = await authRepository.updateUserInfo(userId, state);
         Global.storageService.setString(
           AppConstants.STORAGE_USER_PROFILE_KEY,
           jsonEncode(response),
         );
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(0);
-         Global.navigatorKey.currentState
+        Global.navigatorKey.currentState
             ?.pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
-       }else{
-        toastInfo("Error in updateUserInfo");
+      } else {
+        toastInfo("Erreur: ID utilisateur non trouvé");
+        Logger.write("Error in updateUserInfo: User ID is null");
         ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(0);
-         Global.navigatorKey.currentState
+        Global.navigatorKey.currentState
             ?.pushNamedAndRemoveUntil(AppRoutes.APPLICATION, (route) => false);
-       }
+      }
     } catch (e) {
       EasyLoading.dismiss();
-      toastInfo('Error in updateUserInfo');
+      
+      // Extraire le message d'erreur si possible
+      String errorMessage = 'Erreur lors de la mise à jour du profil';
+      
+      // Essayer d'extraire un message plus spécifique de l'exception
+      if (e.toString().contains('message')) {
+        try {
+          // Tenter d'extraire un message d'erreur plus spécifique
+          final errorString = e.toString();
+          if (errorString.contains('L\'email est déjà utilisé')) {
+            errorMessage = 'L\'email est déjà utilisé';
+          } else if (errorString.contains('mot de passe')) {
+            errorMessage = 'Le format du mot de passe est incorrect';
+          }
+        } catch (_) {
+          // En cas d'échec de l'extraction, utiliser le message par défaut
+        }
+      }
+      
+      toastInfo(errorMessage);
       Logger.write("Error in updateUserInfo: $e");
     } finally {
       EasyLoading.dismiss();

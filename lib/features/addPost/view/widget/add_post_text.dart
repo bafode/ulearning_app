@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddPostText extends StatefulWidget {
-  File _file;
-  AddPostText(this._file, {super.key});
+  final File _file;
+  const AddPostText(this._file, {super.key});
 
   @override
   State<AddPostText> createState() => _AddPostTextScreenState();
@@ -21,10 +19,10 @@ class _AddPostTextScreenState extends State<AddPostText> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'New post',
           style: TextStyle(color: Colors.black),
         ),
@@ -62,7 +60,7 @@ class _AddPostTextScreenState extends State<AddPostText> {
       ),
       body: SafeArea(
           child: islooding
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(
                   color: Colors.black,
                 ))

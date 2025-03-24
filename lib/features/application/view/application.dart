@@ -1,4 +1,5 @@
 import 'package:beehive/features/message/controller.dart';
+import 'package:beehive/features/unotification/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beehive/features/application/view/widgets/zoom.dart';
@@ -17,6 +18,7 @@ class ApplicationState extends ConsumerState<Application> {
     super.initState();
     
     Get.lazyPut(() => MessageController());
+    Get.lazyPut(() => NotificationController());
   }
 
   @override

@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/models/entities.dart';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/common/utils/FirebaseMessageHandler.dart';
 import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +49,16 @@ class VoiceCallController extends GetxController {
   }
 
   Future<void> _initEngine() async {
-    await player.setAsset("assets/voice/Sound_Horizon.mp3");
+    if (state.call_role == "anchor") {
+      // Sonnerie pour l'expéditeur (volume plus bas)
+      await player.setAsset("assets/voice/Sound_Horizon.mp3");
+      await player.setVolume(0.5); // Volume à 50% pour l'expéditeur
+    } else {
+      // Sonnerie pour le destinataire (volume plus haut)
+      await player.setAsset("assets/voice/Sound_Horizon.mp3");
+      await player.setVolume(1.0); // Volume maximum pour le destinataire
+    }
+
     engine = createAgoraRtcEngine();
     await engine.initialize(RtcEngineContext(
       appId: appId,
@@ -68,10 +80,14 @@ class VoiceCallController extends GetxController {
       },
       onUserJoined:
           (RtcConnection connection, int remoteUid, int elapsed) async {
-        await player.pause();
+        print("---onUserJoined----- remoteUid: $remoteUid");
+         await player.stop();
         if (state.call_role == "anchor") {
           callTime();
           is_calltimer = true;
+        }else if(state.call_role == "audience"){
+          await player.stop();
+          await FirebaseMassagingHandler.player.pause();
         }
       },
       onRtcStats: (RtcConnection connection, RtcStats stats) {
@@ -80,7 +96,11 @@ class VoiceCallController extends GetxController {
       },
       onUserOffline: (RtcConnection connection, int remoteUid,
           UserOfflineReasonType reason) {
-        print("---onUserOffline----- ");
+        print("---onUserOffline----- remoteUid: $remoteUid, reason: $reason");
+        // Si l'utilisateur distant se déconnecte, retourner à l'écran précédent
+        if (Get.currentRoute.contains(AppRoutes.VoiceCall)) {
+          Get.back();
+        }
       },
     ));
 
@@ -90,11 +110,31 @@ class VoiceCallController extends GetxController {
       profile: AudioProfileType.audioProfileDefault,
       scenario: AudioScenarioType.audioScenarioGameStreaming,
     );
-    // is anchor joinChannel
+
+    // Si c'est le destinataire, activer le haut-parleur par défaut
+    if (state.call_role == "audience") {
+      await engine.setEnableSpeakerphone(true);
+      state.enableSpeakerphone.value = true;
+    }
+
+    // Rejoindre le canal
     await joinChannel();
+
+    // Si c'est l'initiateur de l'appel, envoyer une notification et jouer la sonnerie
     if (state.call_role == "anchor") {
       await sendNotifications("voice");
       await player.play();
+    }
+    // Si c'est le destinataire, ne pas jouer la sonnerie
+    else if (state.call_role == "audience") {
+      if(kDebugMode){
+        print("DEBUG: Waiting for call to be accepted...");
+      }
+      // Envoyer une notification pour informer l'appelant que l'appel a été accepté
+      await sendNotifications("accept");
+      await player.stop();
+      await FirebaseMassagingHandler.player.pause();
+      await FirebaseMassagingHandler.player.stop();
     }
   }
 
@@ -216,46 +256,66 @@ class VoiceCallController extends GetxController {
   }
 
   joinChannel() async {
-    var status = await Permission.microphone.status;
-    if (!status.isGranted) {
-      status = await Permission.microphone.request();
+    try {
+      // Vérifier et demander les permissions
+      var status = await Permission.microphone.status;
       if (!status.isGranted) {
+        status = await Permission.microphone.request();
+        if (!status.isGranted) {
+          print("ERROR: Microphone permission not granted");
+          EasyLoading.dismiss();
+          Get.back();
+          return;
+        }
+      }
+
+      EasyLoading.show(
+          indicator: const CircularProgressIndicator(),
+          maskType: EasyLoadingMaskType.clear,
+          dismissOnTap: true);
+
+      // Afficher les informations de l'utilisateur pour le débogage
+      print("DEBUG: Joining voice channel as ${state.call_role}");
+      print("DEBUG: profile_token = $profile_token");
+      print("DEBUG: to_token = ${state.to_token.value}");
+
+      String token = await getToken();
+      if (token.isEmpty) {
+        print("ERROR: Failed to get token for voice call");
         EasyLoading.dismiss();
         Get.back();
         return;
       }
-    }
 
-    EasyLoading.show(
-        indicator: const CircularProgressIndicator(),
-        maskType: EasyLoadingMaskType.clear,
-        dismissOnTap: true);
-    String token = await getToken();
-    if (token.isEmpty) {
+      print("DEBUG: Got token for voice call: $token");
+      print("DEBUG: Voice channel ID: ${state.channelId.value}");
+
+      try {
+        await engine.joinChannel(
+          token: token,
+          channelId: state.channelId.value,
+          uid: 0,
+          options: ChannelMediaOptions(
+            channelProfile: channelProfileType,
+            clientRoleType: ClientRoleType.clientRoleBroadcaster,
+          ),
+        );
+        print("DEBUG: Successfully called joinChannel for voice call");
+      } catch (e) {
+        print('ERROR while joining voice channel: $e');
+        EasyLoading.showError("Erreur de connexion: $e");
+      }
+
+      if (state.call_role == "audience") {
+        callTime();
+        is_calltimer = true;
+      }
+
       EasyLoading.dismiss();
-      Get.back();
-      return;
-    }
-    try {
-      print("channelId: ${state.channelId.value}");
-
-      await engine.joinChannel(
-        token: token,
-        channelId: state.channelId.value,
-        uid: 0,
-        options: ChannelMediaOptions(
-          channelProfile: channelProfileType,
-          clientRoleType: ClientRoleType.clientRoleBroadcaster,
-        ),
-      );
     } catch (e) {
-      print('Error while joining channel: $e');
+      print("ERROR in voice joinChannel: $e");
+      EasyLoading.showError("Erreur: $e");
     }
-    if (state.call_role == "audience") {
-      callTime();
-      is_calltimer = true;
-    }
-    EasyLoading.dismiss();
   }
 
   // send notification

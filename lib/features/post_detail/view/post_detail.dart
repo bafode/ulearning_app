@@ -88,6 +88,7 @@ class _PostDetailPage extends ConsumerState<PostDetail>
 
   void _initializePost() {
     final args = ModalRoute.of(ref.context)!.settings.arguments as Map;
+    print(args["id"]);
     ref
         .read(asyncNotifierPostDetailControllerProvider.notifier)
         .init(args["id"]);

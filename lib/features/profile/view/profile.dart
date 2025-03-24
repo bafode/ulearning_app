@@ -48,9 +48,10 @@ class _ProfileScreenState extends ConsumerState<Profile>
   // Lists to store fetched posts and favorites for other users
   List<Post> otherUserPosts = [];
   List<Post> otherUserFavorites = [];
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _tabController = TabController(length: 2, vsync: this);
     // Add listener to rebuild UI when tab changes
     _tabController.addListener(() {
@@ -80,6 +81,17 @@ class _ProfileScreenState extends ConsumerState<Profile>
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     
     final route = ModalRoute.of(ref.context);
     final args = route?.settings.arguments as Map<String, dynamic>? ?? {};
@@ -133,12 +145,6 @@ class _ProfileScreenState extends ConsumerState<Profile>
   }
   
   @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final userState = ref.watch(asyncNotifierProfileControllerProvider);
     ref.listen(favoriteControllerProvider, (_, state) {
@@ -173,7 +179,11 @@ class _ProfileScreenState extends ConsumerState<Profile>
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
-            Navigator.of(context).pop();
+            if (Get.previousRoute == '/application') {
+              Get.back();
+            } else {
+              Get.offAllNamed(AppRoutes.APPLICATION);
+            }
           },
         ),
         title: Text(

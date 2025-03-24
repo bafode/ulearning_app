@@ -1,5 +1,4 @@
-// Import necessary packages
-import 'package:beehive/features/feedback/view/feedback.dart';
+import 'package:beehive/features/webview/view/web_view.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -149,7 +148,7 @@ class DrawerWidget extends ConsumerWidget {
   }
 
   // Get icon for a specific index
-  Icon _getIconForIndex(int index) {
+  Icon getIconForIndex(int index) {
     switch (index) {
       case 0:
         return const Icon(
@@ -193,7 +192,7 @@ class CurrentScreen extends ConsumerWidget {
       case 1:
         return isLoggedIn ? const Favorites() : const SignIn();
       case 2:
-        return isLoggedIn ? const Feedbacks() : const SignIn();
+        return isLoggedIn ? const Webview() : const SignIn();
       case 3:
         ref.read(isLoggedInProvider.notifier).logout();
         return isLoggedIn ? const BuildCurrent() : const SignIn();

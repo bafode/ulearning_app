@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/features/addPost/modet/media.dart';
 
 class AddPostDescription extends StatefulWidget {
-  List<Media> _files;
-  AddPostDescription(this._files, {super.key});
+  final List<Media> _files;
+  const AddPostDescription(this._files, {super.key});
 
   @override
   State<AddPostDescription> createState() => _AddPostDescriptionState();

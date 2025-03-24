@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:beehive/common/data/di/repository_module.dart';
 import 'package:beehive/common/entities/auth/loginRequest/login_request.dart';
+import 'package:beehive/common/entities/error/api_error_response.dart';
 import 'package:beehive/common/utils/constants.dart';
 import 'package:beehive/common/utils/logger.dart';
 import 'package:beehive/common/widgets/popup_messages.dart';
@@ -91,6 +92,10 @@ class SignInController {
     var state = ref.watch(signInNotifierProvier);
     FocusManager.instance.primaryFocus?.unfocus();
     try {
+      if(state.email!.isEmpty || state.password!.isEmpty) {
+        toastInfo("Remplissez tous les champs");
+        return;
+      }
       asyncPostAllData(state);
     } catch (e) {
       if (kDebugMode) {
@@ -203,28 +208,75 @@ class SignInController {
         dismissOnTap: true);
     //we need to talk to server
     final authRepository = ref.read(authRepositoryProvider);
-    try {
     var result = await authRepository.login(loginRequest);
-      if (result.code == 200) {
-        //have local storage
-        //try to remember user info
-        Global.storageService.setString(
-            AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(result.user));
-        Global.storageService.setString(
-            AppConstants.STORAGE_USER_TOKEN_KEY, jsonEncode(result.tokens));
-        ref.read(isLoggedInProvider.notifier).setValue(true);
+    result.fold(
+      // Cas d'erreur (Left)
+      (error) {
         EasyLoading.dismiss();
-        Global.navigatorKey.currentState
-            ?.pushNamedAndRemoveUntil("/application", (route) => false);
-        //redirect to new page
-      } else {
-         EasyLoading.dismiss();
-        toastInfo('invalid credentials');
+        _handleLoginError(error);
+      },
+      // Cas de succès (Right)
+      (success) {
+        if (success.code == 200) {
+          print(success.user);
+          Global.storageService.setString(
+              AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(success.user));
+          Global.storageService.setString(
+              AppConstants.STORAGE_USER_TOKEN_KEY, jsonEncode(success.tokens));
+          
+          ref.read(isLoggedInProvider.notifier).setValue(true);
+          final notifier = ref.read(signInNotifierProvier.notifier);
+          notifier.onUserEmailChange("");
+          notifier.onUserPasswordChange("");
+          EasyLoading.dismiss();
+          Global.navigatorKey.currentState
+              ?.pushNamedAndRemoveUntil("/application", (route) => false);
+        } else {
+          // Ce cas ne devrait normalement pas se produire car un code non-200 devrait être une erreur
+          EasyLoading.dismiss();
+          toastInfo('Connexion échouée. Veuillez vérifier vos informations.');
+          Logger.write("Unexpected result in asyncPostAllData: ${success.message}");
+        }
+        EasyLoading.dismiss();
       }
-    } catch (e) {
-      EasyLoading.dismiss();
-      toastInfo('invalid credentials or internet error');
-      Logger.write("$e");
+    );
+  }
+  
+  void _handleLoginError(ApiErrorResponse error) {
+    // Log l'erreur complète pour le débogage
+    Logger.write("Error in login: ${error.message}, Code: ${error.code}");
+    if (error.details != null && error.details!.isNotEmpty) {
+      Logger.write("Error details: ${error.details}");
+    }
+
+    // Vérifier les détails d'erreur pour afficher les messages exacts du backend
+    if (error.details != null && error.details!.isNotEmpty) {
+      // Afficher le premier message d'erreur détaillé
+      final detail = error.details!.first;
+      final String fieldMessage = detail.message ?? '';
+      
+      // Afficher directement le message d'erreur du backend
+      toastInfo(fieldMessage);
+      return;
+    }
+
+    // Vérifier le code d'erreur pour des cas spécifiques
+    if (error.code == 401) {
+      toastInfo('Email ou mot de passe incorrect');
+      return;
+    }
+
+    // Vérifier le message d'erreur pour des cas spécifiques
+    final errorMsg = error.message?.toLowerCase() ?? '';
+    if (errorMsg.contains('email') && errorMsg.contains('password')) {
+      toastInfo('Email ou mot de passe incorrect');
+    } else if (errorMsg.contains('network') || errorMsg.contains('connection')) {
+      toastInfo('Erreur de réseau. Veuillez vérifier votre connexion internet et réessayer.');
+    } else if (errorMsg.contains('unauthorized') || errorMsg.contains('permission')) {
+      toastInfo('Accès non autorisé. Veuillez vous reconnecter.');
+    } else {
+      // Message d'erreur générique si aucun cas spécifique n'est identifié
+      toastInfo(error.message ?? 'Erreur lors de la connexion. Veuillez réessayer.');
     }
   }
 }

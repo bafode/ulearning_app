@@ -1,10 +1,10 @@
-import 'package:beehive/global.dart';
+import 'package:beehive/common/utils/FirebaseMessageHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/models/chat.dart';
 import 'package:beehive/common/utils/app_colors.dart';
-import 'package:beehive/common/utils/constants.dart';
+import 'package:get/get.dart';
 
 class TopSnackbar extends StatefulWidget {
   const TopSnackbar({super.key});
@@ -21,7 +21,7 @@ class TopSnackbarState extends State<TopSnackbar>
   String _toFirstName = "";
   String _toLastName = "";
   String _toToken = "";
-  String _toAvatar = "";
+  String? _toAvatar = "";
   String _docId = "";
   String _callRole = "";
   String _title = "";
@@ -43,8 +43,15 @@ class TopSnackbarState extends State<TopSnackbar>
     super.dispose();
   }
 
-  Future<void> show(String toFirstName,String toLastName, String toToken, String toAvatar,
-      String docId, String callRole, String title, String routeName) {
+  Future<void> show(
+      String toFirstName,
+      String toLastName,
+      String toToken,
+      String toAvatar,
+      String docId,
+      String callRole,
+      String title,
+      String routeName) {
     _isShow = true;
     setState(() {
       _toFirstName = toFirstName;
@@ -64,8 +71,8 @@ class TopSnackbarState extends State<TopSnackbar>
   }
 
   hide() async {
-    _isShow = false;
     _animationController.reverse();
+    _isShow = false;
     setState(() {
       _toFirstName = "";
       _toLastName = "";
@@ -78,7 +85,7 @@ class TopSnackbarState extends State<TopSnackbar>
     });
   }
 
-  _sendNotifications(String callType, String toToken, String toAvatar,
+  sendNotifications(String callType, String toToken, String toAvatar,
       String toFirstName, String toLastName, String docId) async {
     CallRequestEntity callRequestEntity = CallRequestEntity();
     callRequestEntity.call_type = callType;
@@ -123,7 +130,8 @@ class TopSnackbarState extends State<TopSnackbar>
                             color: Colors.grey.withOpacity(0.1),
                             spreadRadius: 2,
                             blurRadius: 3,
-                            offset: const Offset(0, 1), // changes position of shadow
+                            offset: const Offset(
+                                0, 1), // changes position of shadow
                           ),
                         ],
                       ),
@@ -138,9 +146,8 @@ class TopSnackbarState extends State<TopSnackbar>
                                     height: 70.w,
                                     width: 70.w,
                                     decoration: BoxDecoration(
-                                      image: const DecorationImage(
-                                          image: NetworkImage(
-                                              "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg"),
+                                      image: DecorationImage(
+                                          image: NetworkImage(_toAvatar??"https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg"),
                                           fit: BoxFit.fill),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(15.h)),
@@ -167,7 +174,7 @@ class TopSnackbarState extends State<TopSnackbar>
                                       width: 135.w,
                                       margin: EdgeInsets.only(left: 10.w),
                                       child: Text(
-                                        "Video Call",
+                                        _title,
                                         overflow: TextOverflow.clip,
                                         maxLines: 1,
                                         style: TextStyle(
@@ -208,10 +215,17 @@ class TopSnackbarState extends State<TopSnackbar>
                                   child:
                                       Image.asset("assets/icons/a_phone.png"),
                                 ),
-                                onTap: () {
+                                onTap: () async{
                                   hide();
-                                  _sendNotifications("cancel", _toToken,
-                                      _toAvatar, _toFirstName,_toLastName, _docId);
+                                 await FirebaseMassagingHandler.player.stop();
+                                  sendNotifications(
+                                      "cancel",
+                                      _toToken,
+                                      _toAvatar??
+                                          "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+                                      _toFirstName,
+                                      _toLastName,
+                                      _docId);
                                 },
                               ),
                               GestureDetector(
@@ -236,20 +250,31 @@ class TopSnackbarState extends State<TopSnackbar>
                                   child: Image.asset(
                                       "assets/icons/a_telephone.png"),
                                 ),
-                                onTap: () {
-                                  if (Global.navigatorKey.currentContext != null) {
-                                    Navigator.of(Global.navigatorKey
-                                            .currentContext!)
-                                        .pushNamed(_routeName, arguments: {
-                                      "to_token": _toToken,
-                                      "to_firstname": _toFirstName,
-                                      "to_lastname": _toLastName,
-                                      "to_avatar": _toAvatar,
-                                      "doc_id": _docId,
-                                      "call_role": _callRole
-                                    });
-                                  }
+                                onTap: ()async {
+                                  // Utiliser Get.toNamed avec parameters au lieu de Navigator.pushNamed avec arguments
+                                  // pour être compatible avec les contrôleurs GetX
+                                  Get.toNamed(_routeName, parameters: {
+                                    "to_token": _toToken,
+                                    "to_firstname": _toFirstName,
+                                    "to_lastname": _toLastName,
+                                    "to_avatar": _toAvatar??
+                                        "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+                                    "doc_id": _docId,
+                                    "call_role": _callRole
+                                  });
+
+                                  // Envoyer une notification d'acceptation d'appel
+                                  sendNotifications(
+                                      "accept",
+                                      _toToken,
+                                      _toAvatar??
+                                          "https://res.cloudinary.com/dtqimnssm/image/upload/v1730063749/images/media-1730063756706.jpg",
+                                      _toFirstName,
+                                      _toLastName,
+                                      _docId);
+
                                   hide();
+                                  await FirebaseMassagingHandler.player.stop();
                                 },
                               )
                             ],

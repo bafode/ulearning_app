@@ -5,6 +5,7 @@ class VideoCallState{
   RxBool isJoined = false.obs;
   RxBool openMicrophone = true.obs;
   RxBool enableSpeaker = true.obs;
+  RxBool enableSpeakerphone = true.obs; // Ajout pour la compatibilité avec le contrôleur
   RxString callTime = "00.00".obs;
   RxString callStatus = "not connected".obs;
   RxString callTimeNum = "not connected".obs;

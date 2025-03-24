@@ -1,4 +1,5 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,14 +11,12 @@ import 'package:beehive/common/widgets/text_widgets.dart';
 import 'package:beehive/features/application/provider/application_nav_notifier.dart';
 import 'package:beehive/features/home/controller/home_controller.dart';
 import 'package:beehive/features/post/domain/post_filter.dart';
-import 'package:beehive/global.dart';
 import 'package:beehive/features/post/view/widgets/filter_botton.dart';
 import 'package:beehive/features/post/view/widgets/post_filter_bottom_sheet.dart';
-import 'package:beehive/features/home/controller/notification_controller.dart';
+import 'package:beehive/features/unotification/controller.dart';
 import 'package:get/get.dart';
 import 'package:beehive/features/message/state.dart';
 import 'package:beehive/features/message/controller.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeBanner extends StatelessWidget {
   final PageController controller;
@@ -77,33 +76,6 @@ Widget bannerContainer({required String imagePath}) {
   );
 }
 
-class HelloText extends StatelessWidget {
-  const HelloText({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: text24Normal(
-        text: "Hello",
-        color: AppColors.primaryThirdElementText,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-}
-
-class UserName extends StatelessWidget {
-  const UserName({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: text24Normal(
-        text: Global.storageService.getUserProfile().firstname??"",
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
-}
-
 class HomeAppBar extends ConsumerStatefulWidget {
   final ProviderBase<PostFilter> filterProvider;
   final Function(PostFilter) onFilterChanged;
@@ -159,7 +131,27 @@ class _HomeAppBarState extends ConsumerState<HomeAppBar> {
         final int messageCount = messageState.msgList
             .fold(0, (sum, message) => sum + (message.msg_num ?? 0));
         final int callCount = messageState.callList.length;
-        final int totalCount = messageCount + callCount;
+        
+        // Get unread notification count from NotificationController
+        int socialCount = 0;
+        try {
+          final notificationController = Get.find<NotificationController>();
+          socialCount = notificationController.unreadCount.value;
+          if(kDebugMode) {
+            print('socialCount: $socialCount');
+          } 
+        } catch (e) {
+          // NotificationController might not be initialized yet
+          print('Error getting notification count: $e');
+        }
+
+        if(kDebugMode) {
+          print('messageCount: $messageCount');
+          print('callCount: $callCount');
+          print('socialCount: $socialCount');
+        }
+        
+        final int totalCount = messageCount + callCount + socialCount;
         
         return Stack(
           children: [
@@ -227,7 +219,18 @@ SliverAppBar homeAppBar(WidgetRef ref) {
         final int messageCount = messageState.msgList
             .fold(0, (sum, message) => sum + (message.msg_num ?? 0));
         final int callCount = messageState.callList.length;
-        final int totalCount = messageCount + callCount;
+        
+        // Get unread notification count from NotificationController
+        int socialCount = 0;
+        try {
+          final notificationController = Get.find<NotificationController>();
+          socialCount = notificationController.unreadCount.value;
+        } catch (e) {
+          // NotificationController might not be initialized yet
+          print('Error getting notification count: $e');
+        }
+        
+        final int totalCount = messageCount + callCount + socialCount;
         
         return Stack(
           children: [

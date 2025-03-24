@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'package:beehive/common/api/chat.dart';
 import 'package:beehive/common/models/entities.dart';
-import 'package:beehive/common/models/chatcall.dart';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/features/message/index.dart';
 import 'package:beehive/global.dart';
@@ -113,7 +112,7 @@ class MessageController extends GetxController {
   }
 
   Future<void> asyncLoadCallData() async {
-    var fromCalls = await db.collection("calls")
+    var fromCalls = await db.collection("chatcall")
         .withConverter(
         fromFirestore: ChatCall.fromFirestore,
         toFirestore: (ChatCall call, options) => call.toFirestore()
@@ -222,14 +221,14 @@ class MessageController extends GetxController {
 
     // Listen to call changes
     _subscriptions.add(
-      db.collection("calls")
+      db.collection("chatcall")
         .where("to_token", isEqualTo: token)
         .snapshots()
         .listen((_) => asyncLoadCallData())
     );
 
     _subscriptions.add(
-      db.collection("calls")
+      db.collection("chatcall")
         .where("from_token", isEqualTo: token)
         .snapshots()
         .listen((_) => asyncLoadCallData())
@@ -252,14 +251,14 @@ class MessageController extends GetxController {
       ).where("from_token", isEqualTo: token);
 
     final toCallRef = db
-        .collection("calls")
+        .collection("chatcall")
         .withConverter(
             fromFirestore: ChatCall.fromFirestore,
             toFirestore: (ChatCall call, options) => call.toFirestore()
         ).where("to_token", isEqualTo: token);
 
     final fromCallRef = db
-        .collection("calls")
+        .collection("chatcall")
         .withConverter(
             fromFirestore: ChatCall.fromFirestore,
             toFirestore: (ChatCall call, options) => call.toFirestore()

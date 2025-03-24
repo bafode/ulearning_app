@@ -50,8 +50,8 @@ class ResetPasswordState extends ConsumerState<ResetPassword>
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Le mot de passe est requis';
-    } else if (value.length < 6) {
-      return 'Le mot de passe doit contenir au moins 6 caractères';
+    } else if (value.length < 8) {
+      return 'Le mot de passe doit contenir au moins 8 caractères';
     }
     return null;
   }
@@ -59,8 +59,8 @@ class ResetPasswordState extends ConsumerState<ResetPassword>
   String? validateToken(String? value) {
     if (value == null || value.isEmpty) {
       return 'Le code de vérification est requis';
-    } else if (value.length < 6) {
-      return 'Le code de vérification doit contenir 6 caractères';
+    } else if (value.length < 8) {
+      return 'Le code de vérification doit contenir 8 caractères';
     }
     return null;
   }

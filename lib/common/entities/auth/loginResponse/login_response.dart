@@ -1,3 +1,4 @@
+import 'package:beehive/common/entities/error/api_error_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:beehive/common/entities/auth/token/tokens.dart';
 import 'package:beehive/common/entities/user/user.dart';
@@ -11,6 +12,8 @@ class LoginResponse with _$LoginResponse {
     String? message,
     User? user,
     Tokens? tokens,
+    List<ApiErrorDetail>? details,
+    String? stack
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

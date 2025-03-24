@@ -1,4 +1,6 @@
 
+import 'package:beehive/common/entities/error/api_error_response.dart';
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:beehive/common/entities/post/createCommentRequest/create_comment_request.dart';
 import 'package:beehive/common/entities/post/createPostResponse/post_create_response.dart';
@@ -45,7 +47,7 @@ abstract class PostRepository {
     int? limit,
   });
 
-  Future<PostCreateResponse?> createPost(
+  Future<Either<ApiErrorResponse, PostCreateResponse?>>createPost(
       String title, String content, String category,List<String> domain, List<MultipartFile> media);
 
   Future<Post?> toggleLikePost(String postId);

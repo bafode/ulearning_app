@@ -38,6 +38,7 @@ class _AddState extends ConsumerState<Add> {
     super.initState();
   }
 
+
   Future<List<File>?> convertMediaListToFilesList(List<Media> mediaList) async {
     List<File>? filesList = [];
     for (Media media in mediaList) {
@@ -72,6 +73,15 @@ class _AddState extends ConsumerState<Add> {
   void _handleCategorySelection(String category) {
     setState(() => selectedCategory = category);
     ref.read(postCreateNotifierProvier.notifier).onPostCategoryChange(category);
+  }
+
+  
+  @override
+  void dispose() {
+    description.dispose();
+    category.dispose();
+    ref.read(postCreateNotifierProvier.notifier).onPostDomainChange([]);
+    super.dispose();
   }
 
   @override

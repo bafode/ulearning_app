@@ -10,7 +10,13 @@ class AuthInterceptor extends Interceptor {
     if (tokens != null) {
       options.headers['Authorization'] = 'Bearer ${tokens.access.token}';
     }
-    options.headers['Content-Type'] = 'application/json';
+    
+    // Ne pas écraser le Content-Type s'il est déjà défini dans les options
+    // Cela permet aux requêtes multipart de conserver leur Content-Type approprié
+    if (options.contentType == null && !options.headers.containsKey('Content-Type')) {
+      options.headers['Content-Type'] = 'application/json';
+    }
+    
     return super.onRequest(options, handler);
   }
 

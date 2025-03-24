@@ -19,15 +19,61 @@ class ChatAPI {
     return BaseResponseEntity.fromJson(response);
   }
 
-  static Future<BaseResponseEntity> call_notifications(
+ static Future<BaseResponseEntity> call_notifications(
       {CallRequestEntity? params}) async {
-    var response = await HttpUtil().post(
-      'v1/notifications/send_notice',
-      data: params?.toJson(),
-    );
-    return BaseResponseEntity.fromJson(response);
-  }
+    try {
+      final loggedUser = Global.storageService.getUserProfile();
+      String notificationType;
+      String message;
 
+      // Utiliser les mêmes types d'appels que ceux utilisés dans les contrôleurs
+      // pour assurer la cohérence entre le backend et le frontend
+      notificationType = params?.call_type ?? "text";
+
+      switch (params?.call_type) {
+        case "voice":
+          message = "Appel vocal";
+          break;
+        case "video":
+          message = "Appel vidéo";
+          break;
+        case "cancel":
+          message = "Appel manqué";
+          break;
+        case "accept":
+          message = "Appel accepté";
+          break;
+         case "text":
+          message = "Message";
+          break;
+        default:
+          message = "Notification";
+      }
+
+      final socialNotificationData = {
+        "to_token": params?.to_token,
+        "type": notificationType,
+        "call_type": params?.call_type, // Ajouter le call_type pour s'assurer que le backend le reçoit
+        "target_id": params?.doc_id,
+        "target_type": "call",
+        "message": message,
+        "doc_id": params?.doc_id,
+      };
+
+      var response = await HttpUtil().post(
+        'v1/notifications/social',
+        data: socialNotificationData,
+      );
+      return BaseResponseEntity.fromJson(response);
+    } catch (e) {
+      print("Error sending social notification: $e");
+      return BaseResponseEntity(
+        code: -1,
+        msg: "Error sending social notification",
+        data: null,
+      );
+    }
+  }
   static Future<BaseResponseEntity> call_token(
       {CallTokenRequestEntity? params}) async {
     var response = await HttpUtil().post(
