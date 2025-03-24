@@ -44,7 +44,6 @@ class Global {
     Get.lazyPut(() => MessageController());
     Get.lazyPut(() => VoiceCallController());
     Get.lazyPut(() => VideoCallController());
-    topSnakbarKey = GlobalKey<TopSnackbarState>();
   }
 
   static TransitionBuilder MaterialAppBuilder({
