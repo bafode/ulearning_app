@@ -22,8 +22,6 @@ class Global {
       GlobalKey<ScaffoldMessengerState>();
   static GlobalKey<TopSnackbarState> topSnakbarKey =
       GlobalKey<TopSnackbarState>();
-  static GlobalKey easyLoadingKey = GlobalKey();
-
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -46,36 +44,31 @@ class Global {
     Get.lazyPut(() => VideoCallController());
   }
 
+ static bool _isOverlayAdded = false;
+
   static TransitionBuilder MaterialAppBuilder({
     TransitionBuilder? builder,
   }) {
     return (BuildContext context, Widget? child) {
-      if (builder != null) {
-        return builder(
-            context,
-            Overlay(initialEntries: [
-              OverlayEntry(builder: (BuildContext context) {
-                return FlutterEasyLoading(
-                    key: easyLoadingKey,
-                    child: child); // Utilisez la clé statique
-              }),
-              OverlayEntry(builder: (BuildContext context) {
-                return TopSnackbar(key: topSnakbarKey);
-              })
-            ]));
-      } else {
-        return Overlay(initialEntries: [
+      if (_isOverlayAdded) {
+        return builder != null ? builder(context, child) : child!;
+      }
+
+      _isOverlayAdded = true; // Marquer l'overlay comme ajouté une seule fois
+
+      return Overlay(
+        initialEntries: [
           OverlayEntry(builder: (BuildContext context) {
-            return FlutterEasyLoading(
-                key: easyLoadingKey, child: child); // Utilisez la clé statique
+            return FlutterEasyLoading(child: child); // ✅ Supprimé la GlobalKey
           }),
           OverlayEntry(builder: (BuildContext context) {
             return TopSnackbar(key: topSnakbarKey);
           })
-        ]);
-      }
+        ],
+      );
     };
   }
+
 
   static void setSystemUi() {
     if (Platform.isAndroid) {
