@@ -79,7 +79,7 @@ jobs:
           rm -rf android/.gradle/
 
       - name: Build App Bundle (Without Signing)
-        run: flutter build appbundle --release --verbose --no-signing
+        run: flutter build appbundle --release --verbose
 
       - name: Upload App Bundle Artifact
         uses: actions/upload-artifact@v4
