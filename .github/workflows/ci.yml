@@ -1,88 +1,40 @@
-name: CI
+name: Flutter CI/CD
+
 on:
   push:
     branches:
-      - main
+      - main  # Ou la branche que tu souhaites surveiller
 
 jobs:
-  flutter_test:
-    name: Run flutter test and analyze
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "17.x" # Version stable de Java
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      # - run: flutter analyze
-      # - run: flutter test
-
-  build_ios:
-    name: Build Flutter (iOS)
-    needs: [flutter_test]
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "17.x" # Version stable de Java
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - name: Set platform version in Podfile
-        run: |
-          cd ios
-          echo "platform :ios, '15.5'" >> Podfile
-      - name: Update CocoaPods repo
-        run: |
-          cd ios
-          pod repo update
-      - name: Install CocoaPods dependencies
-        run: |
-          cd ios
-          pod install
-      - name: Build iOS app
-        run: flutter build ios --release --no-codesign
-
-  build_appbundle:
-    name: Build Flutter (Android)
-    needs: [flutter_test]
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      # 1. Checkout du code
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
+      # 2. Installer Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+      - run: flutter --version
 
-      - name: Install Dependencies
+      # 3. Installer les dépendances
+      - name: Install dependencies
         run: flutter pub get
 
-      - name: Clean Flutter and Gradle Cache
-        run: |
-          flutter clean
-          rm -rf ~/.gradle/caches/
-          rm -rf android/.gradle/
+      # 4. Construire l'AppBundle pour Android
+      - name: Build Android AppBundle
+        run: flutter build appbundle --release
 
+      # 5. Décrypter le keystore
       - name: Set up keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
           # Create the keystore file from base64
@@ -100,18 +52,14 @@ jobs:
             echo "Keystore and key.properties created successfully"
           else
             echo "No keystore secret found, using debug signing"
-            # Modify build.gradle to use debug signing for CI
-            sed -i 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/g' android/app/build.gradle
           fi
-          
-      - name: Build App Bundle
-        run: flutter build appbundle --release --verbose
 
-      - name: Upload App Bundle Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release.aab
-          path: build/app/outputs/bundle/release/app-release.aab
+      # 6. Signer l'AppBundle
+      - name: Sign AppBundle
+        run: |
+          cd android
+          ./gradlew bundleRelease
+
       # 7. Télécharger l'outil "Google Play Publisher"
       - name: Download Google Play Publisher
         run: npm install -g fastlane
@@ -121,7 +69,7 @@ jobs:
         env:
           SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         run: |
-          fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
+          fastlane supply --aab build/app/outputs/bundle/release/app-release.aab \
           --track production \
           --json_key_data "$SERVICE_ACCOUNT_JSON" \
           --package_name fr.beehiveapp.beehive
