@@ -78,28 +78,34 @@ jobs:
           rm -rf ~/.gradle/caches/
           rm -rf android/.gradle/
 
-      - name: Verify keystore and properties
+      - name: Set up keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
-          # Check if key.properties exists
-          if [ -f "android/key.properties" ]; then
-            echo "key.properties found"
-            cat android/key.properties
+          # Create the keystore file from base64
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "Creating keystore file from secret..."
+            echo $KEYSTORE_BASE64 | base64 --decode > android/app/upload-keystore.jks
+            
+            # Create key.properties file
+            echo "Creating key.properties file..."
+            echo "storePassword=$STORE_PASSWORD" > android/key.properties
+            echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
+            echo "keyAlias=$KEY_ALIAS" >> android/key.properties
+            echo "storeFile=../app/upload-keystore.jks" >> android/key.properties
+            
+            echo "Keystore and key.properties created successfully"
           else
-            echo "key.properties not found"
+            echo "No keystore secret found, using debug signing"
+            # Modify build.gradle to use debug signing for CI
+            sed -i 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/g' android/app/build.gradle
           fi
           
-          # Check if keystore file exists
-          if [ -f "android/app/upload-keystore.jks" ]; then
-            echo "Keystore file found"
-          else
-            echo "Keystore file not found"
-          fi
-          
-      - name: Build App Bundle with debug signing
-        run: |
-          # Modify build.gradle to use debug signing for CI
-          sed -i 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/g' android/app/build.gradle
-          flutter build appbundle --release --verbose
+      - name: Build App Bundle
+        run: flutter build appbundle --release --verbose
 
       - name: Upload App Bundle Artifact
         uses: actions/upload-artifact@v4
