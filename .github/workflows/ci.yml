@@ -1,35 +1,91 @@
-name: Flutter CI/CD
-
+name: CI
 on:
   push:
     branches:
-      - main  # Ou la branche que tu souhaites surveiller
+      - main
 
 jobs:
-  build:
+  flutter_test:
+    name: Run flutter test and analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "17.x" # Version stable de Java
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      # - run: flutter analyze
+      # - run: flutter test
+
+  build_ios:
+    name: Build Flutter (iOS)
+    needs: [flutter_test]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "17.x" # Version stable de Java
+          
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          
+      - name: Install Flutter dependencies
+        run: flutter pub get
+        
+      - name: Set platform version in Podfile
+        run: |
+          cd ios
+          echo "platform :ios, '15.5'" >> Podfile
+          
+      - name: Generate Flutter files
+        run: |
+          flutter clean
+          flutter pub get
+          
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod repo update
+          pod install
+          
+      - name: Build iOS app
+        run: flutter build ios --release --no-codesign
+
+  build_appbundle:
+    name: Build Flutter (Android)
+    needs: [flutter_test]
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout du code
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      # 2. Installer Flutter
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter --version
 
-      # 3. Installer les dépendances
-      - name: Install dependencies
+      - name: Install Dependencies
         run: flutter pub get
 
-      # 4. Construire l'AppBundle pour Android
-      - name: Build Android AppBundle
-        run: flutter build appbundle --release
+      - name: Clean Flutter and Gradle Cache
+        run: |
+          flutter clean
+          rm -rf ~/.gradle/caches/
+          rm -rf android/.gradle/
 
-      # 5. Décrypter le keystore
       - name: Set up keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
@@ -52,24 +108,54 @@ jobs:
             echo "Keystore and key.properties created successfully"
           else
             echo "No keystore secret found, using debug signing"
+            # Modify build.gradle to use debug signing for CI
+            sed -i 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/g' android/app/build.gradle
           fi
+          
+      - name: Build App Bundle
+        run: flutter build appbundle --release --verbose
 
-      # 6. Signer l'AppBundle
-      - name: Sign AppBundle
-        run: |
-          cd android
-          ./gradlew bundleRelease
+      - name: Upload App Bundle Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release/app-release.aab
+          
+  deploy_to_play_store:
+    name: Deploy to Google Play
+    needs: [build_appbundle]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # Only deploy from main branch
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Download App Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release
+          
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+          
+      - name: Install Fastlane
+        run: gem install fastlane
 
-      # 7. Télécharger l'outil "Google Play Publisher"
-      - name: Download Google Play Publisher
-        run: npm install -g fastlane
-
-      # 8. Déployer sur Google Play
       - name: Deploy to Google Play
         env:
           SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         run: |
-          fastlane supply --aab build/app/outputs/bundle/release/app-release.aab \
-          --track production \
-          --json_key_data "$SERVICE_ACCOUNT_JSON" \
-          --package_name fr.beehiveapp.beehive
+          # Verify the AAB file exists
+          ls -la build/app/outputs/bundle/release/
+          
+          # Deploy using fastlane
+          fastlane supply \
+            --aab build/app/outputs/bundle/release/app-release.aab \
+            --track production \
+            --json_key_data "$SERVICE_ACCOUNT_JSON" \
+            --package_name fr.beehiveapp.beehive
