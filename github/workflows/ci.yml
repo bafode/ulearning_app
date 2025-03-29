@@ -55,4 +55,4 @@ jobs:
           fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
           --track production \
           --json_key_data "$SERVICE_ACCOUNT_JSON" \
-          --package_name com.tonnomdepackage.nomapp
+          --package_name fr.beehiveapp.beehive
