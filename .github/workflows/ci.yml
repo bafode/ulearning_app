@@ -112,3 +112,16 @@ jobs:
         with:
           name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
+      # 7. Télécharger l'outil "Google Play Publisher"
+      - name: Download Google Play Publisher
+        run: npm install -g fastlane
+
+      # 8. Déployer sur Google Play
+      - name: Deploy to Google Play
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          fastlane supply --aab app/build/outputs/bundle/release/app-release.aab \
+          --track production \
+          --json_key_data "$SERVICE_ACCOUNT_JSON" \
+          --package_name fr.beehiveapp.beehive
