@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:beehive/common/routes/routes.dart';
+import 'package:beehive/features/sign_up/notifiers/step_notifier.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -229,8 +231,15 @@ class SignInController {
           notifier.onUserEmailChange("");
           notifier.onUserPasswordChange("");
           EasyLoading.dismiss();
-          Global.navigatorKey.currentState
-              ?.pushNamedAndRemoveUntil("/application", (route) => false);
+          if(success.code==201){
+            ref.read(registrationCurrentStepProvider.notifier).setCurrentStep(2);
+            Global.navigatorKey.currentState
+                ?.pushNamedAndRemoveUntil(AppRoutes.SIGN_UP, (route) => false);
+          }else{
+            Global.navigatorKey.currentState
+                ?.pushNamedAndRemoveUntil("/application", (route) => false);
+          }
+
         } else {
           // Ce cas ne devrait normalement pas se produire car un code non-200 devrait être une erreur
           EasyLoading.dismiss();
