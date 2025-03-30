@@ -69,7 +69,6 @@ jobs:
           
       - name: Build iOS app
         run: flutter build ios --release --no-codesign
-
   build_appbundle:
     name: Build Flutter (Android)
     needs: [flutter_test]
@@ -99,7 +98,7 @@ jobs:
           rm -rf ~/.gradle/caches/
           rm -rf android/.gradle/
 
-      - name: Set up keystore and Firebase configuration
+      - name: Set up keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -123,16 +122,6 @@ jobs:
             echo "No keystore secret found, using debug signing"
             # Modify build.gradle to use debug signing for CI
             sed -i 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/g' android/app/build.gradle
-          fi
-          
-          # Create the google-services.json file from base64
-          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
-            echo "Creating google-services.json from secret..."
-            echo $GOOGLE_SERVICES_JSON | base64 --decode > android/app/google-services.json
-            echo "Firebase configuration created successfully"
-          else
-            echo "No Firebase configuration found, creating empty file"
-            echo "{}" > android/app/google-services.json
           fi
           
       - name: Build App Bundle
