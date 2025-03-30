@@ -2,7 +2,8 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - main    # Build and deploy
+      - develop # Build only
 
 jobs:
   flutter_test:
