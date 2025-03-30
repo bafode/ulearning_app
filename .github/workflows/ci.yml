@@ -158,16 +158,16 @@ jobs:
       - name: Install Fastlane
         run: gem install fastlane
 
-      # - name: Deploy to Google Play
-      #   env:
-      #     SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-      #   run: |
-      #     # Verify the AAB file exists
-      #     ls -la build/app/outputs/bundle/release/
+      - name: Deploy to Google Play
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        run: |
+          # Verify the AAB file exists
+          ls -la build/app/outputs/bundle/release/
           
-      #     # Deploy using fastlane
-      #     fastlane supply \
-      #       --aab build/app/outputs/bundle/release/app-release.aab \
-      #       --track production \
-      #       --json_key_data "$SERVICE_ACCOUNT_JSON" \
-      #       --package_name fr.beehiveapp.beehive
+          # Deploy using fastlane
+          fastlane supply \
+            --aab build/app/outputs/bundle/release/app-release.aab \
+            --track production \
+            --json_key_data "$SERVICE_ACCOUNT_JSON" \
+            --package_name fr.beehiveapp.beehive
