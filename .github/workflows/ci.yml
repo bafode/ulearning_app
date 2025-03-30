@@ -53,6 +53,19 @@ jobs:
           cd ios
           pod repo update
           pod install
+      
+      - name: Set up Firebase configuration
+        env:
+          GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+        run: |
+          if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
+            echo "Creating GoogleService-Info.plist from secret..."
+            echo $GOOGLE_SERVICE_INFO_PLIST | base64 --decode > ios/Runner/GoogleService-Info.plist
+            echo "Firebase configuration created successfully"
+          else
+            echo "No Firebase configuration found, creating empty file"
+            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n</dict>\n</plist>" > ios/Runner/GoogleService-Info.plist
+          fi
           
       - name: Build iOS app
         run: flutter build ios --release --no-codesign
@@ -86,12 +99,13 @@ jobs:
           rm -rf ~/.gradle/caches/
           rm -rf android/.gradle/
 
-      - name: Set up keystore
+      - name: Set up keystore and Firebase configuration
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          GOOGLE_SERVICES_JSON: ${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}
         run: |
           # Create the keystore file from base64
           if [ -n "$KEYSTORE_BASE64" ]; then
@@ -110,6 +124,16 @@ jobs:
             echo "No keystore secret found, using debug signing"
             # Modify build.gradle to use debug signing for CI
             sed -i 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/g' android/app/build.gradle
+          fi
+          
+          # Create the google-services.json file from base64
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            echo "Creating google-services.json from secret..."
+            echo $GOOGLE_SERVICES_JSON | base64 --decode > android/app/google-services.json
+            echo "Firebase configuration created successfully"
+          else
+            echo "No Firebase configuration found, creating empty file"
+            echo "{}" > android/app/google-services.json
           fi
           
       - name: Build App Bundle
@@ -146,16 +170,16 @@ jobs:
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Deploy to Google Play
-        env:
-          SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-        run: |
-          # Verify the AAB file exists
-          ls -la build/app/outputs/bundle/release/
+      # - name: Deploy to Google Play
+      #   env:
+      #     SERVICE_ACCOUNT_JSON: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+      #   run: |
+      #     # Verify the AAB file exists
+      #     ls -la build/app/outputs/bundle/release/
           
-          # Deploy using fastlane
-          fastlane supply \
-            --aab build/app/outputs/bundle/release/app-release.aab \
-            --track production \
-            --json_key_data "$SERVICE_ACCOUNT_JSON" \
-            --package_name fr.beehiveapp.beehive
+      #     # Deploy using fastlane
+      #     fastlane supply \
+      #       --aab build/app/outputs/bundle/release/app-release.aab \
+      #       --track production \
+      #       --json_key_data "$SERVICE_ACCOUNT_JSON" \
+      #       --package_name fr.beehiveapp.beehive
