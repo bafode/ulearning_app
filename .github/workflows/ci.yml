@@ -105,7 +105,6 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-          GOOGLE_SERVICES_JSON: ${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}
         run: |
           # Create the keystore file from base64
           if [ -n "$KEYSTORE_BASE64" ]; then
