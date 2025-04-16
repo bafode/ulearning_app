@@ -38,7 +38,6 @@ class _AddState extends ConsumerState<Add> {
     super.initState();
   }
 
-
   Future<List<File>?> convertMediaListToFilesList(List<Media> mediaList) async {
     List<File>? filesList = [];
     for (Media media in mediaList) {
@@ -75,7 +74,6 @@ class _AddState extends ConsumerState<Add> {
     ref.read(postCreateNotifierProvier.notifier).onPostCategoryChange(category);
   }
 
-  
   @override
   void dispose() {
     description.dispose();
@@ -122,7 +120,8 @@ class _AddState extends ConsumerState<Add> {
           onPressed: _handleFloatingActionButton,
           backgroundColor: AppColors.primaryElement,
           elevation: 2,
-          child: const Icon(Icons.add_photo_alternate_rounded, color: Colors.white),
+          child: const Icon(Icons.add_photo_alternate_rounded,
+              color: Colors.white),
         ),
       ),
     );
@@ -135,7 +134,8 @@ class _AddState extends ConsumerState<Add> {
             backgroundColor: AppColors.primaryElement,
             leading: GestureDetector(
               onTap: () => ref.read(appZoomControllerProvider).toggle?.call(),
-              child: const Icon(Icons.menu_outlined, size: 24, color: Colors.white),
+              child: const Icon(Icons.menu_outlined,
+                  size: 24, color: Colors.white),
             ),
             title: Text(
               "Créer une publication",
@@ -164,7 +164,17 @@ class _AddState extends ConsumerState<Add> {
               Container(
                 margin: EdgeInsets.only(right: 16.w),
                 child: ElevatedButton(
-                  onPressed: _selectedMedias.isNotEmpty
+                  onPressed: selectedCategory != null &&
+                  (ref
+                                      .watch(postCreateNotifierProvier)
+                                      .content
+                                      ?.length ??
+                                  0) >
+                              10&&
+                          (ref
+                              .watch(postCreateNotifierProvier)
+                              .selectedDomain??[]
+                          ).isNotEmpty
                       ? () => _controller.handleCreatePost()
                       : null,
                   style: ElevatedButton.styleFrom(
