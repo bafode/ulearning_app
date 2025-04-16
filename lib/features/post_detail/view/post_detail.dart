@@ -363,9 +363,6 @@ class _PostDetailPage extends ConsumerState<PostDetail>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildAuthorHeader(post),
-          SizedBox(height: 12.h),
-          _buildPostTitle(post),
-          SizedBox(height: 12.h),
           _buildPostContentText(post),
           SizedBox(height: 16.h),
           if (post.media?.isNotEmpty ?? false) _buildPostMedia(post),
@@ -563,16 +560,16 @@ class _PostDetailPage extends ConsumerState<PostDetail>
     ref.read(asyncNotifierPostDetailControllerProvider.notifier).init(postId);
   }
 
-  Widget _buildPostTitle(Post post) {
-    return Text(
-      post.title ?? '',
-      style: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.bold,
-        color: Colors.black87,
-      ),
-    );
-  }
+  // Widget _buildPostTitle(Post post) {
+  //   return Text(
+  //     post.title ?? '',
+  //     style: TextStyle(
+  //       fontSize: 20.sp,
+  //       fontWeight: FontWeight.bold,
+  //       color: Colors.black87,
+  //     ),
+  //   );
+  // }
 
   Widget _buildPostMedia(Post post) {
     return Container(

@@ -48,7 +48,8 @@ class HomeBanner extends StatelessWidget {
         ),
         //dots
         DotsIndicator(
-          position: ref.watch(homeScreenBannerDotsProvider).toDouble(),
+          position:
+              (ref.watch(homeScreenBannerDotsProvider) as int? ?? 0).toDouble(),
           dotsCount: 3,
           mainAxisAlignment: MainAxisAlignment.center,
           decorator: DotsDecorator(

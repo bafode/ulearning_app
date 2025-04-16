@@ -57,6 +57,7 @@ abstract class PostRepository {
   Future<User?> toggleUserFollow(String followId);
 
   Future<Post?> getPost(String postId);
+  Future<void> deletePost(String postId);
 
   Future<Post?> createComment(String postId, CreateCommentRequest content);
 }
