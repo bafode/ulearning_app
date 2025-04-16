@@ -7,12 +7,12 @@ part of 'home_controller.dart';
 // **************************************************************************
 
 String _$homeScreenBannerDotsHash() =>
-    r'44c3f15bab8bacef82ebfe414b4828aab1c80408';
+    r'770c158805dc6542d8a24e3a4a32bd42030d28a5';
 
 /// See also [HomeScreenBannerDots].
 @ProviderFor(HomeScreenBannerDots)
 final homeScreenBannerDotsProvider =
-    NotifierProvider<HomeScreenBannerDots, int>.internal(
+    NotifierProvider<HomeScreenBannerDots, Object?>.internal(
   HomeScreenBannerDots.new,
   name: r'homeScreenBannerDotsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,7 @@ final homeScreenBannerDotsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeScreenBannerDots = Notifier<int>;
+typedef _$HomeScreenBannerDots = Notifier<Object?>;
 String _$postBannerDotsHash() => r'33fede2f177709bc9357c580528a374f9f11aea5';
 
 /// See also [PostBannerDots].
