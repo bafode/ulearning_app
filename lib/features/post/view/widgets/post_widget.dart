@@ -115,6 +115,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       return;
     }
 
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
+
     setState(() {
       isLiked = !isLiked;
       postLikeCount += isLiked ? 1 : -1;
@@ -124,17 +127,17 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       if (!isLiked) {
         CallRequestEntity request = CallRequestEntity(
           call_type: 'like',
-          to_token: widget.post.author.id,
-          to_firstname: widget.post.author.firstname,
-          to_lastname: widget.post.author.lastname,
-          to_avatar: widget.post.author.avatar,
-          doc_id: widget.post.id,
+          to_token: latestPost.author.id,
+          to_firstname: latestPost.author.firstname,
+          to_lastname: latestPost.author.lastname,
+          to_avatar: latestPost.author.avatar,
+          doc_id: latestPost.id,
         );
         await ChatAPI.call_notifications(params: request);
       }
       await ref
           .read(postsViewModelProvider.notifier)
-          .toggleLikePost(widget.post.id);
+          .toggleLikePost(latestPost.id);
     } catch (error) {
       setState(() {
         isLiked = !isLiked;
@@ -150,6 +153,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       showErrorSnackbar('Please log in to comment');
       return;
     }
+
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
 
     final loggedUser = ref.read(homeUserProfileProvider).value!;
     final newComment = Comment(
@@ -168,14 +174,14 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     try {
       await ref
           .read(postsViewModelProvider.notifier)
-          .createComment(widget.post.id, content);
+          .createComment(latestPost.id, content);
       CallRequestEntity request = CallRequestEntity(
         call_type: 'comment',
-        to_token: widget.post.author.id,
-        to_firstname: widget.post.author.firstname,
-        to_lastname: widget.post.author.lastname,
-        to_avatar: widget.post.author.avatar,
-        doc_id: widget.post.id,
+        to_token: latestPost.author.id,
+        to_firstname: latestPost.author.firstname,
+        to_lastname: latestPost.author.lastname,
+        to_avatar: latestPost.author.avatar,
+        doc_id: latestPost.id,
       );
       await ChatAPI.call_notifications(params: request);
     } catch (error) {
@@ -198,27 +204,30 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       return;
     }
 
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
+
     setState(() {
       isFavorite = !isFavorite;
       if (isFavorite) {
-        favorites = List.from(favorites)..add(widget.post.id);
-        favorites.add(widget.post.id);
+        favorites = List.from(favorites)..add(latestPost.id);
+        favorites.add(latestPost.id);
       } else {
-        favorites = List.from(favorites)..remove(widget.post.id);
+        favorites = List.from(favorites)..remove(latestPost.id);
       }
     });
 
     try {
       await ref
           .read(favoriteControllerProvider.notifier)
-          .toggleUserFavorites(widget.post.id);
+          .toggleUserFavorites(latestPost.id);
     } catch (error) {
       setState(() {
         isFavorite = !isFavorite;
         if (isFavorite) {
-          favorites.remove(widget.post.id);
+          favorites.remove(latestPost.id);
         } else {
-          favorites.add(widget.post.id);
+          favorites.add(latestPost.id);
         }
       });
       showErrorSnackbar('Failed to update favorites');
@@ -232,6 +241,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       return;
     }
 
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
+
     final wasFollowing = isFollowing;
     setState(() {
       isFollowing = !isFollowing;
@@ -241,18 +253,18 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       if (!wasFollowing) {
         CallRequestEntity request = CallRequestEntity(
           call_type: 'follow',
-          to_token: widget.post.author.id,
-          to_firstname: widget.post.author.firstname,
-          to_lastname: widget.post.author.lastname,
-          to_avatar: widget.post.author.avatar,
-          doc_id: widget.post.author.id,
+          to_token: latestPost.author.id,
+          to_firstname: latestPost.author.firstname,
+          to_lastname: latestPost.author.lastname,
+          to_avatar: latestPost.author.avatar,
+          doc_id: latestPost.author.id,
         );
         await ChatAPI.call_notifications(params: request);
       }
 
       final user = await ref
           .read(postsViewModelProvider.notifier)
-          .toggleUserFollow(widget.post.author.id);
+          .toggleUserFollow(latestPost.author.id);
 
       if (user == null) {
         throw Exception('Failed to update follow status');
@@ -266,6 +278,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   }
 
   Widget buildHeader(BuildContext context) {
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
+    
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
       leading: ClipOval(
@@ -273,7 +288,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           onTap: () {
             Navigator.of(context).pushNamed(
               AppRoutes.Profile,
-              arguments: {"id": widget.post.author.id},
+              arguments: {"id": latestPost.author.id},
             );
           },
           child: Container(
@@ -290,10 +305,10 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             ),
             child: CachedNetworkImage(
               imageUrl:
-                  Uri.tryParse(widget.post.author.avatar ?? '')?.isAbsolute ==
+                  Uri.tryParse(latestPost.author.avatar ?? '')?.isAbsolute ==
                           true
-                      ? widget.post.author.avatar!
-                      : widget.post.author.avatar ?? '',
+                      ? latestPost.author.avatar!
+                      : latestPost.author.avatar ?? '',
               height: 56.w,
               width: 56.w,
               imageBuilder: (context, imageProvider) => Container(
@@ -321,7 +336,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         ),
       ),
       title: Text(
-        "${widget.post.author.firstname ?? ""} ${widget.post.author.lastname ?? ""}",
+        "${latestPost.author.firstname ?? ""} ${latestPost.author.lastname ?? ""}",
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 14.sp,
@@ -329,7 +344,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
         ),
       ),
       subtitle: Text(
-        widget.post.author.school ?? "",
+        latestPost.author.school ?? "",
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
@@ -536,6 +551,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             ),
             TextButton(
               onPressed: () {
+                ref
+                    .read(postsViewModelProvider.notifier)
+                    .deletePost(widget.post.id);
                 // Logique pour supprimer la publication
                 Navigator.pop(context);
                 // Feedback utilisateur après suppression
@@ -599,6 +617,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   }
 
   Widget buildMedia(BuildContext context) {
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
+    
     return GestureDetector(
       onDoubleTap: () {
         setState(() {
@@ -608,7 +629,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          PostBanner(controller: controller, postItem: widget.post),
+          PostBanner(controller: controller, postItem: latestPost),
           if (isAnimating)
             LikeAnimation(
               isAnimating: isAnimating,
@@ -725,10 +746,13 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   }
 
   Widget buildShareButton() {
+    // Get the latest post from the PostsViewModel
+    final latestPost = _getLatestPost();
+    
     return GestureDetector(
       onTap: () {
         final postUrl =
-            "https://beehive-landing-page.vercel.app/post/${widget.post.id}";
+            "https://beehive-landing-page.vercel.app/post/${latestPost.id}";
         Share.share(
           "Découvrez ce post sur Beehive: $postUrl",
           subject: "Partager via Beehive",
@@ -751,30 +775,46 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     );
   }
 
+  // Get the latest post from the PostsViewModel
+  Post _getLatestPost() {
+    final postsState = ref.watch(postsViewModelProvider);
+    final posts = postsState.valueOrNull ?? [];
+    final latestPost = posts.firstWhere(
+      (p) => p.id == widget.post.id,
+      orElse: () => widget.post,
+    );
+    return latestPost;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Watch profile state in build method
     final profileState = ref.watch(homeUserProfileProvider);
-
-    // Update local state based on profile changes
+    
+    // Watch posts state to get the latest post
+    final latestPost = _getLatestPost();
+    
+    // Update local state based on profile changes and latest post
     if (profileState.hasValue) {
       final profile = profileState.value!;
       final newFollowing =
-          profile.following?.contains(widget.post.author.id) ?? false;
+          profile.following?.contains(latestPost.author.id) ?? false;
 
-      if (currentUserId != profile.id || isFollowing != newFollowing) {
+      if (currentUserId != profile.id || isFollowing != newFollowing || 
+          latestPost != widget.post) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             setState(() {
               currentUserId = profile.id;
               favorites = profile.favorites ?? [];
-              isFavorite = favorites.contains(widget.post.id);
+              isFavorite = favorites.contains(latestPost.id);
               isLiked =
-                  widget.post.likes.any((like) => like.id == currentUserId);
-              postLikeCount = widget.post.likes.length;
-              comments = widget.post.comments;
-              commentCount = widget.post.comments?.length ?? 0;
+                  latestPost.likes.any((like) => like.id == currentUserId);
+              postLikeCount = latestPost.likes.length;
+              comments = latestPost.comments;
+              commentCount = latestPost.comments?.length ?? 0;
               isFollowing = newFollowing;
+              isMine = profile.id == latestPost.author.id;
             });
           }
         });
@@ -785,7 +825,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
       onTap: () {
         Navigator.of(context).pushNamed(
           AppRoutes.POST_DETAIL,
-          arguments: {"id": widget.post.id},
+          arguments: {"id": _getLatestPost().id},
         );
       },
       child: Container(
@@ -807,9 +847,9 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
           children: [
             buildHeader(context),
             SizedBox(height: 8.h),
-            PostContent(content: widget.post.content ?? ''),
+            PostContent(content: _getLatestPost().content ?? ''),
             SizedBox(height: 8.h),
-            if (widget.post.media != null) buildMedia(context),
+            if (_getLatestPost().media!.isNotEmpty) buildMedia(context),
             SizedBox(height: 8.h),
             buildActions(context),
             SizedBox(height: 8.h),

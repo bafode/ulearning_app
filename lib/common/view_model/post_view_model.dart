@@ -14,6 +14,7 @@ import 'package:beehive/features/post/domain/post_filter.dart';
 import 'package:collection/collection.dart';
 import 'package:beehive/global.dart';
 import 'package:beehive/features/home/controller/home_controller.dart';
+import 'package:beehive/features/favorites/controller/controller.dart';
 
 final postsViewModelProvider =
     AsyncNotifierProvider<PostsViewModel, List<Post>>(() => PostsViewModel());
@@ -164,12 +165,15 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       if (state.hasValue) {
         final currentPosts = state.value!.toList();
         final stateIndex = currentPosts.indexWhere((p) => p.id == post.id);
-        
         if (stateIndex != -1) {
           currentPosts[stateIndex] = post;
           state = AsyncData(currentPosts);
         }
       }
+      
+      // Also update the post in the favorites controller if it exists there
+      final favoriteController = ref.read(favoriteControllerProvider.notifier);
+      favoriteController.updatePostIfExists(post);
     } catch (e) {
       handleError(e);
     }
@@ -215,6 +219,22 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
         ref.read(homeUserProfileProvider.notifier).updateProfile(user);
       }
       return user;
+    } catch (e) {
+      handleError(e);
+      return null;
+    }
+  }
+
+  FutureOr<void> deletePost(String postId) async {
+    try {
+      await repository.deletePost(postId);
+      // Remove the post from local storage
+      final posts = await getPostsFromLocalStorage();
+      final updatedPosts = posts.where((post) => post.id != postId).toList();
+      await savePostsToLocalStorage(updatedPosts);
+      // Update the state to reflect changes in the UI
+      state = AsyncData(updatedPosts);
+      // Also update the post in the favorites controller if it exists there
     } catch (e) {
       handleError(e);
       return null;

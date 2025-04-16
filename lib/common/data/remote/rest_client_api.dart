@@ -156,6 +156,11 @@ abstract class RestClientApi {
     @Path("postId") String postId,
   );
 
+  @DELETE("${AppConstants.postEndPointUrl}/{postId}")
+  Future<void> deletePost(
+    @Path("postId") String postId,
+  );
+
   @GET("${AppConstants.postEndPointUrl}/{postId}")
   Future<Post> getPost(
     @Path("postId") String postId,

@@ -63,7 +63,7 @@ class UpdateUserInfoFormState extends ConsumerState<UpdateUserInfoForm> {
     return null;
   }
 
-  // Removed unused GlobalKey<FormState>
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   List<Map<String, dynamic>> categories = [
     {'label': 'DA', 'icon': Icons.brush},
@@ -77,7 +77,7 @@ class UpdateUserInfoFormState extends ConsumerState<UpdateUserInfoForm> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
-        key: ValueKey('update_user_info_form_key'),
+        key: _formKey,
         child: Column(
           children: [
             const SizedBox(height: 16),
@@ -133,8 +133,7 @@ class UpdateUserInfoFormState extends ConsumerState<UpdateUserInfoForm> {
                 isLogin: true,
                 context: context,
                 func: () async {
-                  // Use the form key from the ValueKey
-                  if (Form.of(context).validate() ?? false) {
+                  if (_formKey.currentState!.validate()) {
                     await _controller.updateUserInfo();
                   }
                 },

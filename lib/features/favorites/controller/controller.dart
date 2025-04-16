@@ -126,6 +126,23 @@ class FavoriteController extends AsyncNotifier<List<Post>>
       state = AsyncData(newFavorites);
     }
   }
+  
+  // Update a post in the favorites state if it exists
+  void updatePostIfExists(Post post) async {
+    if (state.hasValue) {
+      final currentFavorites = state.value!.toList();
+      final index = currentFavorites.indexWhere((p) => p.id == post.id);
+      
+      if (index != -1) {
+        // Post exists in favorites, update it
+        currentFavorites[index] = post;
+        state = AsyncData(currentFavorites);
+        
+        // Also update in local storage
+        await saveSingleFavoriteToLocalStorage(post);
+      }
+    }
+  }
 
   @override
   Future<List<Post>> build() async {

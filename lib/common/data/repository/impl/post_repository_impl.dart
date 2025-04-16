@@ -135,6 +135,11 @@ class PostRepositoryImpl extends PostRepository {
     return response;
   }
 
+   @override
+  Future<void> deletePost(String postId) async {
+     await api.deletePost(postId);
+  }
+
   @override
   Future<User?> toggleUserFavorites(String postId) async {
     final response = await api.toggleUserFavorites(postId);
