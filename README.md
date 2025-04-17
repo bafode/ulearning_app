@@ -67,8 +67,8 @@ Beehive est une application mobile Flutter moderne et dynamique, pensée pour co
 
 ```bash
 # Cloner le projet
-git clone https://github.com/tonprofil/beehive-app.git
-cd beehive-app
+git clone https://github.com/bafode/ulearning_app.git
+cd ulearning_app
 
 # Installer les dépendances
 flutter pub get
