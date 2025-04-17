@@ -6,11 +6,14 @@ Beehive est une application mobile Flutter moderne et dynamique, pensée pour co
 ### 📱 Aperçu mobile
 
 <p align="center">
-  <img src="assets/screenshots/screen1.png" alt="Accueil" width="20%" />
-  <img src="assets/screenshots/screen2.png" alt="Fil d'actualité" width="20%" />
-  <img src="assets/screenshots/screen3.jpg" alt="Commentaires" width="20%" />
-  <img src="assets/screenshots/screen4.jpg" alt="Appel Vidéo" width="20%" />
-  <img src="assets/screenshots/screen5.jpg" alt="Appel Vidéo 2" width="20%" />
+  <img src="assets/screenshots/screen1.png" alt="Login" width="20%" />
+  <img src="assets/screenshots/screen2.png" alt="Registration" width="20%" />
+  <img src="assets/screenshots/screen3.jpg" alt="Home" width="20%" />
+  <img src="assets/screenshots/screen4.jpg" alt="Home Zoom Drawer" width="20%" />
+  <img src="assets/screenshots/screen5.jpg" alt="Select Post Type" width="20%" />
+   <img src="assets/screenshots/screen6.jpg" alt="App Post Screen" width="20%" />
+  <img src="assets/screenshots/screen7.jpg" alt="Message" width="20%" />
+  <img src="assets/screenshots/screen8.jpg" alt="Profile" width="20%" />
 </p>
 
 ---
