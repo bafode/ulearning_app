@@ -21,7 +21,7 @@ Beehive est une application mobile Flutter moderne et dynamique, pensée pour co
 
 ## 🔗 Lien de démonstration
 
-👉 [Beehive MobileApp - Beehive](https://play.google.com/store/apps/details?id=fr.beehiveapp.beehive/)
+👉 [Beehive MobileApp - Beehive](https://play.google.com/store/apps/details?id=fr.beehiveapp.beehive)
 
 ---
 
