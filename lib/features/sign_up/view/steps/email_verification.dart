@@ -1,3 +1,4 @@
+import 'package:beehive/features/sign_up/notifiers/step_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -180,6 +181,23 @@ class EmailVerificationStepState extends ConsumerState<EmailVerificationStep> {
                     func: () async {
                       _controller.handleEmailVerification();
                     },
+                  ),
+                ),
+                const SizedBox(height: 15),
+                TextButton(
+                  onPressed: () {
+                           ref
+                        .read(registrationCurrentStepProvider.notifier)
+                        .setCurrentStep(2);
+
+                  },
+                  child: const Text(
+                    "Vérifier plus tard",
+                    style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],

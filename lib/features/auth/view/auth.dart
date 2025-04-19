@@ -20,11 +20,7 @@ class Auth extends ConsumerWidget {
             end: Alignment.bottomRight,
             colors: [
               Color(0xFFFAFAFA),
-              Color(0xFFF5F5F5),
-              Color(0xFFE0E0E0),
-              Color(0xFFD6D6D6),
-              Color(0xFFC0C0C0),
-              Color(0xFFB0B0B0),
+              Colors.white
             ],
           ),
         ),
@@ -36,21 +32,37 @@ class Auth extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo avec animation de scale
-                  TweenAnimationBuilder(
-                    duration: const Duration(milliseconds: 800),
-                    tween: Tween<double>(begin: 0.5, end: 1.0),
-                    curve: Curves.easeOutBack,
-                    builder: (context, double value, child) {
-                      return Transform.scale(
-                        scale: value,
-                        child: child,
-                      );
-                    },
-                    child: SvgPicture.asset(
-                      ImageRes.beehivelogo,
-                      height: 180.h,
+                  Padding(
+                    padding: EdgeInsets.zero,
+                    child: TweenAnimationBuilder(
+                      duration: const Duration(milliseconds: 800),
+                      tween: Tween<double>(begin: 0.5, end: 1.0),
+                      curve: Curves.easeOutBack,
+                      builder: (context, double value, child) {
+                        return Transform.scale(
+                          scale: value,
+                          child: child,
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        ImageRes.beehivelogo,
+                        height: 180.h,
+                        width: 180.w,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
+                  // Description
+                  Text(
+                    "Créativité, Collaboration, Connaissance :\nBeeHive, ta communauté étudiante.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black, // ou Colors.black si tu veux un texte noir
+                    ),
+                  ),
+
                   SizedBox(height: 60.h),
                   
                   // Card contenant les boutons
@@ -64,7 +76,7 @@ class Auth extends ConsumerWidget {
                           color: Colors.white.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.2),
+                            color: AppColors.primaryElement,
                           ),
                         ),
                         child: Column(
@@ -77,8 +89,8 @@ class Auth extends ConsumerWidget {
                               child: ElevatedButton(
                                 onPressed: () => Navigator.of(context).pushNamed(AppRoutes.SIGN_IN),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: AppColors.primaryElement,
+                                  backgroundColor: AppColors.primaryElement,
+                                  foregroundColor: Colors.white,
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
@@ -102,8 +114,9 @@ class Auth extends ConsumerWidget {
                               child: OutlinedButton(
                                 onPressed: () => Navigator.of(context).pushNamed(AppRoutes.SIGN_UP),
                                 style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(color: Colors.white, width: 1),
-                                  foregroundColor: Colors.white,
+                                  side: const BorderSide(color: AppColors.primaryElement, width: 0.5),
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: AppColors.primaryElement,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),

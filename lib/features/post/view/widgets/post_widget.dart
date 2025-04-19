@@ -752,7 +752,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     return GestureDetector(
       onTap: () {
         final postUrl =
-            "https://beehive-landing-page.vercel.app/post/${latestPost.id}";
+            "https://beehive-admin-portail.netlify.app/posts/${latestPost.id}";
         Share.share(
           "Découvrez ce post sur Beehive: $postUrl",
           subject: "Partager via Beehive",

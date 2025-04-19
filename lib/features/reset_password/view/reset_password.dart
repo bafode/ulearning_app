@@ -59,8 +59,8 @@ class ResetPasswordState extends ConsumerState<ResetPassword>
   String? validateToken(String? value) {
     if (value == null || value.isEmpty) {
       return 'Le code de vérification est requis';
-    } else if (value.length < 8) {
-      return 'Le code de vérification doit contenir 8 caractères';
+    } else if (value.length < 6) {
+      return 'Le code de vérification doit contenir 6 caractères';
     }
     return null;
   }
