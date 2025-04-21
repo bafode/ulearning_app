@@ -74,4 +74,4 @@ cd ulearning_app
 flutter pub get
 ```
 
-<table align="center"> <tr> <td align="center"> <a href="https://bafodecamara.fr/"> <img src="https://res.cloudinary.com/dbi0fzoml/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/v1743583032/ChatGPT_Image_Apr_1_2025_10_15_42_PM_vezcye.png" width="100" height="100" style="border-radius: 50%;" alt="Bafode Camara" /> <br /> <sub><b>Bafode Camara</b></sub> </a> <br /> 💼 Développeur FullStack<br /> 🎓 Étudiant en Master informatique<br /> 🌍 Paris, France </td> </tr> </table>
+<table align="center"> <tr> <td align="center"> <a href="https://bafodecamara.fr/"> <img src="https://res.cloudinary.com/dbi0fzoml/image/upload/v1745266661/profile_ukpsjk.jpg" width="100" height="100" style="border-radius: 50%;" alt="Bafode Camara" /> <br /> <sub><b>Bafode Camara</b></sub> </a> <br /> 💼 Développeur FullStack<br /> 🎓 Étudiant en Master informatique<br /> 🌍 Paris, France </td> </tr> </table>
