@@ -99,7 +99,16 @@ jobs:
           
       - name: Build iOS app
         run: |
-          flutter build ios --release
+          flutter build ios --release --no-codesign
+          xcodebuild -workspace ios/Runner.xcworkspace \
+                     -scheme Runner \
+                     -configuration Release \
+                     -sdk iphoneos \
+                     -allowProvisioningUpdates \
+                     -destination 'generic/platform=iOS' \
+                     CODE_SIGN_STYLE=Manual \
+                     CODE_SIGN_IDENTITY="Apple Distribution" \
+                     PROVISIONING_PROFILE_SPECIFIER="YourProvisioningProfileName"
           
       - name: Create IPA
         run: |
