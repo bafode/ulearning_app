@@ -21,133 +21,33 @@ jobs:
       # - run: flutter analyze
       # - run: flutter test
 
-#  build_ios:
-#    name: Build Flutter (iOS)
-#    needs: [flutter_test]
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - uses: actions/setup-java@v1
-#        with:
-#          java-version: "17.x" # Version stable de Java
-#
-#      - uses: subosito/flutter-action@v2
-#        with:
-#          channel: "stable"
-#
-#      - name: Install Flutter dependencies
-#        run: flutter pub get
-#
-#      - name: Set platform version in Podfile
-#        run: |
-#          cd ios
-#          echo "platform :ios, '15.5'" >> Podfile
-#
-#      - name: Generate Flutter files
-#        run: |
-#          flutter clean
-#          flutter pub get
-#
-#      - name: Install CocoaPods
-#        run: |
-#          cd ios
-#          pod repo update
-#          pod install
-#
-#      - name: Set up Firebase configuration
-#        env:
-#          GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
-#        run: |
-#          if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
-#            echo "Creating GoogleService-Info.plist from secret..."
-#            echo $GOOGLE_SERVICE_INFO_PLIST | base64 --decode > ios/Runner/GoogleService-Info.plist
-#            echo "Firebase configuration created successfully"
-#          else
-#            echo "No Firebase configuration found, creating empty file"
-#            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n</dict>\n</plist>" > ios/Runner/GoogleService-Info.plist
-#          fi
-#
-#      - name: Set up Apple signing
-#        env:
-#          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-#          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-#          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
-#          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-#        run: |
-#          # Create variables
-#          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-#          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-#          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-#
-#          # Import certificate and provisioning profile from secrets
-#          echo "$BUILD_CERTIFICATE_BASE64" | base64 --decode > "$CERTIFICATE_PATH"
-#          echo "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode > "$PP_PATH"
-#
-#          # Create temporary keychain
-#          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-#          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-#          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-#
-#          # Import certificate to keychain
-#          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-#          security list-keychain -d user -s $KEYCHAIN_PATH
-#
-#          # Apply provisioning profile
-#          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-#          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-#
-#      - name: Build iOS app
-#        run: |
-#          xcodebuild -workspace ios/Runner.xcworkspace \
-#                     -scheme Runner \
-#                     -configuration Release \
-#                     -sdk iphoneos \
-#                     -allowProvisioningUpdates \
-#                     -archivePath build/Runner.xcarchive \
-#                     archive
-#
-#      - name: Create IPA
-#        run: |
-#          cd ios
-#          mkdir -p Payload
-#          cp -r build/ios/iphoneos/Runner.app Payload
-#          zip -r app.ipa Payload
-#
-#      - name: Upload IPA Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: app-release.ipa
-#          path: ios/app.ipa
   build_ios:
     name: Build Flutter (iOS)
-    needs: [ flutter_test ]
+    needs: [flutter_test]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-java@v1
         with:
-          java-version: "17.x"
+          java-version: "17.x" # Version stable de Java
 
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
 
-      - name: Clean Flutter & Pods
-        run: |
-          flutter clean
-          rm -rf ios/Pods ios/Podfile.lock
-
-      - name: Set iOS platform version in Podfile
-        run: |
-          sed -i '' "s/platform :ios, .*/platform :ios, '15.5'/" ios/Podfile || echo "platform :ios, '15.5'" >> ios/Podfile
-
       - name: Install Flutter dependencies
         run: flutter pub get
 
-      - name: Ensure CocoaPods is installed
-        run: sudo gem install cocoapods
+      - name: Set platform version in Podfile
+        run: |
+          cd ios
+          echo "platform :ios, '15.5'" >> Podfile
+
+      - name: Generate Flutter files
+        run: |
+          flutter clean
+          flutter pub get
 
       - name: Install CocoaPods
         run: |
@@ -160,9 +60,12 @@ jobs:
           GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
         run: |
           if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
-            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+            echo "Creating GoogleService-Info.plist from secret..."
+            echo $GOOGLE_SERVICE_INFO_PLIST | base64 --decode > ios/Runner/GoogleService-Info.plist
+            echo "Firebase configuration created successfully"
           else
-            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict></dict></plist>" > ios/Runner/GoogleService-Info.plist
+            echo "No Firebase configuration found, creating empty file"
+            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n</dict>\n</plist>" > ios/Runner/GoogleService-Info.plist
           fi
 
       - name: Set up Apple signing
@@ -172,49 +75,147 @@ jobs:
           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
-          CERTIFICATE_PATH=$RUNNER_TEMP/cert.p12
-          PP_PATH=$RUNNER_TEMP/profile.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
+          # Import certificate and provisioning profile from secrets
           echo "$BUILD_CERTIFICATE_BASE64" | base64 --decode > "$CERTIFICATE_PATH"
           echo "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode > "$PP_PATH"
 
+          # Create temporary keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security import "$CERTIFICATE_PATH" -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychains -d user -s $KEYCHAIN_PATH
-          security default-keychain -s $KEYCHAIN_PATH
 
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # Apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          UUID=$(grep -a -E -o "[-A-F0-9]{36}" "$PP_PATH" | head -1)
-          cp "$PP_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Build iOS app (Flutter)
-        run: flutter build ios --release --no-codesign -v
-
-      - name: Archive app (Xcode)
+      - name: Build iOS app
         run: |
           xcodebuild -workspace ios/Runner.xcworkspace \
                      -scheme Runner \
                      -configuration Release \
                      -sdk iphoneos \
                      -allowProvisioningUpdates \
-                     -archivePath $RUNNER_TEMP/Runner.xcarchive \
+                     -archivePath build/Runner.xcarchive \
                      archive
 
-      - name: Export IPA
+      - name: Create IPA
         run: |
-          xcodebuild -exportArchive \
-            -archivePath $RUNNER_TEMP/Runner.xcarchive \
-            -exportPath $RUNNER_TEMP/export \
-            -exportOptionsPlist ios/ExportOptions.plist
+          cd ios
+          mkdir -p Payload
+          cp -r build/ios/iphoneos/Runner.app Payload
+          zip -r app.ipa Payload
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release.ipa
-          path: ${{ runner.temp }}/export/*.ipa
+          path: ios/app.ipa
+
+#  build_ios:
+#    name: Build Flutter (iOS)
+#    needs: [ flutter_test ]
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: "17.x"
+#
+#      - uses: subosito/flutter-action@v2
+#        with:
+#          channel: "stable"
+#
+#      - name: Clean Flutter & Pods
+#        run: |
+#          flutter clean
+#          rm -rf ios/Pods ios/Podfile.lock
+#
+#      - name: Set iOS platform version in Podfile
+#        run: |
+#          sed -i '' "s/platform :ios, .*/platform :ios, '15.5'/" ios/Podfile || echo "platform :ios, '15.5'" >> ios/Podfile
+#
+#      - name: Install Flutter dependencies
+#        run: flutter pub get
+#
+#      - name: Ensure CocoaPods is installed
+#        run: sudo gem install cocoapods
+#
+#      - name: Install CocoaPods
+#        run: |
+#          cd ios
+#          pod repo update
+#          pod install
+#
+#      - name: Set up Firebase configuration
+#        env:
+#          GOOGLE_SERVICE_INFO_PLIST: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+#        run: |
+#          if [ -n "$GOOGLE_SERVICE_INFO_PLIST" ]; then
+#            echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > ios/Runner/GoogleService-Info.plist
+#          else
+#            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict></dict></plist>" > ios/Runner/GoogleService-Info.plist
+#          fi
+#
+#      - name: Set up Apple signing
+#        env:
+#          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+#          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+#          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+#          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+#        run: |
+#          CERTIFICATE_PATH=$RUNNER_TEMP/cert.p12
+#          PP_PATH=$RUNNER_TEMP/profile.mobileprovision
+#          KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
+#
+#          echo "$BUILD_CERTIFICATE_BASE64" | base64 --decode > "$CERTIFICATE_PATH"
+#          echo "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode > "$PP_PATH"
+#
+#          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+#          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+#          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+#          security import "$CERTIFICATE_PATH" -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+#          security list-keychains -d user -s $KEYCHAIN_PATH
+#          security default-keychain -s $KEYCHAIN_PATH
+#
+#          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+#          UUID=$(grep -a -E -o "[-A-F0-9]{36}" "$PP_PATH" | head -1)
+#          cp "$PP_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+#
+#      - name: Build iOS app (Flutter)
+#        run: flutter build ios --release --no-codesign -v
+#
+#      - name: Archive app (Xcode)
+#        run: |
+#          xcodebuild -workspace ios/Runner.xcworkspace \
+#                     -scheme Runner \
+#                     -configuration Release \
+#                     -sdk iphoneos \
+#                     -allowProvisioningUpdates \
+#                     -archivePath $RUNNER_TEMP/Runner.xcarchive \
+#                     archive
+#
+#      - name: Export IPA
+#        run: |
+#          xcodebuild -exportArchive \
+#            -archivePath $RUNNER_TEMP/Runner.xcarchive \
+#            -exportPath $RUNNER_TEMP/export \
+#            -exportOptionsPlist ios/ExportOptions.plist
+#
+#      - name: Upload IPA Artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: app-release.ipa
+#          path: ${{ runner.temp }}/export/*.ipa
 
   build_appbundle:
     name: Build Flutter (Android)
