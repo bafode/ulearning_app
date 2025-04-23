@@ -94,6 +94,7 @@ dependencies:
   mocktail: ^1.0.4
   mockito: ^5.4.5
   share_plus: ^10.1.4
+  sign_in_with_apple: ^6.1.4
 
 flutter_launcher_icons:
   android: true

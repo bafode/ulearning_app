@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:beehive/common/routes/routes.dart';
 import 'package:beehive/features/sign_up/notifiers/step_notifier.dart';
 import 'package:flutter/foundation.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:beehive/common/data/di/repository_module.dart';
 import 'package:beehive/common/entities/auth/loginRequest/login_request.dart';
 import 'package:beehive/common/entities/error/api_error_response.dart';
@@ -60,8 +62,35 @@ class SignInController {
   }
 
   Future<UserCredential> signInWithApple() async {
-    final appleProvider = AppleAuthProvider();
-    return await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    // Ensure we can check for availability
+    final isAvailable = await SignInWithApple.isAvailable();
+    if (!isAvailable) {
+      throw Exception("Sign in with Apple is not available on this device");
+    }
+
+    Logger.write("Starting Apple Sign In with direct package");
+    
+    // Request credential from Apple
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+    
+    Logger.write("Apple credential received: ${appleCredential.toString()}");
+    Logger.write("Email from Apple: ${appleCredential.email}");
+    Logger.write("User identifier: ${appleCredential.userIdentifier}");
+    Logger.write("Name: ${appleCredential.givenName} ${appleCredential.familyName}");
+    
+    // Create OAuthCredential for Firebase
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      accessToken: appleCredential.authorizationCode,
+    );
+    
+    // Sign in to Firebase with the Apple OAuth credential
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
   }
 
   Future<void> handleSignIn(String type) async {
@@ -157,28 +186,121 @@ class SignInController {
 
   Future<void> _handleAppleSignIn() async {
     try {
-      Logger.write("apple");
-      var user = await signInWithApple();
-      Logger.write("${user.user}");
+      Logger.write("Starting Apple Sign In process");
+      
+      // First, get the Apple credential directly
+      final isAvailable = await SignInWithApple.isAvailable();
+      if (!isAvailable) {
+        toastInfo("Sign in with Apple n'est pas disponible sur cet appareil");
+        return;
+      }
+      
+      // Get the Apple ID credential
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      
+      // Log all the information we get from Apple
+      Logger.write("Apple credential received");
+      Logger.write("Email from Apple: ${appleCredential.email}");
+      Logger.write("User identifier: ${appleCredential.userIdentifier}");
+      Logger.write("Given name: ${appleCredential.givenName}");
+      Logger.write("Family name: ${appleCredential.familyName}");
+      
+      // Create OAuthCredential for Firebase
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+      
+      // Sign in to Firebase with the Apple OAuth credential
+      final user = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      
       if (user.user != null) {
+        // Get email from Apple credential first, then fallback to Firebase
+        String? email = appleCredential.email;
+        
+        // If email is null from Apple credential, try to get it from Firebase
+        if (email == null || email.isEmpty) {
+          email = user.user?.email;
+          
+          // If still null, try to get it from stored user data if this is a returning user
+          if ((email == null || email.isEmpty) && user.additionalUserInfo?.isNewUser == false) {
+            try {
+              await user.user?.reload();
+              User? refreshedUser = FirebaseAuth.instance.currentUser;
+              email = refreshedUser?.email;
+              Logger.write("Retrieved email for returning Apple user: $email");
+            } catch (e) {
+              Logger.write("Error refreshing user data: $e");
+            }
+          }
+        }
+        
+        // If email is still null, try to get it from our secure storage
+        if (email == null || email.isEmpty) {
+          final appleUserId = appleCredential.userIdentifier;
+          if (appleUserId != null) {
+            final storedEmail = Global.storageService.getString(
+                "${AppConstants.STORAGE_APPLE_EMAIL_PREFIX}$appleUserId");
+            if (storedEmail.isNotEmpty) {
+              email = storedEmail;
+              Logger.write("Retrieved stored email for Apple user ID: $email");
+            }
+          }
+        }
+        
+        // Store the email in secure storage for future use if we have it
+        if (email != null && email.isNotEmpty) {
+          // We have the email, store it for future use with this Apple ID
+          final appleUserId = appleCredential.userIdentifier;
+          if (appleUserId != null) {
+            // Store the mapping between Apple user ID and email
+            Global.storageService.setString(
+                "${AppConstants.STORAGE_APPLE_EMAIL_PREFIX}$appleUserId", email);
+            Logger.write("Stored email $email for Apple user ID $appleUserId");
+          }
+        } else {
+          // If we still don't have an email, show an error
+          Logger.write("Apple Sign In did not provide an email address");
+          toastInfo('Apple ne nous a pas fourni votre email. Veuillez utiliser une autre méthode de connexion ou contacter le support.');
+          await FirebaseAuth.instance.signOut();
+          return;
+        }
+        
+        // Construct display name from Apple credential if available
+        String displayName = 'Apple User';
+        if (appleCredential.givenName != null || appleCredential.familyName != null) {
+          displayName = [appleCredential.givenName, appleCredential.familyName]
+              .where((name) => name != null && name.isNotEmpty)
+              .join(' ');
+        }
+        
+        if (displayName.isEmpty) {
+          displayName = user.user?.displayName ?? 'Apple User';
+        }
+        
         _updateUserData(
-          displayName: user.user?.displayName ??
-              'Apple User', // Ou une autre valeur par défaut
-          email: user.user?.email ??
-              'apple@email.com', // Par défaut ou de sauvegarde
+          displayName: displayName,
+          email: email,
           id: user.user?.uid ?? '',
           photoUrl: user.user?.photoURL,
           authType: "apple",
         );
+        
         asyncPostAllData(ref.watch(signInNotifierProvier));
       } else {
-        toastInfo('Apple login error');
+        toastInfo('Erreur lors de la connexion avec Apple');
       }
     } catch (error) {
       if (kDebugMode) {
         print("Apple SignIn Error: ${error.toString()}");
       }
-      toastInfo("Login error during apple sign-in");
+      toastInfo("Erreur lors de la connexion avec Apple");
+      Logger.write("Detailed Apple SignIn Error: $error");
     }
   }
 

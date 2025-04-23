@@ -1,1 +1,22 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"beehive-dev-1fefb","appId":"1:1008584285338:android:c0eefe0bee621ee7351323","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"beehive-dev-1fefb","configurations":{"android":"1:1008584285338:android:c0eefe0bee621ee7351323","ios":"1:1008584285338:ios:fe8cbedf1ea3a611351323"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "beehive-dev-1fefb",
+          "appId": "1:1008584285338:android:c0eefe0bee621ee7351323",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "beehive-dev-1fefb",
+          "configurations": {
+            "android": "1:1008584285338:android:c0eefe0bee621ee7351323",
+            "ios": "1:1008584285338:ios:fe8cbedf1ea3a611351323"
+          }
+        }
+      }
+    }
+  }
+}

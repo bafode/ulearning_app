@@ -450,6 +450,8 @@ class _MediaWidgetState extends State<MediaWidget> {
                           ),
                         ),
                         SafeArea(
+      top: false,
+        bottom: false,
                           child: Padding(
                             padding: EdgeInsets.all(8.w),
                             child: Align(
@@ -615,6 +617,8 @@ class _FullScreenVideoPlayerState extends State<FullScreenVideoPlayer> {
               ),
             if (_isControlsVisible)
               SafeArea(
+      top: false,
+        bottom: false,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

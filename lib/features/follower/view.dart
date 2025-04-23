@@ -39,6 +39,8 @@ class FollowersPage extends GetView<FollowersController> {
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: RefreshIndicator(
           onRefresh: () async {
             await controller.getFollowersList();

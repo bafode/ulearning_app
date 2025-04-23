@@ -13,6 +13,8 @@ class VoiceCallPage extends GetView<VoiceCallController> {
     return Scaffold(
       backgroundColor: AppColors.primaryBg,
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: Obx(() {
           return Stack(children: [
               Positioned(

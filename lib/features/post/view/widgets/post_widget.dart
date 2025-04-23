@@ -280,7 +280,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   Widget buildHeader(BuildContext context) {
     // Get the latest post from the PostsViewModel
     final latestPost = _getLatestPost();
-    
+
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
       leading: ClipOval(
@@ -305,10 +305,10 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             ),
             child: CachedNetworkImage(
               imageUrl:
-                  Uri.tryParse(latestPost.author.avatar ?? '')?.isAbsolute ==
-                          true
-                      ? latestPost.author.avatar!
-                      : latestPost.author.avatar ?? '',
+              Uri.tryParse(latestPost.author.avatar ?? '')?.isAbsolute ==
+                  true
+                  ? latestPost.author.avatar!
+                  : latestPost.author.avatar ?? '',
               height: 56.w,
               width: 56.w,
               imageBuilder: (context, imageProvider) => Container(
@@ -370,7 +370,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(16.r)),
+                  BorderRadius.vertical(top: Radius.circular(16.r)),
                 ),
                 builder: (BuildContext context) {
                   return Padding(
@@ -459,7 +459,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
                                   child: Container(
                                     width: double.infinity,
                                     padding:
-                                        EdgeInsets.symmetric(vertical: 16.h),
+                                    EdgeInsets.symmetric(vertical: 16.h),
                                     decoration: BoxDecoration(
                                       color: Colors.grey[100],
                                       borderRadius: BorderRadius.circular(8.r),
@@ -491,7 +491,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             ),
           ),
 
-         ],
+        ],
       ),
     );
   }
@@ -540,8 +540,8 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              ),
             ),
+          ),
           content: const Text(
               'Êtes-vous sûr de vouloir supprimer cette publication ? Cette action est irréversible.'),
           actions: [
@@ -602,7 +602,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
               const Text(
                 'Pourquoi souhaitez-vous signaler cette publication ?',
                 style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
-                ),
+              ),
               SizedBox(height: 16.h),
               _buildReportOption(context, 'Contenu inapproprié'),
               _buildReportOption(context, 'Harcèlement ou intimidation'),
@@ -619,7 +619,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   Widget buildMedia(BuildContext context) {
     // Get the latest post from the PostsViewModel
     final latestPost = _getLatestPost();
-    
+
     return GestureDetector(
       onDoubleTap: () {
         setState(() {
@@ -748,7 +748,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   Widget buildShareButton() {
     // Get the latest post from the PostsViewModel
     final latestPost = _getLatestPost();
-    
+
     return GestureDetector(
       onTap: () {
         final postUrl =
@@ -780,7 +780,7 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
     final postsState = ref.watch(postsViewModelProvider);
     final posts = postsState.valueOrNull ?? [];
     final latestPost = posts.firstWhere(
-      (p) => p.id == widget.post.id,
+          (p) => p.id == widget.post.id,
       orElse: () => widget.post,
     );
     return latestPost;
@@ -790,17 +790,17 @@ class _PostWidgetState extends ConsumerState<BeehavePostWidget> {
   Widget build(BuildContext context) {
     // Watch profile state in build method
     final profileState = ref.watch(homeUserProfileProvider);
-    
+
     // Watch posts state to get the latest post
     final latestPost = _getLatestPost();
-    
+
     // Update local state based on profile changes and latest post
     if (profileState.hasValue) {
       final profile = profileState.value!;
       final newFollowing =
           profile.following?.contains(latestPost.author.id) ?? false;
 
-      if (currentUserId != profile.id || isFollowing != newFollowing || 
+      if (currentUserId != profile.id || isFollowing != newFollowing ||
           latestPost != widget.post) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {

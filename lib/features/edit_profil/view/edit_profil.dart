@@ -150,6 +150,8 @@ class EditProfilState extends ConsumerState<EditProfil> {
           centerTitle: true,
         ),
         body: SafeArea(
+      top: false,
+        bottom: false,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(

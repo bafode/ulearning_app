@@ -16,6 +16,8 @@ class Welcome extends ConsumerWidget {
     final index = ref.watch(indexDotProvider);
 
     return SafeArea(
+      top: false,
+        bottom: false,
         child: Scaffold(
           backgroundColor: AppColors.primaryElement,
           body: Container(

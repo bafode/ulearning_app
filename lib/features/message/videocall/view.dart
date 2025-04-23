@@ -14,6 +14,8 @@ class VideoCallPage extends GetView<VideoCallController> {
     return Scaffold(
         backgroundColor: AppColors.primaryBg,
         body: SafeArea(
+      top: false,
+        bottom: false,
           child: Obx(() => Container(
                 child: controller.state.isReadyPreview.value
                     ? Stack(

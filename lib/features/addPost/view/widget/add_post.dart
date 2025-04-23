@@ -114,6 +114,8 @@ class _AddPostScreenState extends State<AddPost> {
         ],
       ),
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             children: [
