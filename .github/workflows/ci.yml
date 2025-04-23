@@ -137,20 +137,19 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
 
-      - name: Set platform version in Podfile
-        run: |
-          cd ios
-          echo "platform :ios, '15.5'" >> Podfile
-
-      - name: Generate Flutter files
+      - name: Clean Flutter & Pods
         run: |
           flutter clean
-          flutter pub get
+          rm -rf ios/Pods ios/Podfile.lock
+
+      - name: Set iOS platform version in Podfile
+        run: |
+          sed -i '' "s/platform :ios, .*/platform :ios, '15.5'/" ios/Podfile || echo "platform :ios, '15.5'" >> ios/Podfile
 
       - name: Install CocoaPods
         run: |
           cd ios
-          pod install
+          arch -x86_64 pod install
 
       - name: Set up Firebase configuration
         env:
@@ -181,16 +180,14 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security import "$CERTIFICATE_PATH" -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychains -d user -s $KEYCHAIN_PATH
-          security set-keychain-settings $KEYCHAIN_PATH
           security default-keychain -s $KEYCHAIN_PATH
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           UUID=$(grep -a -E -o "[-A-F0-9]{36}" "$PP_PATH" | head -1)
           cp "$PP_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
 
-      - name: Build iOS app (Flutter build)
-        run: |
-          flutter build ios --release
+      - name: Build iOS app (Flutter)
+        run: flutter build ios --release --no-codesign -v
 
       - name: Archive app (Xcode)
         run: |
