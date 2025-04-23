@@ -134,9 +134,6 @@ jobs:
         with:
           channel: "stable"
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
-
       - name: Clean Flutter & Pods
         run: |
           flutter clean
@@ -146,12 +143,16 @@ jobs:
         run: |
           sed -i '' "s/platform :ios, .*/platform :ios, '15.5'/" ios/Podfile || echo "platform :ios, '15.5'" >> ios/Podfile
 
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
       - name: Ensure CocoaPods is installed
         run: sudo gem install cocoapods
 
       - name: Install CocoaPods
         run: |
           cd ios
+          pod repo update
           pod install
 
       - name: Set up Firebase configuration
