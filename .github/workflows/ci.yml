@@ -146,10 +146,13 @@ jobs:
         run: |
           sed -i '' "s/platform :ios, .*/platform :ios, '15.5'/" ios/Podfile || echo "platform :ios, '15.5'" >> ios/Podfile
 
+      - name: Ensure CocoaPods is installed
+        run: sudo gem install cocoapods
+
       - name: Install CocoaPods
         run: |
           cd ios
-          arch -x86_64 pod install
+          pod install
 
       - name: Set up Firebase configuration
         env:
@@ -280,7 +283,7 @@ jobs:
     name: Deploy to Google Play
     needs: [build_appbundle]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Only deploy from main branch
+    if: github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout Repository
