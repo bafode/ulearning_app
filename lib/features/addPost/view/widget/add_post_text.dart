@@ -59,6 +59,8 @@ class _AddPostTextScreenState extends State<AddPostText> {
         ],
       ),
       body: SafeArea(
+      top: false,
+        bottom: false,
           child: islooding
               ? const Center(
                   child: CircularProgressIndicator(

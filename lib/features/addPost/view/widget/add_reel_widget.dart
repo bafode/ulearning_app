@@ -128,6 +128,8 @@ class _AddReelsScreenState extends State<AddReels> {
         elevation: 0,
       ),
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: GridView.builder(
           shrinkWrap: true,
           itemCount: _mediaList.length,

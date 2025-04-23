@@ -32,6 +32,8 @@ class _SignUpState extends ConsumerState<SignUp> {
           ),
         ),
         child: SafeArea(
+      top: false,
+        bottom: false,
           child: Theme(
             data: ThemeData(
               primarySwatch: Colors.grey,

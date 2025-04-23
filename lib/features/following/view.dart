@@ -38,6 +38,8 @@ class FollowingPage extends GetView<FollowingController> {
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: RefreshIndicator(
           onRefresh: () async {
             // Refresh both following list and status

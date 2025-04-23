@@ -15,4 +15,5 @@ class AppConstants {
    static const String resetPasswordUrl = "v1/auth/reset-password";
   static const String logoutEndPointUrl = "v1/auth/logout";
   static const String postEndPointUrl = "v1/posts";
+  static const String STORAGE_APPLE_EMAIL_PREFIX = "apple_email_";
 }

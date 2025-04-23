@@ -17,7 +17,7 @@ import 'package:beehive/features/home/controller/home_controller.dart';
 import 'package:beehive/features/favorites/controller/controller.dart';
 
 final postsViewModelProvider =
-    AsyncNotifierProvider<PostsViewModel, List<Post>>(() => PostsViewModel());
+AsyncNotifierProvider<PostsViewModel, List<Post>>(() => PostsViewModel());
 
 class PostsViewModel extends AsyncNotifier<List<Post>>
     with
@@ -45,11 +45,11 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       // Vérifier si nous avons atteint le nombre total de posts
       final previousLength = state.valueOrNull?.length ?? 0;
       final totalFetched = previousLength + postResponse.results.length;
-      
+
       // Mettre à jour canLoadMore en fonction du nombre total de posts
       _canLoadMore = totalFetched < postResponse.totalResults;
-      
-      // Si nous avons atteint le nombre total ou s'il n'y a pas de nouveaux résultats, 
+
+      // Si nous avons atteint le nombre total ou s'il n'y a pas de nouveaux résultats,
       // désactiver le chargement de plus de posts
       if (postResponse.results.isEmpty || totalFetched >= postResponse.totalResults) {
         _canLoadMore = false;
@@ -66,7 +66,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
         final combinedPosts = [...currentPosts, ...postResponse.results];
         state = AsyncData(combinedPosts);
       }
-      
+
       return postResponse.results;
     } catch (e) {
       handleError(e);
@@ -160,7 +160,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
       }
 
       await savePostsToLocalStorage(posts);
-      
+
       // Update the state to reflect changes in the UI
       if (state.hasValue) {
         final currentPosts = state.value!.toList();
@@ -214,7 +214,7 @@ class PostsViewModel extends AsyncNotifier<List<Post>>
         // Update user profile in storage
         Global.storageService
             .setString(AppConstants.STORAGE_USER_PROFILE_KEY, jsonEncode(user));
-            
+
         // Update the profile state
         ref.read(homeUserProfileProvider.notifier).updateProfile(user);
       }

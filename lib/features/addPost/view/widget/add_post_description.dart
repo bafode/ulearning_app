@@ -58,6 +58,8 @@ class _AddPostDescriptionState extends State<AddPostDescription> {
         ],
       ),
       body: SafeArea(
+      top: false,
+        bottom: false,
           child: islooding
               ? const Center(
                   child: CircularProgressIndicator(

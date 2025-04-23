@@ -126,6 +126,8 @@ class ChatPage extends GetView<ChatController> {
     return Scaffold(
         appBar: _buildAppBar(),
         body: Obx(()=>SafeArea(
+      top: false,
+        bottom: false,
           child: ConstrainedBox(
             constraints: const BoxConstraints.expand(),
             child: Stack(

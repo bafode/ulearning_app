@@ -44,6 +44,8 @@ class _ReelsEditeScreenState extends ConsumerState<ReelsEdit> {
         elevation: 0,
       ),
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: Loading
             ? const Center(
                 child: CircularProgressIndicator(

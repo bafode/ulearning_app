@@ -207,6 +207,8 @@ class _ProfileScreenState extends ConsumerState<Profile>
         ],
       ),
       body: SafeArea(
+      top: false,
+        bottom: false,
         child: switch(userState){
           AsyncData(:final value)=>value==null?(const Center(
                 child: SizedBox(
@@ -656,6 +658,8 @@ class _ProfileScreenState extends ConsumerState<Profile>
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
           ),
           child: SafeArea(
+      top: false,
+        bottom: false,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

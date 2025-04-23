@@ -25,6 +25,8 @@ class Auth extends ConsumerWidget {
           ),
         ),
         child: SafeArea(
+      top: false,
+        bottom: false,
           child: Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 24.w),

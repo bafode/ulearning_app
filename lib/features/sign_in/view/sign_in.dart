@@ -64,6 +64,8 @@ class _SignInState extends ConsumerState<SignIn> {
     return Container(
       color: Colors.white,
       child: SafeArea(
+      top: false,
+        bottom: false,
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(

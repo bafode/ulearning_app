@@ -412,6 +412,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
         context: context,
         builder: (BuildContext bc) {
           return SafeArea(
+      top: false,
+        bottom: false,
             child: Container(
               child: Wrap(
                 children: <Widget>[

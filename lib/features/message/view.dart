@@ -412,6 +412,8 @@ class MessagePage extends GetView<MessageController> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Obx(() => SafeArea(
+      top: false,
+        bottom: false,
               child: Padding(
                 padding: EdgeInsets.only(top: 20.h),
                 child: Stack(

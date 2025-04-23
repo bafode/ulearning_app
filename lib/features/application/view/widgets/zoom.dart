@@ -212,6 +212,8 @@ class BuildCurrent extends ConsumerWidget {
     return Container(
       color: Colors.white,
       child: SafeArea(
+      top: false,
+        bottom: false,
         child: Scaffold(
           body: appScreen(index: index),
           bottomNavigationBar: CurvedNavigationBar(

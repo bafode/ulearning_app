@@ -159,6 +159,8 @@ class _SettingPage extends ConsumerState<Setting> {
     return Container(
       color: Colors.white,
       child: SafeArea(
+      top: false,
+        bottom: false,
         child: Scaffold(
           appBar: _buildAppBar(),
           backgroundColor: Colors.white,
